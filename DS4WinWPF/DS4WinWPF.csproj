@@ -86,8 +86,15 @@
     <ApplicationIcon>DS4W.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Nefarius.ViGEm.Client" Condition="'$(Platform)' == 'x64'&#xD;&#xA;">
+      <HintPath>.\libs\x64\Nefarius.ViGEm.Client\Nefarius.ViGEm.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="Nefarius.ViGEm.Client" Condition="'$(Platform)' == 'x86'&#xD;&#xA;">
+      <HintPath>.\libs\x86\Nefarius.ViGEm.Client\Nefarius.ViGEm.Client.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -112,9 +119,25 @@
     <Compile Include="DS4Forms\AutoProfiles.xaml.cs">
       <DependentUpon>AutoProfiles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
+    <Compile Include="DS4Library\Crc32.cs" />
+    <Compile Include="DS4Library\DS4Audio.cs" />
+    <Compile Include="DS4Library\DS4Device.cs" />
+    <Compile Include="DS4Library\DS4Devices.cs" />
+    <Compile Include="DS4Library\DS4Sixaxis.cs" />
+    <Compile Include="DS4Library\DS4State.cs" />
+    <Compile Include="DS4Library\DS4StateExposed.cs" />
+    <Compile Include="DS4Library\DS4Touchpad.cs" />
+    <Compile Include="HidLibrary\Extensions.cs" />
+    <Compile Include="HidLibrary\HidDevice.cs" />
+    <Compile Include="HidLibrary\HidDeviceAttributes.cs" />
+    <Compile Include="HidLibrary\HidDeviceCapabilities.cs" />
+    <Compile Include="HidLibrary\HidDevices.cs" />
+    <Compile Include="HidLibrary\NativeMethods.cs" />
     <Compile Include="ProfileEntity.cs" />
     <Compile Include="ProfileList.cs" />
     <Compile Include="StatusLogMsg.cs" />
+    <Compile Include="Tester.cs" />
     <Page Include="DS4Forms\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -188,6 +211,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="DS4W.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="BezierCurveEditor\build.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="BezierCurveEditor\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DS4Control\" />
+    <Folder Include="VJoyFeeder\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

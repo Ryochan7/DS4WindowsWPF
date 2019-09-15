@@ -11,7 +11,7 @@
             <DockPanel Height="30">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                     <Button x:Name="aboutBtn" Content="Hotkeys/About" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8" Click="AboutBtn_Click" />
-                    <Button x:Name="StartStopBtn" Content="Start/Stop" Margin="10,0,0,0" Click="StartStopBtn_Click" />
+                    <Button x:Name="StartStopBtn" Content="Start" Margin="10,0,0,0" Click="StartStopBtn_Click" />
                 </StackPanel>
                 <Label x:Name="lastMsgLb" Content="{Binding Message}" />
             </DockPanel>
@@ -19,11 +19,76 @@
         <TabControl DockPanel.Dock="Top">
             <TabItem Header="Controllers">
                 <Grid>
-                    <Label Content="No Controllers Connected (Max 4)" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                    <ListView Visibility="Hidden">
+                    <Label x:Name="noContLb" Visibility="Hidden" Content="No Controllers Connected (Max 4)" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <ListView x:Name="controllerLV" ItemsSource="{Binding ControllerCol}" SelectionMode="Single">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding MacAddress, Mode=OneTime}" Width="120"/>
+                                <GridViewColumn Header="Status" Width="40">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Ex"  Width="40">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <Label />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="batteryColumn" Header="Battery" Width="60">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Width="{Binding ElementName=batteryColumn, Path=Width}">
+                                                <Label Content="{Binding Battery}" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="LinkProfColumn" Header="Link Profile/ID" Width="100" >
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Width="{Binding ElementName=LinkProfColumn, Path=Width}">
+                                                <CheckBox HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="selectProfileColumn" Header="Selected Profile" Width="170">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Width="{Binding ElementName=selectProfileColumn, Path=Width}">
+                                                <ComboBox Width="150" HorizontalAlignment="Left" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="editColumn" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Width="{Binding ElementName=editColumn, Path=Width}">
+                                                <Button Content="Edit" HorizontalAlignment="Left" Height="20" Width="30" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn x:Name="customColorColumn" Width="Auto">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Width="{Binding ElementName=customColorColumn, Path=Width}">
+                                                <Button Width="120" Height="20" Background="Blue" />
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
                     </ListView>
                 </Grid>
             </TabItem>
+
             <TabItem Header="Profiles">
                 <DockPanel>
                     <ToolBar Height="30" DockPanel.Dock="Top" Background="{x:Null}">

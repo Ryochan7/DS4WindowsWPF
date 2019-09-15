@@ -24,6 +24,7 @@ namespace DS4WinWPF.DS4Forms
     {
         private StatusLogMsg lastLogMsg = new StatusLogMsg();
         private ProfileList profileListHolder = new ProfileList();
+        private ViewModel.ControllerListViewModel conLvViewModel;
 
         public MainWindow()
         {
@@ -37,6 +38,8 @@ namespace DS4WinWPF.DS4Forms
             
             profilesListBox.ItemsSource = profileListHolder.ProfileListCol;
             
+
+
             Task.Delay(5000).ContinueWith((t) =>
             {
                 logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
@@ -50,7 +53,60 @@ namespace DS4WinWPF.DS4Forms
 
 
             //lastLogMsg.Message = "Controller 1 Using \"abc\"";
+            App root = Application.Current as App;
+            StartStopBtn.Content = root.rootHub.Running ? "Stop" : "Start";
             
+
+            conLvViewModel = new ViewModel.ControllerListViewModel(root.rootHub);
+            controllerLV.DataContext = conLvViewModel;
+            if (conLvViewModel.ControllerCol.Count == 0)
+            {
+                controllerLV.Visibility = Visibility.Hidden;
+                noContLb.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                controllerLV.Visibility = Visibility.Visible;
+                noContLb.Visibility = Visibility.Hidden;
+            }
+            SetupEvents();
+        }
+
+        private void SetupEvents()
+        {
+            App root = Application.Current as App;
+            root.rootHub.RunningChanged += ControlServiceChanged;
+            conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
+        }
+
+        private void ControllerCol_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (conLvViewModel.ControllerCol.Count == 0)
+            {
+                controllerLV.Visibility = Visibility.Hidden;
+                noContLb.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                controllerLV.Visibility = Visibility.Visible;
+                noContLb.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void ControlServiceChanged(object sender, EventArgs e)
+        {
+            Dispatcher.Invoke((Action)(() =>
+            {
+                Tester service = sender as Tester;
+                if (service.Running)
+                {
+                    StartStopBtn.Content = "Stop";
+                }
+                else
+                {
+                    StartStopBtn.Content = "Start";
+                }
+            }));
         }
 
         private void AboutBtn_Click(object sender, RoutedEventArgs e)
@@ -60,8 +116,21 @@ namespace DS4WinWPF.DS4Forms
             aboutWin.ShowDialog();
         }
 
-        private void StartStopBtn_Click(object sender, RoutedEventArgs e)
+        private async void StartStopBtn_Click(object sender, RoutedEventArgs e)
         {
+            StartStopBtn.IsEnabled = false;
+            App root = Application.Current as App;
+            Tester service = root.rootHub;
+            await Task.Run(() =>
+            {
+                if (service.Running)
+                    service.Stop();
+                else
+                    service.Start();
+            });
+
+            StartStopBtn.IsEnabled = true;
+
             //Dispatcher.BeginInvoke((Action)(() =>
             //{
             lastLogMsg.Message = "Controller 1 Using \"Warsow\"";
