@@ -30,7 +30,7 @@
                         <Button>
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WpfApp1;component/Resources/newprofile.png" />
+                                    <Image Source="/DS4WinWPF;component/Resources/newprofile.png" />
                                     <TextBlock Text="New" />
                                 </StackPanel>
                             </Button.Content>
@@ -38,7 +38,7 @@
                         <Button Margin="10,0,0,0" IsEnabled="False">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WpfApp1;component/Resources/edit.png" />
+                                    <Image Source="/DS4WinWPF;component/Resources/edit.png" />
                                     <TextBlock Text="Edit" />
                                 </StackPanel>
                             </Button.Content>
@@ -46,7 +46,7 @@
                         <Button Margin="10,0,0,0" IsEnabled="False">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WpfApp1;component/Resources/delete.png" />
+                                    <Image Source="/DS4WinWPF;component/Resources/delete.png" />
                                     <TextBlock Text="Delete" />
                                 </StackPanel>
                             </Button.Content>
@@ -54,7 +54,7 @@
                         <Button Margin="10,0,0,0" IsEnabled="False">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WpfApp1;component/Resources/copy.png" />
+                                    <Image Source="/DS4WinWPF;component/Resources/copy.png" />
                                     <TextBlock Text="Duplicate" />
                                 </StackPanel>
                             </Button.Content>
@@ -62,7 +62,7 @@
                         <Button Margin="10,0,0,0">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WpfApp1;component/Resources/import.png" />
+                                    <Image Source="/DS4WinWPF;component/Resources/import.png" />
                                     <TextBlock Text="Import" />
                                 </StackPanel>
                             </Button.Content>
@@ -70,7 +70,7 @@
                         <Button Margin="10,0,0,0" IsEnabled="False">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
-                                    <Image Source="/WpfApp1;component/Resources/export.png" />
+                                    <Image Source="/DS4WinWPF;component/Resources/export.png" />
                                     <TextBlock Text="Export" />
                                 </StackPanel>
                             </Button.Content>
