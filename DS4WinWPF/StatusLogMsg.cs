@@ -16,7 +16,7 @@ namespace DS4WinWPF
             {
                 if (message == value) return;
                 message = value;
-                MessageChanged.Invoke(this, EventArgs.Empty);
+                MessageChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public event EventHandler MessageChanged;
