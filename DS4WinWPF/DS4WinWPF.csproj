@@ -113,6 +113,7 @@
       <DependentUpon>AutoProfiles.xaml</DependentUpon>
     </Compile>
     <Compile Include="ProfileEntity.cs" />
+    <Compile Include="ProfileList.cs" />
     <Compile Include="StatusLogMsg.cs" />
     <Page Include="DS4Forms\About.xaml">
       <SubType>Designer</SubType>

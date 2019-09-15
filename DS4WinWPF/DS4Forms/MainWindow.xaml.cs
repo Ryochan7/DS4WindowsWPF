@@ -22,29 +22,25 @@ namespace DS4WinWPF.DS4Forms
     /// </summary>
     public partial class MainWindow : Window
     {
-        private StatusLogMsg lastLogMsg;
-        private object _proLockobj = new object();
-        private ObservableCollection<ProfileEntity> profileList =
-            new ObservableCollection<ProfileEntity>();
+        private StatusLogMsg lastLogMsg = new StatusLogMsg();
+        private ProfileList profileListHolder = new ProfileList();
 
         public MainWindow()
         {
             InitializeComponent();
-            BindingOperations.EnableCollectionSynchronization(profileList, _proLockobj);
-            lastLogMsg = new StatusLogMsg();
 
             LogViewModel logvm = new LogViewModel();
             logvm.LogItems.Add(new LogItem() { Datetime = DateTime.Now, Message = "Bacon" });
             //logListView.ItemsSource = logvm.LogItems;
             logListView.DataContext = logvm;
             lastMsgLb.DataContext = lastLogMsg;
-            profileList.Add(new ProfileEntity { Name = "Doom 3 BFG" });
-            profilesListBox.ItemsSource = profileList;
-            profileList.Add(new ProfileEntity { Name = "Turok 2" });
+            
+            profilesListBox.ItemsSource = profileListHolder.ProfileListCol;
+            
             Task.Delay(5000).ContinueWith((t) =>
             {
                 logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
-                profileList.Add(new ProfileEntity { Name = "Media" });
+                profileListHolder.ProfileListCol.Add(new ProfileEntity { Name = "Media" });
 
                 //Dispatcher.BeginInvoke((Action)(() =>
                 //{
