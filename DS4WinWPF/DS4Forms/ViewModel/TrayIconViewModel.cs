@@ -9,13 +9,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
     public class TrayIconViewModel
     {
         private string tooltipText = "DS4Windows";
-        private string iconSource = "/DS4WinWPF;component/DS4W.ico";
+        private string iconSource = "/DS4WinWPF;component/Resources/DS4W.ico";
 
         public string TooltipText { get => tooltipText;
             set
             {
-                if (tooltipText == value) return;
-                tooltipText = value;
+                string temp = value.Substring(0, 50);
+                if (tooltipText == temp) return;
+                tooltipText = temp;
                 TooltipTextChanged?.Invoke(this, EventArgs.Empty);
             }
         }
