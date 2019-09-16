@@ -25,6 +25,7 @@ namespace DS4WinWPF.DS4Forms
         private StatusLogMsg lastLogMsg = new StatusLogMsg();
         private ProfileList profileListHolder = new ProfileList();
         private ViewModel.ControllerListViewModel conLvViewModel;
+        private ViewModel.TrayIconViewModel trayIconVM;
 
         public MainWindow()
         {
@@ -57,6 +58,8 @@ namespace DS4WinWPF.DS4Forms
             conLvViewModel = new ViewModel.ControllerListViewModel(root.rootHub, profileListHolder);
             controllerLV.DataContext = conLvViewModel;
             ChangeControllerPanel();
+            trayIconVM = new ViewModel.TrayIconViewModel();
+            notifyIcon.DataContext = trayIconVM;
             SetupEvents();
         }
 
