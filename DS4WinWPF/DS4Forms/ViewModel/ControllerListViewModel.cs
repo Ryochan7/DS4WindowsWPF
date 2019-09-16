@@ -114,6 +114,26 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public ProfileEntity SelectedEntity { get => selectedEntity; set => selectedEntity = value; }
         public int SelectedIndex { get => selectedIndex; set => selectedIndex = value; }
 
+        public string StatusSource
+        {
+            get
+            {
+                string source = device.ConnectionType == ConnectionType.USB ? "/DS4WinWPF;component/Resources/USB.png"
+                    : "/DS4WinWPF;component/Resources/BT.png";
+                return source;
+            }
+        }
+
+        public string ExclusiveSource
+        {
+            get
+            {
+                string source = device.IsExclusive ? "/DS4WinWPF;component/Resources/checked.png" :
+                    "/DS4WinWPF;component/Resources/cancel.png";
+                return source;
+            }
+        }
+
         public CompositeDeviceModel(DS4Device device, string profile,
             ProfileList collection)
         {

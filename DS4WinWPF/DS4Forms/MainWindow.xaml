@@ -24,17 +24,21 @@
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Device.MacAddress, Mode=OneTime}" Width="120"/>
-                                <GridViewColumn Header="Status" Width="40">
+                                <GridViewColumn Header="Status"  x:Name="statusColumn" Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label />
+                                            <StackPanel Width="{Binding ElementName=statusColumn, Path=Width}">
+                                                <Image Source="{Binding StatusSource}" Stretch="Uniform" Width="20" Height="20" HorizontalAlignment="Center" />
+                                            </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Ex"  Width="40">
+                                <GridViewColumn x:Name="exclusiveColumn" Header="Ex" Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <Label />
+                                            <StackPanel Width="{Binding ElementName=exclusiveColumn, Path=Width}">
+                                                <Image Source="{Binding ExclusiveSource}" Stretch="Uniform" Width="20" Height="20" HorizontalAlignment="Center" />
+                                            </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
