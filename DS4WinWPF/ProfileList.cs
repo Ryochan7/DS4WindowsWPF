@@ -22,6 +22,10 @@ namespace DS4WinWPF
             profileListCol.Add(new ProfileEntity { Name = "Doom 3 BFG" });
             profileListCol.Add(new ProfileEntity { Name = "Turok 2" });
             BindingOperations.EnableCollectionSynchronization(profileListCol, _proLockobj);
+            Task.Delay(10000).ContinueWith((t) =>
+            {
+                profileListCol[1].Name = "Rick Astley";
+            });
         }
 
         

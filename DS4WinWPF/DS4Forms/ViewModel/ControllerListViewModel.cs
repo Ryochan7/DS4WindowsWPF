@@ -12,21 +12,26 @@ namespace DS4WinWPF.DS4Forms.ViewModel
     public class ControllerListViewModel
     {
         private object _colLockobj = new object();
-        private ObservableCollection<DS4Windows.DS4Device> controllerCol =
-            new ObservableCollection<DS4Windows.DS4Device>();
+        private ObservableCollection<CompositeDeviceModel> controllerCol =
+            new ObservableCollection<CompositeDeviceModel>();
 
-        public ObservableCollection<DS4Device> ControllerCol
+        public ObservableCollection<CompositeDeviceModel> ControllerCol
         { get => controllerCol; set => controllerCol = value; }
 
-        public ControllerListViewModel(Tester tester)
+        private ProfileList profileListHolder;
+
+        public ControllerListViewModel(Tester tester, ProfileList profileListHolder)
         {
+            this.profileListHolder = profileListHolder;
             tester.StartControllers += ControllersChanged;
-            tester.PreRemoveControllers += ClearControllerList;
+            tester.ControllersRemoved += ClearControllerList;
             IEnumerable<DS4Windows.DS4Device> devices =
                 DS4Windows.DS4Devices.getDS4Controllers();
             foreach (DS4Windows.DS4Device currentDev in devices)
             {
-                controllerCol.Add(currentDev);
+                CompositeDeviceModel temp = new CompositeDeviceModel(currentDev,
+                    "Turok 2", profileListHolder);
+                controllerCol.Add(temp);
                 currentDev.Removal += Controller_Removal;
             }
 
@@ -35,9 +40,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private void ClearControllerList(object sender, EventArgs e)
         {
-            foreach (DS4Windows.DS4Device currentDev in controllerCol)
+            foreach (CompositeDeviceModel temp in controllerCol)
             {
-                currentDev.Removal -= Controller_Removal;
+                temp.Device.Removal -= Controller_Removal;
             }
 
             controllerCol.Clear();
@@ -48,9 +53,22 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             IEnumerable<DS4Windows.DS4Device> devices = DS4Windows.DS4Devices.getDS4Controllers();
             foreach (DS4Windows.DS4Device currentDev in devices)
             {
-                if (!controllerCol.Contains(currentDev))
+                bool found = false;
+                foreach(CompositeDeviceModel temp in controllerCol)
                 {
-                    controllerCol.Add(currentDev);
+                    if (temp.Device == currentDev)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+
+
+                if (!found)
+                {
+                    CompositeDeviceModel temp = new CompositeDeviceModel(currentDev,
+                        "Doom 3 BFG", profileListHolder);
+                    controllerCol.Add(temp);
                     currentDev.Removal += Controller_Removal;
                 }
             }
@@ -58,8 +76,51 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private void Controller_Removal(object sender, EventArgs e)
         {
-            DS4Windows.DS4Device currentDev = sender as DS4Windows.DS4Device;
-            controllerCol.Remove(currentDev);
+            DS4Device currentDev = sender as DS4Device;
+            foreach (CompositeDeviceModel temp in controllerCol)
+            {
+                if (temp.Device == currentDev)
+                {
+                    controllerCol.Remove(temp);
+                    break;
+                }
+            }
+        }
+    }
+
+    public class CompositeDeviceModel
+    {
+        private DS4Device device;
+        private string selectedProfile;
+        private ProfileList profileListHolder;
+        private ProfileEntity selectedEntity;
+        private int selectedIndex = 1;
+
+        public DS4Device Device { get => device; set => device = value; }
+        public string SelectedProfile { get => selectedProfile; set => selectedProfile = value; }
+        public ProfileList ProfileEntities { get => profileListHolder; set => profileListHolder = value; }
+
+        public ObservableCollection<ProfileEntity> ProfileListCol => profileListHolder.ProfileListCol;
+
+        public string LightColor
+        {
+            get
+            {
+                DS4Color color = device.LightBarColor;
+                return $"#{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
+            }
+        }
+
+        public ProfileEntity SelectedEntity { get => selectedEntity; set => selectedEntity = value; }
+        public int SelectedIndex { get => selectedIndex; set => selectedIndex = value; }
+
+        public CompositeDeviceModel(DS4Device device, string profile,
+            ProfileList collection)
+        {
+            this.device = device;
+            this.selectedProfile = profile;
+            profileListHolder = collection;
+            this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == selectedProfile);
         }
     }
 }

@@ -23,7 +23,7 @@
                     <ListView x:Name="controllerLV" ItemsSource="{Binding ControllerCol}" SelectionMode="Single">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding MacAddress, Mode=OneTime}" Width="120"/>
+                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Device.MacAddress, Mode=OneTime}" Width="120"/>
                                 <GridViewColumn Header="Status" Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
@@ -42,7 +42,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=batteryColumn, Path=Width}">
-                                                <Label Content="{Binding Battery}" HorizontalAlignment="Center" />
+                                                <Label Content="{Binding Device.Battery}" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -60,7 +60,8 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=selectProfileColumn, Path=Width}">
-                                                <ComboBox Width="150" HorizontalAlignment="Left" />
+                                                <ComboBox Width="150" HorizontalAlignment="Left" DisplayMemberPath="Name"
+                                                          ItemsSource="{Binding ProfileListCol}" SelectedIndex="{Binding SelectedIndex}" Height="Auto" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -78,7 +79,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=customColorColumn, Path=Width}">
-                                                <Button Width="120" Height="20" Background="Blue" />
+                                                <Button Width="120" Height="20" Background="{Binding LightColor, Mode=OneWay}" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

@@ -38,6 +38,7 @@ namespace DS4WinWPF
 
             foreach (DS4Windows.DS4Device currentDev in devices)
             {
+                currentDev.LightBarColor = new DS4Windows.DS4Color(0, 0, 255);
                 currentDev.Report += ReadReport;
                 // Start input data thread
                 currentDev.StartUpdate();
@@ -51,7 +52,6 @@ namespace DS4WinWPF
         {
             DS4Windows.DS4Device current = sender;
             DS4Windows.DS4State state = current.getCurrentStateRef();
-            Console.WriteLine("THIS THING");
             //DS4Windows.DS4State previous = current.getPreviousStateRef();
         }
 

@@ -37,8 +37,6 @@ namespace DS4WinWPF.DS4Forms
             lastMsgLb.DataContext = lastLogMsg;
             
             profilesListBox.ItemsSource = profileListHolder.ProfileListCol;
-            
-
 
             Task.Delay(5000).ContinueWith((t) =>
             {
@@ -55,20 +53,10 @@ namespace DS4WinWPF.DS4Forms
             //lastLogMsg.Message = "Controller 1 Using \"abc\"";
             App root = Application.Current as App;
             StartStopBtn.Content = root.rootHub.Running ? "Stop" : "Start";
-            
 
-            conLvViewModel = new ViewModel.ControllerListViewModel(root.rootHub);
+            conLvViewModel = new ViewModel.ControllerListViewModel(root.rootHub, profileListHolder);
             controllerLV.DataContext = conLvViewModel;
-            if (conLvViewModel.ControllerCol.Count == 0)
-            {
-                controllerLV.Visibility = Visibility.Hidden;
-                noContLb.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                controllerLV.Visibility = Visibility.Visible;
-                noContLb.Visibility = Visibility.Hidden;
-            }
+            ChangeControllerPanel();
             SetupEvents();
         }
 
@@ -79,7 +67,7 @@ namespace DS4WinWPF.DS4Forms
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
         }
 
-        private void ControllerCol_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ChangeControllerPanel()
         {
             if (conLvViewModel.ControllerCol.Count == 0)
             {
@@ -93,11 +81,19 @@ namespace DS4WinWPF.DS4Forms
             }
         }
 
+        private void ControllerCol_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                ChangeControllerPanel();
+            }));
+        }
+
         private void ControlServiceChanged(object sender, EventArgs e)
         {
-            Dispatcher.Invoke((Action)(() =>
+            Tester service = sender as Tester;
+            Dispatcher.BeginInvoke((Action)(() =>
             {
-                Tester service = sender as Tester;
                 if (service.Running)
                 {
                     StartStopBtn.Content = "Stop";
@@ -130,15 +126,6 @@ namespace DS4WinWPF.DS4Forms
             });
 
             StartStopBtn.IsEnabled = true;
-
-            //Dispatcher.BeginInvoke((Action)(() =>
-            //{
-            lastLogMsg.Message = "Controller 1 Using \"Warsow\"";
-            //}));
-
-            //lastMsgLb.IsEnabled = true;
-            //Thread.Sleep(1000);
-            //lastMsgLb.DataContext = lastLogMsg;
         }
     }
 }
