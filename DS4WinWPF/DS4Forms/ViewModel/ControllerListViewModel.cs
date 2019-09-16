@@ -27,12 +27,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             tester.ControllersRemoved += ClearControllerList;
             IEnumerable<DS4Windows.DS4Device> devices =
                 DS4Windows.DS4Devices.getDS4Controllers();
+            int idx = 0;
             foreach (DS4Windows.DS4Device currentDev in devices)
             {
                 CompositeDeviceModel temp = new CompositeDeviceModel(currentDev,
-                    "Turok 2", profileListHolder);
+                    idx, "Turok 2", profileListHolder);
                 controllerCol.Add(temp);
                 currentDev.Removal += Controller_Removal;
+                idx++;
             }
 
             BindingOperations.EnableCollectionSynchronization(controllerCol, _colLockobj);
@@ -67,7 +69,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 if (!found)
                 {
                     CompositeDeviceModel temp = new CompositeDeviceModel(currentDev,
-                        "Doom 3 BFG", profileListHolder);
+                        controllerCol.Count, "Doom 3 BFG", profileListHolder);
                     controllerCol.Add(temp);
                     currentDev.Removal += Controller_Removal;
                 }
@@ -95,6 +97,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private ProfileList profileListHolder;
         private ProfileEntity selectedEntity;
         private int selectedIndex = 1;
+        private int devIndex;
 
         public DS4Device Device { get => device; set => device = value; }
         public string SelectedProfile { get => selectedProfile; set => selectedProfile = value; }
@@ -134,10 +137,21 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
-        public CompositeDeviceModel(DS4Device device, string profile,
+        public bool LinkedProfile
+        {
+            get
+            {
+                return false;
+            }
+        }
+
+        public int DevIndex { get => devIndex; }
+
+        public CompositeDeviceModel(DS4Device device, int devIndex, string profile,
             ProfileList collection)
         {
             this.device = device;
+            this.devIndex = devIndex;
             this.selectedProfile = profile;
             profileListHolder = collection;
             this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == selectedProfile);
