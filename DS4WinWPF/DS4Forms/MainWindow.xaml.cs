@@ -238,5 +238,16 @@ namespace DS4WinWPF.DS4Forms
                 logWriter.Process();
             }
         }
+
+        private void IdColumnTxtB_ToolTipOpening(object sender, ToolTipEventArgs e)
+        {
+            TextBlock statusBk = sender as TextBlock;
+            int idx = Convert.ToInt32(statusBk.Tag);
+            if (idx >= 0)
+            {
+                CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+                item.RequestUpdatedTooltipID();
+            }
+        }
     }
 }

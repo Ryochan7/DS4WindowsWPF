@@ -19,7 +19,13 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private ProfileList profileListHolder;
         private int currentIndex;
         public int CurrentIndex { get => currentIndex; set => currentIndex = value; }
-        public CompositeDeviceModel CurrentItem => controllerCol[currentIndex];
+        public CompositeDeviceModel CurrentItem {
+            get
+            {
+                if (currentIndex == -1) return null;
+                return controllerCol[currentIndex];
+            }
+        }
 
         public ControllerListViewModel(Tester tester, ProfileList profileListHolder)
         {
@@ -158,6 +164,16 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public int DevIndex { get => devIndex; }
 
+        public string TooltipIDText
+        {
+            get
+            {
+                string temp = $"Input Delay: {device.Latency} ms";
+                return temp;
+            }
+        }
+        public event EventHandler TooltipIDTextChanged;
+
         public CompositeDeviceModel(DS4Device device, int devIndex, string profile,
             ProfileList collection)
         {
@@ -168,6 +184,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             this.selectedProfile = profile;
             profileListHolder = collection;
             this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == selectedProfile);
+        }
+
+        public void RequestUpdatedTooltipID()
+        {
+            TooltipIDTextChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
