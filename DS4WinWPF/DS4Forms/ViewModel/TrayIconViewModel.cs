@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
 {
@@ -10,17 +8,21 @@ namespace DS4WinWPF.DS4Forms.ViewModel
     {
         private string tooltipText = "DS4Windows";
         private string iconSource = "/DS4WinWPF;component/Resources/DS4W.ico";
+        public const string ballonTitle = "DS4Windows";
+        public const string trayTitle = "DS4Windows v2.0";
 
         public string TooltipText { get => tooltipText;
             set
             {
-                string temp = value.Substring(0, 50);
+                string temp = value;
+                if (value.Length > 63) temp = value.Substring(0, 63);
                 if (tooltipText == temp) return;
                 tooltipText = temp;
                 TooltipTextChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public event EventHandler TooltipTextChanged;
+
         public string IconSource { get => iconSource;
             set
             {
@@ -29,6 +31,56 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 IconSourceChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler IconSourceChanged;
+
+        public TrayIconViewModel(Tester tester)
+        {
+            PopulateToolText();
+
+            tester.StartControllers += HookBatteryUpdate;
+            tester.StartControllers += StartPopulateText;
+            tester.PreRemoveControllers += ClearToolText;
+            tester.HotplugControllers += HookBatteryUpdate;
+            tester.HotplugControllers += StartPopulateText;
+        }
+
+        private void StartPopulateText(object sender, EventArgs e)
+        {
+            PopulateToolText();
+        }
+
+        private void PopulateToolText()
+        {
+            List<string> items = new List<string>();
+            items.Add(trayTitle);
+            IEnumerable<DS4Device> devices = DS4Devices.getDS4Controllers();
+            int idx = 1;
+            foreach (DS4Device currentDev in devices)
+            {
+                items.Add($"{idx}: {currentDev.ConnectionType} {currentDev.Battery}%{(currentDev.Charging ? "+" : "")}");
+            }
+
+            TooltipText = string.Join("\n", items);
+        }
+
+        private void HookBatteryUpdate(object sender, EventArgs e)
+        {
+            IEnumerable<DS4Device> devices = DS4Devices.getDS4Controllers();
+            foreach (DS4Device currentDev in devices)
+            {
+                currentDev.BatteryChanged += UpdateForBattery;
+            }
+        }
+
+        private void UpdateForBattery(object sender, EventArgs e)
+        {
+            PopulateToolText();
+        }
+
+        private void ClearToolText(object sender, EventArgs e)
+        {
+            TooltipText = "DS4Windows";
+        }
     }
 }

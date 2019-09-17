@@ -27,6 +27,7 @@ namespace DS4WinWPF
         public event EventHandler StartControllers;
         public event EventHandler PreRemoveControllers;
         public event EventHandler ControllersRemoved;
+        public event EventHandler HotplugControllers;
 
         public void Start()
         {

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Data;
 
-namespace DS4WinWPF
+namespace DS4WinWPF.DS4Forms.ViewModel
 {
     public class LogViewModel
     {
@@ -18,6 +13,14 @@ namespace DS4WinWPF
         public LogViewModel()
         {
             BindingOperations.EnableCollectionSynchronization(logItems, _colLockobj);
+            AppLogger.GuiLog += AddLogMessage;
+        }
+
+        private void AddLogMessage(object sender, DebugEventArgs e)
+        {
+            DebugEventArgs args = sender as DebugEventArgs;
+            LogItem item = new LogItem { Datetime = args.Time, Message = args.Data, Warning = args.Warning };
+            logItems.Add(item);
         }
     }
 }

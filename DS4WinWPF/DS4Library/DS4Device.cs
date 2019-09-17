@@ -277,6 +277,8 @@ namespace DS4Windows
         }
 
         public int Battery => battery;
+        public delegate void BatteryUpdateHandler(object sender, EventArgs e);
+        public event EventHandler BatteryChanged;
         public int getBattery()
         {
             return battery;
@@ -930,13 +932,20 @@ namespace DS4Windows
                     tempByte = inputReport[7];
                     cState.PS = (tempByte & (1 << 0)) != 0;
                     cState.TouchButton = (tempByte & 0x02) != 0;
+                    cState.TouchButton = (tempByte & 0x02) != 0;
                     cState.FrameCounter = (byte)(tempByte >> 2);
 
                     tempByte = inputReport[30];
                     charging = (tempByte & 0x10) != 0;
                     maxBatteryValue = charging ? BATTERY_MAX_USB : BATTERY_MAX;
                     tempBattery = (tempByte & 0x0f) * 100 / maxBatteryValue;
-                    battery = Math.Min((byte)tempBattery, (byte)100);
+                    tempBattery = Math.Min(tempBattery, 100);
+                    if (tempBattery != battery)
+                    {
+                        battery = tempBattery;
+                        BatteryChanged?.Invoke(this, EventArgs.Empty);
+                    }
+
                     cState.Battery = (byte)battery;
                     //System.Diagnostics.Debug.WriteLine("CURRENT BATTERY: " + (inputReport[30] & 0x0f) + " | " + tempBattery + " | " + battery);
                     if (tempByte != priorInputReport30)

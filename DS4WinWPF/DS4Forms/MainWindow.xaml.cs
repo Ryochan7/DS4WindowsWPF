@@ -14,6 +14,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DS4WinWPF.DS4Forms.ViewModel;
+using DS4WinWPF;
+using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -24,8 +27,8 @@ namespace DS4WinWPF.DS4Forms
     {
         private StatusLogMsg lastLogMsg = new StatusLogMsg();
         private ProfileList profileListHolder = new ProfileList();
-        private ViewModel.ControllerListViewModel conLvViewModel;
-        private ViewModel.TrayIconViewModel trayIconVM;
+        private ControllerListViewModel conLvViewModel;
+        private TrayIconViewModel trayIconVM;
 
         public MainWindow()
         {
@@ -47,20 +50,32 @@ namespace DS4WinWPF.DS4Forms
                 //Dispatcher.BeginInvoke((Action)(() =>
                 //{
                 lastLogMsg.Message = "Controller 1 Using \"dfsdfsdfs\"";
+                //AppLogger.LogToTray("Test");
+
                 //}));
             });
 
-
-            //lastLogMsg.Message = "Controller 1 Using \"abc\"";
             App root = Application.Current as App;
             StartStopBtn.Content = root.rootHub.Running ? "Stop" : "Start";
 
-            conLvViewModel = new ViewModel.ControllerListViewModel(root.rootHub, profileListHolder);
+            conLvViewModel = new ControllerListViewModel(root.rootHub, profileListHolder);
             controllerLV.DataContext = conLvViewModel;
             ChangeControllerPanel();
-            trayIconVM = new ViewModel.TrayIconViewModel();
+            trayIconVM = new TrayIconViewModel(root.rootHub);
             notifyIcon.DataContext = trayIconVM;
+            //notifyIcon.ShowBalloonTip(TrayIconViewModel.ballonTitle,
+            //    "Test", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
             SetupEvents();
+        }
+
+        private void ShowNotification(object sender, DebugEventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                notifyIcon.ShowBalloonTip(TrayIconViewModel.ballonTitle,
+                    e.Data, !e.Warning ? Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info :
+                    Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning);
+            }));
         }
 
         private void SetupEvents()
@@ -68,6 +83,7 @@ namespace DS4WinWPF.DS4Forms
             App root = Application.Current as App;
             root.rootHub.RunningChanged += ControlServiceChanged;
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
+            AppLogger.TrayIconLog += ShowNotification;
         }
 
         private void ChangeControllerPanel()
@@ -84,7 +100,8 @@ namespace DS4WinWPF.DS4Forms
             }
         }
 
-        private void ControllerCol_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void ControllerCol_CollectionChanged(object sender,
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             Dispatcher.BeginInvoke((Action)(() =>
             {

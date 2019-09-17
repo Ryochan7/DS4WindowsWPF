@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using DS4Windows;
 
@@ -25,10 +23,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             this.profileListHolder = profileListHolder;
             tester.StartControllers += ControllersChanged;
             tester.ControllersRemoved += ClearControllerList;
-            IEnumerable<DS4Windows.DS4Device> devices =
-                DS4Windows.DS4Devices.getDS4Controllers();
+            IEnumerable<DS4Device> devices =
+                DS4Devices.getDS4Controllers();
             int idx = 0;
-            foreach (DS4Windows.DS4Device currentDev in devices)
+            foreach (DS4Device currentDev in devices)
             {
                 CompositeDeviceModel temp = new CompositeDeviceModel(currentDev,
                     idx, "Turok 2", profileListHolder);
@@ -102,7 +100,6 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public DS4Device Device { get => device; set => device = value; }
         public string SelectedProfile { get => selectedProfile; set => selectedProfile = value; }
         public ProfileList ProfileEntities { get => profileListHolder; set => profileListHolder = value; }
-
         public ObservableCollection<ProfileEntity> ProfileListCol => profileListHolder.ProfileListCol;
 
         public string LightColor
