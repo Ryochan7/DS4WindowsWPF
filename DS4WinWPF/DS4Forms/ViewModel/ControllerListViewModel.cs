@@ -115,6 +115,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
 
         public ProfileEntity SelectedEntity { get => selectedEntity; set => selectedEntity = value; }
+
+        public string BatteryState
+        {
+            get
+            {
+                string temp = $"{device.Battery}%{(device.Charging ? "+" : "")}";
+                return temp;
+            }
+        }
+        public event EventHandler BatteryStateChanged;
+
         public int SelectedIndex { get => selectedIndex; set => selectedIndex = value; }
 
         public string StatusSource
@@ -151,6 +162,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             ProfileList collection)
         {
             this.device = device;
+            device.BatteryChanged += (sender, e) => BatteryStateChanged?.Invoke(sender, e);
+            device.ChargingChanged += (sender, e) => BatteryStateChanged?.Invoke(sender, e);
             this.devIndex = devIndex;
             this.selectedProfile = profile;
             profileListHolder = collection;

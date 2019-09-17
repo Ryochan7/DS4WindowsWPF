@@ -51,7 +51,8 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=batteryColumn, Path=Width}">
-                                                <Label Content="{Binding Device.Battery}" HorizontalAlignment="Center" />
+                                                <Label Content="{Binding BatteryState}" HorizontalAlignment="Center">
+                                                </Label>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

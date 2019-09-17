@@ -285,6 +285,7 @@ namespace DS4Windows
         }
 
         public bool Charging => charging;
+        public event EventHandler ChargingChanged;
         public bool isCharging()
         {
             return charging;
@@ -755,6 +756,7 @@ namespace DS4Windows
 
                 int maxBatteryValue = 0;
                 int tempBattery = 0;
+                bool tempCharging = charging;
                 uint tempStamp = 0;
                 double elapsedDeltaTime = 0.0;
                 uint tempDelta = 0;
@@ -936,7 +938,13 @@ namespace DS4Windows
                     cState.FrameCounter = (byte)(tempByte >> 2);
 
                     tempByte = inputReport[30];
-                    charging = (tempByte & 0x10) != 0;
+                    tempCharging = (tempByte & 0x10) != 0;
+                    if (tempCharging != charging)
+                    {
+                        charging = tempCharging;
+                        ChargingChanged?.Invoke(this, EventArgs.Empty);
+                    }
+
                     maxBatteryValue = charging ? BATTERY_MAX_USB : BATTERY_MAX;
                     tempBattery = (tempByte & 0x0f) * 100 / maxBatteryValue;
                     tempBattery = Math.Min(tempBattery, 100);

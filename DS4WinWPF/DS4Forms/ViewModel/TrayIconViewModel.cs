@@ -72,6 +72,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             foreach (DS4Device currentDev in devices)
             {
                 currentDev.BatteryChanged += UpdateForBattery;
+                currentDev.ChargingChanged += UpdateForBattery;
             }
         }
 
