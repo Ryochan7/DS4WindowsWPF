@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using DS4WinWPF.DS4Forms.ViewModel;
 using DS4WinWPF;
 using DS4Windows;
+using Microsoft.Win32;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -205,16 +206,35 @@ namespace DS4WinWPF.DS4Forms
 
         private void ContStatusImg_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
-            CompositeDeviceModel item = conLvViewModel.ControllerCol[controllerLV.SelectedIndex];
+            CompositeDeviceModel item = conLvViewModel.CurrentItem;
             DS4Device tempDev = item.Device;
-            if (tempDev.ConnectionType == ConnectionType.BT && !tempDev.Charging)
+            if (tempDev.Synced)
             {
-                tempDev.StopUpdate();
-                tempDev.DisconnectBT();
+                if (tempDev.ConnectionType == ConnectionType.BT && !tempDev.Charging)
+                {
+                    tempDev.StopUpdate();
+                    tempDev.DisconnectBT();
+                }
+                else if (tempDev.ConnectionType == ConnectionType.SONYWA && !tempDev.Charging)
+                {
+                    tempDev.DisconnectDongle();
+                }
             }
-            else if (tempDev.ConnectionType == ConnectionType.SONYWA && !tempDev.Charging)
+        }
+
+        private void ExportLogBtn_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".txt";
+            dialog.Filter = "Text Documents (*.txt)|*.txt";
+            dialog.Title = "Select Export File";
+            // TODO: Expose config dir
+            //dialog.InitialDirectory = Global.appdatapath;
+            if (dialog.ShowDialog() == true)
             {
-                tempDev.DisconnectDongle();
+                LogWriter logWriter = new LogWriter(dialog.FileName, logvm.LogItems.ToList());
+                logWriter.Process();
             }
         }
     }

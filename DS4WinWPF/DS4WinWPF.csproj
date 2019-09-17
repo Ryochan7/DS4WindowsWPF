@@ -142,6 +142,7 @@
     <Compile Include="HidLibrary\HidDeviceCapabilities.cs" />
     <Compile Include="HidLibrary\HidDevices.cs" />
     <Compile Include="HidLibrary\NativeMethods.cs" />
+    <Compile Include="LogWriter.cs" />
     <Compile Include="ProfileEntity.cs" />
     <Compile Include="ProfileList.cs" />
     <Compile Include="StatusLogMsg.cs" />

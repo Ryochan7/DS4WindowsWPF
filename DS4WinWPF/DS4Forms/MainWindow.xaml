@@ -23,7 +23,7 @@
             <TabItem Header="Controllers">
                 <Grid>
                     <Label x:Name="noContLb" Visibility="Hidden" Content="No Controllers Connected (Max 4)" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                    <ListView x:Name="controllerLV" ItemsSource="{Binding ControllerCol}" SelectionMode="Single" Margin="0">
+                    <ListView x:Name="controllerLV" ItemsSource="{Binding ControllerCol}" SelectionMode="Single" SelectedIndex="{Binding CurrentIndex, Mode=OneWayToSource}" Margin="0">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Device.MacAddress, Mode=OneTime}" Width="120"/>
@@ -237,7 +237,7 @@
             <TabItem Header="Log">
                 <DockPanel>
                     <DockPanel Height="20" DockPanel.Dock="Bottom" Margin="4,8">
-                        <Button Content="Export" HorizontalAlignment="Left" Padding="20,1" />
+                        <Button x:Name="exportLogBtn" Content="Export" HorizontalAlignment="Left" Padding="20,1" Click="ExportLogBtn_Click" />
                         <Button x:Name="clearLogBtn" Content="Clear" DockPanel.Dock="Right" Padding="20,1" Margin="100,0,0,0" Click="ClearLogBtn_Click" />
                     </DockPanel>
                     <ListView x:Name="logListView" DockPanel.Dock="Top" ItemsSource="{Binding LogItems}" MouseDoubleClick="LogListView_MouseDoubleClick" Margin="0">

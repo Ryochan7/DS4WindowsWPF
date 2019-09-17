@@ -17,6 +17,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         { get => controllerCol; set => controllerCol = value; }
 
         private ProfileList profileListHolder;
+        private int currentIndex;
+        public int CurrentIndex { get => currentIndex; set => currentIndex = value; }
+        public CompositeDeviceModel CurrentItem => controllerCol[currentIndex];
 
         public ControllerListViewModel(Tester tester, ProfileList profileListHolder)
         {
