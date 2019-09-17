@@ -13,7 +13,9 @@
         <StackPanel DockPanel.Dock="Bottom" Height="30" VerticalAlignment="Bottom">
             <DockPanel Height="30">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                    <Button x:Name="aboutBtn" Content="Hotkeys/About" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8" Click="AboutBtn_Click" />
+                    <Button x:Name="aboutBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8" Click="AboutBtn_Click">
+                        <TextBlock Text="Hotkeys/About" TextDecorations="Underline" Foreground="#FF3881D8" />
+                    </Button>
                     <Button x:Name="StartStopBtn" Content="Start" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" />
                 </StackPanel>
                 <Label x:Name="lastMsgLb" Content="{Binding Message}" Foreground="{Binding Color}" Margin="4,0,2,0" />
@@ -166,7 +168,7 @@
             </TabItem>
             <TabItem Header="Settings">
                 <WrapPanel Orientation="Vertical" Margin="0,10,0,0">
-                    <CheckBox Content="Hide DS4 Controller" />
+                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" />
                     <CheckBox Content="Swipe Touchpad To Switch Profiles" Margin="0,10,0,0" />
                     <CheckBox x:Name="runAtStartCk" Content="Run At Startup" Click="RunAtStartCk_Click" />
                     <GroupBox x:Name="runAsGroupBox" Header="Run As" BorderThickness="2" Visibility="Collapsed">

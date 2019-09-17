@@ -66,6 +66,7 @@ namespace DS4WinWPF.DS4Forms
             ChangeControllerPanel();
             trayIconVM = new TrayIconViewModel(root.rootHub);
             notifyIcon.DataContext = trayIconVM;
+            PopulateSettingsTab();
             SetupEvents();
         }
 
@@ -195,7 +196,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void PopulateSettingsTab()
         {
-
+            hideDS4ContCk.IsChecked = true;
         }
 
         private void RunAtStartCk_Click(object sender, RoutedEventArgs e)
