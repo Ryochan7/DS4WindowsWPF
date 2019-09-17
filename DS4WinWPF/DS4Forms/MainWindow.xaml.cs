@@ -161,13 +161,61 @@ namespace DS4WinWPF.DS4Forms
             if (idx > -1)
             {
                 LogItem temp = logvm.LogItems[idx];
-                MessageBox.Show(temp.Message);
+                MessageBox.Show(temp.Message, "Log");
             }
         }
 
         private void ClearLogBtn_Click(object sender, RoutedEventArgs e)
         {
             logvm.LogItems.Clear();
+        }
+
+        private void MainTabCon_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (mainTabCon.SelectedIndex == 4)
+            {
+                lastMsgLb.Visibility = Visibility.Hidden;
+            }
+            else
+            {
+                lastMsgLb.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void ProfilesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            newProfBtn.IsEnabled = true;
+            editProfBtn.IsEnabled = true;
+            deleteProfBtn.IsEnabled = true;
+            dupProfBtn.IsEnabled = true;
+            importProfBtn.IsEnabled = true;
+            exportProfBtn.IsEnabled = true;
+        }
+
+        private void PopulateSettingsTab()
+        {
+
+        }
+
+        private void RunAtStartCk_Click(object sender, RoutedEventArgs e)
+        {
+            runAsGroupBox.Visibility = runAtStartCk.IsChecked == true ? Visibility.Visible :
+                Visibility.Collapsed;
+        }
+
+        private void ContStatusImg_MouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            CompositeDeviceModel item = conLvViewModel.ControllerCol[controllerLV.SelectedIndex];
+            DS4Device tempDev = item.Device;
+            if (tempDev.ConnectionType == ConnectionType.BT && !tempDev.Charging)
+            {
+                tempDev.StopUpdate();
+                tempDev.DisconnectBT();
+            }
+            else if (tempDev.ConnectionType == ConnectionType.SONYWA && !tempDev.Charging)
+            {
+                tempDev.DisconnectDongle();
+            }
         }
     }
 }
