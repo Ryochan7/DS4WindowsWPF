@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DS4WinWPF
 {
     public class StatusLogMsg
     {
         private string message;
+        private bool warning;
         public string Message
         {
             get => message;
@@ -19,6 +16,29 @@ namespace DS4WinWPF
                 MessageChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler MessageChanged;
+
+        public bool Warning { get => warning;
+            set
+            {
+                if (warning == value) return;
+                warning = value;
+                WarningChanged?.Invoke(this, EventArgs.Empty);
+                ColorChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler WarningChanged;
+
+        public string Color
+        {
+            get
+            {
+                return warning ? "Red" : "Black";
+            }
+        }
+
+        public event EventHandler ColorChanged;
     }
 }

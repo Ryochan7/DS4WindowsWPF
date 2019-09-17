@@ -14,16 +14,16 @@
             <DockPanel Height="30">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                     <Button x:Name="aboutBtn" Content="Hotkeys/About" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8" Click="AboutBtn_Click" />
-                    <Button x:Name="StartStopBtn" Content="Start" Margin="10,0,0,0" Click="StartStopBtn_Click" />
+                    <Button x:Name="StartStopBtn" Content="Start" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" />
                 </StackPanel>
-                <Label x:Name="lastMsgLb" Content="{Binding Message}" />
+                <Label x:Name="lastMsgLb" Content="{Binding Message}" Foreground="{Binding Color}" Margin="4,0,2,0" />
             </DockPanel>
         </StackPanel>
         <TabControl DockPanel.Dock="Top">
             <TabItem Header="Controllers">
                 <Grid>
                     <Label x:Name="noContLb" Visibility="Hidden" Content="No Controllers Connected (Max 4)" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
-                    <ListView x:Name="controllerLV" ItemsSource="{Binding ControllerCol}" SelectionMode="Single">
+                    <ListView x:Name="controllerLV" ItemsSource="{Binding ControllerCol}" SelectionMode="Single" Margin="0">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Device.MacAddress, Mode=OneTime}" Width="120"/>
@@ -172,15 +172,27 @@
             </TabItem>
             <TabItem Header="Log">
                 <DockPanel>
-                    <DockPanel Height="20" DockPanel.Dock="Bottom" Margin="0,8">
+                    <DockPanel Height="20" DockPanel.Dock="Bottom" Margin="4,8">
                         <Button Content="Export" HorizontalAlignment="Left" Padding="20,1" />
-                        <Button Content="Clear" DockPanel.Dock="Right" Padding="20,1" Margin="100,0,0,0" />
+                        <Button x:Name="clearLogBtn" Content="Clear" DockPanel.Dock="Right" Padding="20,1" Margin="100,0,0,0" Click="ClearLogBtn_Click" />
                     </DockPanel>
-                    <ListView x:Name="logListView" DockPanel.Dock="Top" ItemsSource="{Binding LogItems}">
+                    <ListView x:Name="logListView" DockPanel.Dock="Top" ItemsSource="{Binding LogItems}" MouseDoubleClick="LogListView_MouseDoubleClick" Margin="0">
                         <ListView.View>
                             <GridView AllowsColumnReorder="False">
-                                <GridViewColumn Header="Time" Width="150" DisplayMemberBinding="{Binding Datetime, Mode=OneWay,StringFormat=\{0:G\}}"/>
-                                <GridViewColumn Header="Data" Width="450" DisplayMemberBinding="{Binding Message, Mode=OneWay}"/>
+                                <GridViewColumn Header="Time" Width="150">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Datetime, StringFormat=\{0:G\}}" Foreground="{Binding Color}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn Header="Data" Width="450">
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path=Message}" Foreground="{Binding Color}"/>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
+                                </GridViewColumn>
                             </GridView>
                         </ListView.View>
                     </ListView>

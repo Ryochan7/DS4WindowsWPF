@@ -27,6 +27,7 @@ namespace DS4WinWPF.DS4Forms
     {
         private StatusLogMsg lastLogMsg = new StatusLogMsg();
         private ProfileList profileListHolder = new ProfileList();
+        private LogViewModel logvm;
         private ControllerListViewModel conLvViewModel;
         private TrayIconViewModel trayIconVM;
 
@@ -34,7 +35,7 @@ namespace DS4WinWPF.DS4Forms
         {
             InitializeComponent();
 
-            LogViewModel logvm = new LogViewModel();
+            logvm = new LogViewModel();
             logvm.LogItems.Add(new LogItem() { Datetime = DateTime.Now, Message = "Bacon" });
             //logListView.ItemsSource = logvm.LogItems;
             logListView.DataContext = logvm;
@@ -44,12 +45,13 @@ namespace DS4WinWPF.DS4Forms
 
             Task.Delay(5000).ContinueWith((t) =>
             {
-                logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
+                //logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
                 profileListHolder.ProfileListCol.Add(new ProfileEntity { Name = "Media" });
 
                 //Dispatcher.BeginInvoke((Action)(() =>
                 //{
-                lastLogMsg.Message = "Controller 1 Using \"dfsdfsdfs\"";
+                //lastLogMsg.Message = "Controller 1 Using \"dfsdfsdfs\"";
+                AppLogger.LogToGui("Next Thing", true);
                 //AppLogger.LogToTray("Test");
 
                 //}));
@@ -63,8 +65,6 @@ namespace DS4WinWPF.DS4Forms
             ChangeControllerPanel();
             trayIconVM = new TrayIconViewModel(root.rootHub);
             notifyIcon.DataContext = trayIconVM;
-            //notifyIcon.ShowBalloonTip(TrayIconViewModel.ballonTitle,
-            //    "Test", Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
             SetupEvents();
         }
 
@@ -84,6 +84,13 @@ namespace DS4WinWPF.DS4Forms
             root.rootHub.RunningChanged += ControlServiceChanged;
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
             AppLogger.TrayIconLog += ShowNotification;
+            AppLogger.GuiLog += UpdateLastStatusMessage;
+        }
+
+        private void UpdateLastStatusMessage(object sender, DebugEventArgs e)
+        {
+            lastLogMsg.Message = e.Data;
+            lastLogMsg.Warning = e.Warning;
         }
 
         private void ChangeControllerPanel()
@@ -146,6 +153,21 @@ namespace DS4WinWPF.DS4Forms
             });
 
             StartStopBtn.IsEnabled = true;
+        }
+
+        private void LogListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            int idx = logListView.SelectedIndex;
+            if (idx > -1)
+            {
+                LogItem temp = logvm.LogItems[idx];
+                MessageBox.Show(temp.Message);
+            }
+        }
+
+        private void ClearLogBtn_Click(object sender, RoutedEventArgs e)
+        {
+            logvm.LogItems.Clear();
         }
     }
 }

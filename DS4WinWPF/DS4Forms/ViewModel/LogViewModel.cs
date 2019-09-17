@@ -18,8 +18,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private void AddLogMessage(object sender, DebugEventArgs e)
         {
-            DebugEventArgs args = sender as DebugEventArgs;
-            LogItem item = new LogItem { Datetime = args.Time, Message = args.Data, Warning = args.Warning };
+            LogItem item = new LogItem { Datetime = e.Time, Message = e.Data, Warning = e.Warning };
             logItems.Add(item);
         }
     }
