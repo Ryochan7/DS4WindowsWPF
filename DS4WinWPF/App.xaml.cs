@@ -20,6 +20,12 @@ namespace DS4WinWPF
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            // Test localization
+            System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("ja");
+            //DS4WinWPF.Properties.Resources.Culture = ci;
+            //Thread.CurrentThread.CurrentCulture = ci;
+            //Thread.CurrentThread.CurrentUICulture = ci;
+
             try
             {
                 Process.GetCurrentProcess().PriorityClass =
@@ -28,6 +34,12 @@ namespace DS4WinWPF
             catch { } // Ignore problems raising the priority.
 
             CreateControlService();
+            //DS4Forms.SaveWhere savewh = new DS4Forms.SaveWhere(false);
+            //savewh.ShowDialog();
+
+            DS4Forms.MainWindow window = new DS4Forms.MainWindow();
+            MainWindow = window;
+            window.Show();
         }
 
         private void CreateControlService()

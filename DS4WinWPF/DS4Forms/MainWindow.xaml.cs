@@ -48,7 +48,7 @@ namespace DS4WinWPF.DS4Forms
             {
                 //logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
                 profileListHolder.ProfileListCol.Add(new ProfileEntity { Name = "Media" });
-                AppLogger.LogToGui("Next Thing", true);
+                //AppLogger.LogToGui("Next Thing", true);
             });
 
             App root = Application.Current as App;
@@ -278,6 +278,11 @@ namespace DS4WinWPF.DS4Forms
         {
             Button button = sender as Button;
             button.ContextMenu.IsOpen = true;
+        }
+
+        private void MainDS4Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }

@@ -89,6 +89,9 @@
   <PropertyGroup>
     <ApplicationManifest>app.manifest</ApplicationManifest>
   </PropertyGroup>
+  <PropertyGroup>
+    <UICulture>en-US</UICulture>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Hardcodet.Wpf.TaskbarNotification, Version=1.0.5.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Hardcodet.NotifyIcon.Wpf.1.0.8\lib\net451\Hardcodet.Wpf.TaskbarNotification.dll</HintPath>
@@ -141,6 +144,9 @@
     <Compile Include="DS4Forms\AutoProfiles.xaml.cs">
       <DependentUpon>AutoProfiles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\SaveWhere.xaml.cs">
+      <DependentUpon>SaveWhere.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />
     <Compile Include="DS4Library\Crc32.cs" />
@@ -185,6 +191,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="DS4Forms\SaveWhere.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -245,6 +255,7 @@
     <Content Include="BezierCurveEditor\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\USB.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DS4Control\" />
