@@ -21,7 +21,7 @@ namespace DS4WinWPF
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             // Test localization
-            System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("ja");
+            //System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("ja");
             //DS4WinWPF.Properties.Resources.Culture = ci;
             //Thread.CurrentThread.CurrentCulture = ci;
             //Thread.CurrentThread.CurrentUICulture = ci;
