@@ -172,6 +172,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 return temp;
             }
         }
+
         public event EventHandler TooltipIDTextChanged;
 
         public CompositeDeviceModel(DS4Device device, int devIndex, string profile,

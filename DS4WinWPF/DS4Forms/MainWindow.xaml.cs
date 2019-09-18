@@ -18,6 +18,7 @@ using DS4WinWPF.DS4Forms.ViewModel;
 using DS4WinWPF;
 using DS4Windows;
 using Microsoft.Win32;
+//using Xceed.Wpf.Toolkit;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -250,10 +251,35 @@ namespace DS4WinWPF.DS4Forms
             }
         }
 
-        // Clear and re-populate tray context menu
+        /// <summary>
+        /// Clear and re-populate tray context menu
+        /// </summary>
         private void NotifyIcon_TrayRightMouseUp(object sender, RoutedEventArgs e)
         {
             trayIconVM.BuildContextMenu(notifyIcon.ContextMenu.Items, this);
+        }
+
+        /// <summary>
+        /// Change profile based on selection
+        /// </summary>
+        private void SelectProfCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox box = sender as ComboBox;
+            int idx = Convert.ToInt32(box.Tag);
+            if (idx > -1)
+            {
+                //CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+            }
+        }
+
+        private void CustomColorPick_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
+        {
+
+        }
+
+        private void LightColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
         xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="DS4Windows" Height="450" Width="800">
     <DockPanel>
@@ -26,7 +27,7 @@
                     </Button>
                     <Button x:Name="StartStopBtn" Content="Start" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" />
                 </StackPanel>
-                <Label x:Name="lastMsgLb" Content="{Binding Message}" Foreground="{Binding Color}" Margin="4,0,2,0" />
+                <Label x:Name="lastMsgLb" Content="{Binding Message}" ToolTip="{Binding Message}" Foreground="{Binding Color}" Margin="4,0,2,0" />
             </DockPanel>
         </StackPanel>
         <TabControl x:Name="mainTabCon" DockPanel.Dock="Top" SelectionChanged="MainTabCon_SelectionChanged">
@@ -84,8 +85,8 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=selectProfileColumn, Path=Width}">
-                                                <ComboBox Width="150" HorizontalAlignment="Left" DisplayMemberPath="Name"
-                                                          ItemsSource="{Binding ProfileListCol}" SelectedIndex="{Binding SelectedIndex}" Height="Auto" Tag="{Binding DevIndex, Mode=OneWay}" />
+                                                <ComboBox x:Name="selectProfCombo" Width="150" HorizontalAlignment="Left" DisplayMemberPath="Name"
+                                                          ItemsSource="{Binding ProfileListCol}" SelectedIndex="{Binding SelectedIndex}" Height="Auto" Tag="{Binding DevIndex, Mode=OneWay}" SelectionChanged="SelectProfCombo_SelectionChanged"  />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -103,7 +104,9 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=customColorColumn, Path=Width}">
-                                                <Button Width="120" Height="20" Background="{Binding LightColor, Mode=OneWay}" />
+                                                <xctk:ColorPicker x:Name="customColorPick" SelectedColor="{Binding LightColor, Mode=OneWay}" Width="150"
+                                                                  ShowTabHeaders="False" ColorMode="ColorCanvas" SelectedColorChanged="CustomColorPick_SelectedColorChanged" />
+                                                <!--<Button x:Name="LightColorBtn" Width="120" Height="20" Background="{Binding LightColor, Mode=OneWay}" Click="LightColorBtn_Click" />-->
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
