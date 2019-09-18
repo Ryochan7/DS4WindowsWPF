@@ -40,6 +40,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public TrayIconViewModel(Tester tester)
         {
             PopulateToolText();
+            SetupBatteryUpdate();
 
             tester.StartControllers += HookBatteryUpdate;
             tester.StartControllers += StartPopulateText;
@@ -67,7 +68,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             TooltipText = string.Join("\n", items);
         }
 
-        private void HookBatteryUpdate(object sender, EventArgs e)
+        private void SetupBatteryUpdate()
         {
             IEnumerable<DS4Device> devices = DS4Devices.getDS4Controllers();
             foreach (DS4Device currentDev in devices)
@@ -75,6 +76,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 currentDev.BatteryChanged += UpdateForBattery;
                 currentDev.ChargingChanged += UpdateForBattery;
             }
+        }
+
+        private void HookBatteryUpdate(object sender, EventArgs e)
+        {
+            SetupBatteryUpdate();
         }
 
         private void UpdateForBattery(object sender, EventArgs e)
