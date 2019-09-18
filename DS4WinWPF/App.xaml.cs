@@ -28,10 +28,6 @@ namespace DS4WinWPF
             catch { } // Ignore problems raising the priority.
 
             CreateControlService();
-            Task.Run(() =>
-            {
-                rootHub.Start();
-            });
         }
 
         private void CreateControlService()

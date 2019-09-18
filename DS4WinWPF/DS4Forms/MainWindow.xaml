@@ -23,7 +23,7 @@
             <DockPanel Height="30">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
                     <Button x:Name="aboutBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8" Click="AboutBtn_Click">
-                        <TextBlock Text="Hotkeys/About" TextDecorations="Underline" Foreground="#FF3881D8" />
+                        <TextBlock Text="Hotkeys/About" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                     </Button>
                     <Button x:Name="StartStopBtn" Content="Start" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" />
                 </StackPanel>
@@ -104,9 +104,16 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=customColorColumn, Path=Width}">
-                                                <xctk:ColorPicker x:Name="customColorPick" SelectedColor="{Binding LightColor, Mode=OneWay}" Width="150"
-                                                                  ShowTabHeaders="False" ColorMode="ColorCanvas" SelectedColorChanged="CustomColorPick_SelectedColorChanged" />
-                                                <!--<Button x:Name="LightColorBtn" Width="120" Height="20" Background="{Binding LightColor, Mode=OneWay}" Click="LightColorBtn_Click" />-->
+                                                <!--<xctk:ColorPicker x:Name="customColorPick" SelectedColor="{Binding LightColor, Mode=OneWay}" Width="150"
+                                                                  ShowTabHeaders="False" ColorMode="ColorCanvas" SelectedColorChanged="CustomColorPick_SelectedColorChanged" />-->
+                                                <Button x:Name="LightColorBtn" Width="120" Height="20" Background="{Binding LightColor, Mode=OneWay}" Click="LightColorBtn_Click">
+                                                    <Button.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="Use Profile Color" />
+                                                            <MenuItem Header="Use Custom Color" />
+                                                        </ContextMenu>
+                                                    </Button.ContextMenu>
+                                                </Button>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -239,16 +246,16 @@
                     <GroupBox Header="Utils" BorderThickness="2">
                         <StackPanel>
                             <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}">
-                                <TextBlock Text="Profile folder" TextDecorations="Underline" Foreground="#FF3881D8" />
+                                <TextBlock Text="Profile folder" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
                             <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" >
-                                <TextBlock Text="Control Panel" TextDecorations="Underline" Foreground="#FF3881D8" />
+                                <TextBlock Text="Control Panel" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
                             <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}">
-                                <TextBlock Text="Controller/Driver Setup" TextDecorations="Underline" Foreground="#FF3881D8" />
+                                <TextBlock Text="Controller/Driver Setup" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
                             <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}">
-                                <TextBlock Text="Check for Update Now" TextDecorations="Underline" Foreground="#FF3881D8" />
+                                <TextBlock Text="Check for Update Now" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
                         </StackPanel>
                     </GroupBox>

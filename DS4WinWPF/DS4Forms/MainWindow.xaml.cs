@@ -38,7 +38,6 @@ namespace DS4WinWPF.DS4Forms
             InitializeComponent();
 
             logvm = new LogViewModel();
-            logvm.LogItems.Add(new LogItem() { Datetime = DateTime.Now, Message = "Bacon" });
             //logListView.ItemsSource = logvm.LogItems;
             logListView.DataContext = logvm;
             lastMsgLb.DataContext = lastLogMsg;
@@ -49,14 +48,7 @@ namespace DS4WinWPF.DS4Forms
             {
                 //logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
                 profileListHolder.ProfileListCol.Add(new ProfileEntity { Name = "Media" });
-
-                //Dispatcher.BeginInvoke((Action)(() =>
-                //{
-                //lastLogMsg.Message = "Controller 1 Using \"dfsdfsdfs\"";
                 AppLogger.LogToGui("Next Thing", true);
-                //AppLogger.LogToTray("Test");
-
-                //}));
             });
 
             App root = Application.Current as App;
@@ -69,6 +61,11 @@ namespace DS4WinWPF.DS4Forms
             notifyIcon.DataContext = trayIconVM;
             PopulateSettingsTab();
             SetupEvents();
+
+            Task.Run(() =>
+            {
+                root.rootHub.Start();
+            });
         }
 
         private void ShowNotification(object sender, DebugEventArgs e)
@@ -279,7 +276,8 @@ namespace DS4WinWPF.DS4Forms
 
         private void LightColorBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Button button = sender as Button;
+            button.ContextMenu.IsOpen = true;
         }
     }
 }

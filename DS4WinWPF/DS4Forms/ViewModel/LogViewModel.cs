@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Data;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
@@ -12,6 +13,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public LogViewModel()
         {
+            logItems.Add(new LogItem { Datetime = DateTime.Now, Message = "DS4Windows version 2.0" });
             BindingOperations.EnableCollectionSynchronization(logItems, _colLockobj);
             AppLogger.GuiLog += AddLogMessage;
         }

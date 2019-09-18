@@ -32,7 +32,12 @@ namespace DS4WinWPF
         public void Start()
         {
             Running = true;
+            AppLogger.LogToGui("Starting...", false);
+            AppLogger.LogToGui("Searching for controllers...", false);
             DS4Windows.DS4Devices.isExclusiveMode = true;
+            AppLogger.LogToGui(DS4Windows.DS4Devices.isExclusiveMode ?
+                "Using Exclusive Mode" : "Using Shared Mode", false);
+
             DS4Windows.DS4Devices.findControllers();
             IEnumerable<DS4Windows.DS4Device> devices = DS4Windows.DS4Devices.getDS4Controllers();
             int ind = 0;
@@ -60,6 +65,7 @@ namespace DS4WinWPF
         {
             PreRemoveControllers?.Invoke(this, EventArgs.Empty);
             Running = false;
+            AppLogger.LogToGui("Stopping service", false);
             IEnumerable<DS4Windows.DS4Device> devices = DS4Windows.DS4Devices.getDS4Controllers();
             int ind = 0;
 
