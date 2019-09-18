@@ -178,8 +178,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             ProfileList collection)
         {
             this.device = device;
-            device.BatteryChanged += (sender, e) => BatteryStateChanged?.Invoke(sender, e);
-            device.ChargingChanged += (sender, e) => BatteryStateChanged?.Invoke(sender, e);
+            device.BatteryChanged += (sender, e) => BatteryStateChanged?.Invoke(this, e);
+            device.ChargingChanged += (sender, e) => BatteryStateChanged?.Invoke(this, e);
             this.devIndex = devIndex;
             this.selectedProfile = profile;
             profileListHolder = collection;

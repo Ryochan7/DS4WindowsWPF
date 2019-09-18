@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
+using System.Windows.Controls;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
@@ -84,6 +85,21 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private void ClearToolText(object sender, EventArgs e)
         {
             TooltipText = "DS4Windows";
+        }
+
+        public void BuildContextMenu(ItemCollection collection, MainWindow mainwin)
+        {
+            collection.Clear();
+            collection.Add(new MenuItem { Header = "Open" });
+            collection.Add(new Separator());
+            MenuItem temp = new MenuItem { Header = "Exit" };
+            temp.Click += ExitMenuItem_Click;
+            collection.Add(temp);
+        }
+
+        private void ExitMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            App.Current.Shutdown();
         }
     }
 }

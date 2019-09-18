@@ -209,14 +209,14 @@ namespace DS4WinWPF.DS4Forms
         {
             CompositeDeviceModel item = conLvViewModel.CurrentItem;
             DS4Device tempDev = item.Device;
-            if (tempDev.Synced)
+            if (tempDev.Synced && !tempDev.Charging)
             {
-                if (tempDev.ConnectionType == ConnectionType.BT && !tempDev.Charging)
+                if (tempDev.ConnectionType == ConnectionType.BT)
                 {
                     tempDev.StopUpdate();
                     tempDev.DisconnectBT();
                 }
-                else if (tempDev.ConnectionType == ConnectionType.SONYWA && !tempDev.Charging)
+                else if (tempDev.ConnectionType == ConnectionType.SONYWA)
                 {
                     tempDev.DisconnectDongle();
                 }
@@ -248,6 +248,12 @@ namespace DS4WinWPF.DS4Forms
                 CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
                 item.RequestUpdatedTooltipID();
             }
+        }
+
+        // Clear and re-populate tray context menu
+        private void NotifyIcon_TrayRightMouseUp(object sender, RoutedEventArgs e)
+        {
+            trayIconVM.BuildContextMenu(notifyIcon.ContextMenu.Items, this);
         }
     }
 }

@@ -8,7 +8,15 @@
         mc:Ignorable="d"
         Title="DS4Windows" Height="450" Width="800">
     <DockPanel>
-        <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource}" ToolTipText="{Binding TooltipText}" />
+        <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource}" ToolTipText="{Binding TooltipText}" MenuActivation="RightClick" TrayRightMouseUp="NotifyIcon_TrayRightMouseUp">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open" />
+                    <Separator />
+                    <MenuItem x:Name="exitMenuItem" Header="Exit" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
 
         <StackPanel DockPanel.Dock="Bottom" Height="30" VerticalAlignment="Bottom">
             <DockPanel Height="30">
@@ -57,7 +65,7 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=batteryColumn, Path=Width}">
-                                                <Label Content="{Binding BatteryState}" HorizontalAlignment="Center">
+                                                <Label Content="{Binding BatteryState, Mode=OneWay}" HorizontalAlignment="Center">
                                                 </Label>
                                             </StackPanel>
                                         </DataTemplate>
