@@ -18,6 +18,7 @@ using DS4WinWPF.DS4Forms.ViewModel;
 using DS4WinWPF;
 using DS4Windows;
 using Microsoft.Win32;
+using System.Windows.Interop;
 //using Xceed.Wpf.Toolkit;
 
 namespace DS4WinWPF.DS4Forms
@@ -283,6 +284,33 @@ namespace DS4WinWPF.DS4Forms
         private void MainDS4Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             Application.Current.Shutdown();
+        }
+
+        protected override void OnSourceInitialized(EventArgs e)
+        {
+            base.OnSourceInitialized(e);
+
+            HookWindowMessages();
+            HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            source.AddHook(WndProc);
+        }
+
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam,
+            IntPtr lParam, ref bool handled)
+        {
+            // Handle messages...
+            switch (msg)
+            {
+                default: break;
+            }
+
+            return IntPtr.Zero;
+        }
+
+        private void HookWindowMessages()
+        {
+            Guid hidGuid = new Guid();
+
         }
     }
 }

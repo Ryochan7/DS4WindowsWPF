@@ -32,7 +32,7 @@ namespace DS4WinWPF
         public void Start()
         {
             Running = true;
-            AppLogger.LogToGui("Starting...", false);
+            AppLogger.LogToGui(Properties.Resources.Starting, false);
             AppLogger.LogToGui("Searching for controllers...", false);
             DS4Windows.DS4Devices.isExclusiveMode = true;
             AppLogger.LogToGui(DS4Windows.DS4Devices.isExclusiveMode ?
@@ -52,6 +52,11 @@ namespace DS4WinWPF
             }
 
             StartControllers?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void Hotplug()
+        {
+
         }
 
         private void ReadReport(DS4Windows.DS4Device sender, EventArgs args)
