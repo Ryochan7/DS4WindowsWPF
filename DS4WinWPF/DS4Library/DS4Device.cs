@@ -516,7 +516,7 @@ namespace DS4Windows
                     bool validCrc = recvCrc32 == calcCrc32;
                     if (!validCrc && tries >= 5)
                     {
-                        //AppLogger.LogToGui("Gyro Calibration Failed", true);
+                        AppLogger.LogToGui("Gyro Calibration Failed", true);
                         continue;
                     }
                     else if (validCrc)
@@ -825,7 +825,7 @@ namespace DS4Windows
                         {
                             if (res == HidDevice.ReadStatus.WaitTimedOut)
                             {
-                                //AppLogger.LogToGui(Mac.ToString() + " disconnected due to timeout", true);
+                                AppLogger.LogToGui(Mac.ToString() + " disconnected due to timeout", true);
                             }
                             else
                             {
@@ -853,7 +853,7 @@ namespace DS4Windows
                         {
                             if (res == HidDevice.ReadStatus.WaitTimedOut)
                             {
-                                //AppLogger.LogToGui(Mac.ToString() + " disconnected due to timeout", true);
+                                AppLogger.LogToGui(Mac.ToString() + " disconnected due to timeout", true);
                             }
                             else
                             {
@@ -1110,7 +1110,7 @@ namespace DS4Windows
 
                         if (shouldDisconnect)
                         {
-                            //AppLogger.LogToGui(Mac.ToString() + " disconnecting due to idle disconnect", false);
+                            AppLogger.LogToGui(Mac.ToString() + " disconnecting due to idle disconnect", false);
 
                             if (conType == ConnectionType.BT)
                             {
