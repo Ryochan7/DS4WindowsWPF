@@ -27,11 +27,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
-        public ControllerListViewModel(Tester tester, ProfileList profileListHolder)
+        //public ControllerListViewModel(Tester tester, ProfileList profileListHolder)
+        public ControllerListViewModel(ControlService service, ProfileList profileListHolder)
         {
             this.profileListHolder = profileListHolder;
-            tester.StartControllers += ControllersChanged;
-            tester.ControllersRemoved += ClearControllerList;
+            service.ServiceStarted += ControllersChanged;
+            service.PreServiceStop += ClearControllerList;
+            //tester.StartControllers += ControllersChanged;
+            //tester.ControllersRemoved += ClearControllerList;
             IEnumerable<DS4Device> devices =
                 DS4Devices.getDS4Controllers();
             int idx = 0;

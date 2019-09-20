@@ -2246,7 +2246,7 @@ namespace DS4WinWPF.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Controller *number* is using Profile â*Profile name*&quot;.
+        ///   Looks up a localized string similar to Controller *number* is using Profile *Profile name*.
         /// </summary>
         public static string UsingProfile {
             get {

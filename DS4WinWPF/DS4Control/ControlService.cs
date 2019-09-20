@@ -51,6 +51,12 @@ namespace DS4Windows
         //SoundPlayer sp = new SoundPlayer();
         private UdpServer _udpServer;
 
+        public event EventHandler ServiceStarted;
+        public event EventHandler PreServiceStop;
+        public event EventHandler ServiceStopped;
+        public event EventHandler RunningChanged;
+        public event EventHandler HotplugFinished;
+
         private class X360Data
         {
             public byte[] Report = new byte[28];
@@ -553,6 +559,8 @@ namespace DS4Windows
             }
 
             runHotPlug = true;
+            ServiceStarted?.Invoke(this, EventArgs.Empty);
+            RunningChanged?.Invoke(this, EventArgs.Empty);
             return true;
         }
 
@@ -562,6 +570,7 @@ namespace DS4Windows
             {
                 running = false;
                 runHotPlug = false;
+                PreServiceStop?.Invoke(this, EventArgs.Empty);
 
                 if (showlog)
                     LogDebug(DS4WinWPF.Properties.Resources.StoppingX360);
@@ -629,6 +638,8 @@ namespace DS4Windows
             }
 
             runHotPlug = false;
+            ServiceStopped?.Invoke(this, EventArgs.Empty);
+            RunningChanged?.Invoke(this, EventArgs.Empty);
             return true;
         }
 

@@ -38,7 +38,8 @@ namespace DS4WinWPF.DS4Forms
         {
             InitializeComponent();
 
-            logvm = new LogViewModel();
+            App root = Application.Current as App;
+            logvm = new LogViewModel(App.rootHub);
             //logListView.ItemsSource = logvm.LogItems;
             logListView.DataContext = logvm;
             lastMsgLb.DataContext = lastLogMsg;
@@ -52,13 +53,13 @@ namespace DS4WinWPF.DS4Forms
                 //AppLogger.LogToGui("Next Thing", true);
             });
 
-            App root = Application.Current as App;
             StartStopBtn.Content = root.rootHubtest.Running ? "Stop" : "Start";
 
-            conLvViewModel = new ControllerListViewModel(root.rootHubtest, profileListHolder);
+            conLvViewModel = new ControllerListViewModel(App.rootHub, profileListHolder);
             controllerLV.DataContext = conLvViewModel;
             ChangeControllerPanel();
-            trayIconVM = new TrayIconViewModel(root.rootHubtest);
+            //trayIconVM = new TrayIconViewModel(root.rootHubtest);
+            trayIconVM = new TrayIconViewModel(App.rootHub);
             notifyIcon.DataContext = trayIconVM;
             PopulateSettingsTab();
             SetupEvents();
@@ -70,7 +71,7 @@ namespace DS4WinWPF.DS4Forms
             });
         }
 
-        private void ShowNotification(object sender, DebugEventArgs e)
+        private void ShowNotification(object sender, DS4Windows.DebugEventArgs e)
         {
             Dispatcher.BeginInvoke((Action)(() =>
             {
@@ -83,13 +84,14 @@ namespace DS4WinWPF.DS4Forms
         private void SetupEvents()
         {
             App root = Application.Current as App;
-            root.rootHubtest.RunningChanged += ControlServiceChanged;
+            App.rootHub.RunningChanged += ControlServiceChanged;
+            //root.rootHubtest.RunningChanged += ControlServiceChanged;
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
-            AppLogger.TrayIconLog += ShowNotification;
-            AppLogger.GuiLog += UpdateLastStatusMessage;
+            DS4Windows.AppLogger.TrayIconLog += ShowNotification;
+            DS4Windows.AppLogger.GuiLog += UpdateLastStatusMessage;
         }
 
-        private void UpdateLastStatusMessage(object sender, DebugEventArgs e)
+        private void UpdateLastStatusMessage(object sender, DS4Windows.DebugEventArgs e)
         {
             lastLogMsg.Message = e.Data;
             lastLogMsg.Warning = e.Warning;
@@ -120,10 +122,11 @@ namespace DS4WinWPF.DS4Forms
 
         private void ControlServiceChanged(object sender, EventArgs e)
         {
-            Tester service = sender as Tester;
+            //Tester service = sender as Tester;
+            ControlService service = sender as ControlService;
             Dispatcher.BeginInvoke((Action)(() =>
             {
-                if (service.Running)
+                if (service.running)
                 {
                     StartStopBtn.Content = "Stop";
                 }
@@ -146,7 +149,7 @@ namespace DS4WinWPF.DS4Forms
             StartStopBtn.IsEnabled = false;
             App root = Application.Current as App;
             //Tester service = root.rootHubtest;
-            DS4Windows.ControlService service = App.rootHub;
+            ControlService service = App.rootHub;
             await Task.Run(() =>
             {
                 if (service.running)

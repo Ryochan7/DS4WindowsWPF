@@ -37,16 +37,21 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public event EventHandler IconSourceChanged;
 
-        public TrayIconViewModel(Tester tester)
+        //public TrayIconViewModel(Tester tester)
+        public TrayIconViewModel(DS4Windows.ControlService service)
         {
             PopulateToolText();
             SetupBatteryUpdate();
 
-            tester.StartControllers += HookBatteryUpdate;
+            service.ServiceStarted += HookBatteryUpdate;
+            service.ServiceStarted += StartPopulateText;
+            service.PreServiceStop += ClearToolText;
+            /*tester.StartControllers += HookBatteryUpdate;
             tester.StartControllers += StartPopulateText;
             tester.PreRemoveControllers += ClearToolText;
             tester.HotplugControllers += HookBatteryUpdate;
             tester.HotplugControllers += StartPopulateText;
+            */
         }
 
         private void StartPopulateText(object sender, EventArgs e)
