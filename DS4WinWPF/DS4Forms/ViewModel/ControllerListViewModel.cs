@@ -41,7 +41,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             foreach (DS4Device currentDev in devices)
             {
                 CompositeDeviceModel temp = new CompositeDeviceModel(currentDev,
-                    idx, "Turok 2", profileListHolder);
+                    idx, Global.ProfilePath[idx], profileListHolder);
                 controllerCol.Add(temp);
                 currentDev.Removal += Controller_Removal;
                 idx++;
@@ -78,8 +78,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
                 if (!found)
                 {
+                    int idx = controllerCol.Count;
                     CompositeDeviceModel temp = new CompositeDeviceModel(currentDev,
-                        controllerCol.Count, "Doom 3 BFG", profileListHolder);
+                        idx, Global.ProfilePath[idx], profileListHolder);
                     controllerCol.Add(temp);
                     currentDev.Removal += Controller_Removal;
                 }
@@ -188,6 +189,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             this.selectedProfile = profile;
             profileListHolder = collection;
             this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == selectedProfile);
+            if (this.selectedEntity != null)
+            {
+                selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
+            }
         }
 
         public void RequestUpdatedTooltipID()

@@ -42,7 +42,7 @@ namespace DS4WinWPF
             DS4Windows.Global.Load();
             DS4Windows.Global.LoadActions();
             //DS4Windows.Global.ProfilePath[0] = "mixed";
-            DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
+            //DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
 
             DS4Forms.MainWindow window = new DS4Forms.MainWindow();
             MainWindow = window;
@@ -63,13 +63,15 @@ namespace DS4WinWPF
                 Thread.SpinWait(500);
         }
 
-        private async void Application_Exit(object sender, ExitEventArgs e)
+        private void Application_Exit(object sender, ExitEventArgs e)
         {
-            await Task.Run(() =>
+            Task.Run(() =>
             {
                 rootHub.Stop();
                 //rootHubtest.Stop();
-            });
+            }).Wait();
+
+            DS4Windows.Global.Save();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,18 +17,27 @@ namespace DS4WinWPF
 
         public ObservableCollection<ProfileEntity> ProfileListCol { get => profileListCol; set => profileListCol = value; }
 
-
         public ProfileList()
         {
-            profileListCol.Add(new ProfileEntity { Name = "Doom 3 BFG" });
-            profileListCol.Add(new ProfileEntity { Name = "Turok 2" });
             BindingOperations.EnableCollectionSynchronization(profileListCol, _proLockobj);
-            Task.Delay(10000).ContinueWith((t) =>
-            {
-                profileListCol[1].Name = "Rick Astley";
-            });
         }
 
-        
+        public void Refresh()
+        {
+            profileListCol.Clear();
+            string[] profiles = Directory.GetFiles(DS4Windows.Global.appdatapath + @"\Profiles\");
+            foreach (string s in profiles)
+            {
+                if (s.EndsWith(".xml"))
+                {
+                    ProfileEntity item = new ProfileEntity()
+                    {
+                        Name = Path.GetFileNameWithoutExtension(s)
+                    };
+
+                    profileListCol.Add(item);
+                }
+            }
+        }
     }
 }

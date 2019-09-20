@@ -43,13 +43,14 @@ namespace DS4WinWPF.DS4Forms
             //logListView.ItemsSource = logvm.LogItems;
             logListView.DataContext = logvm;
             lastMsgLb.DataContext = lastLogMsg;
-            
+
+            profileListHolder.Refresh();
             profilesListBox.ItemsSource = profileListHolder.ProfileListCol;
 
             Task.Delay(5000).ContinueWith((t) =>
             {
                 //logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
-                profileListHolder.ProfileListCol.Add(new ProfileEntity { Name = "Media" });
+                //profileListHolder.ProfileListCol.Add(new ProfileEntity { Name = "Media" });
                 //AppLogger.LogToGui("Next Thing", true);
             });
 
@@ -271,7 +272,22 @@ namespace DS4WinWPF.DS4Forms
             int idx = Convert.ToInt32(box.Tag);
             if (idx > -1)
             {
-                //CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+                CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+                string prof = Global.ProfilePath[idx] = item.ProfileListCol[item.SelectedIndex].Name;
+                if (item.LinkedProfile)
+                {
+                    Global.changeLinkedProfile(item.Device.getMacAddress(), Global.ProfilePath[idx]);
+                    Global.SaveLinkedProfiles();
+                }
+                else
+                {
+                    Global.OlderProfilePath[idx] = Global.ProfilePath[idx];
+                }
+
+                //Global.Save();
+                Global.LoadProfile(idx, true, App.rootHub);
+                DS4Windows.AppLogger.LogToGui(Properties.Resources.UsingProfile.
+                    Replace("*number*", (idx + 1).ToString()).Replace("*Profile name*", prof), false);
             }
         }
 
