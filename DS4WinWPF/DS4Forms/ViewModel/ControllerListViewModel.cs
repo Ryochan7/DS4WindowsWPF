@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 using System.Windows.Data;
 using DS4Windows;
 
@@ -162,7 +163,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             get
             {
-                return false;
+                return Global.linkedProfileCheck[devIndex];
+            }
+            set
+            {
+                bool temp = Global.linkedProfileCheck[devIndex];
+                if (temp == value) return;
+                Global.linkedProfileCheck[devIndex] = value;
+                SaveLinked(value);
             }
         }
 
@@ -178,6 +186,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
 
         public event EventHandler TooltipIDTextChanged;
+
+        private bool profMenuVisible;
+        public bool ProfMenuVisible { get => profMenuVisible;
+            set
+            {
+                if (profMenuVisible == value) return;
+                profMenuVisible = value;
+                ProfMenuVisibleChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler ProfMenuVisibleChanged;
 
         public CompositeDeviceModel(DS4Device device, int devIndex, string profile,
             ProfileList collection)
@@ -198,6 +217,27 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public void RequestUpdatedTooltipID()
         {
             TooltipIDTextChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void SaveLinked(bool status)
+        {
+            if (device != null && device.isSynced())
+            {
+                if (status)
+                {
+                    if (device.isValidSerial())
+                    {
+                        Global.changeLinkedProfile(device.getMacAddress(), Global.ProfilePath[devIndex]);
+                    }
+                }
+                else
+                {
+                    Global.removeLinkedProfile(device.getMacAddress());
+                    Global.ProfilePath[devIndex] = Global.OlderProfilePath[devIndex];
+                }
+
+                Global.SaveLinkedProfiles();
+            }
         }
     }
 }

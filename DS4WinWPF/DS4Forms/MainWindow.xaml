@@ -77,26 +77,31 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=LinkProfColumn, Path=Width}">
-                                                <CheckBox IsChecked="{Binding LinkedProfile, Mode=OneWay}" HorizontalAlignment="Center" />
+                                                <CheckBox IsChecked="{Binding LinkedProfile}" HorizontalAlignment="Center" />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn x:Name="selectProfileColumn" Header="Selected Profile" Width="170">
+                                <GridViewColumn x:Name="selectProfileColumn" Header="Selected Profile" Width="120">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=selectProfileColumn, Path=Width}">
-                                                <ComboBox x:Name="selectProfCombo" Width="150" HorizontalAlignment="Left" DisplayMemberPath="Name"
-                                                          ItemsSource="{Binding ProfileListCol}" SelectedIndex="{Binding SelectedIndex}" Height="Auto" Tag="{Binding DevIndex, Mode=OneWay}" SelectionChanged="SelectProfCombo_SelectionChanged"  />
+                                                <ComboBox x:Name="selectProfCombo" Width="100" HorizontalAlignment="Left" DisplayMemberPath="Name"
+                                                          ItemsSource="{Binding ProfileListCol}" SelectedIndex="{Binding SelectedIndex}" Height="Auto" Tag="{Binding DevIndex, Mode=OneTime}" SelectionChanged="SelectProfCombo_SelectionChanged"  />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn x:Name="editColumn" Width="50">
+                                <GridViewColumn x:Name="editColumn" Width="100">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=editColumn, Path=Width}">
-                                                <Button Content="Edit" HorizontalAlignment="Left" Height="20" Width="30" />
+                                                <xctk:SplitButton x:Name="ProfEditSBtn" Content="Edit" Height="20" Width="60"
+                                                                  Tag="{Binding DevIndex, Mode=OneTime}" Click="ProfEditSBtn_Click">
+                                                    <xctk:SplitButton.DropDownContent>
+                                                        <Button x:Name="newProfBtn" Content="New Profile" Width="120" Tag="{Binding DevIndex, Mode=OneTime}" Click="NewProfBtn_Click"  />
+                                                    </xctk:SplitButton.DropDownContent>
+                                                </xctk:SplitButton>
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>

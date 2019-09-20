@@ -19,7 +19,6 @@ using DS4WinWPF;
 using DS4Windows;
 using Microsoft.Win32;
 using System.Windows.Interop;
-//using Xceed.Wpf.Toolkit;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -46,13 +45,6 @@ namespace DS4WinWPF.DS4Forms
 
             profileListHolder.Refresh();
             profilesListBox.ItemsSource = profileListHolder.ProfileListCol;
-
-            Task.Delay(5000).ContinueWith((t) =>
-            {
-                //logvm.LogItems.Add(new LogItem { Datetime = DateTime.Now, Message = "Next Thing" });
-                //profileListHolder.ProfileListCol.Add(new ProfileEntity { Name = "Media" });
-                //AppLogger.LogToGui("Next Thing", true);
-            });
 
             StartStopBtn.Content = root.rootHubtest.Running ? "Stop" : "Start";
 
@@ -331,7 +323,20 @@ namespace DS4WinWPF.DS4Forms
         private void HookWindowMessages()
         {
             Guid hidGuid = new Guid();
+        }
 
+        private void ProfEditSBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Control temp = sender as Control;
+            int idx = Convert.ToInt32(temp.Tag);
+        }
+
+        private void NewProfBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Control temp = sender as Control;
+            int idx = Convert.ToInt32(temp.Tag);
+            controllerLV.SelectedIndex = idx;
+            controllerLV.Focus();
         }
     }
 }
