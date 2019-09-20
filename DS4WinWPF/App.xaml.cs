@@ -16,7 +16,8 @@ namespace DS4WinWPF
     public partial class App : Application
     {
         private Thread controlThread;
-        public Tester rootHub;
+        public Tester rootHubtest;
+        public static DS4Windows.ControlService rootHub;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -37,6 +38,12 @@ namespace DS4WinWPF
             //DS4Forms.SaveWhere savewh = new DS4Forms.SaveWhere(false);
             //savewh.ShowDialog();
 
+            DS4Windows.Global.FindConfigLocation();
+            DS4Windows.Global.Load();
+            DS4Windows.Global.LoadActions();
+            //DS4Windows.Global.ProfilePath[0] = "mixed";
+            DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
+
             DS4Forms.MainWindow window = new DS4Forms.MainWindow();
             MainWindow = window;
             window.Show();
@@ -44,7 +51,11 @@ namespace DS4WinWPF
 
         private void CreateControlService()
         {
-            controlThread = new Thread(() => { rootHub = new Tester(); });
+            controlThread = new Thread(() => {
+                rootHubtest = new Tester();
+                rootHub = new DS4Windows.ControlService();
+                DS4Windows.Program.rootHub = rootHub;
+            });
             controlThread.Priority = ThreadPriority.Normal;
             controlThread.IsBackground = true;
             controlThread.Start();
@@ -57,6 +68,7 @@ namespace DS4WinWPF
             await Task.Run(() =>
             {
                 rootHub.Stop();
+                //rootHubtest.Stop();
             });
         }
     }

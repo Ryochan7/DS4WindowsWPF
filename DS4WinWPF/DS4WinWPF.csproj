@@ -127,6 +127,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BezierCurveEditor\BezierCurve.cs" />
+    <Compile Include="DS4Control\ControlService.cs" />
+    <Compile Include="DS4Control\DS4LightBar.cs" />
+    <Compile Include="DS4Control\DS4OutDevice.cs" />
+    <Compile Include="DS4Control\DS4StateFieldMapping.cs" />
+    <Compile Include="DS4Control\InputMethods.cs" />
+    <Compile Include="DS4Control\ITouchpadBehaviour.cs" />
+    <Compile Include="DS4Control\Log.cs" />
+    <Compile Include="DS4Control\Mapping.cs" />
+    <Compile Include="DS4Control\Mouse.cs" />
+    <Compile Include="DS4Control\MouseCursor.cs" />
+    <Compile Include="DS4Control\MouseWheel.cs" />
+    <Compile Include="DS4Control\OutputDevice.cs" />
+    <Compile Include="DS4Control\ProfilePropGroups.cs" />
+    <Compile Include="DS4Control\Program.cs" />
+    <Compile Include="DS4Control\ScpUtil.cs" />
+    <Compile Include="DS4Control\UdpServer.cs" />
+    <Compile Include="DS4Control\Util.cs" />
+    <Compile Include="DS4Control\Xbox360OutDevice.cs" />
     <Compile Include="DS4Forms\About.xaml.cs">
       <DependentUpon>About.xaml</DependentUpon>
     </Compile>
@@ -157,6 +176,7 @@
     <Compile Include="ProfileList.cs" />
     <Compile Include="StatusLogMsg.cs" />
     <Compile Include="Tester.cs" />
+    <Compile Include="VJoyFeeder\vJoyFeeder.cs" />
     <Page Include="DS4Forms\About.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -246,9 +266,6 @@
     </Content>
     <Resource Include="Resources\USB.png" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="DS4Control\" />
-    <Folder Include="VJoyFeeder\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

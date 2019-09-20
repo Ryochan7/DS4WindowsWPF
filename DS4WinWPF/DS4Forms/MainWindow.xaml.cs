@@ -53,19 +53,20 @@ namespace DS4WinWPF.DS4Forms
             });
 
             App root = Application.Current as App;
-            StartStopBtn.Content = root.rootHub.Running ? "Stop" : "Start";
+            StartStopBtn.Content = root.rootHubtest.Running ? "Stop" : "Start";
 
-            conLvViewModel = new ControllerListViewModel(root.rootHub, profileListHolder);
+            conLvViewModel = new ControllerListViewModel(root.rootHubtest, profileListHolder);
             controllerLV.DataContext = conLvViewModel;
             ChangeControllerPanel();
-            trayIconVM = new TrayIconViewModel(root.rootHub);
+            trayIconVM = new TrayIconViewModel(root.rootHubtest);
             notifyIcon.DataContext = trayIconVM;
             PopulateSettingsTab();
             SetupEvents();
 
             Task.Run(() =>
             {
-                root.rootHub.Start();
+                App.rootHub.Start();
+                //root.rootHubtest.Start();
             });
         }
 
@@ -82,7 +83,7 @@ namespace DS4WinWPF.DS4Forms
         private void SetupEvents()
         {
             App root = Application.Current as App;
-            root.rootHub.RunningChanged += ControlServiceChanged;
+            root.rootHubtest.RunningChanged += ControlServiceChanged;
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
             AppLogger.TrayIconLog += ShowNotification;
             AppLogger.GuiLog += UpdateLastStatusMessage;
@@ -144,10 +145,11 @@ namespace DS4WinWPF.DS4Forms
         {
             StartStopBtn.IsEnabled = false;
             App root = Application.Current as App;
-            Tester service = root.rootHub;
+            //Tester service = root.rootHubtest;
+            DS4Windows.ControlService service = App.rootHub;
             await Task.Run(() =>
             {
-                if (service.Running)
+                if (service.running)
                     service.Stop();
                 else
                     service.Start();
