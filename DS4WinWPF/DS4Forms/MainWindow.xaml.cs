@@ -291,6 +291,9 @@ namespace DS4WinWPF.DS4Forms
         private void LightColorBtn_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
+            int idx = Convert.ToInt32(button.Tag);
+            (button.ContextMenu.Items[0] as MenuItem).IsChecked = conLvViewModel.ControllerCol[idx].UseCustomColor;
+            (button.ContextMenu.Items[1] as MenuItem).IsChecked = !conLvViewModel.ControllerCol[idx].UseCustomColor;
             button.ContextMenu.IsOpen = true;
         }
 

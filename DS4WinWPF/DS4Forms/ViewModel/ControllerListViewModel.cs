@@ -120,7 +120,15 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             get
             {
-                DS4Color color = device.LightBarColor;
+                DS4Color color;
+                if (Global.UseCustomLed[devIndex])
+                {
+                    color = Global.CustomColor[devIndex];
+                }
+                else
+                {
+                    color = Global.MainColor[devIndex];
+                }
                 return $"#{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
             }
         }
@@ -187,16 +195,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public event EventHandler TooltipIDTextChanged;
 
-        private bool profMenuVisible;
-        public bool ProfMenuVisible { get => profMenuVisible;
-            set
-            {
-                if (profMenuVisible == value) return;
-                profMenuVisible = value;
-                ProfMenuVisibleChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-        public event EventHandler ProfMenuVisibleChanged;
+        private bool useCustomColor;
+        public bool UseCustomColor { get => useCustomColor; set => useCustomColor = value; }
+
 
         public CompositeDeviceModel(DS4Device device, int devIndex, string profile,
             ProfileList collection)
@@ -212,6 +213,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
             }
+
+            useCustomColor = Global.UseCustomLed[devIndex];
         }
 
         public void RequestUpdatedTooltipID()

@@ -112,11 +112,11 @@
                                             <StackPanel Width="{Binding ElementName=customColorColumn, Path=Width}">
                                                 <!--<xctk:ColorPicker x:Name="customColorPick" SelectedColor="{Binding LightColor, Mode=OneWay}" Width="150"
                                                                   ShowTabHeaders="False" ColorMode="ColorCanvas" SelectedColorChanged="CustomColorPick_SelectedColorChanged" />-->
-                                                <Button x:Name="LightColorBtn" Width="120" Height="20" Background="{Binding LightColor, Mode=OneWay}" Click="LightColorBtn_Click">
+                                                <Button x:Name="LightColorBtn" Width="120" Height="20" Background="{Binding LightColor, Mode=OneWay}" Tag="{Binding DevIndex, Mode=OneTime}" Click="LightColorBtn_Click">
                                                     <Button.ContextMenu>
                                                         <ContextMenu>
-                                                            <MenuItem Header="Use Profile Color" />
-                                                            <MenuItem Header="Use Custom Color" />
+                                                            <MenuItem Header="Use Profile Color" IsCheckable="True" />
+                                                            <MenuItem Header="Use Custom Color" IsCheckable="True" />
                                                         </ContextMenu>
                                                     </Button.ContextMenu>
                                                 </Button>
