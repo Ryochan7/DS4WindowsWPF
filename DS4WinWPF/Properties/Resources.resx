@@ -767,7 +767,7 @@
     <value>Using Exclusive Mode</value>
   </data>
   <data name="UsingProfile" xml:space="preserve">
-    <value>Controller *number* is using Profile *Profile name*</value>
+    <value>Controller *number* is using Profile "*Profile name*"</value>
   </data>
   <data name="UsingShared" xml:space="preserve">
     <value>Using Shared Mode</value>
