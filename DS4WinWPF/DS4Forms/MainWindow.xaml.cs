@@ -110,6 +110,13 @@ namespace DS4WinWPF.DS4Forms
             Dispatcher.BeginInvoke((Action)(() =>
             {
                 ChangeControllerPanel();
+                foreach (CompositeDeviceModel item in e.NewItems)
+                {
+                    item.LightContext = new ContextMenu();
+                    item.AddLightContextItems();
+                    //item.LightContext.Items.Add(new MenuItem() { Header = "Use Profile Color", IsChecked = !item.UseCustomColor });
+                    //item.LightContext.Items.Add(new MenuItem() { Header = "Use Custom Color", IsChecked = item.UseCustomColor });
+                }
             }));
         }
 
@@ -292,8 +299,10 @@ namespace DS4WinWPF.DS4Forms
         {
             Button button = sender as Button;
             int idx = Convert.ToInt32(button.Tag);
-            (button.ContextMenu.Items[0] as MenuItem).IsChecked = conLvViewModel.ControllerCol[idx].UseCustomColor;
-            (button.ContextMenu.Items[1] as MenuItem).IsChecked = !conLvViewModel.ControllerCol[idx].UseCustomColor;
+            CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+            //(button.ContextMenu.Items[0] as MenuItem).IsChecked = conLvViewModel.ControllerCol[idx].UseCustomColor;
+            //(button.ContextMenu.Items[1] as MenuItem).IsChecked = !conLvViewModel.ControllerCol[idx].UseCustomColor;
+            button.ContextMenu = item.LightContext;
             button.ContextMenu.IsOpen = true;
         }
 

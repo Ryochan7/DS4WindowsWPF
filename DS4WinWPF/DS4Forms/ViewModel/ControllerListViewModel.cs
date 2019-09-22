@@ -198,6 +198,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private bool useCustomColor;
         public bool UseCustomColor { get => useCustomColor; set => useCustomColor = value; }
 
+        private ContextMenu lightContext;
+        public ContextMenu LightContext { get => lightContext; set => lightContext = value; }
 
         public CompositeDeviceModel(DS4Device device, int devIndex, string profile,
             ProfileList collection)
@@ -241,6 +243,34 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
                 Global.SaveLinkedProfiles();
             }
+        }
+
+        public void AddLightContextItems()
+        {
+            MenuItem thing = new MenuItem() { Header = "Use Profile Color", IsChecked = !useCustomColor };
+            thing.Click += ProfileColorMenuClick;
+            lightContext.Items.Add(thing);
+            thing = new MenuItem() { Header = "Use Custom Color", IsChecked = useCustomColor };
+            thing.Click += CustomColorItemClick;
+            lightContext.Items.Add(thing);
+        }
+
+        private void ProfileColorMenuClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            useCustomColor = false;
+            RefreshLightContext();
+        }
+
+        private void CustomColorItemClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            useCustomColor = true;
+            RefreshLightContext();
+        }
+
+        private void RefreshLightContext()
+        {
+            (lightContext.Items[0] as MenuItem).IsChecked = !useCustomColor;
+            (lightContext.Items[1] as MenuItem).IsChecked = useCustomColor;
         }
     }
 }
