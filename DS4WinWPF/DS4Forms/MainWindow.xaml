@@ -197,10 +197,10 @@
                     
                 </local:AutoProfiles>
             </TabItem>
-            <TabItem Header="Settings">
+            <TabItem x:Name="settingsTab" Header="Settings">
                 <WrapPanel Orientation="Vertical" Margin="0,10,0,0">
-                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox" />
-                    <CheckBox Content="Swipe Touchpad To Switch Profiles" Margin="0,10,0,0" />
+                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox" IsChecked="{Binding HideDS4Controller}" />
+                    <CheckBox Content="Swipe Touchpad To Switch Profiles" Margin="0,10,0,0" IsChecked="{Binding SwipeTouchSwitchProfile}" />
                     <CheckBox x:Name="runAtStartCk" Content="Run At Startup" Click="RunAtStartCk_Click" />
                     <GroupBox x:Name="runAsGroupBox" Header="Run As" BorderThickness="2" Visibility="Collapsed">
                         <StackPanel>
@@ -210,28 +210,28 @@
                     </GroupBox>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Show Notifications" />
-                        <ComboBox SelectedIndex="2">
+                        <ComboBox SelectedIndex="{Binding ShowNotificationsIndex}">
                             <ComboBoxItem Content="None" />
                             <ComboBoxItem Content="Warnings only" />
                             <ComboBoxItem Content="All" />
                         </ComboBox>
                     </StackPanel>
-                    <CheckBox Content="Disconnect from BT when Stopping" />
+                    <CheckBox Content="Disconnect from BT when Stopping" IsChecked="{Binding DisconnectBTStop}" />
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Flash Lightbar at High Latency" />
                         <TextBox Text="20" VerticalContentAlignment="Center" />
                         <Label Content="ms" />
                     </StackPanel>
-                    <CheckBox Content="Start Minimized" />
+                    <CheckBox Content="Start Minimized" IsChecked="{Binding StartMinimize}" />
                     <CheckBox Content="Minimize to Taskbar" />
-                    <CheckBox Content="Close Minimizes" />
-                    <CheckBox Content="Quick Charge" />
-                    <CheckBox Content="White DS4Windows Icon" />
-                    <CheckBox Content="Check for DS4Windows Updates at Startup" />
+                    <CheckBox Content="Close Minimizes" IsChecked="{Binding CloseMinimizes}" />
+                    <CheckBox Content="Quick Charge" IsChecked="{Binding QuickCharge}" />
+                    <CheckBox Content="White DS4Windows Icon" IsChecked="{Binding WhiteDS4Icon}" />
+                    <CheckBox Content="Check for DS4Windows Updates at Startup" IsChecked="{Binding CheckForUpdates}" />
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Check every " />
                         <TextBox Text="0" VerticalAlignment="Center" />
-                        <ComboBox SelectedIndex="0">
+                        <ComboBox SelectedIndex="{Binding CheckEveryUnit}">
                             <ComboBoxItem Content="Hours" />
                             <ComboBoxItem Content="Days" />
                         </ComboBox>

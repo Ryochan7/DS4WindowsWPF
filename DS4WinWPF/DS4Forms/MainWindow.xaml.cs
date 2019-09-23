@@ -32,12 +32,15 @@ namespace DS4WinWPF.DS4Forms
         private LogViewModel logvm;
         private ControllerListViewModel conLvViewModel;
         private TrayIconViewModel trayIconVM;
+        private SettingsViewModel settingsWrap;
 
         public MainWindow()
         {
             InitializeComponent();
 
             App root = Application.Current as App;
+            settingsWrap = new SettingsViewModel();
+            settingsTab.DataContext = settingsWrap;
             logvm = new LogViewModel(App.rootHub);
             //logListView.ItemsSource = logvm.LogItems;
             logListView.DataContext = logvm;
@@ -54,7 +57,7 @@ namespace DS4WinWPF.DS4Forms
             //trayIconVM = new TrayIconViewModel(root.rootHubtest);
             trayIconVM = new TrayIconViewModel(App.rootHub);
             notifyIcon.DataContext = trayIconVM;
-            PopulateSettingsTab();
+            //PopulateSettingsTab();
             SetupEvents();
 
             Task.Run(() =>
@@ -198,10 +201,11 @@ namespace DS4WinWPF.DS4Forms
             exportProfBtn.IsEnabled = true;
         }
 
-        private void PopulateSettingsTab()
+        /*private void PopulateSettingsTab()
         {
             hideDS4ContCk.IsChecked = true;
         }
+        */
 
         private void RunAtStartCk_Click(object sender, RoutedEventArgs e)
         {
