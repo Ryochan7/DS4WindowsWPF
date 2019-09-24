@@ -157,6 +157,9 @@
     </Compile>
     <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />
+    <Compile Include="DS4Forms\WelcomeDialog.xaml.cs">
+      <DependentUpon>WelcomeDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Library\Crc32.cs" />
     <Compile Include="DS4Library\DS4Audio.cs" />
     <Compile Include="DS4Library\DS4Device.cs" />
@@ -202,6 +205,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="DS4Forms\SaveWhere.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DS4Forms\WelcomeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -199,7 +199,7 @@
             </TabItem>
             <TabItem x:Name="settingsTab" Header="Settings">
                 <WrapPanel Orientation="Vertical" Margin="0,10,0,0">
-                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox" IsChecked="{Binding HideDS4Controller}" />
+                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox" IsChecked="{Binding HideDS4Controller}" Click="HideDS4ContCk_Click" />
                     <CheckBox Content="Swipe Touchpad To Switch Profiles" Margin="0,10,0,0" IsChecked="{Binding SwipeTouchSwitchProfile}" />
                     <CheckBox x:Name="runAtStartCk" Content="Run At Startup" Click="RunAtStartCk_Click" />
                     <GroupBox x:Name="runAsGroupBox" Header="Run As" BorderThickness="2" Visibility="Collapsed">
@@ -219,48 +219,51 @@
                     <CheckBox Content="Disconnect from BT when Stopping" IsChecked="{Binding DisconnectBTStop}" />
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Flash Lightbar at High Latency" />
-                        <TextBox Text="20" VerticalContentAlignment="Center" />
+                        <!--<TextBox Text="20" VerticalContentAlignment="Center" />-->
+                        <xctk:IntegerUpDown Value="20" MinWidth="20" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
                         <Label Content="ms" />
                     </StackPanel>
                     <CheckBox Content="Start Minimized" IsChecked="{Binding StartMinimize}" />
                     <CheckBox Content="Minimize to Taskbar" />
                     <CheckBox Content="Close Minimizes" IsChecked="{Binding CloseMinimizes}" />
                     <CheckBox Content="Quick Charge" IsChecked="{Binding QuickCharge}" />
-                    <CheckBox Content="White DS4Windows Icon" IsChecked="{Binding WhiteDS4Icon}" />
+                    <CheckBox x:Name="useWhiteDS4IconCk" Content="White DS4Windows Icon" IsChecked="{Binding WhiteDS4Icon}" Click="UseWhiteDS4IconCk_Click" />
                     <CheckBox Content="Check for DS4Windows Updates at Startup" IsChecked="{Binding CheckForUpdates}" />
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Check every " />
-                        <TextBox Text="0" VerticalAlignment="Center" />
+                        <!--<TextBox Text="0" VerticalAlignment="Center" />-->
+                        <xctk:IntegerUpDown Value="1" MinWidth="20" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
                         <ComboBox SelectedIndex="{Binding CheckEveryUnit}">
                             <ComboBoxItem Content="Hours" />
                             <ComboBoxItem Content="Days" />
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="20">
-                        <CheckBox Content="UDP Server" />
-                        <TextBox Text="127.0.0.1" IsEnabled="False" />
+                        <CheckBox x:Name="useUdpServerCk" Content="UDP Server" IsChecked="{Binding UseUDPServer}" Click="UseUdpServerCk_Click" />
+                        <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}" />
                         <Label Content="Port" Padding="0" />
-                        <TextBox Text="26760" IsEnabled="False" />
+                        <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
+                        <xctk:IntegerUpDown x:Name="updPortNum" IsEnabled="False" MinWidth="20" Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Use language pack" />
                         <ComboBox x:Name="langPackCombo">
                         </ComboBox>
                     </StackPanel>
-                    <CheckBox Content="Use custom Steam Folder"  />
-                    <TextBox Text="" />
+                    <CheckBox Content="Use custom Steam Folder" IsChecked="{Binding UseCustomSteamFolder}"  />
+                    <TextBox Text="{Binding CustomSteamFolder}" />
                     <GroupBox Header="Utils" BorderThickness="2">
                         <StackPanel>
-                            <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Button x:Name="profFolderBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="ProfFolderBtn_Click">
                                 <TextBlock Text="Profile folder" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
-                            <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" >
+                            <Button x:Name="controlPanelBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="ControlPanelBtn_Click" >
                                 <TextBlock Text="Control Panel" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
-                            <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Button x:Name="driverSetupBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="DriverSetupBtn_Click">
                                 <TextBlock Text="Controller/Driver Setup" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
-                            <Button BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}">
+                            <Button x:Name="checkUpdatesBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="CheckUpdatesBtn_Click">
                                 <TextBlock Text="Check for Update Now" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
                         </StackPanel>

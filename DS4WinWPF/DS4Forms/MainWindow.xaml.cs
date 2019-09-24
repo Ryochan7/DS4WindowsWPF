@@ -19,6 +19,7 @@ using DS4WinWPF;
 using DS4Windows;
 using Microsoft.Win32;
 using System.Windows.Interop;
+using System.Diagnostics;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -57,7 +58,15 @@ namespace DS4WinWPF.DS4Forms
             //trayIconVM = new TrayIconViewModel(root.rootHubtest);
             trayIconVM = new TrayIconViewModel(App.rootHub);
             notifyIcon.DataContext = trayIconVM;
-            //PopulateSettingsTab();
+            notifyIcon.Icon = Global.UseWhiteIcon ? Properties.Resources.DS4W___White :
+                Properties.Resources.DS4W;
+            /*LogItem currentLog = logvm.LogItems.Last();
+            if (currentLog != null)
+            {
+                lastLogMsg.Message = currentLog.Message;
+                lastLogMsg.Warning = currentLog.Warning;
+            }
+            */
             SetupEvents();
 
             Task.Run(() =>
@@ -85,6 +94,7 @@ namespace DS4WinWPF.DS4Forms
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
             DS4Windows.AppLogger.TrayIconLog += ShowNotification;
             DS4Windows.AppLogger.GuiLog += UpdateLastStatusMessage;
+            App.rootHub.Debug += UpdateLastStatusMessage;
         }
 
         private void UpdateLastStatusMessage(object sender, DS4Windows.DebugEventArgs e)
@@ -137,6 +147,8 @@ namespace DS4WinWPF.DS4Forms
                 {
                     StartStopBtn.Content = "Start";
                 }
+
+                StartStopBtn.IsEnabled = true;
             }));
         }
 
@@ -160,8 +172,6 @@ namespace DS4WinWPF.DS4Forms
                 else
                     service.Start();
             });
-
-            StartStopBtn.IsEnabled = true;
         }
 
         private void LogListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -201,12 +211,6 @@ namespace DS4WinWPF.DS4Forms
             exportProfBtn.IsEnabled = true;
         }
 
-        /*private void PopulateSettingsTab()
-        {
-            hideDS4ContCk.IsChecked = true;
-        }
-        */
-
         private void RunAtStartCk_Click(object sender, RoutedEventArgs e)
         {
             runAsGroupBox.Visibility = runAtStartCk.IsChecked == true ? Visibility.Visible :
@@ -239,7 +243,7 @@ namespace DS4WinWPF.DS4Forms
             dialog.Filter = "Text Documents (*.txt)|*.txt";
             dialog.Title = "Select Export File";
             // TODO: Expose config dir
-            //dialog.InitialDirectory = Global.appdatapath;
+            dialog.InitialDirectory = Global.appdatapath;
             if (dialog.ShowDialog() == true)
             {
                 LogWriter logWriter = new LogWriter(dialog.FileName, logvm.LogItems.ToList());
@@ -353,6 +357,57 @@ namespace DS4WinWPF.DS4Forms
             int idx = Convert.ToInt32(temp.Tag);
             controllerLV.SelectedIndex = idx;
             controllerLV.Focus();
+        }
+
+        private async void HideDS4ContCk_Click(object sender, RoutedEventArgs e)
+        {
+            StartStopBtn.IsEnabled = false;
+            bool checkStatus = hideDS4ContCk.IsChecked == true;
+            await Task.Run(() =>
+            {
+                App.rootHub.Stop();
+                App.rootHub.Start();
+            });
+
+            StartStopBtn.IsEnabled = true;
+        }
+
+        private void UseUdpServerCk_Click(object sender, RoutedEventArgs e)
+        {
+            bool status = useUdpServerCk.IsChecked == true;
+            udpServerTxt.IsEnabled = status;
+            updPortNum.IsEnabled = status;
+        }
+
+        private void ProfFolderBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start(Global.appdatapath + "\\Profiles");
+        }
+
+        private void ControlPanelBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Process.Start("control", "joy.cpl");
+        }
+
+        private void DriverSetupBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void CheckUpdatesBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DriverSetup()
+        {
+
+        }
+
+        private void UseWhiteDS4IconCk_Click(object sender, RoutedEventArgs e)
+        {
+            bool status = useWhiteDS4IconCk.IsChecked == true;
+            notifyIcon.Icon = status ? Properties.Resources.DS4W___White : Properties.Resources.DS4W;
         }
     }
 }
