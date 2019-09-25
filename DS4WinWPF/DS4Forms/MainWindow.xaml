@@ -11,13 +11,13 @@
         Title="DS4Windows" Height="450" Width="800" Closing="MainDS4Window_Closing">
     <DockPanel>
         <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource}" ToolTipText="{Binding TooltipText}" MenuActivation="RightClick" TrayRightMouseUp="NotifyIcon_TrayRightMouseUp">
-            <tb:TaskbarIcon.ContextMenu>
+            <!--<tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Open" />
                     <Separator />
                     <MenuItem x:Name="exitMenuItem" Header="Exit" />
                 </ContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>-->
         </tb:TaskbarIcon>
 
         <StackPanel DockPanel.Dock="Bottom" Height="30" VerticalAlignment="Bottom">

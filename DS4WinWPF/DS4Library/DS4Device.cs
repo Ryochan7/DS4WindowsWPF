@@ -241,6 +241,7 @@ namespace DS4Windows
         public object removeLocker = new object();
 
         public string MacAddress =>  Mac;
+        public event EventHandler MacAddressChanged;
         public string getMacAddress()
         {
             return this.Mac;
@@ -1547,6 +1548,7 @@ namespace DS4Windows
             {
                 Mac = tempMac;
                 SerialChange?.Invoke(this, EventArgs.Empty);
+                MacAddressChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 

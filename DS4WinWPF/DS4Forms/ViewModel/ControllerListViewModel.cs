@@ -133,8 +133,6 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
-        public ProfileEntity SelectedEntity { get => selectedEntity; set => selectedEntity = value; }
-
         public string BatteryState
         {
             get
@@ -145,7 +143,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler BatteryStateChanged;
 
-        public int SelectedIndex { get => selectedIndex; set => selectedIndex = value; }
+        public int SelectedIndex
+        {
+            get => selectedIndex;
+            set
+            {
+                if (selectedIndex == value) return;
+                selectedIndex = value;
+                SelectedIndexChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler SelectedIndexChanged;
 
         public string StatusSource
         {
@@ -271,6 +279,15 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             (lightContext.Items[0] as MenuItem).IsChecked = !useCustomColor;
             (lightContext.Items[1] as MenuItem).IsChecked = useCustomColor;
+        }
+
+        public void ChangeSelectedProfile(string loadprofile)
+        {
+            ProfileEntity temp = profileListHolder.ProfileListCol.Single(x => x.Name == loadprofile);
+            if (temp != null)
+            {
+                SelectedIndex = profileListHolder.ProfileListCol.IndexOf(temp);
+            }
         }
     }
 }

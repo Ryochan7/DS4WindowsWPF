@@ -55,8 +55,7 @@ namespace DS4WinWPF.DS4Forms
             conLvViewModel = new ControllerListViewModel(App.rootHub, profileListHolder);
             controllerLV.DataContext = conLvViewModel;
             ChangeControllerPanel();
-            //trayIconVM = new TrayIconViewModel(root.rootHubtest);
-            trayIconVM = new TrayIconViewModel(App.rootHub);
+            trayIconVM = new TrayIconViewModel(App.rootHub, profileListHolder);
             notifyIcon.DataContext = trayIconVM;
             notifyIcon.Icon = Global.UseWhiteIcon ? Properties.Resources.DS4W___White :
                 Properties.Resources.DS4W;
@@ -69,6 +68,21 @@ namespace DS4WinWPF.DS4Forms
                 App.rootHub.Start();
                 //root.rootHubtest.Start();
             });
+        }
+
+        private void TrayIconVM_RequestMinimize(object sender, EventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void TrayIconVM_ProfileSelected(TrayIconViewModel sender, ControllerHolder item, string profile)
+        {
+            int idx = item.Index;
+            CompositeDeviceModel devitem = conLvViewModel.ControllerCol[idx];
+            if (devitem != null)
+            {
+                devitem.ChangeSelectedProfile(profile);
+            }
         }
 
         private void ShowNotification(object sender, DS4Windows.DebugEventArgs e)
@@ -90,6 +104,20 @@ namespace DS4WinWPF.DS4Forms
             DS4Windows.AppLogger.TrayIconLog += ShowNotification;
             DS4Windows.AppLogger.GuiLog += UpdateLastStatusMessage;
             App.rootHub.Debug += UpdateLastStatusMessage;
+            trayIconVM.RequestShutdown += TrayIconVM_RequestShutdown;
+            trayIconVM.ProfileSelected += TrayIconVM_ProfileSelected;
+            trayIconVM.RequestMinimize += TrayIconVM_RequestMinimize;
+            trayIconVM.RequestOpen += TrayIconVM_RequestOpen;
+        }
+
+        private void TrayIconVM_RequestOpen(object sender, EventArgs e)
+        {
+            WindowState = WindowState.Normal;
+        }
+
+        private void TrayIconVM_RequestShutdown(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void UpdateLastStatusMessage(object sender, DS4Windows.DebugEventArgs e)
@@ -118,13 +146,28 @@ namespace DS4WinWPF.DS4Forms
             Dispatcher.BeginInvoke((Action)(() =>
             {
                 ChangeControllerPanel();
-                foreach (CompositeDeviceModel item in e.NewItems)
+                System.Collections.IList newitems = e.NewItems;
+                if (newitems != null)
                 {
-                    item.LightContext = new ContextMenu();
-                    item.AddLightContextItems();
-                    //item.LightContext.Items.Add(new MenuItem() { Header = "Use Profile Color", IsChecked = !item.UseCustomColor });
-                    //item.LightContext.Items.Add(new MenuItem() { Header = "Use Custom Color", IsChecked = item.UseCustomColor });
+                    foreach (CompositeDeviceModel item in newitems)
+                    {
+                        item.LightContext = new ContextMenu();
+                        item.AddLightContextItems();
+                        item.Device.SyncChange += DS4Device_SyncChange;
+                        //item.LightContext.Items.Add(new MenuItem() { Header = "Use Profile Color", IsChecked = !item.UseCustomColor });
+                        //item.LightContext.Items.Add(new MenuItem() { Header = "Use Custom Color", IsChecked = item.UseCustomColor });
+                    }
                 }
+
+                trayIconVM.PopulateContextMenu();
+            }));
+        }
+
+        private void DS4Device_SyncChange(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                trayIconVM.PopulateContextMenu();
             }));
         }
 
@@ -262,7 +305,7 @@ namespace DS4WinWPF.DS4Forms
         /// </summary>
         private void NotifyIcon_TrayRightMouseUp(object sender, RoutedEventArgs e)
         {
-            trayIconVM.BuildContextMenu(notifyIcon.ContextMenu.Items, this);
+            notifyIcon.ContextMenu = trayIconVM.ContextMenu;
         }
 
         /// <summary>
@@ -272,7 +315,7 @@ namespace DS4WinWPF.DS4Forms
         {
             ComboBox box = sender as ComboBox;
             int idx = Convert.ToInt32(box.Tag);
-            if (idx > -1)
+            if (idx > -1 && conLvViewModel.ControllerCol.Count > idx)
             {
                 CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
                 string prof = Global.ProfilePath[idx] = item.ProfileListCol[item.SelectedIndex].Name;
@@ -290,6 +333,7 @@ namespace DS4WinWPF.DS4Forms
                 Global.LoadProfile(idx, true, App.rootHub);
                 DS4Windows.AppLogger.LogToGui(Properties.Resources.UsingProfile.
                     Replace("*number*", (idx + 1).ToString()).Replace("*Profile name*", prof), false);
+                trayIconVM.PopulateContextMenu();
             }
         }
 
@@ -392,11 +436,6 @@ namespace DS4WinWPF.DS4Forms
         }
 
         private void CheckUpdatesBtn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void DriverSetup()
         {
 
         }
