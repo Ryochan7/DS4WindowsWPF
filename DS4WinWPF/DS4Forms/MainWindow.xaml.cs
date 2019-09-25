@@ -60,17 +60,12 @@ namespace DS4WinWPF.DS4Forms
             notifyIcon.DataContext = trayIconVM;
             notifyIcon.Icon = Global.UseWhiteIcon ? Properties.Resources.DS4W___White :
                 Properties.Resources.DS4W;
-            /*LogItem currentLog = logvm.LogItems.Last();
-            if (currentLog != null)
-            {
-                lastLogMsg.Message = currentLog.Message;
-                lastLogMsg.Warning = currentLog.Warning;
-            }
-            */
+
             SetupEvents();
 
             Task.Run(() =>
             {
+                CheckDrivers();
                 App.rootHub.Start();
                 //root.rootHubtest.Start();
             });
@@ -391,7 +386,9 @@ namespace DS4WinWPF.DS4Forms
 
         private void DriverSetupBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            WelcomeDialog dialog = new WelcomeDialog();
+            dialog.Owner = this;
+            dialog.ShowDialog();
         }
 
         private void CheckUpdatesBtn_Click(object sender, RoutedEventArgs e)
@@ -408,6 +405,20 @@ namespace DS4WinWPF.DS4Forms
         {
             bool status = useWhiteDS4IconCk.IsChecked == true;
             notifyIcon.Icon = status ? Properties.Resources.DS4W___White : Properties.Resources.DS4W;
+        }
+
+        private void CheckDrivers()
+        {
+            bool deriverinstalled = Global.IsViGEmBusInstalled();
+            if (!deriverinstalled)
+            {
+                Process p = new Process();
+                p.StartInfo.FileName = $"{Global.exepath}\\DS4Windows.exe";
+                p.StartInfo.Arguments = "driverinstall";
+                p.StartInfo.Verb = "runas";
+                try { p.Start(); }
+                catch { }
+            }
         }
     }
 }

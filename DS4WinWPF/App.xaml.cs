@@ -35,10 +35,14 @@ namespace DS4WinWPF
             catch { } // Ignore problems raising the priority.
 
             CreateControlService();
-            //DS4Forms.SaveWhere savewh = new DS4Forms.SaveWhere(false);
-            //savewh.ShowDialog();
 
             DS4Windows.Global.FindConfigLocation();
+            if (DS4Windows.Global.firstRun)
+            {
+                DS4Forms.SaveWhere savewh = new DS4Forms.SaveWhere(false);
+                savewh.ShowDialog();
+            }
+
             DS4Windows.Global.Load();
             DS4Windows.Global.LoadActions();
             //DS4Windows.Global.ProfilePath[0] = "mixed";

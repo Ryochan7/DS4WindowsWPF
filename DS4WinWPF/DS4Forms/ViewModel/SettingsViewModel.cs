@@ -4,6 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
+using System.Windows.Media;
+using System.Windows.Interop;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
 {
@@ -23,6 +28,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private bool runStartTask;
         public bool RunStartTask { get => runStartTask; set => runStartTask = value; }
+
+        public ImageSource uacSource;
+        public ImageSource UACSource { get => uacSource; }
 
         public int ShowNotificationsIndex { get => DS4Windows.Global.Notifications; set => DS4Windows.Global.Notifications = value; }
         public bool DisconnectBTStop { get => DS4Windows.Global.DCBTatStop; set => DS4Windows.Global.DCBTatStop = value; }
@@ -113,6 +121,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
 
             CheckStartupOptiobs();
+
+            Icon img = SystemIcons.Shield;
+            Bitmap bitmap = img.ToBitmap();
+            IntPtr hBitmap = bitmap.GetHbitmap();
+
+            ImageSource wpfBitmap =
+                 Imaging.CreateBitmapSourceFromHBitmap(
+                      hBitmap, IntPtr.Zero, Int32Rect.Empty,
+                      BitmapSizeOptions.FromEmptyOptions());
+            uacSource = wpfBitmap;
+
             CheckForUpdatesChanged += SettingsViewModel_CheckForUpdatesChanged;
         }
 

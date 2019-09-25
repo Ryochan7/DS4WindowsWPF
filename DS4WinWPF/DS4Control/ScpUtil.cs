@@ -290,6 +290,36 @@ namespace DS4Windows
             m_Config.m_controllerConfigs = Global.appdatapath + "\\ControllerConfigs.xml";
         }
 
+        public static bool SaveDefault(string path)
+        {
+            Boolean Saved = true;
+            XmlDocument m_Xdoc = new XmlDocument();
+            try
+            {
+                XmlNode Node;
+
+                m_Xdoc.RemoveAll();
+
+                Node = m_Xdoc.CreateXmlDeclaration("1.0", "utf-8", String.Empty);
+                m_Xdoc.AppendChild(Node);
+
+                Node = m_Xdoc.CreateComment(string.Format(" Profile Configuration Data. {0} ", DateTime.Now));
+                m_Xdoc.AppendChild(Node);
+
+                Node = m_Xdoc.CreateWhitespace("\r\n");
+                m_Xdoc.AppendChild(Node);
+
+                Node = m_Xdoc.CreateNode(XmlNodeType.Element, "Profile", null);
+
+                m_Xdoc.AppendChild(Node);
+
+                m_Xdoc.Save(path);
+            }
+            catch { Saved = false; }
+
+            return Saved;
+        }
+
         /// <summary>
         /// Check if Admin Rights are needed to write in Appliplation Directory
         /// </summary>

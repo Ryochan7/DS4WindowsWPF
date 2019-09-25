@@ -272,6 +272,7 @@
     <Content Include="BezierCurveEditor\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Pairmode.png" />
     <Resource Include="Resources\USB.png" />
   </ItemGroup>
   <ItemGroup />

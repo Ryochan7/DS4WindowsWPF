@@ -188,7 +188,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             get
             {
-                string temp = $"Input Delay: {device.Latency} ms";
+                string temp = string.Format(Properties.Resources.InputDelay, device.Latency);
                 return temp;
             }
         }

@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
         mc:Ignorable="d"
-        Title="SaveWhere" Height="184" Width="453">
+        Title="SaveWhere" Height="184" Width="453" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Closing="Window_Closing">
     <StackPanel>
         <DockPanel x:Name="multipleSavesDockP" Margin="4,0">
             <Label Content="Multiple save locations detected" />
             <CheckBox x:Name="dontDeleteCk" Content="Don't Delete the other settings yet" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" />
         </DockPanel>
-        <Label Content="Pick where you want profiles and settings to be saved" HorizontalAlignment="Center" Margin="4,10,4,0" />
+        <Label x:Name="pickWhereLb" Content="Pick where you want profiles and settings to be saved" HorizontalAlignment="Center" Margin="4,10,4,0" />
         <DockPanel Margin="4,10,4,0">
             <StackPanel Width="200">
                 <Button x:Name="progFolderBtn" Content="Program Folder" Click="ProgFolderBtn_Click" />

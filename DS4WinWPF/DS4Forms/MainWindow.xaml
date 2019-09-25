@@ -203,9 +203,12 @@
                     <CheckBox Content="Swipe Touchpad To Switch Profiles" Margin="0,10,0,0" IsChecked="{Binding SwipeTouchSwitchProfile}" />
                     <CheckBox x:Name="runAtStartCk" Content="Run At Startup" Click="RunAtStartCk_Click" />
                     <GroupBox x:Name="runAsGroupBox" Header="Run As" BorderThickness="2" Visibility="Collapsed">
-                        <StackPanel>
-                            <RadioButton Content="Program" GroupName="RunAsOpt" IsChecked="True" />
-                            <RadioButton Content="Task" GroupName="RunAsOpt" />
+                        <StackPanel Orientation="Horizontal">
+                            <StackPanel>
+                                <RadioButton Content="Program" GroupName="RunAsOpt" IsChecked="True" />
+                                <RadioButton Content="Task" GroupName="RunAsOpt" />
+                            </StackPanel>
+                            <Image Source="{Binding UACSource}" Width="30" Height="30" Margin="20,0,0,0" />
                         </StackPanel>
                     </GroupBox>
                     <StackPanel Orientation="Horizontal">
@@ -229,7 +232,7 @@
                     <CheckBox Content="Quick Charge" IsChecked="{Binding QuickCharge}" />
                     <CheckBox x:Name="useWhiteDS4IconCk" Content="White DS4Windows Icon" IsChecked="{Binding WhiteDS4Icon}" Click="UseWhiteDS4IconCk_Click" />
                     <CheckBox Content="Check for DS4Windows Updates at Startup" IsChecked="{Binding CheckForUpdates}" />
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel x:Name="checkEveryOptionsStack"  Orientation="Horizontal" IsEnabled="{Binding CheckForUpdates}">
                         <Label Content="Check every " />
                         <!--<TextBox Text="0" VerticalAlignment="Center" />-->
                         <xctk:IntegerUpDown Value="1" MinWidth="20" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
