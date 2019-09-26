@@ -45,6 +45,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private List<ControllerHolder> controllerList = new List<ControllerHolder>();
         private ProfileList profileListHolder;
+        private ControlService controlService;
 
         public delegate void ProfileSelectedHandler(TrayIconViewModel sender,
             ControllerHolder item, string profile);
@@ -54,23 +55,50 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public TrayIconViewModel(ControlService service, ProfileList profileListHolder)
         {
             this.profileListHolder = profileListHolder;
+            this.controlService = service;
             contextMenu = new ContextMenu();
             PopulateControllerList();
             PopulateToolText();
             PopulateContextMenu();
-            SetupBatteryUpdate();
-            //profileListHolder.ProfileListCol.CollectionChanged += ProfileListCol_CollectionChanged;
+            SetupEvents();
+            profileListHolder.ProfileListCol.CollectionChanged += ProfileListCol_CollectionChanged;
 
             service.ServiceStarted += BuildControllerList;
-            service.ServiceStarted += HookBatteryUpdate;
+            service.ServiceStarted += HookEvents;
             service.ServiceStarted += StartPopulateText;
             service.PreServiceStop += ClearToolText;
+            service.PreServiceStop += UnhookEvents;
+            service.PreServiceStop += ClearControllerList;
+            service.HotplugController += Service_HotplugController;
             /*tester.StartControllers += HookBatteryUpdate;
             tester.StartControllers += StartPopulateText;
             tester.PreRemoveControllers += ClearToolText;
             tester.HotplugControllers += HookBatteryUpdate;
             tester.HotplugControllers += StartPopulateText;
             */
+        }
+
+        private void ClearControllerList(object sender, EventArgs e)
+        {
+            controllerList.Clear();
+        }
+
+        private void UnhookEvents(object sender, EventArgs e)
+        {
+            foreach (ControllerHolder holder in controllerList)
+            {
+                DS4Device currentDev = holder.Device;
+                currentDev.BatteryChanged -= UpdateForBattery;
+                currentDev.ChargingChanged -= UpdateForBattery;
+                currentDev.Removal -= CurrentDev_Removal;
+            }
+        }
+
+        private void Service_HotplugController(ControlService sender, DS4Device device, int index)
+        {
+            device.BatteryChanged += UpdateForBattery;
+            device.ChargingChanged += UpdateForBattery;
+            controllerList.Add(new ControllerHolder(device, index));
         }
 
         private void ProfileListCol_CollectionChanged(object sender,
@@ -188,9 +216,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private void PopulateControllerList()
         {
-            IEnumerable<DS4Device> devices = DS4Devices.getDS4Controllers();
+            //IEnumerable<DS4Device> devices = DS4Devices.getDS4Controllers();
             int idx = 0;
-            foreach (DS4Device currentDev in devices)
+            foreach (DS4Device currentDev in controlService.slotManager.ControllerColl)
             {
                 controllerList.Add(new ControllerHolder(currentDev, idx));
                 idx++;
@@ -220,7 +248,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             TooltipText = string.Join("\n", items);
         }
 
-        private void SetupBatteryUpdate()
+        private void SetupEvents()
         {
             //IEnumerable<DS4Device> devices = DS4Devices.getDS4Controllers();
             //foreach (DS4Device currentDev in devices)
@@ -229,12 +257,35 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 DS4Device currentDev = holder.Device;
                 currentDev.BatteryChanged += UpdateForBattery;
                 currentDev.ChargingChanged += UpdateForBattery;
+                currentDev.Removal += CurrentDev_Removal;
             }
         }
 
-        private void HookBatteryUpdate(object sender, EventArgs e)
+        private void CurrentDev_Removal(object sender, EventArgs e)
         {
-            SetupBatteryUpdate();
+            DS4Device currentDev = sender as DS4Device;
+            ControllerHolder item = null;
+            int idx = 0;
+            foreach (ControllerHolder holder in controllerList)
+            {
+                if (currentDev == holder.Device)
+                {
+                    item = holder;
+                    break;
+                }
+
+                idx++;
+            }
+
+            if (item != null)
+            {
+                controllerList.RemoveAt(idx);
+            }
+        }
+
+        private void HookEvents(object sender, EventArgs e)
+        {
+            SetupEvents();
         }
 
         private void UpdateForBattery(object sender, EventArgs e)
@@ -246,6 +297,22 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             TooltipText = "DS4Windows";
             //contextMenu.Items.Clear();
+        }
+
+        public void ClearContextMenu()
+        {
+            contextMenu.Items.Clear();
+            ItemCollection items = contextMenu.Items;
+            MenuItem item = new MenuItem() { Header = "Open" };
+            item.Click += OpenMenuItem_Click;
+            items.Add(item);
+            item = new MenuItem() { Header = "Minimize" };
+            item.Click += MinimizeMenuItem_Click;
+            items.Add(item);
+            items.Add(new Separator());
+            item = new MenuItem() { Header = "Exit" };
+            item.Click += ExitMenuItem_Click;
+            items.Add(item);
         }
 
         private void ExitMenuItem_Click(object sender, System.Windows.RoutedEventArgs e)

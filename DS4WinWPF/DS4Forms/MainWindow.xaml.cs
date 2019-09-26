@@ -34,6 +34,7 @@ namespace DS4WinWPF.DS4Forms
         private ControllerListViewModel conLvViewModel;
         private TrayIconViewModel trayIconVM;
         private SettingsViewModel settingsWrap;
+        private IntPtr regHandle = new IntPtr();
 
         public MainWindow()
         {
@@ -75,10 +76,11 @@ namespace DS4WinWPF.DS4Forms
             this.WindowState = WindowState.Minimized;
         }
 
-        private void TrayIconVM_ProfileSelected(TrayIconViewModel sender, ControllerHolder item, string profile)
+        private void TrayIconVM_ProfileSelected(TrayIconViewModel sender,
+            ControllerHolder item, string profile)
         {
             int idx = item.Index;
-            CompositeDeviceModel devitem = conLvViewModel.ControllerCol[idx];
+            CompositeDeviceModel devitem = conLvViewModel.ControllerDict[idx];
             if (devitem != null)
             {
                 devitem.ChangeSelectedProfile(profile);
@@ -99,6 +101,7 @@ namespace DS4WinWPF.DS4Forms
         {
             App root = Application.Current as App;
             App.rootHub.RunningChanged += ControlServiceChanged;
+            App.rootHub.PreServiceStop += PrepareForServiceStop;
             //root.rootHubtest.RunningChanged += ControlServiceChanged;
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
             DS4Windows.AppLogger.TrayIconLog += ShowNotification;
@@ -108,6 +111,14 @@ namespace DS4WinWPF.DS4Forms
             trayIconVM.ProfileSelected += TrayIconVM_ProfileSelected;
             trayIconVM.RequestMinimize += TrayIconVM_RequestMinimize;
             trayIconVM.RequestOpen += TrayIconVM_RequestOpen;
+        }
+
+        private void PrepareForServiceStop(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                trayIconVM.ClearContextMenu();
+            }));
         }
 
         private void TrayIconVM_RequestOpen(object sender, EventArgs e)
@@ -295,7 +306,7 @@ namespace DS4WinWPF.DS4Forms
             int idx = Convert.ToInt32(statusBk.Tag);
             if (idx >= 0)
             {
-                CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+                CompositeDeviceModel item = conLvViewModel.ControllerDict[idx];
                 item.RequestUpdatedTooltipID();
             }
         }
@@ -315,9 +326,9 @@ namespace DS4WinWPF.DS4Forms
         {
             ComboBox box = sender as ComboBox;
             int idx = Convert.ToInt32(box.Tag);
-            if (idx > -1 && conLvViewModel.ControllerCol.Count > idx)
+            if (idx > -1 && conLvViewModel.ControllerDict.ContainsKey(idx))
             {
-                CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+                CompositeDeviceModel item = conLvViewModel.ControllerDict[idx];
                 string prof = Global.ProfilePath[idx] = item.ProfileListCol[item.SelectedIndex].Name;
                 if (item.LinkedProfile)
                 {
@@ -346,7 +357,7 @@ namespace DS4WinWPF.DS4Forms
         {
             Button button = sender as Button;
             int idx = Convert.ToInt32(button.Tag);
-            CompositeDeviceModel item = conLvViewModel.ControllerCol[idx];
+            CompositeDeviceModel item = conLvViewModel.ControllerDict[idx];
             //(button.ContextMenu.Items[0] as MenuItem).IsChecked = conLvViewModel.ControllerCol[idx].UseCustomColor;
             //(button.ContextMenu.Items[1] as MenuItem).IsChecked = !conLvViewModel.ControllerCol[idx].UseCustomColor;
             button.ContextMenu = item.LightContext;
@@ -355,6 +366,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void MainDS4Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            Util.UnregisterNotify(regHandle);
             Application.Current.Shutdown();
         }
 
@@ -362,26 +374,85 @@ namespace DS4WinWPF.DS4Forms
         {
             base.OnSourceInitialized(e);
 
-            HookWindowMessages();
             HwndSource source = PresentationSource.FromVisual(this) as HwndSource;
+            HookWindowMessages(source);
             source.AddHook(WndProc);
         }
 
+        private bool inHotPlug = false;
+        private int hotplugCounter = 0;
+        private object hotplugCounterLock = new object();
+        private const int DBT_DEVNODES_CHANGED = 0x0007;
+        private const int DBT_DEVICEARRIVAL = 0x8000;
+        private const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam,
             IntPtr lParam, ref bool handled)
         {
             // Handle messages...
             switch (msg)
             {
+                case Util.WM_DEVICECHANGE:
+                {
+                    if (Global.runHotPlug)
+                    {
+                        Int32 Type = wParam.ToInt32();
+                        if (Type == DBT_DEVICEARRIVAL ||
+                            Type == DBT_DEVICEREMOVECOMPLETE)
+                        {
+                            lock (hotplugCounterLock)
+                            {
+                                hotplugCounter++;
+                            }
+
+                            if (!inHotPlug)
+                            {
+                                inHotPlug = true;
+                                Task.Run(() => { InnerHotplug2(); });
+                            }
+                        }
+                    }
+                    break;
+                }
                 default: break;
             }
 
             return IntPtr.Zero;
         }
 
-        private void HookWindowMessages()
+        private void InnerHotplug2()
+        {
+            inHotPlug = true;
+
+            bool loopHotplug = false;
+            lock (hotplugCounterLock)
+            {
+                loopHotplug = hotplugCounter > 0;
+            }
+
+            while (loopHotplug == true)
+            {
+                Thread.Sleep(1500);
+                Program.rootHub.HotPlug();
+                //TaskRunner.Run(() => { Program.rootHub.HotPlug(uiContext); });
+                lock (hotplugCounterLock)
+                {
+                    hotplugCounter--;
+                    loopHotplug = hotplugCounter > 0;
+                }
+            }
+
+            inHotPlug = false;
+        }
+
+        private void HookWindowMessages(HwndSource source)
         {
             Guid hidGuid = new Guid();
+            NativeMethods.HidD_GetHidGuid(ref hidGuid);
+            bool result = Util.RegisterNotify(source.Handle, hidGuid, ref regHandle);
+            if (!result)
+            {
+                App.Current.Shutdown();
+            }
         }
 
         private void ProfEditSBtn_Click(object sender, RoutedEventArgs e)

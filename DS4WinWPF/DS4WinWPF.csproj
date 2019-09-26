@@ -128,6 +128,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="BezierCurveEditor\BezierCurve.cs" />
+    <Compile Include="DS4Control\ControllerSlotManager.cs" />
     <Compile Include="DS4Control\ControlService.cs" />
     <Compile Include="DS4Control\DS4LightBar.cs" />
     <Compile Include="DS4Control\DS4OutDevice.cs" />

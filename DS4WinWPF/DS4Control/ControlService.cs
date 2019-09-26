@@ -27,6 +27,7 @@ namespace DS4Windows
         private DS4State[] PreviousState = new DS4State[DS4_CONTROLLER_COUNT];
         private DS4State[] TempState = new DS4State[DS4_CONTROLLER_COUNT];
         public DS4StateExposed[] ExposedState = new DS4StateExposed[DS4_CONTROLLER_COUNT];
+        public ControllerSlotManager slotManager = new ControllerSlotManager();
         public bool recordingMacro = false;
         public event EventHandler<DebugEventArgs> Debug = null;
         bool[] buttonsdown = new bool[4] { false, false, false, false };
@@ -55,7 +56,9 @@ namespace DS4Windows
         public event EventHandler PreServiceStop;
         public event EventHandler ServiceStopped;
         public event EventHandler RunningChanged;
-        public event EventHandler HotplugFinished;
+        //public event EventHandler HotplugFinished;
+        public delegate void HotplugControllerHandler(ControlService sender, DS4Device device, int index);
+        public event HotplugControllerHandler HotplugController;
 
         private class X360Data
         {
@@ -416,6 +419,7 @@ namespace DS4Windows
                         task.Start();
 
                         DS4Controllers[i] = device;
+                        slotManager.AddController(device, i);
                         device.Removal += this.On_DS4Removal;
                         device.Removal += DS4Devices.On_Removal;
                         device.SyncChange += this.On_SyncChange;
@@ -626,6 +630,7 @@ namespace DS4Windows
                     LogDebug(DS4WinWPF.Properties.Resources.StoppingDS4);
 
                 DS4Devices.stopControllers();
+                slotManager.ClearControllerList();
 
                 if (_udpServer != null)
                     ChangeUDPStatus(false);
@@ -684,6 +689,7 @@ namespace DS4Windows
                             Task task = new Task(() => { Thread.Sleep(5); WarnExclusiveModeFailure(device); });
                             task.Start();
                             DS4Controllers[Index] = device;
+                            slotManager.AddController(device, Index);
                             device.Removal += this.On_DS4Removal;
                             device.Removal += DS4Devices.On_Removal;
                             device.SyncChange += this.On_SyncChange;
@@ -783,6 +789,8 @@ namespace DS4Windows
                                 LogDebug(prolog);
                                 AppLogger.LogToTray(prolog);
                             }
+
+                            HotplugController?.Invoke(this, device, Index);
 
                             break;
                         }
@@ -1232,6 +1240,7 @@ namespace DS4Windows
                     device.IsRemoved = true;
                     device.Synced = false;
                     DS4Controllers[ind] = null;
+                    slotManager.RemoveController(device, ind);
                     touchPad[ind] = null;
                     lag[ind] = false;
                     inWarnMonitor[ind] = false;
