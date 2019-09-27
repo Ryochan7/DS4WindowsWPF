@@ -39,5 +39,26 @@ namespace DS4WinWPF
                 }
             }
         }
+
+        public void AddProfileSort(string profilename)
+        {
+            int idx = 0;
+            bool inserted = false;
+            foreach (ProfileEntity entry in profileListCol)
+            {
+                if (entry.Name.CompareTo(profilename) > 0)
+                {
+                    profileListCol.Insert(idx, new ProfileEntity() { Name = profilename });
+                    inserted = true;
+                    break;
+                }
+                idx++;
+            }
+
+            if (!inserted)
+            {
+                profileListCol.Add(new ProfileEntity() { Name = profilename });
+            }
+        }
     }
 }

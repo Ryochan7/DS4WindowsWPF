@@ -1275,6 +1275,7 @@ namespace DS4Windows
                 string devError = tempStrings[ind] = device.error;
                 if (!string.IsNullOrEmpty(devError))
                 {
+                    LogDebug(devError);
                     /*uiContext?.Post(new SendOrPostCallback(delegate (object state)
                     {
                         LogDebug(devError);
@@ -1288,6 +1289,7 @@ namespace DS4Windows
                     if (!lag[ind] && device.Latency >= flashWhenLateAt)
                     {
                         lag[ind] = true;
+                        LagFlashWarning(ind, true);
                         /*uiContext?.Post(new SendOrPostCallback(delegate (object state)
                         {
                             LagFlashWarning(ind, true);
@@ -1297,6 +1299,7 @@ namespace DS4Windows
                     else if (lag[ind] && device.Latency < flashWhenLateAt)
                     {
                         lag[ind] = false;
+                        LagFlashWarning(ind, false);
                         /*uiContext?.Post(new SendOrPostCallback(delegate (object state)
                         {
                             LagFlashWarning(ind, false);
@@ -1327,16 +1330,16 @@ namespace DS4Windows
                     }), null);
                     */
                 }
-                else if (pState.Battery != cState.Battery || device.oldCharging != device.isCharging())
-                {
-                    byte tempBattery = currentBattery[ind] = cState.Battery;
-                    bool tempCharging = charging[ind] = device.isCharging();
-                    /*uiContext?.Post(new SendOrPostCallback(delegate (object state)
-                    {
-                        OnBatteryStatusChange(this, ind, tempBattery, tempCharging);
-                    }), null);
-                    */
-                }
+                //else if (pState.Battery != cState.Battery || device.oldCharging != device.isCharging())
+                //{
+                //    byte tempBattery = currentBattery[ind] = cState.Battery;
+                //    bool tempCharging = charging[ind] = device.isCharging();
+                //    /*uiContext?.Post(new SendOrPostCallback(delegate (object state)
+                //    {
+                //        OnBatteryStatusChange(this, ind, tempBattery, tempCharging);
+                //    }), null);
+                //    */
+                //}
 
                 if (getEnableTouchToggle(ind))
                     CheckForTouchToggle(ind, cState, pState);

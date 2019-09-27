@@ -20,6 +20,7 @@ using DS4Windows;
 using Microsoft.Win32;
 using System.Windows.Interop;
 using System.Diagnostics;
+using System.IO;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -170,7 +171,8 @@ namespace DS4WinWPF.DS4Forms
                     }
                 }
 
-                trayIconVM.PopulateContextMenu();
+                if (App.rootHub.running)
+                    trayIconVM.PopulateContextMenu();
             }));
         }
 
@@ -329,22 +331,25 @@ namespace DS4WinWPF.DS4Forms
             if (idx > -1 && conLvViewModel.ControllerDict.ContainsKey(idx))
             {
                 CompositeDeviceModel item = conLvViewModel.ControllerDict[idx];
-                string prof = Global.ProfilePath[idx] = item.ProfileListCol[item.SelectedIndex].Name;
-                if (item.LinkedProfile)
+                if (item.SelectedIndex > -1)
                 {
-                    Global.changeLinkedProfile(item.Device.getMacAddress(), Global.ProfilePath[idx]);
-                    Global.SaveLinkedProfiles();
-                }
-                else
-                {
-                    Global.OlderProfilePath[idx] = Global.ProfilePath[idx];
-                }
+                    string prof = Global.ProfilePath[idx] = item.ProfileListCol[item.SelectedIndex].Name;
+                    if (item.LinkedProfile)
+                    {
+                        Global.changeLinkedProfile(item.Device.getMacAddress(), Global.ProfilePath[idx]);
+                        Global.SaveLinkedProfiles();
+                    }
+                    else
+                    {
+                        Global.OlderProfilePath[idx] = Global.ProfilePath[idx];
+                    }
 
-                //Global.Save();
-                Global.LoadProfile(idx, true, App.rootHub);
-                DS4Windows.AppLogger.LogToGui(Properties.Resources.UsingProfile.
-                    Replace("*number*", (idx + 1).ToString()).Replace("*Profile name*", prof), false);
-                trayIconVM.PopulateContextMenu();
+                    //Global.Save();
+                    Global.LoadProfile(idx, true, App.rootHub);
+                    DS4Windows.AppLogger.LogToGui(Properties.Resources.UsingProfile.
+                        Replace("*number*", (idx + 1).ToString()).Replace("*Profile name*", prof), false);
+                    trayIconVM.PopulateContextMenu();
+                }
             }
         }
 
@@ -499,8 +504,16 @@ namespace DS4WinWPF.DS4Forms
             Process.Start("control", "joy.cpl");
         }
 
-        private void DriverSetupBtn_Click(object sender, RoutedEventArgs e)
+        private async void DriverSetupBtn_Click(object sender, RoutedEventArgs e)
         {
+            StartStopBtn.IsEnabled = false;
+            await Task.Run(() =>
+            {
+                if (App.rootHub.running)
+                    App.rootHub.Stop();
+            });
+
+            StartStopBtn.IsEnabled = true;
             WelcomeDialog dialog = new WelcomeDialog();
             dialog.Owner = this;
             dialog.ShowDialog();
@@ -523,11 +536,60 @@ namespace DS4WinWPF.DS4Forms
             if (!deriverinstalled)
             {
                 Process p = new Process();
-                p.StartInfo.FileName = $"{Global.exepath}\\DS4Windows.exe";
-                p.StartInfo.Arguments = "driverinstall";
+                p.StartInfo.FileName = $"{Global.exelocation}";
+                p.StartInfo.Arguments = "-driverinstall";
                 p.StartInfo.Verb = "runas";
                 try { p.Start(); }
                 catch { }
+            }
+        }
+
+        private void ImportProfBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".xml";
+            dialog.Filter = "DS4Windows Profile (*.xml)|*.xml";
+            dialog.Title = "Select Profile to Import File";
+            if (Global.appdatapath != Global.exepath)
+                dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\DS4Windows" + @"\Profiles\";
+            else
+                dialog.InitialDirectory = Global.exepath + @"\Profiles\";
+
+            if (dialog.ShowDialog() == true)
+            {
+                string[] files = dialog.FileNames;
+                for (int i = 0, arlen = files.Length; i < arlen; i++)
+                {
+                    string profilename = System.IO.Path.GetFileName(files[i]);
+                    string basename = System.IO.Path.GetFileNameWithoutExtension(files[i]);
+                    File.Copy(dialog.FileNames[i], Global.appdatapath + "\\Profiles\\" + profilename, true);
+                    profileListHolder.AddProfileSort(basename);
+                }
+            }
+        }
+
+        private void ExportProfBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (profilesListBox.SelectedIndex >= 0)
+            {
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.AddExtension = true;
+                dialog.DefaultExt = ".xml";
+                dialog.Filter = "DS4Windows Profile (*.xml)|*.xml";
+                dialog.Title = "Select Profile to Export File";
+                Stream stream;
+                int idx = profilesListBox.SelectedIndex;
+                Stream profile = new StreamReader(Global.appdatapath + "\\Profiles\\" + profileListHolder.ProfileListCol[idx].Name + ".xml").BaseStream;
+                if (dialog.ShowDialog() == true)
+                {
+                    if ((stream = dialog.OpenFile()) != null)
+                    {
+                        profile.CopyTo(stream);
+                        profile.Close();
+                        stream.Close();
+                    }
+                }
             }
         }
     }
