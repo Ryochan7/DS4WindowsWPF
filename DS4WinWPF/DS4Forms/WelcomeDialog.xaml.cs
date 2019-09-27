@@ -1,18 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
+using HttpProgress;
+using NonFormTimer = System.Timers.Timer;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -26,6 +18,7 @@ namespace DS4WinWPF.DS4Forms
         private const string InstFileName = "ViGEmBus_Setup_1.16.115.exe";
 
         Process monitorProc;
+        NonFormTimer monitorTimer;
 
         public WelcomeDialog(bool loadConfig = false)
         {
@@ -51,12 +44,70 @@ namespace DS4WinWPF.DS4Forms
                 File.Delete(DS4Windows.Global.exepath + $"\\{InstFileName}");
             }
 
+            ViGEmDownloadLaunch();
+
             /*WebClient wb = new WebClient();
             wb.DownloadFileAsync(new Uri(InstallerDL), exepath + $"\\{InstFileName}");
 
             wb.DownloadProgressChanged += wb_DownloadProgressChanged;
             wb.DownloadFileCompleted += wb_DownloadFileCompleted;
             */
+        }
+
+        private async void ViGEmDownloadLaunch()
+        {
+            Progress<ICopyProgress> progress = new Progress<ICopyProgress>(x => // Please see "Notes on IProgress<T>"
+            {
+                // This is your progress event!
+                // It will fire on every buffer fill so don't do anything expensive.
+                // Writing to the console IS expensive, so don't do the following in practice...
+                vigemInstallBtn.Content = Properties.Resources.Downloading.Replace("*number*",
+                    x.PercentComplete.ToString("P"));
+                //Console.WriteLine(x.PercentComplete.ToString("P"));
+            });
+
+            string filename = DS4Windows.Global.exepath + $"\\{InstFileName}";
+            using (var downloadStream = new FileStream(filename, FileMode.CreateNew))
+            {
+                HttpResponseMessage response = await App.requestClient.GetAsync(InstallerDL, downloadStream, progress);
+            }
+
+            if (File.Exists(DS4Windows.Global.exepath + $"\\{InstFileName}"))
+            {
+                //vigemInstallBtn.Content = Properties.Resources.OpeningInstaller;
+                monitorProc = Process.Start(DS4Windows.Global.exepath + $"\\{InstFileName}");
+                vigemInstallBtn.Content = Properties.Resources.Installing;
+            }
+
+            monitorTimer = new NonFormTimer();
+            monitorTimer.Elapsed += ViGEmInstallTimer_Tick;
+            monitorTimer.Start();
+        }
+
+        private void ViGEmInstallTimer_Tick(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            ((NonFormTimer)sender).Stop();
+            bool finished = false;
+            if (monitorProc != null && monitorProc.HasExited)
+            {
+                if (DS4Windows.Global.IsViGEmBusInstalled())
+                {
+                    Dispatcher.BeginInvoke((Action)(() => { vigemInstallBtn.Content = Properties.Resources.InstallComplete; }));
+                }
+                else
+                {
+                    Dispatcher.BeginInvoke((Action)(() => { vigemInstallBtn.Content = Properties.Resources.InstallFailed; }), null);
+                }
+
+                File.Delete(DS4Windows.Global.exepath + $"\\{InstFileName}");
+                ((NonFormTimer)sender).Stop();
+                finished = true;
+            }
+
+            if (!finished)
+            {
+                ((NonFormTimer)sender).Start();
+            }
         }
 
         private void Step2Btn_Click(object sender, RoutedEventArgs e)
