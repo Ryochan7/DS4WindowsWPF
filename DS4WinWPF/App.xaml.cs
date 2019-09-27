@@ -4,6 +4,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace DS4WinWPF
         private Thread controlThread;
         public Tester rootHubtest;
         public static DS4Windows.ControlService rootHub;
+        public static HttpClient requestClient;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -59,6 +61,7 @@ namespace DS4WinWPF
                 rootHubtest = new Tester();
                 rootHub = new DS4Windows.ControlService();
                 DS4Windows.Program.rootHub = rootHub;
+                requestClient = new HttpClient();
             });
             controlThread.Priority = ThreadPriority.Normal;
             controlThread.IsBackground = true;
