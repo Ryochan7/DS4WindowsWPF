@@ -35,7 +35,8 @@ namespace DS4WinWPF.DS4Forms
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             string profile = profileTxt.Text;
-            if (!string.IsNullOrWhiteSpace(profile))
+            if (!string.IsNullOrWhiteSpace(profile) &&
+                profile.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) == -1)
             {
                 System.IO.File.Copy(DS4Windows.Global.appdatapath + "\\Profiles\\" + oldfilename + ".xml",
                 DS4Windows.Global.appdatapath + "\\Profiles\\" + profile + ".xml", true);
@@ -46,8 +47,6 @@ namespace DS4WinWPF.DS4Forms
                 MessageBox.Show(Properties.Resources.ValidName, Properties.Resources.NotValid,
                     MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
-            
-            
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
