@@ -1,5 +1,6 @@
 # TODO
 
+* Work on single instance code
 * Start making Options window
 * Work on Auto Profiles user control
 * Evaluate Task Scheduler
