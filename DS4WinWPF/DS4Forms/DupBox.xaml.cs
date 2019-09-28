@@ -30,6 +30,7 @@ namespace DS4WinWPF.DS4Forms
         public DupBox()
         {
             InitializeComponent();
+            profileTxt.Text = "<" + Properties.Resources.TypeNewName + ">";
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
