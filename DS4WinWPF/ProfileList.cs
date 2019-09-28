@@ -60,5 +60,15 @@ namespace DS4WinWPF
                 profileListCol.Add(new ProfileEntity() { Name = profilename });
             }
         }
+
+        public void RemoveProfile(string profile)
+        {
+            var selectedEntity = profileListCol.Single(x => x.Name == profile);
+            if (selectedEntity != null)
+            {
+                int selectedIndex = profileListCol.IndexOf(selectedEntity);
+                profileListCol.RemoveAt(selectedIndex);
+            }
+        }
     }
 }

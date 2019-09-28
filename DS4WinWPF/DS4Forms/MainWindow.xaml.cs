@@ -592,5 +592,44 @@ namespace DS4WinWPF.DS4Forms
                 }
             }
         }
+
+        private void DupProfBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string filename = "";
+            if (profilesListBox.SelectedIndex >= 0)
+            {
+                int idx = profilesListBox.SelectedIndex;
+                filename = profileListHolder.ProfileListCol[idx].Name;
+                dupBox.OldFilename = filename;
+                dupBoxBar.Visibility = Visibility.Visible;
+                dupBox.Save += (sender2, profilename) =>
+                {
+                    profileListHolder.AddProfileSort(profilename);
+                    dupBoxBar.Visibility = Visibility.Collapsed;
+                };
+                dupBox.Cancel += (sender2, args) =>
+                {
+                    dupBoxBar.Visibility = Visibility.Collapsed;
+                };
+            }
+        }
+
+        private void DeleteProfBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (profilesListBox.SelectedIndex >= 0)
+            {
+                int idx = profilesListBox.SelectedIndex;
+                string filename = profileListHolder.ProfileListCol[idx].Name;
+                //MessageBox.Show(temp.Message, "Log");
+                if (MessageBox.Show(Properties.Resources.ProfileCannotRestore.Replace("*Profile name*", "\"" + filename + "\""),
+                    Properties.Resources.DeleteProfile,
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    File.Delete(Global.appdatapath + @"\Profiles\" + filename + ".xml");
+                    profileListHolder.ProfileListCol.RemoveAt(idx);
+                    //RefreshProfiles();
+                }
+            }
+        }
     }
 }

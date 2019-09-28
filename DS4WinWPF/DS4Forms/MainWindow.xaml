@@ -149,7 +149,7 @@
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="deleteProfBtn" Margin="10,0,0,0" IsEnabled="False">
+                        <Button x:Name="deleteProfBtn" Margin="10,0,0,0" IsEnabled="False" Click="DeleteProfBtn_Click">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/delete.png" />
@@ -157,7 +157,7 @@
                                 </StackPanel>
                             </Button.Content>
                         </Button>
-                        <Button x:Name="dupProfBtn" Margin="10,0,0,0" IsEnabled="False">
+                        <Button x:Name="dupProfBtn" Margin="10,0,0,0" IsEnabled="False" Click="DupProfBtn_Click">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/copy.png" />
@@ -182,6 +182,9 @@
                             </Button.Content>
                         </Button>
                     </ToolBar>
+                    <ToolBar x:Name="dupBoxBar" Height="40" DockPanel.Dock="Top" Background="{x:Null}" HorizontalAlignment="Center" Visibility="Collapsed">
+                        <local:DupBox x:Name="dupBox" />
+                    </ToolBar>
 
                     <ListBox x:Name="profilesListBox" DockPanel.Dock="Bottom" SelectionChanged="ProfilesListBox_SelectionChanged">
                         <ListBox.ItemTemplate>
@@ -194,7 +197,7 @@
             </TabItem>
             <TabItem Header="Auto Profiles">
                 <local:AutoProfiles Padding="4">
-                    
+
                 </local:AutoProfiles>
             </TabItem>
             <TabItem x:Name="settingsTab" Header="Settings">

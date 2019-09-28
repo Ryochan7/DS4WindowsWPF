@@ -156,6 +156,9 @@
     <Compile Include="DS4Forms\AutoProfiles.xaml.cs">
       <DependentUpon>AutoProfiles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\DupBox.xaml.cs">
+      <DependentUpon>DupBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Forms\SaveWhere.xaml.cs">
       <DependentUpon>SaveWhere.xaml</DependentUpon>
     </Compile>
@@ -190,6 +193,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DS4Forms\AutoProfiles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DS4Forms\DupBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
