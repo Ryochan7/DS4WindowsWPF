@@ -487,11 +487,27 @@ namespace DS4WinWPF.DS4Forms
             StartStopBtn.IsEnabled = true;
         }
 
-        private void UseUdpServerCk_Click(object sender, RoutedEventArgs e)
+        private async void UseUdpServerCk_Click(object sender, RoutedEventArgs e)
         {
             bool status = useUdpServerCk.IsChecked == true;
             udpServerTxt.IsEnabled = status;
             updPortNum.IsEnabled = status;
+            if (!status)
+            {
+                App.rootHub.ChangeMotionEventStatus(status);
+                await Task.Delay(100).ContinueWith((t) =>
+                {
+                    App.rootHub.ChangeUDPStatus(status);
+                });
+            }
+            else
+            {
+                Program.rootHub.ChangeUDPStatus(status);
+                await Task.Delay(100).ContinueWith((t) =>
+                {
+                    App.rootHub.ChangeMotionEventStatus(status);
+                });
+            }
         }
 
         private void ProfFolderBtn_Click(object sender, RoutedEventArgs e)

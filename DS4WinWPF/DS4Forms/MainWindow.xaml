@@ -253,7 +253,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Use language pack" />
-                        <ComboBox x:Name="langPackCombo" MinWidth="100">
+                        <ComboBox x:Name="langPackCombo" MinWidth="100" IsEnabled="False">
                         </ComboBox>
                     </StackPanel>
                     <CheckBox Content="Use custom Steam Folder" IsChecked="{Binding UseCustomSteamFolder}"  />
