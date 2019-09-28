@@ -23,6 +23,10 @@ namespace DS4WinWPF
         public static HttpClient requestClient;
         private bool skipSave;
         private bool runShutdown;
+        private Thread testThread;
+        private bool exitComThread = false;
+        private const string SingleAppComEventName = "{a52b5b20-d9ee-4f32-8518-307fa14aa0c6}";
+        private EventWaitHandle threadComEvent = null;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -51,6 +55,21 @@ namespace DS4WinWPF
             IntPtr pagePrio = new IntPtr(5);
             DS4Windows.Util.NtSetInformationProcess(Process.GetCurrentProcess().Handle,
                 DS4Windows.Util.PROCESS_INFORMATION_CLASS.ProcessPagePriority, ref pagePrio, 4);
+
+            try
+            {
+                // another instance is already running if OpenExsting succeeds.
+                threadComEvent = EventWaitHandle.OpenExisting(SingleAppComEventName,
+                    System.Security.AccessControl.EventWaitHandleRights.Synchronize |
+                    System.Security.AccessControl.EventWaitHandleRights.Modify);
+                threadComEvent.Set();  // signal the other instance.
+                threadComEvent.Close();
+                Current.Shutdown();    // Quit temp instance
+            }
+            catch { /* don't care about errors */ }
+
+            // Create the Event handle
+            threadComEvent = new EventWaitHandle(false, EventResetMode.ManualReset, SingleAppComEventName);
 
             CheckOptions(parser);
 
@@ -154,6 +173,37 @@ namespace DS4WinWPF
             controlThread.Start();
             while (controlThread.IsAlive)
                 Thread.SpinWait(500);
+        }
+
+        private void CreateTempWorkerThread()
+        {
+            testThread = new Thread(SingleAppComThread_DoWork);
+            testThread.Priority = ThreadPriority.Lowest;
+            testThread.IsBackground = true;
+            testThread.Start();
+        }
+
+        private void SingleAppComThread_DoWork()
+        {
+            while (!exitComThread)
+            {
+                // check for a signal.
+                if (threadComEvent.WaitOne())
+                {
+                    threadComEvent.Reset();
+                    // The user tried to start another instance. We can't allow that,
+                    // so bring the other instance back into view and enable that one.
+                    // That form is created in another thread, so we need some thread sync magic.
+                    if (!exitComThread)
+                    {
+                        MainWindow?.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            MainWindow.Show();
+                            MainWindow.WindowState = WindowState.Normal;
+                        }));
+                    }
+                }
+            }
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
