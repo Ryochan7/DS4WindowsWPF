@@ -4,7 +4,7 @@
 * ~~Disconnect BT when Stopping~~
 * Close Minimizes
 * ~~Minimize to Taskbar~~
-* Work on single instance code
+* ~~Work on single instance code~~
 * Start making Options window
 * Work on Auto Profiles user control
 * Evaluate Task Scheduler
