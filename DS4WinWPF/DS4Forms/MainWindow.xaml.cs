@@ -74,6 +74,12 @@ namespace DS4WinWPF.DS4Forms
                 uacImg.Visibility = Visibility.Collapsed;
             }
 
+            this.Width = Global.FormWidth;
+            this.Height = Global.FormHeight;
+            WindowStartupLocation = WindowStartupLocation.Manual;
+            Left = Global.FormLocationX;
+            Top = Global.FormLocationY;
+
             SetupEvents();
 
             Task.Run(() =>
@@ -677,6 +683,25 @@ namespace DS4WinWPF.DS4Forms
             {
                 Show();
                 showInTaskbar = true;
+            }
+        }
+
+        private void MainDS4Window_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (WindowState != WindowState.Minimized)
+            {
+                Global.FormWidth = Convert.ToInt32(Width);
+                Global.FormHeight = Convert.ToInt32(Height);
+
+            }
+        }
+
+        private void MainDS4Window_LocationChanged(object sender, EventArgs e)
+        {
+            if (WindowState != WindowState.Minimized)
+            {
+                Global.FormLocationX = Convert.ToInt32(Left);
+                Global.FormLocationY = Convert.ToInt32(Top);
             }
         }
     }
