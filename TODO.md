@@ -1,9 +1,9 @@
 # TODO
 
-* Enable suspend and resume functionality
+* ~~Enable suspend and resume functionality~~
 * ~~Disconnect BT when Stopping~~
 * Close Minimizes
-* Minimize to Taskbar
+* ~~Minimize to Taskbar~~
 * Work on single instance code
 * Start making Options window
 * Work on Auto Profiles user control

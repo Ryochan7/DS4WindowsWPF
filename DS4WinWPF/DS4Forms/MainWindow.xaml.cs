@@ -21,6 +21,7 @@ using Microsoft.Win32;
 using System.Windows.Interop;
 using System.Diagnostics;
 using System.IO;
+using System.Management;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -37,6 +38,8 @@ namespace DS4WinWPF.DS4Forms
         private SettingsViewModel settingsWrap;
         private IntPtr regHandle = new IntPtr();
         private bool showInTaskbar = false;
+        private ManagementEventWatcher managementEvWatcher;
+        private bool wasrunning = false;
 
         public MainWindow(ArgumentParser parser)
         {
@@ -130,6 +133,58 @@ namespace DS4WinWPF.DS4Forms
             trayIconVM.ProfileSelected += TrayIconVM_ProfileSelected;
             trayIconVM.RequestMinimize += TrayIconVM_RequestMinimize;
             trayIconVM.RequestOpen += TrayIconVM_RequestOpen;
+
+            WqlEventQuery q = new WqlEventQuery();
+            ManagementScope scope = new ManagementScope("root\\CIMV2");
+            q.EventClassName = "Win32_PowerManagementEvent";
+            managementEvWatcher = new ManagementEventWatcher(scope, q);
+            managementEvWatcher.EventArrived += PowerEventArrive;
+            managementEvWatcher.Start();
+        }
+
+        private void PowerEventArrive(object sender, EventArrivedEventArgs e)
+        {
+            short evType = Convert.ToInt16(e.NewEvent.GetPropertyValue("EventType"));
+            switch (evType)
+            {
+                // Wakeup from Suspend
+                case 7:
+                    DS4LightBar.shuttingdown = false;
+                    App.rootHub.suspending = false;
+
+                    if (wasrunning)
+                    {
+                        wasrunning = false;
+                        Thread.Sleep(16000);
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            StartStopBtn.IsEnabled = false;
+                        }));
+
+                        App.rootHub.Start();
+                    }
+
+                    break;
+                // Entering Suspend
+                case 4:
+                    DS4LightBar.shuttingdown = true;
+                    Program.rootHub.suspending = true;
+
+                    if (App.rootHub.running)
+                    {
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            StartStopBtn.IsEnabled = false;
+                        }));
+
+                        App.rootHub.Stop();
+                        wasrunning = true;
+                    }
+
+                    break;
+
+                default: break;
+            }
         }
 
         private void PrepareForServiceStop(object sender, EventArgs e)
@@ -391,6 +446,11 @@ namespace DS4WinWPF.DS4Forms
 
         private void MainDS4Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
+            if (Global.CloseMini)
+            {
+                WindowState = WindowState.Minimized;
+            }
+
             Util.UnregisterNotify(regHandle);
             Application.Current.Shutdown();
         }
