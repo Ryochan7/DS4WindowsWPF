@@ -8,7 +8,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         xml:lang="en-US"
         mc:Ignorable="d"
-        Title="DS4Windows" Height="450" Width="800" Closing="MainDS4Window_Closing">
+        Title="DS4Windows" Height="450" Width="800" Closing="MainDS4Window_Closing" StateChanged="MainDS4Window_StateChanged">
     <DockPanel>
         <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource}" ToolTipText="{Binding TooltipText}" MenuActivation="RightClick" TrayRightMouseUp="NotifyIcon_TrayRightMouseUp">
             <!--<tb:TaskbarIcon.ContextMenu>
@@ -87,7 +87,7 @@
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=selectProfileColumn, Path=Width}">
                                                 <ComboBox x:Name="selectProfCombo" Width="100" HorizontalAlignment="Left" DisplayMemberPath="Name"
-                                                          ItemsSource="{Binding ProfileListCol}" SelectedIndex="{Binding SelectedIndex}" Height="Auto" Tag="{Binding DevIndex, Mode=OneTime}" SelectionChanged="SelectProfCombo_SelectionChanged"  />
+                                                          ItemsSource="{Binding ProfileListCol}" SelectedIndex="{Binding SelectedIndex}" Height="Auto" Tag="{Binding DevIndex, Mode=OneTime}" SelectionChanged="SelectProfCombo_SelectionChanged" KeyDown="SelectProfCombo_KeyDown"  />
                                             </StackPanel>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
@@ -211,7 +211,7 @@
                                 <RadioButton Content="Program" GroupName="RunAsOpt" IsChecked="True" />
                                 <RadioButton Content="Task" GroupName="RunAsOpt" />
                             </StackPanel>
-                            <Image Source="{Binding UACSource}" Width="30" Height="30" Margin="20,0,0,0" />
+                            <Image x:Name="uacImg" Source="{Binding UACSource}" Width="30" Height="30" Margin="20,0,0,0" />
                         </StackPanel>
                     </GroupBox>
                     <StackPanel Orientation="Horizontal">
@@ -230,7 +230,7 @@
                         <Label Content="ms" />
                     </StackPanel>
                     <CheckBox Content="Start Minimized" IsChecked="{Binding StartMinimize}" />
-                    <CheckBox Content="Minimize to Taskbar" />
+                    <CheckBox Content="Minimize to Taskbar" IsChecked="{Binding MinimizeToTaskbar}" />
                     <CheckBox Content="Close Minimizes" IsChecked="{Binding CloseMinimizes}" />
                     <CheckBox Content="Quick Charge" IsChecked="{Binding QuickCharge}" />
                     <CheckBox x:Name="useWhiteDS4IconCk" Content="White DS4Windows Icon" IsChecked="{Binding WhiteDS4Icon}" Click="UseWhiteDS4IconCk_Click" />
@@ -292,7 +292,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Data" Width="450">
+                                <GridViewColumn Header="Data" Width="800">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="{Binding Path=Message}" Foreground="{Binding Color}"/>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -20,6 +21,8 @@ namespace DS4WinWPF
         public Tester rootHubtest;
         public static DS4Windows.ControlService rootHub;
         public static HttpClient requestClient;
+        private bool skipSave;
+        private bool runShutdown;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -29,30 +32,113 @@ namespace DS4WinWPF
             //Thread.CurrentThread.CurrentCulture = ci;
             //Thread.CurrentThread.CurrentUICulture = ci;
 
+            ArgumentParser parser = new ArgumentParser();
+            parser.Parse(e.Args);
+
             try
             {
                 Process.GetCurrentProcess().PriorityClass =
-                    System.Diagnostics.ProcessPriorityClass.High;
+                    ProcessPriorityClass.High;
             }
             catch { } // Ignore problems raising the priority.
 
+            // Force Normal IO Priority
+            IntPtr ioPrio = new IntPtr(2);
+            DS4Windows.Util.NtSetInformationProcess(Process.GetCurrentProcess().Handle,
+                DS4Windows.Util.PROCESS_INFORMATION_CLASS.ProcessIoPriority, ref ioPrio, 4);
+
+            // Force Normal Page Priority
+            IntPtr pagePrio = new IntPtr(5);
+            DS4Windows.Util.NtSetInformationProcess(Process.GetCurrentProcess().Handle,
+                DS4Windows.Util.PROCESS_INFORMATION_CLASS.ProcessPagePriority, ref pagePrio, 4);
+
+            CheckOptions(parser);
+
             CreateControlService();
 
+            runShutdown = true;
+
             DS4Windows.Global.FindConfigLocation();
-            if (DS4Windows.Global.firstRun)
+            bool firstRun = DS4Windows.Global.firstRun;
+            if (firstRun)
             {
                 DS4Forms.SaveWhere savewh = new DS4Forms.SaveWhere(false);
                 savewh.ShowDialog();
             }
 
             DS4Windows.Global.Load();
-            DS4Windows.Global.LoadActions();
             //DS4Windows.Global.ProfilePath[0] = "mixed";
             //DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
+            Directory.CreateDirectory(DS4Windows.Global.appdatapath);
+            if (firstRun)
+            {
+                AttemptSave();
+            }
 
-            DS4Forms.MainWindow window = new DS4Forms.MainWindow();
+            if (!DS4Windows.Global.LoadActions())
+            {
+                DS4Windows.Global.CreateStdActions();
+            }
+
+            DS4Forms.MainWindow window = new DS4Forms.MainWindow(parser);
             MainWindow = window;
             window.Show();
+        }
+
+        private void AttemptSave()
+        {
+            if (!DS4Windows.Global.Save()) //if can't write to file
+            {
+                if (MessageBox.Show("Cannot write at current location\nCopy Settings to appdata?", "DS4Windows",
+                    MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        Directory.CreateDirectory(DS4Windows.Global.appDataPpath);
+                        File.Copy(DS4Windows.Global.exepath + "\\Profiles.xml",
+                            DS4Windows.Global.appDataPpath + "\\Profiles.xml");
+                        File.Copy(DS4Windows.Global.exepath + "\\Auto Profiles.xml",
+                            DS4Windows.Global.appDataPpath + "\\Auto Profiles.xml");
+                        Directory.CreateDirectory(DS4Windows.Global.appDataPpath + "\\Profiles");
+                        foreach (string s in Directory.GetFiles(DS4Windows.Global.exepath + "\\Profiles"))
+                        {
+                            File.Copy(s, DS4Windows.Global.appDataPpath + "\\Profiles\\" + Path.GetFileName(s));
+                        }
+                    }
+                    catch { }
+                    MessageBox.Show("Copy complete, please relaunch DS4Windows and remove settings from Program Directory",
+                        "DS4Windows");
+                }
+                else
+                {
+                    MessageBox.Show("DS4Windows cannot edit settings here, This will now close",
+                        "DS4Windows");
+                }
+
+                DS4Windows.Global.appdatapath = null;
+                skipSave = true;
+                Current.Shutdown();
+                return;
+            }
+        }
+
+        private void CheckOptions(ArgumentParser parser)
+        {
+            if (parser.Driverinstall)
+            {
+                DS4Forms.WelcomeDialog dialog = new DS4Forms.WelcomeDialog(true);
+                dialog.ShowDialog();
+                Current.Shutdown();
+            }
+            else if (parser.ReenableDevice)
+            {
+                DS4Windows.DS4Devices.reEnableDevice(parser.DeviceInstanceId);
+                Current.Shutdown();
+            }
+            else if (parser.Runtask)
+            {
+                Current.Shutdown();
+            }
         }
 
         private void CreateControlService()
@@ -72,13 +158,19 @@ namespace DS4WinWPF
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            Task.Run(() =>
+            if (runShutdown)
             {
-                rootHub.Stop();
-                //rootHubtest.Stop();
-            }).Wait();
+                Task.Run(() =>
+                {
+                    rootHub.Stop();
+                    //rootHubtest.Stop();
+                }).Wait();
 
-            DS4Windows.Global.Save();
+                if (!skipSave)
+                {
+                    DS4Windows.Global.Save();
+                }
+            }
         }
     }
 }

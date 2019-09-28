@@ -36,8 +36,9 @@ namespace DS4WinWPF.DS4Forms
         private TrayIconViewModel trayIconVM;
         private SettingsViewModel settingsWrap;
         private IntPtr regHandle = new IntPtr();
+        private bool showInTaskbar = false;
 
-        public MainWindow()
+        public MainWindow(ArgumentParser parser)
         {
             InitializeComponent();
 
@@ -61,6 +62,17 @@ namespace DS4WinWPF.DS4Forms
             notifyIcon.DataContext = trayIconVM;
             notifyIcon.Icon = Global.UseWhiteIcon ? Properties.Resources.DS4W___White :
                 Properties.Resources.DS4W;
+
+            if (Global.StartMinimized || parser.Mini)
+            {
+                WindowState = WindowState.Minimized;
+            }
+
+            bool isElevated = Global.IsAdministrator();
+            if (isElevated)
+            {
+                uacImg.Visibility = Visibility.Collapsed;
+            }
 
             SetupEvents();
 
@@ -125,6 +137,8 @@ namespace DS4WinWPF.DS4Forms
         private void TrayIconVM_RequestOpen(object sender, EventArgs e)
         {
             WindowState = WindowState.Normal;
+            if (showInTaskbar)
+                Show();
         }
 
         private void TrayIconVM_RequestShutdown(object sender, EventArgs e)
@@ -636,15 +650,33 @@ namespace DS4WinWPF.DS4Forms
             {
                 int idx = profilesListBox.SelectedIndex;
                 string filename = profileListHolder.ProfileListCol[idx].Name;
-                //MessageBox.Show(temp.Message, "Log");
                 if (MessageBox.Show(Properties.Resources.ProfileCannotRestore.Replace("*Profile name*", "\"" + filename + "\""),
                     Properties.Resources.DeleteProfile,
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
                     File.Delete(Global.appdatapath + @"\Profiles\" + filename + ".xml");
                     profileListHolder.ProfileListCol.RemoveAt(idx);
-                    //RefreshProfiles();
                 }
+            }
+        }
+
+        private void SelectProfCombo_KeyDown(object sender, KeyEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void MainDS4Window_StateChanged(object sender, EventArgs e)
+        {
+            bool minToTask = Global.MinToTaskbar;
+            if (WindowState == WindowState.Minimized && !minToTask)
+            {
+                Hide();
+                showInTaskbar = false;
+            }
+            else if (WindowState == WindowState.Normal && !minToTask)
+            {
+                Show();
+                showInTaskbar = true;
             }
         }
     }
