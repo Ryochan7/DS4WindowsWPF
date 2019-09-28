@@ -764,5 +764,10 @@ namespace DS4WinWPF.DS4Forms
                 Global.FormLocationY = Convert.ToInt32(Top);
             }
         }
+
+        private void NotifyIcon_TrayMiddleMouseDown(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
