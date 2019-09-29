@@ -196,13 +196,14 @@
                 </DockPanel>
             </TabItem>
             <TabItem Header="Auto Profiles">
-                <local:AutoProfiles Padding="4">
+                <local:AutoProfiles x:Name="autoProfControl">
 
                 </local:AutoProfiles>
             </TabItem>
             <TabItem x:Name="settingsTab" Header="Settings">
-                <WrapPanel Orientation="Vertical" Margin="0,10,0,0">
-                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox" IsChecked="{Binding HideDS4Controller}" Click="HideDS4ContCk_Click" />
+                <WrapPanel Orientation="Vertical" Margin="8">
+                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox" IsChecked="{Binding HideDS4Controller}" Click="HideDS4ContCk_Click" >
+                    </CheckBox>
                     <CheckBox Content="Swipe Touchpad To Switch Profiles" Margin="0,10,0,0" IsChecked="{Binding SwipeTouchSwitchProfile}" />
                     <CheckBox x:Name="runAtStartCk" Content="Run At Startup" Click="RunAtStartCk_Click" />
                     <GroupBox x:Name="runAsGroupBox" Header="Run As" BorderThickness="2" Visibility="Collapsed">
@@ -256,8 +257,8 @@
                         <ComboBox x:Name="langPackCombo" MinWidth="100" IsEnabled="False">
                         </ComboBox>
                     </StackPanel>
-                    <CheckBox Content="Use custom Steam Folder" IsChecked="{Binding UseCustomSteamFolder}"  />
-                    <TextBox Text="{Binding CustomSteamFolder}" />
+                    <CheckBox x:Name="customSteamCk" Content="Use custom Steam Folder" IsChecked="{Binding UseCustomSteamFolder}" Click="CustomSteamCk_Click"  />
+                    <TextBox x:Name="customSteamTxt" Text="{Binding CustomSteamFolder, UpdateSourceTrigger=LostFocus}" IsEnabled="False" />
                     <GroupBox Header="Utils" BorderThickness="2">
                         <StackPanel>
                             <Button x:Name="profFolderBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="ProfFolderBtn_Click">

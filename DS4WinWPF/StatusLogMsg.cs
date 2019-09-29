@@ -35,7 +35,7 @@ namespace DS4WinWPF
         {
             get
             {
-                return warning ? "Red" : "Black";
+                return warning ? "Red" : "#FF696969";
             }
         }
 

@@ -169,7 +169,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             item.Click += MinimizeMenuItem_Click;
             items.Add(item);
             items.Add(new Separator());
-            item = new MenuItem() { Header = "Exit" };
+            item = new MenuItem() { Header = "Exit (Middle Mouse)" };
             item.Click += ExitMenuItem_Click;
             items.Add(item);
         }
@@ -310,7 +310,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             item.Click += MinimizeMenuItem_Click;
             items.Add(item);
             items.Add(new Separator());
-            item = new MenuItem() { Header = "Exit" };
+            item = new MenuItem() { Header = "Exit (Middle Mouse)" };
             item.Click += ExitMenuItem_Click;
             items.Add(item);
         }

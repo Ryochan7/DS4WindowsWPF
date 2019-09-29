@@ -107,8 +107,19 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public int UdpPort { get => DS4Windows.Global.getUDPServerPortNum(); set => DS4Windows.Global.setUDPServerPort(value); }
         public bool UseCustomSteamFolder { get => DS4Windows.Global.UseCustomSteamFolder;
             set => DS4Windows.Global.UseCustomSteamFolder = value; }
-        public string CustomSteamFolder { get => DS4Windows.Global.CustomSteamFolder;
-            set => DS4Windows.Global.CustomSteamFolder = value; }
+        public string CustomSteamFolder
+        {
+            get => DS4Windows.Global.CustomSteamFolder;
+            set
+            {
+                string temp = DS4Windows.Global.CustomSteamFolder;
+                if (temp == value) return;
+                if (Directory.Exists(temp))
+                {
+                    DS4Windows.Global.CustomSteamFolder = value;
+                }
+            }
+        }
 
         public SettingsViewModel()
         {

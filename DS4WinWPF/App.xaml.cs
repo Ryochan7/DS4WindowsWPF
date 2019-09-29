@@ -38,6 +38,7 @@ namespace DS4WinWPF
 
             ArgumentParser parser = new ArgumentParser();
             parser.Parse(e.Args);
+            CheckOptions(parser);
 
             try
             {
@@ -71,8 +72,6 @@ namespace DS4WinWPF
             // Create the Event handle
             threadComEvent = new EventWaitHandle(false, EventResetMode.ManualReset, SingleAppComEventName);
             CreateTempWorkerThread();
-
-            CheckOptions(parser);
 
             CreateControlService();
 

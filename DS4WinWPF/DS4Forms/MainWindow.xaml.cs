@@ -66,6 +66,12 @@ namespace DS4WinWPF.DS4Forms
             notifyIcon.Icon = Global.UseWhiteIcon ? Properties.Resources.DS4W___White :
                 Properties.Resources.DS4W;
 
+            /*autoProfControl.cont1AutoProf.ItemsSource = profileListHolder.ProfileListCol;
+            autoProfControl.cont2AutoProf.ItemsSource = profileListHolder.ProfileListCol;
+            autoProfControl.cont3AutoProf.ItemsSource = profileListHolder.ProfileListCol;
+            autoProfControl.cont4AutoProf.ItemsSource = profileListHolder.ProfileListCol;
+            */
+
             if (Global.StartMinimized || parser.Mini)
             {
                 WindowState = WindowState.Minimized;
@@ -88,8 +94,13 @@ namespace DS4WinWPF.DS4Forms
             Task.Run(() =>
             {
                 CheckDrivers();
-                App.rootHub.Start();
-                //root.rootHubtest.Start();
+                if (!parser.Stop)
+                {
+                    App.rootHub.Start();
+                    //root.rootHubtest.Start();
+                }
+
+                UpdateTheUpdater();
             });
         }
 
@@ -113,9 +124,14 @@ namespace DS4WinWPF.DS4Forms
         {
             Dispatcher.BeginInvoke((Action)(() =>
             {
-                notifyIcon.ShowBalloonTip(TrayIconViewModel.ballonTitle,
+
+                if (!IsActive && (Global.Notifications == 2 ||
+                    (Global.Notifications == 1 && e.Warning)))
+                {
+                    notifyIcon.ShowBalloonTip(TrayIconViewModel.ballonTitle,
                     e.Data, !e.Warning ? Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info :
                     Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Warning);
+                }
             }));
         }
 
@@ -184,6 +200,23 @@ namespace DS4WinWPF.DS4Forms
                     break;
 
                 default: break;
+            }
+        }
+
+        private void UpdateTheUpdater()
+        {
+            if (File.Exists(Global.exepath + "\\Update Files\\DS4Updater.exe"))
+            {
+                Process[] processes = Process.GetProcessesByName("DS4Updater");
+                while (processes.Length > 0)
+                {
+                    Thread.Sleep(500);
+                }
+
+                File.Delete(Global.exepath + "\\DS4Updater.exe");
+                File.Move(Global.exepath + "\\Update Files\\DS4Updater.exe",
+                    Global.exepath + "\\DS4Updater.exe");
+                Directory.Delete(Global.exepath + "\\Update Files");
             }
         }
 
@@ -626,9 +659,12 @@ namespace DS4WinWPF.DS4Forms
             });
 
             StartStopBtn.IsEnabled = true;
-            WelcomeDialog dialog = new WelcomeDialog();
-            dialog.Owner = this;
-            dialog.ShowDialog();
+            Process p = new Process();
+            p.StartInfo.FileName = Global.exelocation;
+            p.StartInfo.Arguments = "-driverinstall";
+            p.StartInfo.Verb = "runas";
+            try { p.Start(); }
+            catch { }
         }
 
         private void CheckUpdatesBtn_Click(object sender, RoutedEventArgs e)
@@ -784,6 +820,12 @@ namespace DS4WinWPF.DS4Forms
         private void NotifyIcon_TrayMiddleMouseDown(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void CustomSteamCk_Click(object sender, RoutedEventArgs e)
+        {
+            bool state = customSteamCk.IsChecked == true;
+            customSteamTxt.IsEnabled = state;
         }
     }
 }
