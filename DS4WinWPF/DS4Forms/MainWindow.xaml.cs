@@ -241,6 +241,7 @@ namespace DS4WinWPF.DS4Forms
                         item.LightContext = new ContextMenu();
                         item.AddLightContextItems();
                         item.Device.SyncChange += DS4Device_SyncChange;
+                        item.RequestColorPicker += Item_RequestColorPicker;
                         //item.LightContext.Items.Add(new MenuItem() { Header = "Use Profile Color", IsChecked = !item.UseCustomColor });
                         //item.LightContext.Items.Add(new MenuItem() { Header = "Use Custom Color", IsChecked = item.UseCustomColor });
                     }
@@ -249,6 +250,18 @@ namespace DS4WinWPF.DS4Forms
                 if (App.rootHub.running)
                     trayIconVM.PopulateContextMenu();
             }));
+        }
+
+        private void Item_RequestColorPicker(CompositeDeviceModel sender)
+        {
+            ColorPickerWindow dialog = new ColorPickerWindow();
+            dialog.Owner = this;
+            dialog.colorPicker.SelectedColor = sender.CustomLightColor;
+            dialog.ColorChanged += (sender2, color) =>
+            {
+                sender.UpdateCustomLightColor(color);
+            };
+            dialog.ShowDialog();
         }
 
         private void DS4Device_SyncChange(object sender, EventArgs e)

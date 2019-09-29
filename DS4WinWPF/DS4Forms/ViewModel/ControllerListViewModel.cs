@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
@@ -153,6 +154,18 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
+        public event EventHandler LightColorChanged;
+
+        public Color CustomLightColor
+        {
+            get
+            {
+                DS4Color color;
+                color = Global.CustomColor[devIndex];
+                return new Color() { R = color.red, G = color.green, B = color.blue, A = 255 };
+            }
+        }
+
         public string BatteryState
         {
             get
@@ -229,6 +242,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private ContextMenu lightContext;
         public ContextMenu LightContext { get => lightContext; set => lightContext = value; }
 
+        public delegate void CustomColorHandler(CompositeDeviceModel sender);
+        public event CustomColorHandler RequestColorPicker;
+
         public CompositeDeviceModel(DS4Device device, int devIndex, string profile,
             ProfileList collection)
         {
@@ -287,18 +303,29 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             useCustomColor = false;
             RefreshLightContext();
+            Global.UseCustomLed[devIndex] = false;
+            LightColorChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void CustomColorItemClick(object sender, System.Windows.RoutedEventArgs e)
         {
             useCustomColor = true;
             RefreshLightContext();
+            Global.UseCustomLed[devIndex] = true;
+            LightColorChanged?.Invoke(this, EventArgs.Empty);
+            RequestColorPicker?.Invoke(this);
         }
 
         private void RefreshLightContext()
         {
             (lightContext.Items[0] as MenuItem).IsChecked = !useCustomColor;
             (lightContext.Items[1] as MenuItem).IsChecked = useCustomColor;
+        }
+
+        public void UpdateCustomLightColor(Color color)
+        {
+            Global.CustomColor[devIndex] = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+            LightColorChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void ChangeSelectedProfile(string loadprofile)
