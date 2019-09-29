@@ -197,9 +197,12 @@ namespace DS4WinWPF.DS4Forms
 
         private void TrayIconVM_RequestOpen(object sender, EventArgs e)
         {
-            WindowState = WindowState.Normal;
-            if (showInTaskbar)
+            if (!showInTaskbar)
+            {
                 Show();
+            }
+
+            WindowState = WindowState.Normal;
         }
 
         private void TrayIconVM_RequestShutdown(object sender, EventArgs e)
