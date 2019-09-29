@@ -70,6 +70,7 @@ namespace DS4WinWPF
 
             // Create the Event handle
             threadComEvent = new EventWaitHandle(false, EventResetMode.ManualReset, SingleAppComEventName);
+            CreateTempWorkerThread();
 
             CheckOptions(parser);
 
@@ -196,7 +197,7 @@ namespace DS4WinWPF
                     // That form is created in another thread, so we need some thread sync magic.
                     if (!exitComThread)
                     {
-                        MainWindow?.Dispatcher.BeginInvoke((Action)(() =>
+                        Dispatcher.BeginInvoke((Action)(() =>
                         {
                             MainWindow.Show();
                             MainWindow.WindowState = WindowState.Normal;
@@ -220,6 +221,12 @@ namespace DS4WinWPF
                 {
                     DS4Windows.Global.Save();
                 }
+
+                exitComThread = true;
+                threadComEvent.Set();  // signal the other instance.
+                while (testThread.IsAlive)
+                    Thread.SpinWait(500);
+                threadComEvent.Close();
             }
         }
     }
