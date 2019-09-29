@@ -22,6 +22,7 @@ using System.Windows.Interop;
 using System.Diagnostics;
 using System.IO;
 using System.Management;
+using NonFormTimer = System.Timers.Timer;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -40,6 +41,8 @@ namespace DS4WinWPF.DS4Forms
         private bool showInTaskbar = false;
         private ManagementEventWatcher managementEvWatcher;
         private bool wasrunning = false;
+        private NonFormTimer hotkeysTimer;
+        private NonFormTimer autoProfilesTimer;
 
         public MainWindow(ArgumentParser parser)
         {
@@ -102,6 +105,19 @@ namespace DS4WinWPF.DS4Forms
 
                 UpdateTheUpdater();
             });
+
+            Thread timerThread = new Thread(() =>
+            {
+                hotkeysTimer = new NonFormTimer();
+                hotkeysTimer.AutoReset = false;
+                if (Global.SwipeProfiles)
+                {
+                    ChangeHotkeysStatus(true);
+                }
+            });
+            timerThread.IsBackground = true;
+            timerThread.Priority = ThreadPriority.Lowest;
+            timerThread.Start();
         }
 
         private void TrayIconVM_RequestMinimize(object sender, EventArgs e)
@@ -217,6 +233,86 @@ namespace DS4WinWPF.DS4Forms
                 File.Move(Global.exepath + "\\Update Files\\DS4Updater.exe",
                     Global.exepath + "\\DS4Updater.exe");
                 Directory.Delete(Global.exepath + "\\Update Files");
+            }
+        }
+
+        private void ChangeHotkeysStatus(bool state)
+        {
+            if (state)
+            {
+                hotkeysTimer.Elapsed += HotkeysTimer_Elapsed;
+                hotkeysTimer.Start();
+            }
+            else
+            {
+                hotkeysTimer.Stop();
+                hotkeysTimer.Elapsed -= HotkeysTimer_Elapsed;
+            }
+        }
+
+        private void HotkeysTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            hotkeysTimer.Stop();
+
+            if (Global.SwipeProfiles)
+            {
+                foreach (CompositeDeviceModel item in conLvViewModel.ControllerCol)
+                //for (int i = 0; i < 4; i++)
+                {
+                    string slide = App.rootHub.TouchpadSlide(item.DevIndex);
+                    if (slide == "left")
+                    {
+                        //int ind = i;
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            if (item.SelectedIndex <= 0)
+                            {
+                                item.SelectedIndex = item.ProfileListCol.Count - 1;
+                            }
+                            else
+                            {
+                                item.SelectedIndex--;
+                            }
+                        }));
+                    }
+                    else if (slide == "right")
+                    {
+                        //int ind = i;
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            if (item.SelectedIndex == (item.ProfileListCol.Count - 1))
+                            {
+                                item.SelectedIndex = 0;
+                            }
+                            else
+                            {
+                                item.SelectedIndex++;
+                            }
+                        }));
+                    }
+
+                    if (slide.Contains("t"))
+                    {
+                        //int ind = i;
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            string temp = Properties.Resources.UsingProfile.Replace("*number*",
+                                (item.DevIndex + 1).ToString()).Replace("*Profile name*", item.SelectedProfile);
+                            ShowHotkeyNotification(temp);
+                        }));
+                    }
+                }
+            }
+
+            hotkeysTimer.Start();
+        }
+
+        private void ShowHotkeyNotification(string message)
+        {
+            if (!IsActive && (Global.Notifications == 2))
+            {
+                notifyIcon.ShowBalloonTip(TrayIconViewModel.ballonTitle,
+                message, Hardcodet.Wpf.TaskbarNotification.BalloonIcon.Info);
             }
         }
 
