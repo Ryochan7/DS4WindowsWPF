@@ -20,6 +20,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private ObservableCollection<ProgramItem> programColl;
         private AutoProfileHolder autoProfileHolder;
         private int selectedIndex = -1;
+        private ProgramItem selectedItem;
         private HashSet<string> existingapps;
 
         public ObservableCollection<ProgramItem> ProgramColl { get => programColl; }
@@ -27,8 +28,20 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public AutoProfileHolder AutoProfileHolder { get => autoProfileHolder; }
 
         public int SelectedIndex { get => selectedIndex; set => selectedIndex = value; }
+        public ProgramItem SelectedItem { get => selectedItem;
+            set
+            {
+                selectedItem = value;
+                CurrentItemChange?.Invoke(this, value);
+            }
+        }
+        public delegate void CurrentItemChangeHandler(AutoProfilesViewModel sender, ProgramItem item);
+        public event CurrentItemChangeHandler CurrentItemChange;
 
         public event EventHandler SearchFinished;
+        public delegate void AutoProfileHandler(AutoProfilesViewModel sender,
+            ProgramItem item, bool state);
+        public event AutoProfileHandler AutoProfileUpdated;
 
         public AutoProfilesViewModel(AutoProfileHolder autoProfileHolder)
         {
@@ -82,11 +95,33 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                         item.MatchedAutoProfile = autoEntity;
                     }
 
+                    item.AutoProfileAction += ProgramItem_AutoProfileAction;
                     programColl.Add(item);
                     existingapps.Add(target);
                 }
             }
+        }
 
+        private void ProgramItem_AutoProfileAction(ProgramItem sender, bool added)
+        {
+            if (added)
+            {
+                sender.MatchedAutoProfile = new AutoProfileEntity()
+                {
+                    Path = sender.Path,
+                    Title = sender.Title,
+                };
+
+                autoProfileHolder.AutoProfileColl.Add(sender.MatchedAutoProfile);
+                autoProfileHolder.AutoProfileDict.Add(sender.Path, sender.MatchedAutoProfile);
+            }
+            else
+            {
+                autoProfileHolder.AutoProfileColl.Remove(sender.MatchedAutoProfile);
+                autoProfileHolder.AutoProfileDict.Remove(sender.Path);
+            }
+
+            AutoProfileUpdated?.Invoke(this, sender, added);
         }
 
         private string GetTargetPath(string filePath)
@@ -184,10 +219,63 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private ImageSource exeicon;
 
         public string Path { get => path; }
-        public string Title { get => title; }
-        public AutoProfileEntity MatchedAutoProfile { get => matchedAutoProfile; set => matchedAutoProfile = value; }
+        public string Title { get => title; set
+            {
+                if (title == value) return;
+                title = value;
+                TitleChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler TitleChanged;
+        public AutoProfileEntity MatchedAutoProfile { get => matchedAutoProfile;
+            set => matchedAutoProfile = value; }
+        public event EventHandler MatchedAutoProfileChanged;
+        public delegate void AutoProfileHandler(ProgramItem sender, bool added);
+        public event AutoProfileHandler AutoProfileAction;
         public string Filename { get => filename;  }
         public ImageSource Exeicon { get => exeicon; }
+
+        public bool Turnoff
+        {
+            get
+            {
+                bool result = false;
+                if (matchedAutoProfile != null)
+                {
+                    result = matchedAutoProfile.Turnoff;
+                }
+
+                return result;
+            }
+            set
+            {
+                if (matchedAutoProfile != null)
+                {
+                    matchedAutoProfile.Turnoff = value;
+                    TurnoffChanged?.Invoke(this, EventArgs.Empty);
+                }
+            }
+        }
+        public event EventHandler TurnoffChanged;
+
+        public bool Exists
+        {
+            get => matchedAutoProfile != null;
+            set
+            {
+                if (matchedAutoProfile != null && !value)
+                {
+                    matchedAutoProfile = null;
+                    AutoProfileAction?.Invoke(this, false);
+                }
+                else if (matchedAutoProfile == null && value)
+                {
+                    AutoProfileAction?.Invoke(this, true);
+                }
+
+                MatchedAutoProfileChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
 
         public ProgramItem(string path, AutoProfileEntity autoProfileEntity = null)
         {

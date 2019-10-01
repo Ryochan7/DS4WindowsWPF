@@ -28,10 +28,13 @@ namespace DS4WinWPF.DS4Forms
         private string steamgamesdir;
         private AutoProfilesViewModel autoProfVM;
         private AutoProfileHolder autoProfileHolder;
+        private bool autoDebug;
 
         public AutoProfileHolder AutoProfileHolder { get => autoProfileHolder;
             set => autoProfileHolder = value; }
         public AutoProfilesViewModel AutoProfVM { get => autoProfVM; }
+        public bool AutoDebug { get => autoDebug; }
+        public event EventHandler AutoDebugChanged;
 
         public AutoProfiles()
         {
@@ -57,16 +60,42 @@ namespace DS4WinWPF.DS4Forms
             DataContext = autoProfVM;
 
             autoProfVM.SearchFinished += AutoProfVM_SearchFinished;
+            autoProfVM.AutoProfileUpdated += AutoProfVM_AutoProfileUpdated;
+            autoProfVM.CurrentItemChange += AutoProfVM_CurrentItemChange;
+        }
+
+        private void AutoProfVM_CurrentItemChange(AutoProfilesViewModel sender, ProgramItem item)
+        {
+            if (item != null)
+            {
+                editControlsPanel.DataContext = item;
+                editControlsPanel.IsEnabled = item.MatchedAutoProfile != null;
+            }
+            else
+            {
+                editControlsPanel.DataContext = null;
+                editControlsPanel.IsEnabled = false;
+            }
+        }
+
+        private void AutoProfVM_AutoProfileUpdated(AutoProfilesViewModel sender,
+            ProgramItem item, bool state)
+        {
+            if (state && item.MatchedAutoProfile != null)
+            {
+                editControlsPanel.DataContext = item;
+                editControlsPanel.IsEnabled = true;
+            }
+            else
+            {
+                editControlsPanel.DataContext = null;
+                editControlsPanel.IsEnabled = false;
+            }
         }
 
         private void AutoProfVM_SearchFinished(object sender, EventArgs e)
         {
-            this.IsEnabled = true;
-        }
-
-        public void SetDataContext()
-        {
-            DataContext = autoProfVM;
+            IsEnabled = true;
         }
 
         private void SteamMenuItem_Click(object sender, RoutedEventArgs e)
@@ -94,22 +123,22 @@ namespace DS4WinWPF.DS4Forms
             programListLV.ItemsSource = autoProfVM.ProgramColl;
         }
 
-        private void AddProgramsBtn_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            addProgramsBtn.ContextMenu.IsOpen = true;
-            e.Handled = true;
-        }
-
-        private void AddProgramsBtn_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            addProgramsBtn.ContextMenu.IsOpen = true;
-            e.Handled = true;
-        }
-
         private void AddProgramsBtn_Click(object sender, RoutedEventArgs e)
         {
             addProgramsBtn.ContextMenu.IsOpen = true;
             e.Handled = true;
+        }
+
+        private void HideUncheckedBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowAutoDebugCk_Click(object sender, RoutedEventArgs e)
+        {
+            bool state = showAutoDebugCk.IsChecked == true;
+            autoDebug = state;
+            AutoDebugChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

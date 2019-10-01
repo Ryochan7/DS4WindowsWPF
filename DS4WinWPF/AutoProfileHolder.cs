@@ -69,6 +69,48 @@ namespace DS4WinWPF
             }
             catch (Exception) { }
         }
+
+        public bool Save(string m_Profile)
+        {
+            XmlDocument doc = new XmlDocument();
+            XmlNode Node;
+            bool saved = true;
+            try
+            {
+                Node = doc.CreateXmlDeclaration("1.0", "utf-8", string.Empty);
+                doc.AppendChild(Node);
+
+                Node = doc.CreateComment(string.Format(" Auto-Profile Configuration Data. {0} ", DateTime.Now));
+                doc.AppendChild(Node);
+
+                Node = doc.CreateWhitespace("\r\n");
+                doc.AppendChild(Node);
+
+                Node = doc.CreateNode(XmlNodeType.Element, "Programs", "");
+                doc.AppendChild(Node);
+                foreach (AutoProfileEntity entity in autoProfileColl)
+                {
+                    XmlElement el = doc.CreateElement("Program");
+                    el.SetAttribute("path", entity.Path);
+                    if (!string.IsNullOrEmpty(entity.Title))
+                    {
+                        el.SetAttribute("title", entity.Title);
+                    }
+
+                    el.AppendChild(doc.CreateElement("Controller1")).InnerText = entity.ProfileNames[0];
+                    el.AppendChild(doc.CreateElement("Controller2")).InnerText = entity.ProfileNames[1];
+                    el.AppendChild(doc.CreateElement("Controller3")).InnerText = entity.ProfileNames[2];
+                    el.AppendChild(doc.CreateElement("Controller4")).InnerText = entity.ProfileNames[3];
+
+                    Node.AppendChild(el);
+                }
+
+                doc.AppendChild(Node);
+                doc.Save(m_Profile);
+            }
+            catch (Exception) { saved = false; }
+            return saved;
+        }
     }
 
     public class AutoProfileEntity

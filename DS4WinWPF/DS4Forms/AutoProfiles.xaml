@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="800">
     <DockPanel>
-        <StackPanel DockPanel.Dock="Right" Width="200" Margin="8" IsEnabled="False">
+        <StackPanel x:Name="editControlsPanel" DockPanel.Dock="Right" Width="200" Margin="8" IsEnabled="False">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="30">
                 <Button Content="Remove" Height="20" Padding="1" Width="80" />
                 <Button Content="Save" Margin="20,0,0,0" Height="20" Width="80" />
@@ -25,26 +25,26 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Controller 1"/>
-                <ComboBox x:Name="cont1AutoProf" IsEnabled="False" Grid.Column="1" />
+                <ComboBox x:Name="cont1AutoProf" Grid.Column="1" />
 
                 <Label Content="Controller 2" Grid.Row="1"/>
-                <ComboBox x:Name="cont2AutoProf" IsEnabled="False"  Grid.Row="1" Grid.Column="1" />
+                <ComboBox x:Name="cont2AutoProf" Grid.Row="1" Grid.Column="1" />
 
                 <Label Content="Controller 3" Grid.Row="2"/>
-                <ComboBox x:Name="cont3AutoProf" IsEnabled="False" Grid.Row="2" Grid.Column="1" />
+                <ComboBox x:Name="cont3AutoProf" Grid.Row="2" Grid.Column="1" />
 
                 <Label Content="Controller 4" Grid.Row="3"/>
-                <ComboBox x:Name="cont4AutoProf" IsEnabled="False" Grid.Row="3" Grid.Column="1" />
+                <ComboBox x:Name="cont4AutoProf" Grid.Row="3" Grid.Column="1" />
             </Grid>
-            <CheckBox Content="Turn Off DS4Window Temporarily" />
-            <TextBox Margin="0,8,0,0" />
-            <TextBox Margin="0,8,0,0" />
+            <CheckBox Content="Turn Off DS4Window Temporarily" IsChecked="{Binding Turnoff}" />
+            <TextBox Text="{Binding Path, Mode=OneWay}" IsReadOnly="True" Margin="0,8,0,0" />
+            <TextBox Text="{Binding Title, UpdateSourceTrigger=LostFocus}" Margin="0,8,0,0" />
             <Border Height="4" Background="#FFDADADA" Margin="0,10,0,0" />
-            <CheckBox Content="Show auto-profile debug messages" Margin="0,10,0,0" />
+            <CheckBox x:Name="showAutoDebugCk" Content="Show auto-profile debug messages" Margin="0,10,0,0" Click="ShowAutoDebugCk_Click" />
         </StackPanel>
         <DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="8">
-                <Button x:Name="addProgramsBtn" Content="Add Programs" MouseLeftButtonUp="AddProgramsBtn_MouseLeftButtonUp" MouseLeftButtonDown="AddProgramsBtn_MouseLeftButtonDown" Click="AddProgramsBtn_Click">
+                <Button x:Name="addProgramsBtn" Content="Add Programs" Click="AddProgramsBtn_Click">
                     <Button.ContextMenu>
                         <ContextMenu>
                             <MenuItem x:Name="steamMenuItem" Header="Steam" Click="SteamMenuItem_Click" />
@@ -53,15 +53,16 @@
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>
-                <Button x:Name="hideUncheckedBtn" Content="Hide Unchecked" Margin="20,0,0,0" />
+                <Button x:Name="hideUncheckedBtn" Content="Hide Unchecked" Margin="20,0,0,0" Click="HideUncheckedBtn_Click" />
             </StackPanel>
-            <ListView x:Name="programListLV" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" SelectedIndex="{Binding SelectedIndex}" Margin="8,0,0,8">
+            <ListView x:Name="programListLV" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" SelectedIndex="{Binding SelectedIndex}" SelectedItem="{Binding SelectedItem}" Margin="8,0,0,8">
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Name" Width="200">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
+                                        <CheckBox IsChecked="{Binding Exists}" Margin="0,10,0,0" />
                                         <Image Source="{Binding Exeicon}" Width="30" Margin="0,0,10,0" />
                                         <TextBlock Text="{Binding Filename}" />
                                     </StackPanel>

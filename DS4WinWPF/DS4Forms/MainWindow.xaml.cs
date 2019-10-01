@@ -44,6 +44,7 @@ namespace DS4WinWPF.DS4Forms
         private AutoProfileHolder autoProfileHolder;
         private NonFormTimer hotkeysTimer;
         private NonFormTimer autoProfilesTimer;
+        private static int autoProfileDebugLogLevel = 0; // 0=Dont log debug messages about active process and window titles to GUI Log screen. 1=Show debug log messages
 
         public MainWindow(ArgumentParser parser)
         {
@@ -168,6 +169,7 @@ namespace DS4WinWPF.DS4Forms
             trayIconVM.ProfileSelected += TrayIconVM_ProfileSelected;
             trayIconVM.RequestMinimize += TrayIconVM_RequestMinimize;
             trayIconVM.RequestOpen += TrayIconVM_RequestOpen;
+            autoProfControl.AutoDebugChanged += AutoProfControl_AutoDebugChanged;
 
             WqlEventQuery q = new WqlEventQuery();
             ManagementScope scope = new ManagementScope("root\\CIMV2");
@@ -175,6 +177,11 @@ namespace DS4WinWPF.DS4Forms
             managementEvWatcher = new ManagementEventWatcher(scope, q);
             managementEvWatcher.EventArrived += PowerEventArrive;
             managementEvWatcher.Start();
+        }
+
+        private void AutoProfControl_AutoDebugChanged(object sender, EventArgs e)
+        {
+            autoProfileDebugLogLevel = autoProfControl.AutoDebug == true ? 1 : 0;
         }
 
         private void PowerEventArrive(object sender, EventArrivedEventArgs e)
@@ -602,6 +609,7 @@ namespace DS4WinWPF.DS4Forms
             }
 
             hotkeysTimer.Stop();
+            //autoProfileHolder.Save();
             Util.UnregisterNotify(regHandle);
             Application.Current.Shutdown();
         }
