@@ -41,16 +41,16 @@ namespace DS4WinWPF
                 XmlNodeList programslist = doc.SelectNodes("Programs/Program");
                 foreach (XmlNode x in programslist)
                 {
-                    string path = x.Attributes["path"]?.Value;
+                    string path = x.Attributes["path"]?.Value ?? string.Empty;
                     AutoProfileEntity autoprof = new AutoProfileEntity()
                     { Path = path,
-                      Title = x.Attributes["title"]?.Value
+                      Title = x.Attributes["title"]?.Value ?? string.Empty
                     };
 
                     XmlNode item;
                     for (int i = 0; i < 4; i++)
                     {
-                        item = x.SelectSingleNode("Controller{i+1}");
+                        item = x.SelectSingleNode($"Controller{i+1}");
                         if (item != null)
                         {
                             autoprof.ProfileNames[i] = item.InnerText;
@@ -101,22 +101,28 @@ namespace DS4WinWPF
                     el.AppendChild(doc.CreateElement("Controller2")).InnerText = entity.ProfileNames[1];
                     el.AppendChild(doc.CreateElement("Controller3")).InnerText = entity.ProfileNames[2];
                     el.AppendChild(doc.CreateElement("Controller4")).InnerText = entity.ProfileNames[3];
+                    el.AppendChild(doc.CreateElement("TurnOff")).InnerText = entity.Turnoff.ToString();
 
                     Node.AppendChild(el);
                 }
 
-                doc.AppendChild(Node);
                 doc.Save(m_Profile);
             }
             catch (Exception) { saved = false; }
             return saved;
         }
+
+        public void Remove(AutoProfileEntity item)
+        {
+            autoProfileDict.Remove(item.Path);
+            autoProfileColl.Remove(item);
+        }
     }
 
     public class AutoProfileEntity
     {
-        private string path;
-        private string title;
+        private string path = string.Empty;
+        private string title = string.Empty;
         private bool turnoff;
         private string[] profileNames = new string[4] { string.Empty, string.Empty,
             string.Empty, string.Empty };

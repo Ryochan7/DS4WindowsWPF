@@ -95,6 +95,7 @@ namespace DS4WinWPF.DS4Forms
             Top = Global.FormLocationY;
 
             autoProfileHolder = autoProfControl.AutoProfileHolder;
+            autoProfControl.SetupDataContext(profileListHolder);
 
             SetupEvents();
 

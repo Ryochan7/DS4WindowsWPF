@@ -28,6 +28,7 @@ namespace DS4WinWPF.DS4Forms
         private string steamgamesdir;
         private AutoProfilesViewModel autoProfVM;
         private AutoProfileHolder autoProfileHolder;
+        private ProfileList profileList;
         private bool autoDebug;
 
         public AutoProfileHolder AutoProfileHolder { get => autoProfileHolder;
@@ -56,12 +57,25 @@ namespace DS4WinWPF.DS4Forms
                 addProgramsBtn.ContextMenu.Items.Remove(steamMenuItem);
 
             autoProfileHolder = new AutoProfileHolder();
-            autoProfVM = new AutoProfilesViewModel(autoProfileHolder);
-            DataContext = autoProfVM;
+            //autoProfVM = new AutoProfilesViewModel(autoProfileHolder);
+            //DataContext = autoProfVM;
+        }
+
+        public void SetupDataContext(ProfileList profileList)
+        {
+            autoProfVM = new AutoProfilesViewModel(autoProfileHolder, profileList);
+            programListLV.DataContext = autoProfVM;
+            programListLV.ItemsSource = autoProfVM.ProgramColl;
 
             autoProfVM.SearchFinished += AutoProfVM_SearchFinished;
             autoProfVM.AutoProfileUpdated += AutoProfVM_AutoProfileUpdated;
             autoProfVM.CurrentItemChange += AutoProfVM_CurrentItemChange;
+
+            this.profileList = profileList;
+            cont1AutoProfCol.Collection = profileList.ProfileListCol;
+            cont2AutoProfCol.Collection = profileList.ProfileListCol;
+            cont3AutoProfCol.Collection = profileList.ProfileListCol;
+            cont4AutoProfCol.Collection = profileList.ProfileListCol;
         }
 
         private void AutoProfVM_CurrentItemChange(AutoProfilesViewModel sender, ProgramItem item)
@@ -70,11 +84,42 @@ namespace DS4WinWPF.DS4Forms
             {
                 editControlsPanel.DataContext = item;
                 editControlsPanel.IsEnabled = item.MatchedAutoProfile != null;
+                if (item.MatchedAutoProfile != null)
+                {
+                    ProfileEntity tempProf = profileList.ProfileListCol.SingleOrDefault(x => x.Name == item.MatchedAutoProfile.ProfileNames[0]);
+                    if (tempProf != null)
+                    {
+                        cont1AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
+                    }
+
+                    tempProf = profileList.ProfileListCol.SingleOrDefault(x => x.Name == item.MatchedAutoProfile.ProfileNames[1]);
+                    if (tempProf != null)
+                    {
+                        cont2AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
+                    }
+
+                    tempProf = profileList.ProfileListCol.SingleOrDefault(x => x.Name == item.MatchedAutoProfile.ProfileNames[2]);
+                    if (tempProf != null)
+                    {
+                        cont3AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
+                    }
+
+                    tempProf = profileList.ProfileListCol.SingleOrDefault(x => x.Name == item.MatchedAutoProfile.ProfileNames[3]);
+                    if (tempProf != null)
+                    {
+                        cont4AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
+                    }
+                }
             }
             else
             {
                 editControlsPanel.DataContext = null;
                 editControlsPanel.IsEnabled = false;
+
+                cont1AutoProf.SelectedIndex = 0;
+                cont2AutoProf.SelectedIndex = 0;
+                cont3AutoProf.SelectedIndex = 0;
+                cont4AutoProf.SelectedIndex = 0;
             }
         }
 
@@ -111,7 +156,7 @@ namespace DS4WinWPF.DS4Forms
         private void StartMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.IsEnabled = false;
-            addProgramsBtn.ContextMenu.Items.Remove(startMenuItem);
+            startMenuItem.Visibility = Visibility.Collapsed;
             programListLV.ItemsSource = null;
             autoProfVM.AddProgramsFromStartMenu();
             autoProfVM.SearchFinished += StartMenuSearchFinished;
@@ -131,7 +176,12 @@ namespace DS4WinWPF.DS4Forms
 
         private void HideUncheckedBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            programListLV.ItemsSource = null;
+            autoProfVM.RemoveUnchecked();
+            steamMenuItem.Visibility = Visibility.Visible;
+            startMenuItem.Visibility = Visibility.Visible;
+            browseProgsMenuItem.Visibility = Visibility.Visible;
+            programListLV.ItemsSource = autoProfVM.ProgramColl;
         }
 
         private void ShowAutoDebugCk_Click(object sender, RoutedEventArgs e)
@@ -139,6 +189,24 @@ namespace DS4WinWPF.DS4Forms
             bool state = showAutoDebugCk.IsChecked == true;
             autoDebug = state;
             AutoDebugChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void RemoveAutoBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (autoProfVM.SelectedItem != null)
+            {
+                editControlsPanel.DataContext = null;
+                autoProfVM.AutoProfileHolder.Remove(autoProfVM.SelectedItem.MatchedAutoProfile);
+                autoProfVM.SelectedItem.MatchedAutoProfile = null;
+                autoProfVM.AutoProfileHolder.Save(DS4Windows.Global.appdatapath + @"\Auto Profiles.xml");
+                autoProfVM.SelectedItem.Exists = false;
+                autoProfVM.SelectedItem = null;
+            }
+        }
+
+        private void SaveAutoBtn_Click(object sender, RoutedEventArgs e)
+        {
+            autoProfVM.AutoProfileHolder.Save(DS4Windows.Global.appdatapath + @"\Auto Profiles.xml");
         }
     }
 }

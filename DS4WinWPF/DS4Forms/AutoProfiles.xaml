@@ -4,13 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
+             xmlns:entity="clr-namespace:DS4WinWPF"
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="800">
     <DockPanel>
         <StackPanel x:Name="editControlsPanel" DockPanel.Dock="Right" Width="200" Margin="8" IsEnabled="False">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="30">
-                <Button Content="Remove" Height="20" Padding="1" Width="80" />
-                <Button Content="Save" Margin="20,0,0,0" Height="20" Width="80" />
+                <Button x:Name="removeAutoBtn" Content="Remove" Height="20" Padding="1" Width="80" Click="RemoveAutoBtn_Click" />
+                <Button x:Name="saveAutoBtn" Content="Save" Margin="20,0,0,0" Height="20" Width="80" Click="SaveAutoBtn_Click" />
             </StackPanel>
             <Grid Margin="0,8">
                 <Grid.RowDefinitions>
@@ -25,16 +26,80 @@
                 </Grid.ColumnDefinitions>
 
                 <Label Content="Controller 1"/>
-                <ComboBox x:Name="cont1AutoProf" Grid.Column="1" />
+                <ComboBox x:Name="cont1AutoProf" Grid.Column="1" SelectedIndex="{Binding SelectedIndexCon1}">
+                    <ComboBox.Resources>
+                        <DataTemplate DataType="{x:Type ComboBoxItem}">
+                            <TextBlock Text="{Binding Content}" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type entity:ProfileEntity}">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <ComboBoxItem Content="*none*"/>
+                            <CollectionContainer x:Name="cont1AutoProfCol" />
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
 
                 <Label Content="Controller 2" Grid.Row="1"/>
-                <ComboBox x:Name="cont2AutoProf" Grid.Row="1" Grid.Column="1" />
+                <ComboBox x:Name="cont2AutoProf" Grid.Row="1" Grid.Column="1"  SelectedIndex="{Binding SelectedIndexCon2}">
+                    <ComboBox.Resources>
+                        <DataTemplate DataType="{x:Type ComboBoxItem}">
+                            <TextBlock Text="{Binding Content}" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type entity:ProfileEntity}">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <ComboBoxItem Content="*none*"/>
+                            <CollectionContainer x:Name="cont2AutoProfCol" />
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
 
                 <Label Content="Controller 3" Grid.Row="2"/>
-                <ComboBox x:Name="cont3AutoProf" Grid.Row="2" Grid.Column="1" />
+                <ComboBox x:Name="cont3AutoProf" Grid.Row="2" Grid.Column="1"  SelectedIndex="{Binding SelectedIndexCon3}">
+                    <ComboBox.Resources>
+                        <DataTemplate DataType="{x:Type ComboBoxItem}">
+                            <TextBlock Text="{Binding Content}" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type entity:ProfileEntity}">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <ComboBoxItem Content="*none*"/>
+                            <CollectionContainer x:Name="cont3AutoProfCol" />
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
 
                 <Label Content="Controller 4" Grid.Row="3"/>
-                <ComboBox x:Name="cont4AutoProf" Grid.Row="3" Grid.Column="1" />
+                <ComboBox x:Name="cont4AutoProf" Grid.Row="3" Grid.Column="1"  SelectedIndex="{Binding SelectedIndexCon4}">
+                    <ComboBox.Resources>
+                        <DataTemplate DataType="{x:Type ComboBoxItem}">
+                            <TextBlock Text="{Binding Content}" />
+                        </DataTemplate>
+
+                        <DataTemplate DataType="{x:Type entity:ProfileEntity}">
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.Resources>
+                    <ComboBox.ItemsSource>
+                        <CompositeCollection>
+                            <ComboBoxItem Content="*none*"/>
+                            <CollectionContainer x:Name="cont4AutoProfCol" />
+                        </CompositeCollection>
+                    </ComboBox.ItemsSource>
+                </ComboBox>
             </Grid>
             <CheckBox Content="Turn Off DS4Window Temporarily" IsChecked="{Binding Turnoff}" />
             <TextBox Text="{Binding Path, Mode=OneWay}" IsReadOnly="True" Margin="0,8,0,0" />
