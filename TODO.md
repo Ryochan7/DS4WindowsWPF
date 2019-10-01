@@ -2,7 +2,7 @@
 
 * ~~Implement Swipe changes profiles Timer routine~~
 * Start making Options window
-* Work on Auto Profiles user control
+* ~~Work on Auto Profiles user control~~
 * Evaluate Task Scheduler
 * Create Command line argument checker
 * ~~Check Show Notification setting behavior~~
