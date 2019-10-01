@@ -1,6 +1,6 @@
 # TODO
 
-* Implement Swipe changes profiles Timer routine
+* ~~Implement Swipe changes profiles Timer routine~~
 * Start making Options window
 * Work on Auto Profiles user control
 * Evaluate Task Scheduler

@@ -41,6 +41,7 @@ namespace DS4WinWPF.DS4Forms
         private bool showInTaskbar = false;
         private ManagementEventWatcher managementEvWatcher;
         private bool wasrunning = false;
+        private AutoProfileHolder autoProfileHolder;
         private NonFormTimer hotkeysTimer;
         private NonFormTimer autoProfilesTimer;
 
@@ -91,6 +92,8 @@ namespace DS4WinWPF.DS4Forms
             WindowStartupLocation = WindowStartupLocation.Manual;
             Left = Global.FormLocationX;
             Top = Global.FormLocationY;
+
+            autoProfileHolder = autoProfControl.AutoProfileHolder;
 
             SetupEvents();
 
@@ -594,8 +597,11 @@ namespace DS4WinWPF.DS4Forms
             if (Global.CloseMini)
             {
                 WindowState = WindowState.Minimized;
+                e.Cancel = true;
+                return;
             }
 
+            hotkeysTimer.Stop();
             Util.UnregisterNotify(regHandle);
             Application.Current.Shutdown();
         }
@@ -922,6 +928,12 @@ namespace DS4WinWPF.DS4Forms
         {
             bool state = customSteamCk.IsChecked == true;
             customSteamTxt.IsEnabled = state;
+        }
+
+        private void SwipeTouchCk_Click(object sender, RoutedEventArgs e)
+        {
+            bool status = swipeTouchCk.IsChecked == true;
+            ChangeHotkeysStatus(status);
         }
     }
 }

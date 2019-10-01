@@ -132,6 +132,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ArgumentParser.cs" />
+    <Compile Include="AutoProfileHolder.cs" />
     <Compile Include="BezierCurveEditor\BezierCurve.cs" />
     <Compile Include="DS4Control\ControllerSlotManager.cs" />
     <Compile Include="DS4Control\ControlService.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="DS4Forms\SaveWhere.xaml.cs">
       <DependentUpon>SaveWhere.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\ViewModel\AutoProfilesViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />
     <Compile Include="DS4Forms\WelcomeDialog.xaml.cs">

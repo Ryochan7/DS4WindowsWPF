@@ -543,6 +543,33 @@ namespace DS4Windows
             catch { }
         }
 
+        public static bool CreateAutoProfiles(string m_Profile)
+        {
+            bool Saved = true;
+
+            try
+            {
+                XmlNode Node;
+                XmlDocument doc = new XmlDocument();
+
+                Node = doc.CreateXmlDeclaration("1.0", "utf-8", String.Empty);
+                doc.AppendChild(Node);
+
+                Node = doc.CreateComment(string.Format(" Auto-Profile Configuration Data. {0} ", DateTime.Now));
+                doc.AppendChild(Node);
+
+                Node = doc.CreateWhitespace("\r\n");
+                doc.AppendChild(Node);
+
+                Node = doc.CreateNode(XmlNodeType.Element, "Programs", "");
+                doc.AppendChild(Node);
+                doc.Save(m_Profile);
+            }
+            catch { Saved = false; }
+
+            return Saved;
+        }
+
         public static event EventHandler<EventArgs> ControllerStatusChange; // called when a controller is added/removed/battery or touchpad mode changes/etc.
         public static void ControllerStatusChanged(object sender)
         {

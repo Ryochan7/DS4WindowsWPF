@@ -44,19 +44,35 @@
         </StackPanel>
         <DockPanel>
             <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Margin="8">
-                <Button Content="Add Programs" />
-                <Button Content="Hide Unchecked" Margin="20,0,0,0" />
+                <Button x:Name="addProgramsBtn" Content="Add Programs" MouseLeftButtonUp="AddProgramsBtn_MouseLeftButtonUp" MouseLeftButtonDown="AddProgramsBtn_MouseLeftButtonDown" Click="AddProgramsBtn_Click">
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem x:Name="steamMenuItem" Header="Steam" Click="SteamMenuItem_Click" />
+                            <MenuItem x:Name="startMenuItem" Header="Start Menu" Click="StartMenuItem_Click" />
+                            <MenuItem x:Name="browseProgsMenuItem" Header="Browse" Click="BrowseProgsMenuItem_Click" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+                <Button x:Name="hideUncheckedBtn" Content="Hide Unchecked" Margin="20,0,0,0" />
             </StackPanel>
-            <ListView ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" Margin="8,0,0,8">
+            <ListView x:Name="programListLV" ScrollViewer.HorizontalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True" SelectedIndex="{Binding SelectedIndex}" Margin="8,0,0,8">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name" Width="100"/>
-                        <GridViewColumn Header="Path" Width="400"/>
-                        <GridViewColumn Header="Window Title" Width="Auto"/>
+                        <GridViewColumn Header="Name" Width="200">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="{Binding Exeicon}" Width="30" Margin="0,0,10,0" />
+                                        <TextBlock Text="{Binding Filename}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Path" Width="600" DisplayMemberBinding="{Binding Path}"/>
+                        <GridViewColumn Header="Window Title" Width="Auto" DisplayMemberBinding="{Binding Title}"/>
                     </GridView>
                 </ListView.View>
-
-            </ListView>
+           </ListView>
         </DockPanel>
     </DockPanel>
 </UserControl>
