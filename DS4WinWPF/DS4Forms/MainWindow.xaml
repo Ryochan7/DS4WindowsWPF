@@ -227,7 +227,7 @@
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Flash Lightbar at High Latency" />
                         <!--<TextBox Text="20" VerticalContentAlignment="Center" />-->
-                        <xctk:IntegerUpDown Value="20" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
+                        <xctk:IntegerUpDown d:IsHidden="True" Value="20" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
                         <Label Content="ms" />
                     </StackPanel>
                     <CheckBox Content="Start Minimized" IsChecked="{Binding StartMinimize}" />
@@ -239,7 +239,7 @@
                     <StackPanel x:Name="checkEveryOptionsStack"  Orientation="Horizontal" IsEnabled="{Binding CheckForUpdates}">
                         <Label Content="Check every " />
                         <!--<TextBox Text="0" VerticalAlignment="Center" />-->
-                        <xctk:IntegerUpDown Value="1" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
+                        <xctk:IntegerUpDown d:IsHidden="True" Value="1" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
                         <ComboBox SelectedIndex="{Binding CheckEveryUnit}">
                             <ComboBoxItem Content="Hours" />
                             <ComboBoxItem Content="Days" />
@@ -250,7 +250,7 @@
                         <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}" />
                         <Label Content="Port" Padding="0" />
                         <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
-                        <xctk:IntegerUpDown x:Name="updPortNum" IsEnabled="False" MinWidth="20" Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
+                        <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Use language pack" />
