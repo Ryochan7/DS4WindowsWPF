@@ -46,6 +46,9 @@ namespace DS4WinWPF.DS4Forms
         private NonFormTimer autoProfilesTimer;
         private static int autoProfileDebugLogLevel = 0; // 0=Dont log debug messages about active process and window titles to GUI Log screen. 1=Show debug log messages
         private AutoProfileChecker autoprofileChecker;
+        private ProfileEditor editor;
+        private bool preserveSize = true;
+        private Size oldSize;
 
         public MainWindow(ArgumentParser parser)
         {
@@ -977,11 +980,10 @@ namespace DS4WinWPF.DS4Forms
 
         private void MainDS4Window_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            if (WindowState != WindowState.Minimized)
+            if (WindowState != WindowState.Minimized && preserveSize)
             {
                 Global.FormWidth = Convert.ToInt32(Width);
                 Global.FormHeight = Convert.ToInt32(Height);
-
             }
         }
 
@@ -1009,6 +1011,38 @@ namespace DS4WinWPF.DS4Forms
         {
             bool status = swipeTouchCk.IsChecked == true;
             ChangeHotkeysStatus(status);
+        }
+
+        private void EditProfBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (profilesListBox.SelectedIndex >= 0)
+            {
+                ProfileEntity entity = profileListHolder.ProfileListCol[profilesListBox.SelectedIndex];
+                profOptsToolbar.Visibility = Visibility.Collapsed;
+                profilesListBox.Visibility = Visibility.Collapsed;
+
+                preserveSize = false;
+                oldSize.Width = Width;
+                oldSize.Height = Height;
+                this.Width = 1100;
+                this.Height = 650;
+                editor = new ProfileEditor(0);
+                editor.Closed += ProfileEditor_Closed;
+                profDockPanel.Children.Add(editor);
+                editor.Reload(0, entity);
+            }
+        }
+
+        private void ProfileEditor_Closed(object sender, EventArgs e)
+        {
+            profDockPanel.Children.Remove(editor);
+            profOptsToolbar.Visibility = Visibility.Visible;
+            profilesListBox.Visibility = Visibility.Visible;
+            editor = null;
+            preserveSize = true;
+            this.Width = oldSize.Width;
+            this.Height = oldSize.Height;
+            //Task.Run(() => GC.Collect(2, GCCollectionMode.Forced, true));
         }
     }
 }
