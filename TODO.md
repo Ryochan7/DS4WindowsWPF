@@ -1,13 +1,15 @@
 # TODO
 
-* ~~Implement Swipe changes profiles Timer routine~~
-* Start making Options window
-* ~~Work on Auto Profiles user control~~
+* Implement auto profile execution
+* Create Options ViewModels. Bind data
 * Evaluate Task Scheduler
 * Create Command line argument checker
+* Choose between WebClient or HttpClient for download library
+* ~~Start making Options window~~
+* ~~Implement Swipe changes profiles Timer routine~~
+* ~~Work on Auto Profiles user control~~
 * ~~Check Show Notification setting behavior~~
 * ~~Make small ColorPicker dialog for custom color selection~~
-* Choose between WebClient or HttpClient for download library
 * ~~Enable suspend and resume functionality~~
 * ~~Disconnect BT when Stopping~~
 * ~~Close Minimizes~~
