@@ -21,6 +21,7 @@ namespace DS4WinWPF.DS4Forms
     public partial class SaveWhere : Window
     {
         private bool multisaves;
+        private bool choiceMade = false;
 
         public SaveWhere(bool multisavespots)
         {
@@ -49,6 +50,7 @@ namespace DS4WinWPF.DS4Forms
             else if (!multisaves)
                 DS4Windows.Global.SaveDefault(DS4Windows.Global.exepath + "\\Profiles.xml");
 
+            choiceMade = true;
             Close();
         }
 
@@ -68,12 +70,16 @@ namespace DS4WinWPF.DS4Forms
                 DS4Windows.Global.SaveDefault(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\DS4Windows\\Profiles.xml");
 
             DS4Windows.Global.SaveWhere(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\DS4Windows");
+            choiceMade = true;
             Close();
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
+            if (!choiceMade)
+            {
+                e.Cancel = true;
+            }
         }
     }
 }

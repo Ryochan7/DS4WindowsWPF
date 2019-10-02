@@ -66,6 +66,7 @@ namespace DS4WinWPF
                 threadComEvent.Set();  // signal the other instance.
                 threadComEvent.Close();
                 Current.Shutdown();    // Quit temp instance
+                return;
             }
             catch { /* don't care about errors */ }
 
@@ -88,10 +89,17 @@ namespace DS4WinWPF
             DS4Windows.Global.Load();
             //DS4Windows.Global.ProfilePath[0] = "mixed";
             //DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
-            Directory.CreateDirectory(DS4Windows.Global.appdatapath);
             if (firstRun)
             {
+                Directory.CreateDirectory(DS4Windows.Global.appdatapath);
                 AttemptSave();
+
+                Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Profiles\");
+                DS4Windows.Global.SaveProfile(0, "Default");
+                DS4Windows.Global.ProfilePath[0] = DS4Windows.Global.OlderProfilePath[0] = "Default";
+                DS4Windows.Global.ProfilePath[1] = DS4Windows.Global.OlderProfilePath[1] = "Default";
+                DS4Windows.Global.ProfilePath[2] = DS4Windows.Global.OlderProfilePath[2] = "Default";
+                DS4Windows.Global.ProfilePath[3] = DS4Windows.Global.OlderProfilePath[3] = "Default";
             }
 
             if (!DS4Windows.Global.LoadActions())
