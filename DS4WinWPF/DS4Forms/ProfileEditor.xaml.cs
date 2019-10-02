@@ -23,6 +23,8 @@ namespace DS4WinWPF.DS4Forms
         public ProfileEditor()
         {
             InitializeComponent();
+
+            emptyColorGB.Visibility = Visibility.Collapsed;
         }
     }
 }

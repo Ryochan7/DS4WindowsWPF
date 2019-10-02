@@ -301,6 +301,7 @@
     <Content Include="BezierCurveEditor\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\DS4-Config_RS.png" />
     <Resource Include="Resources\DS4 Config.png" />
     <Resource Include="Resources\Pairmode.png" />
     <Resource Include="Resources\USB.png" />
