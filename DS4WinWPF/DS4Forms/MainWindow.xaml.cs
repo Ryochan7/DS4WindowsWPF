@@ -45,6 +45,7 @@ namespace DS4WinWPF.DS4Forms
         private NonFormTimer hotkeysTimer;
         private NonFormTimer autoProfilesTimer;
         private static int autoProfileDebugLogLevel = 0; // 0=Dont log debug messages about active process and window titles to GUI Log screen. 1=Show debug log messages
+        private AutoProfileChecker autoprofileChecker;
 
         public MainWindow(ArgumentParser parser)
         {
@@ -97,6 +98,8 @@ namespace DS4WinWPF.DS4Forms
             autoProfileHolder = autoProfControl.AutoProfileHolder;
             autoProfControl.SetupDataContext(profileListHolder);
 
+            //autoprofileChecker = new AutoProfileChecker(autoProfileHolder);
+
             SetupEvents();
 
             Task.Run(() =>
@@ -119,6 +122,12 @@ namespace DS4WinWPF.DS4Forms
                 {
                     ChangeHotkeysStatus(true);
                 }
+
+                /*autoProfilesTimer = new NonFormTimer();
+                autoProfilesTimer.Interval = 1000;
+                autoProfilesTimer.AutoReset = false;
+                CheckAutoProfileStatus();
+                */
             });
             timerThread.IsBackground = true;
             timerThread.Priority = ThreadPriority.Lowest;
@@ -171,6 +180,8 @@ namespace DS4WinWPF.DS4Forms
             trayIconVM.RequestMinimize += TrayIconVM_RequestMinimize;
             trayIconVM.RequestOpen += TrayIconVM_RequestOpen;
             autoProfControl.AutoDebugChanged += AutoProfControl_AutoDebugChanged;
+            //autoProfileHolder.AutoProfileColl.CollectionChanged += AutoProfileColl_CollectionChanged;
+            //autoProfControl.AutoProfVM.AutoProfileSystemChange += AutoProfVM_AutoProfileSystemChange;
 
             WqlEventQuery q = new WqlEventQuery();
             ManagementScope scope = new ManagementScope("root\\CIMV2");
@@ -178,6 +189,26 @@ namespace DS4WinWPF.DS4Forms
             managementEvWatcher = new ManagementEventWatcher(scope, q);
             managementEvWatcher.EventArrived += PowerEventArrive;
             managementEvWatcher.Start();
+        }
+
+        private void AutoProfVM_AutoProfileSystemChange(AutoProfilesViewModel sender, bool state)
+        {
+            if (state)
+            {
+                ChangeAutoProfilesStatus(true);
+                autoProfileHolder.AutoProfileColl.CollectionChanged += AutoProfileColl_CollectionChanged;
+            }
+            else
+            {
+                ChangeAutoProfilesStatus(false);
+                autoProfileHolder.AutoProfileColl.CollectionChanged -= AutoProfileColl_CollectionChanged;
+            }
+        }
+
+        private void AutoProfileColl_CollectionChanged(object sender,
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            CheckAutoProfileStatus();
         }
 
         private void AutoProfControl_AutoDebugChanged(object sender, EventArgs e)
@@ -368,6 +399,41 @@ namespace DS4WinWPF.DS4Forms
                 controllerLV.Visibility = Visibility.Visible;
                 noContLb.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void ChangeAutoProfilesStatus(bool state)
+        {
+            if (state)
+            {
+                autoProfilesTimer.Elapsed += AutoProfilesTimer_Elapsed;
+                autoProfilesTimer.Start();
+            }
+            else
+            {
+                autoProfilesTimer.Stop();
+                autoProfilesTimer.Elapsed -= AutoProfilesTimer_Elapsed;
+            }
+        }
+
+        private void CheckAutoProfileStatus()
+        {
+            int pathCount = autoProfileHolder.AutoProfileColl.Count;
+            bool timerEnabled = autoProfilesTimer.Enabled;
+            if (pathCount > 0 && !timerEnabled)
+            {
+                ChangeAutoProfilesStatus(true);
+            }
+            else if (pathCount == 0 && timerEnabled)
+            {
+                ChangeAutoProfilesStatus(false);
+            }
+        }
+
+        private void AutoProfilesTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            autoProfilesTimer.Stop();
+            Console.WriteLine("Event triggered");
+            autoProfilesTimer.Start();
         }
 
         private void ControllerCol_CollectionChanged(object sender,

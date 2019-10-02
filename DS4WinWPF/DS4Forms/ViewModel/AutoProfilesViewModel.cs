@@ -50,6 +50,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public delegate void AutoProfileHandler(AutoProfilesViewModel sender,
             ProgramItem item, bool state);
         public event AutoProfileHandler AutoProfileUpdated;
+        public delegate void AutoProfileStateHandler(AutoProfilesViewModel sender, bool state);
+        public event AutoProfileStateHandler AutoProfileSystemChange;
 
         public AutoProfilesViewModel(AutoProfileHolder autoProfileHolder, ProfileList profileList)
         {
@@ -77,9 +79,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public void RemoveUnchecked()
         {
+            AutoProfileSystemChange?.Invoke(this, false);
             programColl.Clear();
             existingapps.Clear();
             PopulateCurrentEntries();
+            AutoProfileSystemChange?.Invoke(this, true);
         }
 
         public void GetApps(string path)
@@ -99,12 +103,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public async void AddProgramsFromStartMenu()
         {
+            AutoProfileSystemChange?.Invoke(this, false);
             await Task.Run(() =>
             {
                 AddFromShortcuts(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) + "\\Programs");
             });
 
             SearchFinished?.Invoke(this, EventArgs.Empty);
+            AutoProfileSystemChange?.Invoke(this, true);
         }
 
         private void AddFromShortcuts(string path)
