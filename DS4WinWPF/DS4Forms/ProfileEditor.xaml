@@ -63,16 +63,16 @@
                         <Button Content="Top Touch" x:Name="topTouchConBtn" Canvas.Left="180" Canvas.Top="46" Width="136" Height="28" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
 
                         <Button Content="L3" x:Name="l3ConBtn" Canvas.Left="167" Canvas.Top="172" Width="30" Height="30" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="LSU" x:Name="lsuConBtn" Canvas.Left="175" Canvas.Top="148" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="LSR" x:Name="lsrConBtn" Canvas.Left="206" Canvas.Top="178" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="LSD" x:Name="lsdConBtn" Canvas.Left="174" Canvas.Top="202" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="LSL" x:Name="lslConBtn" Canvas.Left="140" Canvas.Top="175" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="LSU" x:Name="lsuConBtn" Canvas.Left="175" Canvas.Top="156" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="LSR" x:Name="lsrConBtn" Canvas.Left="200" Canvas.Top="178" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="LSD" x:Name="lsdConBtn" Canvas.Left="174" Canvas.Top="198" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="LSL" x:Name="lslConBtn" Canvas.Left="148" Canvas.Top="175" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
 
                         <Button Content="R3" x:Name="r3ConBtn" Canvas.Left="305" Canvas.Top="172" Width="30" Height="30" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="RSU" x:Name="rsuConBtn" Canvas.Left="311" Canvas.Top="150" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="RSR" x:Name="rsrConBtn" Canvas.Left="340" Canvas.Top="179" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="RSD" x:Name="rsdConBtn" Canvas.Left="312" Canvas.Top="200" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="RSL" x:Name="rslConBtn" Canvas.Left="280" Canvas.Top="177" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="RSU" x:Name="rsuConBtn" Canvas.Left="311" Canvas.Top="156" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="RSR" x:Name="rsrConBtn" Canvas.Left="336" Canvas.Top="179" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="RSD" x:Name="rsdConBtn" Canvas.Left="312" Canvas.Top="198" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="RSL" x:Name="rslConBtn" Canvas.Left="286" Canvas.Top="177" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
 
                         <Button Content="Up" x:Name="upConBtn" Canvas.Left="107" Canvas.Top="97" Width="16" Height="16" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
                         <Button Content="Right" x:Name="rightConBtn" Canvas.Left="130" Canvas.Top="115" Width="16" Height="16" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
@@ -91,8 +91,8 @@
                             <GroupBox Header="Touchpad">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                        <RadioButton Content="Use As Mouse" GroupName="tpMode" />
-                                        <RadioButton Content="Use As Controls" GroupName="tpMode" Margin="10,0,0,0" />
+                                        <RadioButton x:Name="useTouchMouseRadio" Content="Use As Mouse" GroupName="tpMode" IsChecked="{Binding UseTouchMouse}" Click="UseTouchMouseRadio_Click" />
+                                        <RadioButton x:Name="useTouchControlsRadio" Content="Use As Controls" GroupName="tpMode" IsChecked="{Binding UseTouchControls}" Click="UseTouchControlsRadio_Click" Margin="10,0,0,0" />
                                     </StackPanel>
 
                                     <StackPanel x:Name="useMousePanel" Margin="0,10,0,0">
@@ -155,21 +155,21 @@
                                         </StackPanel>
                                     </StackPanel>
 
-                                    <StackPanel x:Name="useControlsPanel" Margin="0,10,0,0" Visibility="Collapsed">
+                                    <StackPanel x:Name="useControlsPanel" Margin="0,10,0,0" Visibility="{Binding UseTouchControls, Mode=OneWay, FallbackValue='Collapsed'}">
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="Swipe Up" Width="70" />
+                                            <Button x:Name="swipeUpBtn" Content="Swipe Up" Width="70" />
                                             <Label Content="Unassigned" Margin="10,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                            <Button Content="Swipe Down" Width="70" />
+                                            <Button x:Name="swipeDownBtn" Content="Swipe Down" Width="70" />
                                             <Label Content="Unassigned" Margin="10,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                            <Button Content="Swipe Left" Width="70" />
+                                            <Button x:Name="swipeLeftBtn" Content="Swipe Left" Width="70" />
                                             <Label Content="Unassigned" Margin="10,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                                            <Button Content="Swipe Right" Width="70" />
+                                            <Button x:Name="swipeRightBtn" Content="Swipe Right" Width="70" />
                                             <Label Content="Unassigned" Margin="10,0,0,0"/>
                                         </StackPanel>
                                     </StackPanel>
@@ -469,31 +469,31 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                         <Label Content="Output Mode" />
-                        <ComboBox Width="100" SelectedIndex="0" VerticalContentAlignment="Center" Margin="10,0,0,0">
+                        <ComboBox x:Name="gyroOutModeCombo" Width="100" SelectedIndex="{Binding GyroOutModeIndex, FallbackValue=0}" VerticalContentAlignment="Center" Margin="10,0,0,0">
                             <ComboBoxItem Content="Controls" />
                             <ComboBoxItem Content="Mouse" />
                             <ComboBoxItem Content="Mouse Joystick" />
                         </ComboBox>
                     </StackPanel>
 
-                    <StackPanel x:Name="gyroControlsPanel" Visibility="Collapsed">
+                    <StackPanel x:Name="gyroControlsPanel">
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="100"/>
+                            <Button x:Name="gyroZNBtn" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="100"/>
+                            <Button x:Name="gyroZPBtn" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="100"/>
+                            <Button x:Name="gyroXNBtn" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button Width="100"/>
+                            <Button x:Name="gyroXPBtn" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 
@@ -532,7 +532,7 @@
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel x:Name="gyroMousePanel">
+                    <StackPanel x:Name="gyroMousePanel" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Triggers" />
                             <Button Content="Always On" />

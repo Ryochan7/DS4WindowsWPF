@@ -151,7 +151,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             get
             {
                 int type = 0;
-                switch(Global.OutContType[device])
+                switch (Global.OutContType[device])
                 {
                     case OutContType.X360:
                         type = 0;
@@ -170,7 +170,22 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public int GyroOutModeIndex
         {
-            get => (int)Global.GyroOutputMode[device];
+            get
+            {
+                int index = 0;
+                switch (Global.GyroOutputMode[device])
+                {
+                    case GyroOutMode.Controls:
+                        index = 0; break;
+                    case GyroOutMode.Mouse:
+                        index = 1; break;
+                    case GyroOutMode.MouseJoystick:
+                        index = 2; break;
+                    default: break;
+                }
+
+                return index;
+            }
             set
             {
                 GyroOutMode temp = GyroOutMode.Controls;
@@ -178,13 +193,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 {
                     case 0: break;
                     case 1:
-                        temp = GyroOutMode.Mouse;
-                        break;
-
+                        temp = GyroOutMode.Mouse; break;
                     case 2:
-                        temp = GyroOutMode.MouseJoystick;
-                        break;
-
+                        temp = GyroOutMode.MouseJoystick; break;
                     default: break;
                 }
 
@@ -498,6 +509,18 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             get => Global.szOutBezierCurveObj[device].CustomDefinition;
             set => Global.szOutBezierCurveObj[device].InitBezierCurve(value, BezierCurve.AxisType.SA, true);
+        }
+
+        public bool UseTouchMouse
+        {
+            get => !Global.UseTPforControls[device];
+            set => Global.UseTPforControls[device] = !value;
+        }
+
+        public bool UseTouchControls
+        {
+            get => Global.UseTPforControls[device];
+            set => Global.UseTPforControls[device] = value;
         }
 
         public bool TouchSenExists

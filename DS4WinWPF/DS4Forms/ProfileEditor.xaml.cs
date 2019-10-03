@@ -35,6 +35,10 @@ namespace DS4WinWPF.DS4Forms
         private Dictionary<Button, ImageBrush> hoverImages =
             new Dictionary<Button, ImageBrush>();
         private Dictionary<Button, HoverImageInfo> hoverLocations = new Dictionary<Button, HoverImageInfo>();
+        private Dictionary<Button, int> hoverIndexes = new Dictionary<Button, int>();
+
+        private StackPanel activeTouchPanel;
+        private StackPanel activeGyroModePanel;
 
         public ProfileEditor(int device)
         {
@@ -44,10 +48,85 @@ namespace DS4WinWPF.DS4Forms
             profileSettingsVM = new ProfileSettingsViewModel(device);
             picBoxHover.Visibility = Visibility.Hidden;
             picBoxHover2.Visibility = Visibility.Hidden;
+            bool touchMouse = profileSettingsVM.UseTouchMouse;
+            useMousePanel.Visibility = touchMouse ? Visibility.Visible : Visibility.Collapsed;
+            useControlsPanel.Visibility = !touchMouse ? Visibility.Visible : Visibility.Collapsed;
+            activeTouchPanel = touchMouse ? useMousePanel : useControlsPanel;
+            //activeTouchPanel = useMousePanel;
+
+            switch (profileSettingsVM.GyroOutModeIndex)
+            {
+                case 0:
+                    activeGyroModePanel = gyroControlsPanel; break;
+                case 1:
+                    activeGyroModePanel = gyroMousePanel; break;
+                case 2:
+                    activeGyroModePanel = gyroMouseJoystickPanel; break;
+                default:
+                    activeGyroModePanel = gyroControlsPanel; break;
+            }
+
+            //activeGyroModePanel = gyroControlsPanel;
+            gyroControlsPanel.Visibility = Visibility.Collapsed;
+            gyroMousePanel.Visibility = Visibility.Collapsed;
+            gyroMouseJoystickPanel.Visibility = Visibility.Collapsed;
+            activeGyroModePanel.Visibility = Visibility.Visible;
 
             RemoveHoverBtnText();
             PopulateHoverImages();
             PopulateHoverLocations();
+            PopulateHoverIndexes();
+            SetupEvents();
+        }
+
+        private void SetupEvents()
+        {
+            gyroOutModeCombo.SelectionChanged += GyroOutModeCombo_SelectionChanged;
+        }
+
+        private void PopulateHoverIndexes()
+        {
+            hoverIndexes[crossConBtn] = 0;
+            hoverIndexes[circleConBtn] = 1;
+            hoverIndexes[squareConBtn] = 2;
+            hoverIndexes[triangleConBtn] = 3;
+            hoverIndexes[optionsConBtn] = 4;
+            hoverIndexes[shareConBtn] = 5;
+            hoverIndexes[upConBtn] = 6;
+            hoverIndexes[rightConBtn] = 7;
+            hoverIndexes[downConBtn] = 8;
+            hoverIndexes[leftConBtn] = 9;
+            hoverIndexes[guideConBtn] = 10;
+            hoverIndexes[l1ConBtn] = 11;
+            hoverIndexes[r1ConBtn] = 12;
+            hoverIndexes[l2ConBtn] = 13;
+            hoverIndexes[r2ConBtn] = 14;
+            hoverIndexes[l3ConBtn] = 15;
+            hoverIndexes[r3ConBtn] = 16;
+            hoverIndexes[leftTouchConBtn] = 17;
+            hoverIndexes[rightTouchConBtn] = 18;
+            hoverIndexes[multiTouchConBtn] = 19;
+            hoverIndexes[topTouchConBtn] = 20;
+
+            hoverIndexes[lsuConBtn] = 21;
+            hoverIndexes[lsrConBtn] = 22;
+            hoverIndexes[lsdConBtn] = 23;
+            hoverIndexes[lslConBtn] = 24;
+
+            hoverIndexes[rsuConBtn] = 25;
+            hoverIndexes[rsrConBtn] = 26;
+            hoverIndexes[rsdConBtn] = 27;
+            hoverIndexes[rslConBtn] = 28;
+
+            hoverIndexes[gyroZNBtn] = 29;
+            hoverIndexes[gyroZPBtn] = 30;
+            hoverIndexes[gyroXNBtn] = 31;
+            hoverIndexes[gyroXPBtn] = 32;
+
+            hoverIndexes[swipeUpBtn] = 33;
+            hoverIndexes[swipeDownBtn] = 34;
+            hoverIndexes[swipeLeftBtn] = 35;
+            hoverIndexes[swipeRightBtn] = 36;
         }
 
         private void PopulateHoverLocations()
@@ -348,6 +427,44 @@ namespace DS4WinWPF.DS4Forms
             Canvas.SetLeft(picBoxHover, 0);
             Canvas.SetTop(picBoxHover, 0);
             picBoxHover.Visibility = Visibility.Hidden;
+        }
+
+        private void UseTouchMouseRadio_Click(object sender, RoutedEventArgs e)
+        {
+            activeTouchPanel.Visibility = Visibility.Collapsed;
+            useMousePanel.Visibility = Visibility.Visible;
+            activeTouchPanel = useMousePanel;
+        }
+
+        private void UseTouchControlsRadio_Click(object sender, RoutedEventArgs e)
+        {
+            activeTouchPanel.Visibility = Visibility.Collapsed;
+            useControlsPanel.Visibility = Visibility.Visible;
+            activeTouchPanel = useControlsPanel;
+        }
+
+        private void GyroOutModeCombo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            int idx = gyroOutModeCombo.SelectedIndex;
+            if (idx >= 0)
+            {
+                activeGyroModePanel.Visibility = Visibility.Collapsed;
+
+                if (idx == 0)
+                {
+                    activeGyroModePanel = gyroControlsPanel;
+                }
+                else if (idx == 1)
+                {
+                    activeGyroModePanel = gyroMousePanel;
+                }
+                else if (idx == 2)
+                {
+                    activeGyroModePanel = gyroMouseJoystickPanel;
+                }
+
+                activeGyroModePanel.Visibility = Visibility.Visible;
+            }
         }
     }
 }
