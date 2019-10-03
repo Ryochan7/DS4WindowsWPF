@@ -21,7 +21,7 @@ namespace DS4WinWPF.DS4Forms
     /// </summary>
     public partial class ProfileEditor : UserControl
     {
-        private struct HoverImageInfo
+        private class HoverImageInfo
         {
             public Point point;
             public Size size;
@@ -53,31 +53,38 @@ namespace DS4WinWPF.DS4Forms
         private void PopulateHoverLocations()
         {
             hoverLocations[crossConBtn] = new HoverImageInfo() { point = new Point(368, 134), size = new Size(30, 30) };
-            hoverLocations[circleConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[squareConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[triangleConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[l1ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[r1ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[l2ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[r2ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[shareConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[optionsConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[guideConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[circleConBtn] = new HoverImageInfo() { point = new Point(400, 108), size = new Size(30, 30) };
+            hoverLocations[squareConBtn] = new HoverImageInfo() { point = new Point(337, 108), size = new Size(30, 30) };
+            hoverLocations[triangleConBtn] = new HoverImageInfo() { point = new Point(368, 80), size = new Size(30, 30) };
+            hoverLocations[l1ConBtn] = new HoverImageInfo() { point = new Point(89, 22), size = new Size(60, 22) };
+            hoverLocations[r1ConBtn] = new HoverImageInfo() { point = new Point(354, 25), size = new Size(60, 22) };
+            hoverLocations[l2ConBtn] = new HoverImageInfo() { point = new Point(94, 0), size = new Size(52, 22) };
+            hoverLocations[r2ConBtn] = new HoverImageInfo() { point = new Point(355, 0), size = new Size(52, 22) };
+            hoverLocations[shareConBtn] = new HoverImageInfo() { point = new Point(156, 68), size = new Size(18, 26) };
+            hoverLocations[optionsConBtn] = new HoverImageInfo() { point = new Point(328, 68), size = new Size(18, 26) };
+            hoverLocations[guideConBtn] = new HoverImageInfo() { point = new Point(238, 158), size = new Size(22, 22) };
 
-            hoverLocations[leftTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[multiTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[rightTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[topTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[l3ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[lsuConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[lsrConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[lsdConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[lslConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[r3ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[rsuConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[rsrConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[rsdConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
-            hoverLocations[rslConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[leftTouchConBtn] = new HoverImageInfo() { point = new Point(166, 48), size = new Size(154, 108) };
+            hoverLocations[multiTouchConBtn] = new HoverImageInfo() { point = new Point(166, 48), size = new Size(172, 108) };
+            hoverLocations[rightTouchConBtn] = new HoverImageInfo() { point = new Point(178, 48), size = new Size(162, 108) };
+            hoverLocations[topTouchConBtn] = new HoverImageInfo() { point = new Point(170, 6), size = new Size(180, 126) };
+
+            hoverLocations[l3ConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
+            hoverLocations[lsuConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
+            hoverLocations[lsrConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
+            hoverLocations[lsdConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
+            hoverLocations[lslConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
+
+            hoverLocations[r3ConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
+            hoverLocations[rsuConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
+            hoverLocations[rsrConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
+            hoverLocations[rsdConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
+            hoverLocations[rslConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
+
+            hoverLocations[upConBtn] = new HoverImageInfo() { point = new Point(104, 82), size = new Size(26, 38) };
+            hoverLocations[rightConBtn] = new HoverImageInfo() { point = new Point(124, 110), size = new Size(38, 26) };
+            hoverLocations[downConBtn] = new HoverImageInfo() { point = new Point(104, 124), size = new Size(26, 38) };
+            hoverLocations[leftConBtn] = new HoverImageInfo() { point = new Point(72, 110), size = new Size(38, 26) };
         }
 
         private void RemoveHoverBtnText()
@@ -329,6 +336,7 @@ namespace DS4WinWPF.DS4Forms
                 Canvas.SetTop(picBoxHover, tempInfo.point.Y);
                 picBoxHover.Width = tempInfo.size.Width;
                 picBoxHover.Height = tempInfo.size.Height;
+                //picBoxHover.Stretch = Stretch.Fill;
                 picBoxHover.Visibility = Visibility.Visible;
             }
         }
