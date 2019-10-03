@@ -308,6 +308,18 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set => Global.SquStickInfo[device].rsRoundness = value;
         }
 
+        public int LSOutputCurveIndex
+        {
+            get => Global.getLsOutCurveMode(device);
+            set => Global.setLsOutCurveMode(device, value);
+        }
+
+        public int RSOutputCurveIndex
+        {
+            get => Global.getRsOutCurveMode(device);
+            set => Global.setRsOutCurveMode(device, value);
+        }
+
         public int LSCurve
         {
             get => Global.LSCurve[device];
@@ -330,6 +342,18 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             get => Global.RSRotation[device];
             set => Global.RSRotation[device] = value;
+        }
+
+        public string LSCustomCurve
+        {
+            get => Global.lsOutBezierCurveObj[device].CustomDefinition;
+            set => Global.lsOutBezierCurveObj[device].InitBezierCurve(value, BezierCurve.AxisType.LSRS, true);
+        }
+
+        public string RSCustomCurve
+        {
+            get => Global.rsOutBezierCurveObj[device].CustomDefinition;
+            set => Global.rsOutBezierCurveObj[device].InitBezierCurve(value, BezierCurve.AxisType.LSRS, true);
         }
 
         public double L2DeadZone
@@ -378,6 +402,102 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             get => Global.R2Sens[device];
             set => Global.R2Sens[device] = value;
+        }
+
+        public int L2OutputCurveIndex
+        {
+            get => Global.getL2OutCurveMode(device);
+            set => Global.setL2OutCurveMode(device, value);
+        }
+
+        public int R2OutputCurveIndex
+        {
+            get => Global.getR2OutCurveMode(device);
+            set => Global.setR2OutCurveMode(device, value);
+        }
+
+        public string L2CustomCurve
+        {
+            get => Global.l2OutBezierCurveObj[device].CustomDefinition;
+            set => Global.l2OutBezierCurveObj[device].InitBezierCurve(value, BezierCurve.AxisType.L2R2, true);
+        }
+
+        public string R2CustomCurve
+        {
+            get => Global.r2OutBezierCurveObj[device].CustomDefinition;
+            set => Global.r2OutBezierCurveObj[device].InitBezierCurve(value, BezierCurve.AxisType.L2R2, true);
+        }
+
+        public double SXDeadZone
+        {
+            get => Global.SXDeadzone[device];
+            set => Global.SXDeadzone[device] = value;
+        }
+
+        public double SZDeadZone
+        {
+            get => Global.SZDeadzone[device];
+            set => Global.SZDeadzone[device] = value;
+        }
+
+        public double SXMaxZone
+        {
+            get => Global.SXMaxzone[device];
+            set => Global.SXMaxzone[device] = value;
+        }
+
+        public double SZMaxZone
+        {
+            get => Global.SZMaxzone[device];
+            set => Global.SZMaxzone[device] = value;
+        }
+
+        public double SXAntiDeadZone
+        {
+            get => Global.SXAntiDeadzone[device];
+            set => Global.SXAntiDeadzone[device] = value;
+        }
+
+        public double SZAntiDeadZone
+        {
+            get => Global.SZAntiDeadzone[device];
+            set => Global.SZAntiDeadzone[device] = value;
+        }
+
+        public double SXSens
+        {
+            get => Global.SXSens[device];
+            set => Global.SXSens[device] = value;
+        }
+
+        public double SZSens
+        {
+            get => Global.SZSens[device];
+            set => Global.SZSens[device] = value;
+        }
+
+        public int SXOutputCurveIndex
+        {
+            get => Global.getSXOutCurveMode(device);
+            set => Global.setSXOutCurveMode(device, value);
+        }
+
+        public int SZOutputCurveIndex
+        {
+            get => Global.getSZOutCurveMode(device);
+            set => Global.setSZOutCurveMode(device, value);
+        }
+
+        public string SXCustomCurve
+        {
+            get => Global.sxOutBezierCurveObj[device].CustomDefinition;
+            set => Global.sxOutBezierCurveObj[device].InitBezierCurve(value, BezierCurve.AxisType.SA, true);
+        }
+
+        public string SZCustomCurve
+        {
+            get => Global.szOutBezierCurveObj[device].CustomDefinition;
+            set => Global.szOutBezierCurveObj[device].InitBezierCurve(value, BezierCurve.AxisType.SA, true);
         }
 
         public bool TouchSenExists

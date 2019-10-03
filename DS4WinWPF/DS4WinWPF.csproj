@@ -303,6 +303,10 @@
     <Content Include="BezierCurveEditor\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\DS4-Config_Triangle.png" />
+    <Resource Include="Resources\DS4-Config_Square.png" />
+    <Resource Include="Resources\DS4-Config_Circle.png" />
+    <Resource Include="Resources\DS4-Config_Cross.png" />
     <Resource Include="Resources\rainbow.png" />
     <Resource Include="Resources\DS4-Config_RS.png" />
     <Resource Include="Resources\DS4 Config.png" />

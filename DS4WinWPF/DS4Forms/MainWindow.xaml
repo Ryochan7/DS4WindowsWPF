@@ -133,7 +133,7 @@
             <TabItem Header="Profiles">
                 <DockPanel x:Name="profDockPanel">
                     <ToolBar x:Name="profOptsToolbar" Height="30" DockPanel.Dock="Top" Background="{x:Null}">
-                        <Button x:Name="newProfBtn">
+                        <Button x:Name="newProfListBtn" Click="NewProfListBtn_Click">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/newprofile.png" />

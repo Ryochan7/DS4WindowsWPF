@@ -554,7 +554,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void ProfilesListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            newProfBtn.IsEnabled = true;
+            newProfListBtn.IsEnabled = true;
             editProfBtn.IsEnabled = true;
             deleteProfBtn.IsEnabled = true;
             dupProfBtn.IsEnabled = true;
@@ -773,6 +773,14 @@ namespace DS4WinWPF.DS4Forms
         {
             Control temp = sender as Control;
             int idx = Convert.ToInt32(temp.Tag);
+            controllerLV.SelectedIndex = idx;
+            CompositeDeviceModel item = conLvViewModel.CurrentItem;
+
+            if (item != null)
+            {
+                ProfileEntity entity = profileListHolder.ProfileListCol[item.SelectedIndex];
+                ShowProfileEditor(idx, entity);
+            }
         }
 
         private void NewProfBtn_Click(object sender, RoutedEventArgs e)
@@ -780,7 +788,8 @@ namespace DS4WinWPF.DS4Forms
             Control temp = sender as Control;
             int idx = Convert.ToInt32(temp.Tag);
             controllerLV.SelectedIndex = idx;
-            controllerLV.Focus();
+            ShowProfileEditor(idx, null);
+            //controllerLV.Focus();
         }
 
         private async void HideDS4ContCk_Click(object sender, RoutedEventArgs e)
@@ -1018,18 +1027,7 @@ namespace DS4WinWPF.DS4Forms
             if (profilesListBox.SelectedIndex >= 0)
             {
                 ProfileEntity entity = profileListHolder.ProfileListCol[profilesListBox.SelectedIndex];
-                profOptsToolbar.Visibility = Visibility.Collapsed;
-                profilesListBox.Visibility = Visibility.Collapsed;
-
-                preserveSize = false;
-                oldSize.Width = Width;
-                oldSize.Height = Height;
-                this.Width = 1100;
-                this.Height = 650;
-                editor = new ProfileEditor(0);
-                editor.Closed += ProfileEditor_Closed;
-                profDockPanel.Children.Add(editor);
-                editor.Reload(0, entity);
+                ShowProfileEditor(4, entity);
             }
         }
 
@@ -1043,6 +1041,27 @@ namespace DS4WinWPF.DS4Forms
             this.Width = oldSize.Width;
             this.Height = oldSize.Height;
             //Task.Run(() => GC.Collect(2, GCCollectionMode.Forced, true));
+        }
+
+        private void NewProfListBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowProfileEditor(4, null);
+        }
+
+        private void ShowProfileEditor(int device, ProfileEntity entity = null)
+        {
+            profOptsToolbar.Visibility = Visibility.Collapsed;
+            profilesListBox.Visibility = Visibility.Collapsed;
+
+            preserveSize = false;
+            oldSize.Width = Width;
+            oldSize.Height = Height;
+            this.Width = 1100;
+            this.Height = 650;
+            editor = new ProfileEditor(device);
+            editor.Closed += ProfileEditor_Closed;
+            profDockPanel.Children.Add(editor);
+            editor.Reload(device, entity);
         }
     }
 }

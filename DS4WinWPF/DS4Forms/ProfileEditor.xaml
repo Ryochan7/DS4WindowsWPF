@@ -25,44 +25,58 @@
                         <Canvas.Background>
                             <ImageBrush ImageSource="/DS4WinWPF;component/Resources/DS4 Config.png" Stretch="Uniform"/>
                         </Canvas.Background>
+                        <Canvas.Resources>
+                            <Style TargetType="{x:Type Button}" x:Key="NoBGHoverBtn">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Name="border" BorderThickness="0" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Canvas.Resources>
 
-                        <Image Source="/DS4WinWPF;component/Resources/DS4-Config_RS.png" OpacityMask="{x:Null}" Height="49" Width="48" Canvas.Left="447" Canvas.Top="5" />
+                        <Image Source="/DS4WinWPF;component/Resources/DS4-Config_RS.png" Height="48" Width="48" Canvas.Left="447" Canvas.Top="5" />
 
-                        <Button Content="Cross" Background="{x:Null}" Canvas.Left="370" Canvas.Top="142" Width="27" />
-                        <Button Content="Circle" Background="{x:Null}" Canvas.Left="400" Canvas.Top="113" Width="27" />
-                        <Button Content="Square" Background="{x:Null}" Canvas.Left="336" Canvas.Top="114" Width="27" />
-                        <Button Content="Triangle" Background="{x:Null}" Canvas.Left="367" Canvas.Top="87" Width="27" />
+                        <Button Content="Cross" x:Name="crossConBtn" Canvas.Left="370" Canvas.Top="136" Width="26" Click="CrossConBtn_Click" Height="26" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave"/>
+                        <Button Content="Circle" x:Name="circleConBtn" Canvas.Left="402" Canvas.Top="109" Width="26" Height="26" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="Square" x:Name="squareConBtn" Canvas.Left="339" Canvas.Top="110" Width="26" Height="26" Style="{StaticResource NoBGHoverBtn}"  MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="Triangle" x:Name="triangleConBtn" Canvas.Left="370" Canvas.Top="83" Width="26" Height="26" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
 
-                        <Button Content="L1" Background="{x:Null}" Canvas.Left="95" Canvas.Top="27" Width="50" />
-                        <Button Content="R1" Background="{x:Null}" Canvas.Left="358" Canvas.Top="26" Width="50" />
-                        <Button Content="L2" Background="{x:Null}" Canvas.Left="97" Canvas.Top="3" Width="50" />
-                        <Button Content="R2" Background="{x:Null}" Canvas.Left="354" Canvas.Top="2" Width="50" />
+                        <Button Content="L1" Canvas.Left="95" Canvas.Top="27" Width="50" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="R1" Canvas.Left="358" Canvas.Top="26" Width="50" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="L2" Canvas.Left="97" Canvas.Top="3" Width="50" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="R2" Canvas.Left="354" Canvas.Top="2" Width="50" Style="{StaticResource NoBGHoverBtn}" />
 
-                        <Button Content="Share" Background="{x:Null}" Canvas.Left="160" Canvas.Top="71" Width="15" />
-                        <Button Content="Options" Background="{x:Null}" Canvas.Left="330" Canvas.Top="69" Width="12" Height="26" />
+                        <Button Content="Share" Canvas.Left="160" Canvas.Top="71" Width="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Options" Canvas.Left="330" Canvas.Top="69" Width="12" Height="26" Style="{StaticResource NoBGHoverBtn}" />
 
-                        <Button Content="Left Touch" Background="{x:Null}" Canvas.Left="186" Canvas.Top="72" Width="36" Height="57" />
-                        <Button Content="Middle Touch" Background="{x:Null}" Canvas.Left="228" Canvas.Top="71" Width="36" Height="57" />
-                        <Button Content="Right Touch" Background="{x:Null}" Canvas.Left="276" Canvas.Top="73" Width="36" Height="57" />
-                        <Button Content="Top Touch" Background="{x:Null}" Canvas.Left="180" Canvas.Top="46" Width="136" Height="28" />
+                        <Button Content="Left Touch" Canvas.Left="186" Canvas.Top="72" Width="36" Height="57" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Middle Touch" Canvas.Left="228" Canvas.Top="71" Width="36" Height="57" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Right Touch" Canvas.Left="276" Canvas.Top="73" Width="36" Height="57" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Top Touch" Canvas.Left="180" Canvas.Top="46" Width="136" Height="28" Style="{StaticResource NoBGHoverBtn}" />
 
-                        <Button Content="L3" Background="{x:Null}" Canvas.Left="174" Canvas.Top="176" Width="17" Height="15" />
-                        <Button Content="LSU" Background="{x:Null}" Canvas.Left="175" Canvas.Top="159" Width="17" Height="15" RenderTransformOrigin="1.706,-2.2" />
-                        <Button Content="LSR" Background="{x:Null}" Canvas.Left="201" Canvas.Top="178" Width="17" Height="15" RenderTransformOrigin="1.706,-2.2" />
-                        <Button Content="LSD" Background="{x:Null}" Canvas.Left="174" Canvas.Top="197" Width="17" Height="15" RenderTransformOrigin="1.706,-2.2" />
-                        <Button Content="LSL" Background="{x:Null}" Canvas.Left="149" Canvas.Top="175" Width="17" Height="15" RenderTransformOrigin="1.706,-2.2" />
+                        <Button Content="L3" Canvas.Left="174" Canvas.Top="176" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="LSU" Canvas.Left="175" Canvas.Top="159" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="LSR" Canvas.Left="201" Canvas.Top="178" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="LSD" Canvas.Left="174" Canvas.Top="197" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="LSL" Canvas.Left="149" Canvas.Top="175" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
 
-                        <Button Content="R3" Background="{x:Null}" Canvas.Left="311" Canvas.Top="176" Width="17" Height="15" />
-                        <Button Content="RSU" Background="{x:Null}" Canvas.Left="311" Canvas.Top="158" Width="17" Height="15" />
-                        <Button Content="RSR" Background="{x:Null}" Canvas.Left="330" Canvas.Top="179" Width="17" Height="15" />
-                        <Button Content="RSD" Background="{x:Null}" Canvas.Left="312" Canvas.Top="196" Width="17" Height="15" />
-                        <Button Content="RSL" Background="{x:Null}" Canvas.Left="288" Canvas.Top="177" Width="17" Height="15" />
+                        <Button Content="R3" Canvas.Left="311" Canvas.Top="176" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="RSU" Canvas.Left="311" Canvas.Top="158" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="RSR" Canvas.Left="330" Canvas.Top="179" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="RSD" Canvas.Left="312" Canvas.Top="196" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="RSL" Canvas.Left="288" Canvas.Top="177" Width="17" Height="15" Style="{StaticResource NoBGHoverBtn}" />
 
-                        <Button Content="Up" Background="{x:Null}" Canvas.Left="107" Canvas.Top="97" />
-                        <Button Content="Left" Background="{x:Null}" Canvas.Left="81" Canvas.Top="116" />
-                        <Button Content="Right" Background="{x:Null}" Canvas.Left="130" Canvas.Top="115" />
-                        <Button Content="Down" Background="{x:Null}" Canvas.Left="106" Canvas.Top="136" RenderTransformOrigin="0.857,-0.75" Width="24" />
-                        <Button Content="Guide" Background="{x:Null}" Canvas.Left="237" Canvas.Top="156" RenderTransformOrigin="0.857,-0.75" Width="24" />
+                        <Button Content="Up" Canvas.Left="107" Canvas.Top="97" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Left" Canvas.Left="81" Canvas.Top="116" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Right" Canvas.Left="130" Canvas.Top="115" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Down" Canvas.Left="106" Canvas.Top="136" Width="24" Style="{StaticResource NoBGHoverBtn}" />
+                        <Button Content="Guide" Canvas.Left="237" Canvas.Top="156" Width="24" Style="{StaticResource NoBGHoverBtn}" />
 
                         <Label Content="Cross: A" Canvas.Left="199" Canvas.Top="211" Width="99" HorizontalContentAlignment="Center" >
                             <Label.Foreground>
@@ -172,7 +186,7 @@
             </TabItem>
         </TabControl>
 
-        <TabControl x:Name="profileSettingsTabCon" DockPanel.Dock="Right" Width="520">
+        <TabControl x:Name="profileSettingsTabCon" DockPanel.Dock="Right" MinWidth="520" Margin="10,0,0,0">
             <TabItem Header="Lighbar">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
