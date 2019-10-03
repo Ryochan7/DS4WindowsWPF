@@ -21,6 +21,12 @@ namespace DS4WinWPF.DS4Forms
     /// </summary>
     public partial class ProfileEditor : UserControl
     {
+        private struct HoverImageInfo
+        {
+            public Point point;
+            public Size size;
+        }
+
         private ProfileSettingsViewModel profileSettingsVM;
         private ProfileEntity currentProfile;
 
@@ -28,6 +34,7 @@ namespace DS4WinWPF.DS4Forms
 
         private Dictionary<Button, ImageBrush> hoverImages =
             new Dictionary<Button, ImageBrush>();
+        private Dictionary<Button, HoverImageInfo> hoverLocations = new Dictionary<Button, HoverImageInfo>();
 
         public ProfileEditor(int device)
         {
@@ -35,9 +42,42 @@ namespace DS4WinWPF.DS4Forms
 
             emptyColorGB.Visibility = Visibility.Collapsed;
             profileSettingsVM = new ProfileSettingsViewModel(device);
+            picBoxHover.Visibility = Visibility.Hidden;
+            picBoxHover2.Visibility = Visibility.Hidden;
 
             RemoveHoverBtnText();
             PopulateHoverImages();
+            PopulateHoverLocations();
+        }
+
+        private void PopulateHoverLocations()
+        {
+            hoverLocations[crossConBtn] = new HoverImageInfo() { point = new Point(368, 134), size = new Size(30, 30) };
+            hoverLocations[circleConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[squareConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[triangleConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[l1ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[r1ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[l2ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[r2ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[shareConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[optionsConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[guideConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+
+            hoverLocations[leftTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[multiTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[rightTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[topTouchConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[l3ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[lsuConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[lsrConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[lsdConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[lslConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[r3ConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[rsuConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[rsrConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[rsdConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
+            hoverLocations[rslConBtn] = new HoverImageInfo() { point = new Point(0, 0), size = new Size(0, 0) };
         }
 
         private void RemoveHoverBtnText()
@@ -46,6 +86,34 @@ namespace DS4WinWPF.DS4Forms
             circleConBtn.Content = "";
             squareConBtn.Content = "";
             triangleConBtn.Content = "";
+            l1ConBtn.Content = "";
+            r1ConBtn.Content = "";
+            l2ConBtn.Content = "";
+            r2ConBtn.Content = "";
+            shareConBtn.Content = "";
+            optionsConBtn.Content = "";
+            guideConBtn.Content = "";
+            leftTouchConBtn.Content = "";
+            multiTouchConBtn.Content = "";
+            rightTouchConBtn.Content = "";
+            topTouchConBtn.Content = "";
+
+            l3ConBtn.Content = "";
+            lsuConBtn.Content = "";
+            lsrConBtn.Content = "";
+            lsdConBtn.Content = "";
+            lslConBtn.Content = "";
+
+            r3ConBtn.Content = "";
+            rsuConBtn.Content = "";
+            rsrConBtn.Content = "";
+            rsdConBtn.Content = "";
+            rslConBtn.Content = "";
+
+            upConBtn.Content = "";
+            rightConBtn.Content = "";
+            downConBtn.Content = "";
+            leftConBtn.Content = "";
         }
 
         private void PopulateHoverImages()
@@ -68,10 +136,140 @@ namespace DS4WinWPF.DS4Forms
                 ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_Triangle.png") as ImageSource;
             ImageBrush triangleHover = new ImageBrush(temp);
 
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_L1.png") as ImageSource;
+            ImageBrush l1Hover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_R1.png") as ImageSource;
+            ImageBrush r1Hover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_L2.png") as ImageSource;
+            ImageBrush l2Hover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_R2.png") as ImageSource;
+            ImageBrush r2Hover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_Share.png") as ImageSource;
+            ImageBrush shareHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_options.png") as ImageSource;
+            ImageBrush optionsHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_PS.png") as ImageSource;
+            ImageBrush guideHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_TouchLeft.png") as ImageSource;
+            ImageBrush leftTouchHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_TouchMulti.png") as ImageSource;
+            ImageBrush multiTouchTouchHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_TouchRight.png") as ImageSource;
+            ImageBrush rightTouchHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_TouchUpper.png") as ImageSource;
+            ImageBrush topTouchHover = new ImageBrush(temp);
+
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_LS.png") as ImageSource;
+            ImageBrush l3Hover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_LS.png") as ImageSource;
+            ImageBrush lsuHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_LS.png") as ImageSource;
+            ImageBrush lsrHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_LS.png") as ImageSource;
+            ImageBrush lsdHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_LS.png") as ImageSource;
+            ImageBrush lslHover = new ImageBrush(temp);
+
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_RS.png") as ImageSource;
+            ImageBrush r3Hover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_RS.png") as ImageSource;
+            ImageBrush rsuHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_RS.png") as ImageSource;
+            ImageBrush rsrHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_RS.png") as ImageSource;
+            ImageBrush rsdHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_RS.png") as ImageSource;
+            ImageBrush rslHover = new ImageBrush(temp);
+
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_Up.png") as ImageSource;
+            ImageBrush upHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_Right.png") as ImageSource;
+            ImageBrush rightHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_Down.png") as ImageSource;
+            ImageBrush downHover = new ImageBrush(temp);
+
+            temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4-Config_Left.png") as ImageSource;
+            ImageBrush leftHover = new ImageBrush(temp);
+
             hoverImages[crossConBtn] = crossHover;
             hoverImages[circleConBtn] = circleHover;
             hoverImages[squareConBtn] = squareHover;
             hoverImages[triangleConBtn] = triangleHover;
+            hoverImages[l1ConBtn] = l1Hover;
+            hoverImages[r1ConBtn] = r1Hover;
+            hoverImages[l2ConBtn] = l2Hover;
+            hoverImages[r2ConBtn] = r2Hover;
+            hoverImages[shareConBtn] = shareHover;
+            hoverImages[optionsConBtn] = optionsHover;
+            hoverImages[guideConBtn] = guideHover;
+
+            hoverImages[leftTouchConBtn] = leftTouchHover;
+            hoverImages[multiTouchConBtn] = multiTouchTouchHover;
+            hoverImages[rightTouchConBtn] = rightTouchHover;
+            hoverImages[topTouchConBtn] = topTouchHover;
+            hoverImages[l3ConBtn] = l3Hover;
+            hoverImages[lsuConBtn] = lsuHover;
+            hoverImages[lsrConBtn] = lsrHover;
+            hoverImages[lsdConBtn] = lsdHover;
+            hoverImages[lslConBtn] = lslHover;
+            hoverImages[r3ConBtn] = r3Hover;
+            hoverImages[rsuConBtn] = rsuHover;
+            hoverImages[rsrConBtn] = rsrHover;
+            hoverImages[rsdConBtn] = rsdHover;
+            hoverImages[rslConBtn] = rslHover;
+
+            hoverImages[upConBtn] = upHover;
+            hoverImages[rightConBtn] = rightHover;
+            hoverImages[downConBtn] = downHover;
+            hoverImages[leftConBtn] = leftHover;
         }
 
         public void Reload(int device, ProfileEntity profile = null)
@@ -106,24 +304,9 @@ namespace DS4WinWPF.DS4Forms
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
-        private void CrossConBtn_MouseEnter(object sender, MouseEventArgs e)
-        {
-            Button control = sender as Button;
-            if (hoverImages.TryGetValue(control, out ImageBrush tempBrush))
-            {
-                control.Background = tempBrush;
-            }
-        }
-
         private void CrossConBtn_Click(object sender, RoutedEventArgs e)
         {
             _ = sender as Button;
-        }
-
-        private void CrossConBtn_MouseLeave(object sender, MouseEventArgs e)
-        {
-            Button control = sender as Button;
-            control.Background = new SolidColorBrush(Colors.Transparent);
         }
 
         private void ContBtn_MouseEnter(object sender, MouseEventArgs e)
@@ -131,14 +314,32 @@ namespace DS4WinWPF.DS4Forms
             Button control = sender as Button;
             if (hoverImages.TryGetValue(control, out ImageBrush tempBrush))
             {
-                control.Background = tempBrush;
+                picBoxHover.Source = tempBrush.ImageSource;
+                //picBoxHover.Width = tempBrush.ImageSource.Width * .8;
+                //picBoxHover.Height = tempBrush.ImageSource.Height * .8;
+                //control.Background = tempBrush;
+                //control.Background = new SolidColorBrush(Colors.Green);
+                //control.Width = tempBrush.ImageSource.Width;
+                //control.Height = tempBrush.ImageSource.Height;
+            }
+
+            if (hoverLocations.TryGetValue(control, out HoverImageInfo tempInfo))
+            {
+                Canvas.SetLeft(picBoxHover, tempInfo.point.X);
+                Canvas.SetTop(picBoxHover, tempInfo.point.Y);
+                picBoxHover.Width = tempInfo.size.Width;
+                picBoxHover.Height = tempInfo.size.Height;
+                picBoxHover.Visibility = Visibility.Visible;
             }
         }
 
         private void ContBtn_MouseLeave(object sender, MouseEventArgs e)
         {
             Button control = sender as Button;
-            control.Background = new SolidColorBrush(Colors.Transparent);
+            //control.Background = new SolidColorBrush(Colors.Transparent);
+            Canvas.SetLeft(picBoxHover, 0);
+            Canvas.SetTop(picBoxHover, 0);
+            picBoxHover.Visibility = Visibility.Hidden;
         }
     }
 }
