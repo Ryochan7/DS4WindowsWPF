@@ -1,9 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
@@ -126,6 +131,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             get
             {
                 ref DS4Color color = ref Global.FlashColor[device];
+                if (color.red == 0 && color.green == 0 && color.blue == 0)
+                {
+                    color = ref Global.MainColor[device];
+                }
+
                 return $"#FF{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
             }
         }
@@ -179,12 +189,58 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public bool LaunchProgramExists
         {
             get => !string.IsNullOrEmpty(Global.LaunchProgram[device]);
+            set
+            {
+                if (!value) ResetLauchProgram();
+            }
         }
+        public event EventHandler LaunchProgramExistsChanged;
 
         public string LaunchProgram
         {
             get => Global.LaunchProgram[device];
         }
+        public event EventHandler LaunchProgramChanged;
+
+        public string LaunchProgramName
+        {
+            get
+            {
+                string temp = Global.LaunchProgram[device];
+                if (!string.IsNullOrEmpty(temp))
+                {
+                    temp = Path.GetFileNameWithoutExtension(temp);
+                }
+                else
+                {
+                    temp = "Browse";
+                }
+
+                return temp;
+            }
+        }
+        public event EventHandler LaunchProgramNameChanged;
+
+        public ImageSource LaunchProgramIcon
+        {
+            get
+            {
+                ImageSource exeicon = null;
+                string path = Global.LaunchProgram[device];
+                if (File.Exists(path) && Path.GetExtension(path) == ".exe")
+                {
+                    using (Icon ico = Icon.ExtractAssociatedIcon(path))
+                    {
+                        exeicon = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty,
+                            BitmapSizeOptions.FromEmptyOptions());
+                        exeicon.Freeze();
+                    }
+                }
+
+                return exeicon;
+            }
+        }
+        public event EventHandler LaunchProgramIconChanged;
 
         public bool UseDInputOnly
         {
@@ -643,7 +699,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler SXCustomCurveSelectedChanged;
 
-        public bool SzZCustomCurveSelected
+        public bool SZCustomCurveSelected
         {
             get => Global.getSZOutCurveMode(device) == 6;
         }
@@ -821,10 +877,28 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             this.device = device;
         }
 
-        public void UpdateFlashColor(Color color)
+        public void UpdateFlashColor(System.Windows.Media.Color color)
         {
             Global.FlashColor[device] = new DS4Color() { red = color.R, green = color.G, blue = color.B };
             FlashColorChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateLaunchProgram(string path)
+        {
+            Global.LaunchProgram[device] = path;
+            LaunchProgramExistsChanged?.Invoke(this, EventArgs.Empty);
+            LaunchProgramChanged?.Invoke(this, EventArgs.Empty);
+            LaunchProgramNameChanged?.Invoke(this, EventArgs.Empty);
+            LaunchProgramIconChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void ResetLauchProgram()
+        {
+            Global.LaunchProgram[device] = string.Empty;
+            LaunchProgramExistsChanged?.Invoke(this, EventArgs.Empty);
+            LaunchProgramChanged?.Invoke(this, EventArgs.Empty);
+            LaunchProgramNameChanged?.Invoke(this, EventArgs.Empty);
+            LaunchProgramIconChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

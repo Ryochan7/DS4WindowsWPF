@@ -18,7 +18,7 @@
                     <Image x:Name="sizeImage" Source="/DS4WinWPF;component/Resources/size.png" Width="20" Height="20"/>
                     <TextBlock x:Name="sizeMsg" Text="Keep this window size after closing" Margin="4,0,0,0" VerticalAlignment="Center" />
                 </StackPanel>
-                
+
             </Button>
         </StackPanel>
         <TabControl DockPanel.Dock="Left">
@@ -209,7 +209,8 @@
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="B" />
-                                    <Slider Value="{Binding MainColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding MainColorB}" Background="{Binding MainColorBString, FallbackValue=Blue}"/>                                </StackPanel>
+                                    <Slider Value="{Binding MainColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding MainColorB}" Background="{Binding MainColorBString, FallbackValue=Blue}"/>
+                                </StackPanel>
                             </StackPanel>
                         </GroupBox>
 
@@ -701,7 +702,7 @@
                                 <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" Value="{Binding RumbleBoost}" Minimum="0" Maximum="200" Increment="10" />
                                 <Label Content="%" />
                             </UniformGrid>
-                            
+
                             <Button x:Name="heavyRumbleTestBtn" Content="Test Heavy" Margin="10,0,0,0" Click="HeavyRumbleTestBtn_Click" />
                             <Button x:Name="lightRumbleTestBtn" Content="Test Light" Margin="10,0,0,0" Click="LightRumbleTestBtn_Click" />
                         </UniformGrid>
@@ -713,8 +714,13 @@
                     <CheckBox Content="Mouse Acceleration" IsChecked="{Binding MouseAcceleration}" />
                     <CheckBox Content="Enable Touchpad Toggle" IsChecked="{Binding EnableTouchpadToggle}" />
                     <StackPanel Orientation="Horizontal">
-                        <CheckBox Content="Launch program with profile" />
-                        <Button Content="Browse" Margin="20,0,0,0" />
+                        <CheckBox x:Name="launchProgCk" Content="Launch program with profile" IsChecked="{Binding LaunchProgramExists}" IsEnabled="{Binding LaunchProgramExists}" />
+                        <Button x:Name="launchProgBrowseBtn" Content="{Binding LaunchProgramName,FallbackValue=Browse}" Click="LaunchProgBrowseBtn_Click" Margin="20,0,0,0" />
+                        <Button x:Name="launchProgIconBtn" Width="20" Height="20" Margin="20,0,0,0" Focusable="False" >
+                            <Button.Background>
+                                <ImageBrush ImageSource="{Binding LaunchProgramIcon}" />
+                            </Button.Background>
+                        </Button>
                     </StackPanel>
                     <CheckBox Content="Use DInput only" IsChecked="{Binding UseDInputOnly}" />
                     <CheckBox Content="Flush HID" IsChecked="{Binding FlushHid}" />

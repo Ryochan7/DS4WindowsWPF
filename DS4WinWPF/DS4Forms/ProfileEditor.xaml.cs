@@ -1,4 +1,5 @@
 ﻿using DS4WinWPF.DS4Forms.ViewModel;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -587,5 +588,22 @@ namespace DS4WinWPF.DS4Forms
         {
 
         }
+
+        private void LaunchProgBrowseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".exe";
+            dialog.Filter = "Exe (*.exe)|*.exe";
+            dialog.Title = "Select Program";
+
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+            if (dialog.ShowDialog() == true)
+            {
+                profileSettingsVM.UpdateLaunchProgram(dialog.FileName);
+            }
+        }
     }
 }
+;
