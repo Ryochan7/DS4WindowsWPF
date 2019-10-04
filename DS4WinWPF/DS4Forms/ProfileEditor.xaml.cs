@@ -582,5 +582,10 @@ namespace DS4WinWPF.DS4Forms
         {
 
         }
+
+        private void CustomEditorBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
