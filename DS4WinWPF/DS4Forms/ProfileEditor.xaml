@@ -8,12 +8,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1027">
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,8">
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,14">
             <Label Content="Profile Name:" />
             <TextBox x:Name="profileNameTxt" Text="" Width="160" VerticalContentAlignment="Center" />
-            <Button x:Name="saveBtn" Content="Save" Margin="10,0,0,0" />
+            <Button x:Name="saveBtn" Content="Save" Margin="10,0,0,0" Click="SaveBtn_Click" />
             <Button x:Name="cancelBtn" Content="Cancel" Margin="10,0,0,0" Click="CancelBtn_Click" />
-            <Button Content="Keep this window size after closing" Margin="10,0,0,0" />
+            <Button x:Name="keepSizeBtn" Margin="10,0,0,0" Click="KeepSizeBtn_Click">
+                <StackPanel Orientation="Horizontal" Margin="0">
+                    <Image x:Name="sizeImage" Source="/DS4WinWPF;component/Resources/size.png" Width="20" Height="20"/>
+                    <TextBlock x:Name="sizeMsg" Text="Keep this window size after closing" Margin="4,0,0,0" VerticalAlignment="Center" />
+                </StackPanel>
+                
+            </Button>
         </StackPanel>
         <TabControl DockPanel.Dock="Left">
             <TabItem Header="Controls">
@@ -103,25 +109,25 @@
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Scroll" />
-                                                <xctk:IntegerUpDown d:IsHidden="True" MinWidth="40"  />
+                                                <CheckBox Content="Scroll" IsChecked="{Binding TouchScrollExists}" />
+                                                <xctk:IntegerUpDown Value="{Binding TouchScroll}" d:IsHidden="True" MinWidth="40" IsEnabled="{Binding TouchScrollExists}"  />
                                             </StackPanel>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Tap" />
-                                                <xctk:IntegerUpDown d:IsHidden="True" MinWidth="40"  />
+                                                <CheckBox Content="Tap" IsChecked="{Binding TouchTapExists}" />
+                                                <xctk:IntegerUpDown Value="{Binding TouchTap}" d:IsHidden="True" MinWidth="40" IsEnabled="{Binding TouchTapExists}"  />
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Double Tap" />
+                                                <CheckBox Content="Double Tap" IsChecked="{Binding TouchDoubleTap}" />
                                             </StackPanel>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Jitter Compensation" />
+                                                <CheckBox Content="Jitter Compensation" IsChecked="{Binding TouchJitter}" />
                                             </StackPanel>
 
                                             <StackPanel Orientation="Vertical" MinWidth="80" Margin="10,0,0,0">
@@ -149,9 +155,9 @@
 
                                         <CheckBox Content="Start with Slide/Scroll Off" />
                                         <StackPanel Orientation="Horizontal">
-                                            <CheckBox Content="Trackball" />
-                                            <Label Content="Friction:" Padding="0"/>
-                                            <xctk:DoubleUpDown d:IsHidden="True" />
+                                            <CheckBox Content="Trackball" IsChecked="{Binding TouchTrackball}" />
+                                            <Label Content="Friction:" Padding="0" Margin="20,0,0,0"/>
+                                            <xctk:DoubleUpDown d:IsHidden="True" IsEnabled="{Binding TouchTrackball}" Minimum="0.1" Maximum="10.0" Value="{Binding TouchTrackballFriction,FallbackValue=10}"/>
                                         </StackPanel>
                                     </StackPanel>
 
@@ -195,16 +201,15 @@
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="R" />
-                                    <Slider Value="0" MinWidth="100" Background="Red"/>
+                                    <Slider Value="{Binding MainColorR}" Minimum="0" Maximum="255" ToolTip="{Binding MainColorR}" MinWidth="100" Background="{Binding MainColorRString, FallbackValue=Red}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="G" />
-                                    <Slider Value="0" MinWidth="100" Background="Lime"/>
+                                    <Slider Value="{Binding MainColorG}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding MainColorG}" Background="{Binding MainColorGString, FallbackValue=Lime}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="B" />
-                                    <Slider Value="0" MinWidth="100" Background="Blue"/>
-                                </StackPanel>
+                                    <Slider Value="{Binding MainColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding MainColorB}" Background="{Binding MainColorBString, FallbackValue=Blue}"/>                                </StackPanel>
                             </StackPanel>
                         </GroupBox>
 
@@ -213,34 +218,34 @@
 
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="R" />
-                                    <Slider Value="0" MinWidth="100" Background="Red"/>
+                                    <Slider Value="{Binding LowColorR}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding LowColorR}" Background="{Binding LowColorRString, FallbackValue=Red}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="G" />
-                                    <Slider Value="0" MinWidth="100" Background="Lime"/>
+                                    <Slider Value="{Binding LowColorG}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding LowColorG}" Background="{Binding LowColorGString, FallbackValue=Lime}"/>
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="B" />
-                                    <Slider Value="0" MinWidth="100" Background="Blue"/>
+                                    <Slider Value="{Binding LowColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding LowColorB}" Background="{Binding LowColorBString, FallbackValue=Blue}"/>
                                 </StackPanel>
 
-                                <Button Width="10" Height="10" Background="{x:Null}" HorizontalAlignment="Right" Margin="0,6,0,0" />
+                                <Button x:Name="lowColorBtn" Width="10" Height="10" Background="{x:Null}" HorizontalAlignment="Right" Margin="0,6,0,0" Click="LowColorBtn_Click" />
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox x:Name="flashTypeCombo" SelectedIndex="0">
+                        <ComboBox x:Name="flashTypeCombo" SelectedIndex="{Binding FlashTypeIndex,FallbackValue=0}">
                             <ComboBoxItem Content="Flash at"/>
                             <ComboBoxItem Content="Pulse at"/>
                         </ComboBox>
-                        <xctk:IntegerUpDown d:IsHidden="True" Value="0" MinWidth="50" />
+                        <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding FlashAt}" MinWidth="50" />
                         <Label Content="%" />
-                        <Button Content="" Width="20" Height="20" Background="Blue"/>
+                        <Button x:Name="flashColorBtn" Width="20" Height="20" Background="{Binding FlashColor,FallbackValue=Blue}" Click="FlashColorBtn_Click" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
                         <Label Content="While Charging:"/>
-                        <ComboBox SelectedIndex="0">
+                        <ComboBox SelectedIndex="{Binding ChargingType,FallbackValue=0}">
                             <ComboBoxItem Content="Normal" />
                             <ComboBoxItem Content="Pulse" />
                             <ComboBoxItem Content="Rainbow" />
@@ -248,19 +253,20 @@
                         </ComboBox>
                     </StackPanel>
 
-                    <CheckBox Content="Color by Battery %" />
+                    <CheckBox x:Name="colorByBatteryPerCk" Content="Color by Battery %" IsChecked="{Binding ColorBatteryPercent}"
+                              Click="ColorByBatteryPerCk_Click" />
 
                     <StackPanel Orientation="Horizontal" Height="60">
-                        <Button Height="20" Width="20" Background="{x:Null}">
+                        <Button Height="20" Width="20">
                             <Button.Content>
                                 <Image Source="/DS4WinWPF;component/Resources/rainbow.png" />
                             </Button.Content>
                         </Button>
-                        <xctk:IntegerUpDown MinWidth="30" Height="30" />
+                        <xctk:IntegerUpDown MinWidth="30" Height="30" Minimum="0" Maximum="60" Value="{Binding Rainbow,FallbackValue=5}" />
                         <Label Content="secs/cycle" Padding="0" VerticalContentAlignment="Center" />
                         <StackPanel>
                             <Label Content="Max Sat." />
-                            <Slider Value="100" Minimum="0" Maximum="100" Width="100" />
+                            <Slider Value="{Binding MaxSatRainbow,FallbackValue=100}" Minimum="0" Maximum="100" Width="100" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
@@ -288,65 +294,81 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Text="LS" Grid.Column="1"/>
-                                <TextBlock Text="RS" Grid.Column="2"/>
+                                <TextBlock Text="LS" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="RS" Grid.Column="2" HorizontalAlignment="Center" FontWeight="Bold"/>
 
                                 <Label Content="Dead Zone:" Grid.Row="1" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Max Zone:" Grid.Row="2" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSMaxZone}" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSMaxZone}" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Anti-dead Zone:" Grid.Row="3" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSAntiDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSAntiDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Sensitivity:" Grid.Row="4" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Output Curve:" Grid.Row="5" Grid.Column="0" />
-                                <ComboBox Grid.Row="5" Grid.Column="1">
-
+                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="0">
+                                    <ComboBoxItem Content="Linear" />
+                                    <ComboBoxItem Content="Enhanced Precision" />
+                                    <ComboBoxItem Content="Quadratic" />
+                                    <ComboBoxItem Content="Cubic" />
+                                    <ComboBoxItem Content="Easeout Quad" />
+                                    <ComboBoxItem Content="Easeout Cubic" />
+                                    <ComboBoxItem Content="Custom" />
                                 </ComboBox>
-                                <ComboBox Grid.Row="5" Grid.Column="2">
-
+                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="0">
+                                    <ComboBoxItem Content="Linear" />
+                                    <ComboBoxItem Content="Enhanced Precision" />
+                                    <ComboBoxItem Content="Quadratic" />
+                                    <ComboBoxItem Content="Cubic" />
+                                    <ComboBoxItem Content="Easeout Quad" />
+                                    <ComboBoxItem Content="Easeout Cubic" />
+                                    <ComboBoxItem Content="Custom" />
                                 </ComboBox>
 
-                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
-                                    <TextBlock MinWidth="100" Text="" />
-                                    <Button Content="..."/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2">
-                                    <TextBlock MinWidth="100" Text="" />
-                                    <Button Content="..."/>
-                                </StackPanel>
+                                <DockPanel Grid.Row="6" Grid.Column="1">
+                                    <Button Content="..." Width="50" DockPanel.Dock="Right"/>
+                                    <TextBox MinWidth="100" Text="" DockPanel.Dock="Left" />
+                                </DockPanel>
+                                <DockPanel Grid.Row="6" Grid.Column="2">
+                                    <Button Content="..." Width="50" DockPanel.Dock="Right"/>
+                                    <TextBox MinWidth="100" Text="" DockPanel.Dock="Left" />
+                                </DockPanel>
 
                                 <Label Content="Square Stick:" Grid.Row="7" Grid.Column="0" />
-                                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1">
-                                    <CheckBox/>
-                                    <xctk:DoubleUpDown d:IsHidden="True" Value="5.0" Minimum="1.0" Maximum="5.0" Increment="1.0" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
+                                    <CheckBox IsChecked="{Binding LSSquareStick}" />
+                                    <xctk:DoubleUpDown d:IsHidden="True" FormatString="F1" Value="{Binding LSSquareRoundness,FallbackValue=5}"
+                                                       MinWidth="100" Minimum="1.0" Maximum="5.0" Increment="1.0" IsEnabled="{Binding LSSquareStick}" />
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2">
-                                    <CheckBox/>
-                                    <xctk:DoubleUpDown d:IsHidden="True" Value="5.0" Minimum="1.0" Maximum="5.0" Increment="1.0" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2" HorizontalAlignment="Right">
+                                    <CheckBox IsChecked="{Binding RSSquareStick}" />
+                                    <xctk:DoubleUpDown d:IsHidden="True" FormatString="F1" Value="{Binding RSSquareRoundness,FallbackValue=5}"
+                                                       MinWidth="100" Minimum="1.0" Maximum="5.0" Increment="1.0" IsEnabled="{Binding RSSquareStick}" />
                                 </StackPanel>
 
                                 <Label Content="Curve (Input):" Grid.Row="8" Grid.Column="0" />
-                                <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1">
-                                    <xctk:DoubleUpDown d:IsHidden="True" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right">
+                                    <xctk:DoubleUpDown d:IsHidden="True" MinWidth="100" Value="{Binding LSCurve}" Minimum="0" Maximum="100" />
                                     <Label Content="%" />
                                 </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="2">
-                                    <xctk:DoubleUpDown d:IsHidden="True" />
+                                <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="2" HorizontalAlignment="Right">
+                                    <xctk:DoubleUpDown d:IsHidden="True" MinWidth="100" Value="{Binding RSCurve}" Minimum="0" Maximum="100" />
                                     <Label Content="%" />
                                 </StackPanel>
 
                                 <Label Content="Rotation:" Grid.Row="9" Grid.Column="0" />
-                                <xctk:IntegerUpDown d:IsHidden="True" Value="0" Grid.Row="9" Grid.Column="1" />
-                                <xctk:IntegerUpDown d:IsHidden="True" Value="0" Grid.Row="9" Grid.Column="2" />
+                                <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding LSRotation}"
+                                                    Grid.Row="9" Grid.Column="1" Minimum="-180" Maximum="180" />
+                                <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding RSRotation}"
+                                                    Grid.Row="9" Grid.Column="2" Minimum="-180" Maximum="180" />
                             </Grid>
                         </GroupBox>
 
@@ -368,41 +390,51 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="L2" Grid.Column="1"/>
-                                <TextBlock Text="R2" Grid.Column="2"/>
+                                <TextBlock Text="L2" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="R2" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Center"/>
 
                                 <Label Content="Dead Zone:" Grid.Row="1" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Max Zone:" Grid.Row="2" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Anti-dead Zone:" Grid.Row="3" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Sensitivity:" Grid.Row="4" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Output Curve:" Grid.Row="5" Grid.Column="0" />
-                                <ComboBox Grid.Row="5" Grid.Column="1">
-
+                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="0">
+                                    <ComboBoxItem Content="Linear" />
+                                    <ComboBoxItem Content="Quadratic" />
+                                    <ComboBoxItem Content="Cubic" />
+                                    <ComboBoxItem Content="Easeout Quad" />
+                                    <ComboBoxItem Content="Easeout Cubic" />
+                                    <ComboBoxItem Content="Custom" />
                                 </ComboBox>
-                                <ComboBox Grid.Row="5" Grid.Column="2">
-
+                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="0">
+                                    <ComboBoxItem Content="Linear" />
+                                    <ComboBoxItem Content="Quadratic" />
+                                    <ComboBoxItem Content="Cubic" />
+                                    <ComboBoxItem Content="Easeout Quad" />
+                                    <ComboBoxItem Content="Easeout Cubic" />
+                                    <ComboBoxItem Content="Custom" />
                                 </ComboBox>
 
-                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
-                                    <TextBlock MinWidth="100" Text="" />
-                                    <Button Content="..."/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2">
-                                    <TextBlock MinWidth="100" Text="" />
-                                    <Button Content="..."/>
-                                </StackPanel>
+                                <DockPanel Grid.Row="6" Grid.Column="1">
+                                    <Button Content="..." Width="50" DockPanel.Dock="Right"/>
+                                    <TextBox MinWidth="100" Text="" DockPanel.Dock="Left" />
+                                </DockPanel>
+                                <DockPanel Grid.Row="6" Grid.Column="2">
+                                    <Button Content="..." Width="50" DockPanel.Dock="Right"/>
+                                    <TextBox MinWidth="100" Text="" DockPanel.Dock="Left" />
+                                </DockPanel>
                             </Grid>
                         </GroupBox>
 
@@ -424,41 +456,51 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="L2" Grid.Column="1"/>
-                                <TextBlock Text="R2" Grid.Column="2"/>
+                                <TextBlock Text="X" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="Z" Grid.Column="2"  FontWeight="Bold" HorizontalAlignment="Center"/>
 
                                 <Label Content="Dead Zone:" Grid.Row="1" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Max Zone:" Grid.Row="2" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Anti-dead Zone:" Grid.Row="3" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Sensitivity:" Grid.Row="4" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
 
                                 <Label Content="Output Curve:" Grid.Row="5" Grid.Column="0" />
-                                <ComboBox Grid.Row="5" Grid.Column="1">
-
+                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="0">
+                                    <ComboBoxItem Content="Linear" />
+                                    <ComboBoxItem Content="Quadratic" />
+                                    <ComboBoxItem Content="Cubic" />
+                                    <ComboBoxItem Content="Easeout Quad" />
+                                    <ComboBoxItem Content="Easeout Cubic" />
+                                    <ComboBoxItem Content="Custom" />
                                 </ComboBox>
-                                <ComboBox Grid.Row="5" Grid.Column="2">
-
+                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="0">
+                                    <ComboBoxItem Content="Linear" />
+                                    <ComboBoxItem Content="Quadratic" />
+                                    <ComboBoxItem Content="Cubic" />
+                                    <ComboBoxItem Content="Easeout Quad" />
+                                    <ComboBoxItem Content="Easeout Cubic" />
+                                    <ComboBoxItem Content="Custom" />
                                 </ComboBox>
 
-                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="1">
-                                    <TextBlock MinWidth="100" Text="" />
-                                    <Button Content="..."/>
-                                </StackPanel>
-                                <StackPanel Orientation="Horizontal" Grid.Row="6" Grid.Column="2">
-                                    <TextBlock MinWidth="100" Text="" />
-                                    <Button Content="..."/>
-                                </StackPanel>
+                                <DockPanel Grid.Row="6" Grid.Column="1">
+                                    <Button Content="..." Width="50" DockPanel.Dock="Right"/>
+                                    <TextBox MinWidth="100" Text="" DockPanel.Dock="Left" />
+                                </DockPanel>
+                                <DockPanel Grid.Row="6" Grid.Column="2">
+                                    <Button Content="..." Width="50" DockPanel.Dock="Right"/>
+                                    <TextBox MinWidth="100" Text="" DockPanel.Dock="Left" />
+                                </DockPanel>
                             </Grid>
                         </GroupBox>
                     </StackPanel>
@@ -499,7 +541,7 @@
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Steering wheel axis" />
-                            <ComboBox Width="160" SelectedIndex="0">
+                            <ComboBox Width="160" SelectedIndex="{Binding SASteeringWheelEmulationAxisIndex,FallbackValue=0}">
                                 <ComboBoxItem Content="None" />
                                 <ComboBoxItem Content="Left X-Axis" />
                                 <ComboBoxItem Content="Left Y-Axis" />
@@ -517,7 +559,7 @@
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Steering wheel range" />
-                            <ComboBox SelectedIndex="0">
+                            <ComboBox SelectedIndex="{Binding SASteeringWheelEmulationRangeIndex,FallbackValue=0}">
                                 <ComboBoxItem Content="90" />
                                 <ComboBoxItem Content="180" />
                                 <ComboBoxItem Content="270" />
@@ -650,39 +692,59 @@
             <TabItem Header="Other">
                 <StackPanel>
                     <GroupBox Header="Rumble" Height="50">
-                        <StackPanel Orientation="Horizontal">
-                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" Value="100" />
-                            <Label Content="%" />
-                            <Button Content="Test Heavy" Margin="10,0,0,0" />
-                            <Button Content="Test Light" Margin="10,0,0,0" />
-                        </StackPanel>
+                        <UniformGrid Rows="1" Columns="3">
+                            <UniformGrid Columns="2">
+                                <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" Value="{Binding RumbleBoost}" Minimum="0" Maximum="200" Increment="10" />
+                                <Label Content="%" />
+                            </UniformGrid>
+                            
+                            <Button x:Name="heavyRumbleTestBtn" Content="Test Heavy" Margin="10,0,0,0" Click="HeavyRumbleTestBtn_Click" />
+                            <Button x:Name="lightRumbleTestBtn" Content="Test Light" Margin="10,0,0,0" Click="LightRumbleTestBtn_Click" />
+                        </UniformGrid>
                     </GroupBox>
                     <StackPanel Orientation="Horizontal" Height="40">
                         <Label Content="Mouse Sensitivity" VerticalAlignment="Center" />
                         <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Value="25" />
                     </StackPanel>
-                    <CheckBox Content="Mouse Acceleration" />
-                    <CheckBox Content="Enable Touchpad Toggle" />
+                    <CheckBox Content="Mouse Acceleration" IsChecked="{Binding MouseAcceleration}" />
+                    <CheckBox Content="Enable Touchpad Toggle" IsChecked="{Binding EnableTouchpadToggle}" />
                     <StackPanel Orientation="Horizontal">
                         <CheckBox Content="Launch program with profile" />
                         <Button Content="Browse" Margin="20,0,0,0" />
                     </StackPanel>
-                    <CheckBox Content="Use DInput only" />
-                    <CheckBox Content="Flush HID" />
+                    <CheckBox Content="Use DInput only" IsChecked="{Binding UseDInputOnly}" />
+                    <CheckBox Content="Flush HID" IsChecked="{Binding FlushHid}" />
                     <StackPanel Orientation="Horizontal" Height="30">
-                        <CheckBox Content="Idle Disconnect" VerticalAlignment="Center" />
-                        <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Value="5" />
+                        <CheckBox Content="Idle Disconnect" VerticalAlignment="Center" IsChecked="{Binding IdleDisconnectExists}" />
+                        <xctk:IntegerUpDown x:Name="idleDisconnectUD" d:IsHidden="True" Value="{Binding IdleDisconnect,FallbackValue=5}"
+                                            IsEnabled="{Binding IdleDisconnectExists}" MinWidth="50" Minimum="0" Maximum="60" />
                         <Label Content="mins" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="BT Poll Rate" />
-                        <ComboBox SelectedIndex="0" MinWidth="140">
-                            <ComboBoxItem Content="Max 1 ms" />
+                        <ComboBox x:Name="btPollRateCombo" SelectedIndex="{Binding BTPollRateIndex,Mode=OneWay,FallbackValue=4}" MinWidth="140">
+                            <ComboBoxItem Content="Max (1 ms)" />
+                            <ComboBoxItem Content="1000 Hz (1 ms)" />
+                            <ComboBoxItem Content="500 Hz (2 ms)" />
+                            <ComboBoxItem Content="333 Hz (3 ms)" />
+                            <ComboBoxItem Content="250 Hz (4 ms)" />
+                            <ComboBoxItem Content="200 Hz (5 ms)" />
+                            <ComboBoxItem Content="166 Hz (6 ms)" />
+                            <ComboBoxItem Content="142 Hz (7 ms)" />
+                            <ComboBoxItem Content="125 Hz (8 ms)" />
+                            <ComboBoxItem Content="111 Hz (9 ms)" />
+                            <ComboBoxItem Content="100 Hz (10 ms)" />
+                            <ComboBoxItem Content="90 Hz (11 ms)" />
+                            <ComboBoxItem Content="83 Hz (12 ms)" />
+                            <ComboBoxItem Content="76 Hz (13 ms)" />
+                            <ComboBoxItem Content="71 Hz (14 ms)" />
+                            <ComboBoxItem Content="66 Hz (15 ms)" />
+                            <ComboBoxItem Content="62 Hz (16 ms)" />
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Controller" />
-                        <ComboBox SelectedIndex="0" MinWidth="140">
+                        <ComboBox x:Name="outConTypeCombo" SelectedIndex="{Binding ControllerTypeIndex,Mode=OneWay,FallbackValue=0}" MinWidth="140">
                             <ComboBoxItem Content="Xbox 360"/>
                             <ComboBoxItem Content="DualShock 4"/>
                         </ComboBox>

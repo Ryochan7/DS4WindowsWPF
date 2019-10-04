@@ -10,7 +10,7 @@
         mc:Ignorable="d"
         Title="DS4Windows" Height="450" Width="800" Closing="MainDS4Window_Closing" StateChanged="MainDS4Window_StateChanged" SizeChanged="MainDS4Window_SizeChanged" LocationChanged="MainDS4Window_LocationChanged">
     <DockPanel>
-        <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource}" ToolTipText="{Binding TooltipText}" MenuActivation="RightClick" TrayRightMouseUp="NotifyIcon_TrayRightMouseUp" TrayMiddleMouseDown="NotifyIcon_TrayMiddleMouseDown">
+        <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource}" ToolTipText="{Binding TooltipText}" MenuActivation="RightClick" TrayRightMouseUp="NotifyIcon_TrayRightMouseUp" TrayMiddleMouseDown="NotifyIcon_TrayMiddleMouseDown" TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
             <!--<tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Open" />
@@ -130,7 +130,7 @@
                 </Grid>
             </TabItem>
 
-            <TabItem Header="Profiles">
+            <TabItem x:Name="profilesTab" Header="Profiles">
                 <DockPanel x:Name="profDockPanel">
                     <ToolBar x:Name="profOptsToolbar" Height="30" DockPanel.Dock="Top" Background="{x:Null}">
                         <Button x:Name="newProfListBtn" Click="NewProfListBtn_Click">
@@ -239,8 +239,8 @@
                     <StackPanel x:Name="checkEveryOptionsStack"  Orientation="Horizontal" IsEnabled="{Binding CheckForUpdates}">
                         <Label Content="Check every " />
                         <!--<TextBox Text="0" VerticalAlignment="Center" />-->
-                        <xctk:IntegerUpDown d:IsHidden="True" Value="1" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
-                        <ComboBox SelectedIndex="{Binding CheckEveryUnit}">
+                        <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding CheckEvery}" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
+                        <ComboBox SelectedIndex="{Binding CheckEveryUnit,FallbackValue=1}">
                             <ComboBoxItem Content="Hours" />
                             <ComboBoxItem Content="Days" />
                         </ComboBox>

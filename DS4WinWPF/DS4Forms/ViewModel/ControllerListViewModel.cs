@@ -258,9 +258,15 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             if (this.selectedEntity != null)
             {
                 selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
+                selectedEntity.ProfileSaved += SelectedEntity_ProfileSaved;
             }
 
             useCustomColor = Global.UseCustomLed[devIndex];
+        }
+
+        private void SelectedEntity_ProfileSaved(object sender, EventArgs e)
+        {
+            Global.LoadProfile(devIndex, false, App.rootHub);
         }
 
         public void RequestUpdatedTooltipID()

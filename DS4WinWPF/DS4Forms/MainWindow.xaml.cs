@@ -671,7 +671,13 @@ namespace DS4WinWPF.DS4Forms
 
         private void MainDS4Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            if (Global.CloseMini)
+            if (editor != null)
+            {
+                editor.Close();
+                e.Cancel = true;
+                return;
+            }
+            else if (Global.CloseMini)
             {
                 WindowState = WindowState.Minimized;
                 e.Cancel = true;
@@ -780,6 +786,7 @@ namespace DS4WinWPF.DS4Forms
             {
                 ProfileEntity entity = profileListHolder.ProfileListCol[item.SelectedIndex];
                 ShowProfileEditor(idx, entity);
+                mainTabCon.SelectedIndex = 1;
             }
         }
 
@@ -789,6 +796,7 @@ namespace DS4WinWPF.DS4Forms
             int idx = Convert.ToInt32(temp.Tag);
             controllerLV.SelectedIndex = idx;
             ShowProfileEditor(idx, null);
+            mainTabCon.SelectedIndex = 1;
             //controllerLV.Focus();
         }
 
@@ -1036,10 +1044,19 @@ namespace DS4WinWPF.DS4Forms
             profDockPanel.Children.Remove(editor);
             profOptsToolbar.Visibility = Visibility.Visible;
             profilesListBox.Visibility = Visibility.Visible;
-            editor = null;
             preserveSize = true;
-            this.Width = oldSize.Width;
-            this.Height = oldSize.Height;
+            if (!editor.Keepsize)
+            {
+                this.Width = oldSize.Width;
+                this.Height = oldSize.Height;
+            }
+            else
+            {
+                oldSize = new Size(Width, Height);
+            }
+
+            editor = null;
+            mainTabCon.SelectedIndex = 0;
             //Task.Run(() => GC.Collect(2, GCCollectionMode.Forced, true));
         }
 
@@ -1062,6 +1079,16 @@ namespace DS4WinWPF.DS4Forms
             editor.Closed += ProfileEditor_Closed;
             profDockPanel.Children.Add(editor);
             editor.Reload(device, entity);
+        }
+
+        private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
+        {
+            if (!showInTaskbar)
+            {
+                Show();
+            }
+
+            WindowState = WindowState.Normal;
         }
     }
 }

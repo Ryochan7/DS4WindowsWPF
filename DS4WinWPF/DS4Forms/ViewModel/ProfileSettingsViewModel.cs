@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
@@ -15,38 +16,98 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public int MainColorR
         {
             get => Global.MainColor[device].red;
-            set => Global.MainColor[device].red = (byte)value;
+            set
+            {
+                Global.MainColor[device].red = (byte)value;
+                MainColorRStringChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+
+        public string MainColorRString
+        {
+            get => $"#{ Global.MainColor[device].red.ToString("X2")}FF0000";
+        }
+        public event EventHandler MainColorRStringChanged;
 
         public int MainColorG
         {
             get => Global.MainColor[device].green;
-            set => Global.MainColor[device].green = (byte)value;
+            set
+            {
+                Global.MainColor[device].green = (byte)value;
+                MainColorGStringChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+
+        public string MainColorGString
+        {
+            get => $"#{ Global.MainColor[device].green.ToString("X2")}00FF00";
+        }
+        public event EventHandler MainColorGStringChanged;
 
         public int MainColorB
         {
             get => Global.MainColor[device].blue;
-            set => Global.MainColor[device].blue = (byte)value;
+            set
+            {
+                Global.MainColor[device].blue = (byte)value;
+                MainColorBStringChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+
+        public string MainColorBString
+        {
+            get => $"#{ Global.MainColor[device].blue.ToString("X2")}0000FF";
+        }
+        public event EventHandler MainColorBStringChanged;
 
         public int LowColorR
         {
             get => Global.LowColor[device].red;
-            set => Global.LowColor[device].red = (byte)value;
+            set
+            {
+                Global.LowColor[device].red = (byte)value;
+                LowColorRStringChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+
+        public string LowColorRString
+        {
+            get => $"#{ Global.LowColor[device].red.ToString("X2")}FF0000";
+        }
+        public event EventHandler LowColorRStringChanged;
 
         public int LowColorG
         {
             get => Global.LowColor[device].green;
-            set => Global.LowColor[device].green = (byte)value;
+            set
+            {
+                Global.LowColor[device].green = (byte)value;
+                LowColorGStringChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+
+        public string LowColorGString
+        {
+            get => $"#{ Global.LowColor[device].green.ToString("X2")}FF0000";
+        }
+        public event EventHandler LowColorGStringChanged;
 
         public int LowColorB
         {
             get => Global.LowColor[device].blue;
-            set => Global.LowColor[device].blue = (byte)value;
+            set
+            {
+                Global.LowColor[device].blue = (byte)value;
+                LowColorBStringChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+
+        public string LowColorBString
+        {
+            get => $"#{ Global.LowColor[device].blue.ToString("X2")}FF0000";
+        }
+        public event EventHandler LowColorBStringChanged;
 
         public int FlashTypeIndex
         {
@@ -60,10 +121,29 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set => Global.FlashAt[device] = value;
         }
 
+        public string FlashColor
+        {
+            get
+            {
+                ref DS4Color color = ref Global.FlashColor[device];
+                return $"#FF{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
+            }
+        }
+        public event EventHandler FlashColorChanged;
+
         public int ChargingType
         {
             get => Global.ChargingType[device];
             set => Global.ChargingType[device] = value;
+        }
+
+        public bool ColorBatteryPercent
+        {
+            get => Global.LedAsBatteryIndicator[device];
+            set
+            {
+                Global.LedAsBatteryIndicator[device] = value;
+            }
         }
 
         public double Rainbow
@@ -125,8 +205,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 Global.IdleDisconnectTimeout[device] = 5;
                 IdleDisconnectChanged?.Invoke(this, EventArgs.Empty);
+                IdleDisconnectExistsChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public event EventHandler IdleDisconnectExistsChanged;
 
         public int IdleDisconnect
         {
@@ -137,6 +219,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 if (temp == value) return;
                 Global.IdleDisconnectTimeout[device] = value;
                 IdleDisconnectChanged?.Invoke(this, EventArgs.Empty);
+                IdleDisconnectExistsChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public event EventHandler IdleDisconnectChanged;
@@ -209,6 +292,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set => Global.SASteeringWheelEmulationAxis[device] = (SASteeringWheelEmulationAxisType)value;
         }
 
+        private int[] saSteeringRangeValues =
+            new int[9] { 90, 180, 270, 360, 450, 720, 900, 1080, 1440 };
         public int SASteeringWheelEmulationRangeIndex
         {
             get
@@ -238,6 +323,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 }
 
                 return index;
+            }
+            set
+            {
+                int temp = saSteeringRangeValues[value];
+                Global.SASteeringWheelEmulationRange[device] = temp;
             }
         }
 
@@ -514,14 +604,28 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public bool UseTouchMouse
         {
             get => !Global.UseTPforControls[device];
-            set => Global.UseTPforControls[device] = !value;
+            set
+            {
+                bool temp = !Global.UseTPforControls[device];
+                if (temp == value) return;
+                Global.UseTPforControls[device] = !value;
+                UseTouchMouseChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler UseTouchMouseChanged;
 
         public bool UseTouchControls
         {
             get => Global.UseTPforControls[device];
-            set => Global.UseTPforControls[device] = value;
+            set
+            {
+                bool temp = Global.UseTPforControls[device];
+                if (temp == value) return;
+                Global.UseTPforControls[device] = value;
+                UseTouchControlsChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler UseTouchControlsChanged;
 
         public bool TouchSenExists
         {
@@ -655,6 +759,12 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public ProfileSettingsViewModel(int device)
         {
             this.device = device;
+        }
+
+        public void UpdateFlashColor(Color color)
+        {
+            Global.FlashColor[device] = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+            FlashColorChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }

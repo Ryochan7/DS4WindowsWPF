@@ -1,6 +1,7 @@
 ﻿using DS4WinWPF.DS4Forms.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,10 +28,13 @@ namespace DS4WinWPF.DS4Forms
             public Size size;
         }
 
+        private int deviceNum;
         private ProfileSettingsViewModel profileSettingsVM;
         private ProfileEntity currentProfile;
 
         public event EventHandler Closed;
+        public delegate void CreatedProfileHandler(ProfileEditor sender, string profile);
+        public event CreatedProfileHandler CreatedProfile;
 
         private Dictionary<Button, ImageBrush> hoverImages =
             new Dictionary<Button, ImageBrush>();
@@ -39,11 +43,14 @@ namespace DS4WinWPF.DS4Forms
 
         private StackPanel activeTouchPanel;
         private StackPanel activeGyroModePanel;
+        private bool keepsize;
+        public bool Keepsize { get => keepsize; }
 
         public ProfileEditor(int device)
         {
             InitializeComponent();
 
+            deviceNum = device;
             emptyColorGB.Visibility = Visibility.Collapsed;
             profileSettingsVM = new ProfileSettingsViewModel(device);
             picBoxHover.Visibility = Visibility.Hidden;
@@ -76,6 +83,8 @@ namespace DS4WinWPF.DS4Forms
             PopulateHoverImages();
             PopulateHoverLocations();
             PopulateHoverIndexes();
+
+            ColorByBatteryPerCheck();
             SetupEvents();
         }
 
@@ -364,6 +373,7 @@ namespace DS4WinWPF.DS4Forms
             touchpadSettingsPanel.DataContext = null;
             mappingListBox.DataContext = null;
 
+            deviceNum = device;
             if (profile != null)
             {
                 currentProfile = profile;
@@ -387,6 +397,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
+            DS4Windows.Global.LoadProfile(deviceNum, false, App.rootHub);
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
@@ -465,6 +476,111 @@ namespace DS4WinWPF.DS4Forms
 
                 activeGyroModePanel.Visibility = Visibility.Visible;
             }
+        }
+
+        private void SetLateProperties()
+        {
+            DS4Windows.Global.BTPollRate[deviceNum] = btPollRateCombo.SelectedIndex;
+            DS4Windows.OutContType outCon;
+            switch(outConTypeCombo.SelectedIndex)
+            {
+                case 0:
+                    outCon = DS4Windows.OutContType.X360; break;
+                case 1:
+                    outCon = DS4Windows.OutContType.DS4; break;
+                default:
+                    outCon = DS4Windows.OutContType.X360; break;
+            }
+
+            DS4Windows.Global.OutContType[deviceNum] = outCon;
+        }
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            string temp = profileNameTxt.Text;
+            if (!string.IsNullOrWhiteSpace(temp) &&
+                temp.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) == -1)
+            {
+                SetLateProperties();
+                DS4Windows.Global.ProfilePath[deviceNum] =
+                    DS4Windows.Global.OlderProfilePath[deviceNum] = temp;
+
+                if (currentProfile != null)
+                {
+                    if (temp != currentProfile.Name)
+                    {
+                        //File.Delete(DS4Windows.Global.appdatapath + @"\Profiles\" + currentProfile.Name + ".xml");
+                        currentProfile.DeleteFile();
+                        currentProfile.Name = temp;
+                    }
+                }
+
+                if (currentProfile != null)
+                {
+                    currentProfile.SaveProfile(deviceNum);
+                    currentProfile.FireSaved();
+                }
+                else
+                {
+                    DS4Windows.Global.SaveProfile(deviceNum, temp);
+                    DS4Windows.Global.cacheProfileCustomsFlags(deviceNum);
+                    CreatedProfile?.Invoke(this, temp);
+                }
+
+                Closed?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        private void KeepSizeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            keepsize = true;
+            ImageSourceConverter c = new ImageSourceConverter();
+            sizeImage.Source = c.ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/checked.png") as ImageSource;
+        }
+
+        public void Close()
+        {
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void ColorByBatteryPerCk_Click(object sender, RoutedEventArgs e)
+        {
+            ColorByBatteryPerCheck();
+        }
+
+        private void ColorByBatteryPerCheck()
+        {
+            bool state = profileSettingsVM.ColorBatteryPercent;
+            if (state)
+            {
+                colorGB.Header = "Full";
+                emptyColorGB.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                colorGB.Header = "Color";
+                emptyColorGB.Visibility = Visibility.Hidden;
+            }
+        }
+
+        private void FlashColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LowColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void HeavyRumbleTestBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LightRumbleTestBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

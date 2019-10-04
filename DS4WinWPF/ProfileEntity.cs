@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,5 +22,32 @@ namespace DS4WinWPF
         }
 
         public event EventHandler NameChanged;
+        public event EventHandler ProfileSaved;
+
+        public void DeleteFile()
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                string filepath = DS4Windows.Global.appdatapath + @"\Profiles\" + name + ".xml";
+                if (File.Exists(filepath))
+                {
+                    File.Delete(filepath);
+                }
+            }
+        }
+
+        public void SaveProfile(int deviceNum)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                DS4Windows.Global.SaveProfile(deviceNum, name);
+                DS4Windows.Global.cacheProfileCustomsFlags(deviceNum);
+            }
+        }
+
+        public void FireSaved()
+        {
+            ProfileSaved?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

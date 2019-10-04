@@ -52,13 +52,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler WhiteDS4IconChanged;
 
-        private bool checkForUpdates;
-        public bool CheckForUpdates { get => checkForUpdates;
+        public bool CheckForUpdates { get => DS4Windows.Global.CheckWhen > 0;
             set
             {
-                if (checkForUpdates == value) return;
-                checkForUpdates = value;
-                CheckForUpdatesChanged?.Invoke(this, EventArgs.Empty);
+                DS4Windows.Global.CheckWhen = value ? 24 : 0;
+                CheckForNoUpdatesWhen();
             }
         }
         public event EventHandler CheckForUpdatesChanged;
@@ -74,13 +72,24 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
             set
             {
+                int temp;
                 if (checkEveryUnitIdx == 0 && value < 24)
                 {
-                    DS4Windows.Global.CheckWhen = value;
+                    temp = DS4Windows.Global.CheckWhen;
+                    if (temp != value)
+                    {
+                        DS4Windows.Global.CheckWhen = value;
+                        CheckForNoUpdatesWhen();
+                    }
                 }
                 else if (checkEveryUnitIdx == 1)
                 {
-                    DS4Windows.Global.CheckWhen = value * 24;
+                    temp = DS4Windows.Global.CheckWhen / 24;
+                    if (temp != value)
+                    {
+                        DS4Windows.Global.CheckWhen = value * 24;
+                        CheckForNoUpdatesWhen();
+                    }
                 }
             }
         }
@@ -123,15 +132,15 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public SettingsViewModel()
         {
-            checkForUpdates = DS4Windows.Global.CheckWhen > 0;
             checkEveryUnitIdx = 1;
 
-            if (DS4Windows.Global.CheckWhen < 24)
+            int checklapse = DS4Windows.Global.CheckWhen;
+            if (checklapse < 24 && checklapse > 0)
             {
                 checkEveryUnitIdx = 0;
             }
 
-            CheckStartupOptiobs();
+            CheckStartupOptions();
 
             Icon img = SystemIcons.Shield;
             Bitmap bitmap = img.ToBitmap();
@@ -143,19 +152,19 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                       BitmapSizeOptions.FromEmptyOptions());
             uacSource = wpfBitmap;
 
-            CheckForUpdatesChanged += SettingsViewModel_CheckForUpdatesChanged;
+            //CheckForUpdatesChanged += SettingsViewModel_CheckForUpdatesChanged;
         }
 
         private void SettingsViewModel_CheckForUpdatesChanged(object sender, EventArgs e)
         {
-            if (!checkForUpdates)
+            if (!CheckForUpdates)
             {
                 CheckEveryChanged?.Invoke(this, EventArgs.Empty);
                 CheckEveryUnitChanged?.Invoke(this, EventArgs.Empty);
             }
         }
 
-        private void CheckStartupOptiobs()
+        private void CheckStartupOptions()
         {
             bool lnkExists = File.Exists(Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\DS4Windows.lnk");
             if (lnkExists)
@@ -167,6 +176,18 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 runAtStartup = false;
             }
+        }
+
+        private void CheckForNoUpdatesWhen()
+        {
+            if (DS4Windows.Global.CheckWhen == 0)
+            {
+                checkEveryUnitIdx = 1;
+            }
+
+            CheckForUpdatesChanged?.Invoke(this, EventArgs.Empty);
+            CheckEveryChanged?.Invoke(this, EventArgs.Empty);
+            CheckEveryUnitChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
