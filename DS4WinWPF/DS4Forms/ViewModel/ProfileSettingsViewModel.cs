@@ -1006,11 +1006,188 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
 
 
-
         public bool GyroMouseTurns
         {
             get => Global.GyroMouseStickTriggerTurns[device];
             set => Global.GyroMouseStickTriggerTurns[device] = value;
+        }
+
+        public int GyroSensitivity
+        {
+            get => Global.GyroSensitivity[device];
+            set => Global.GyroSensitivity[device] = value;
+        }
+
+        public int GyroVertScale
+        {
+            get => Global.GyroSensVerticalScale[device];
+            set => Global.GyroSensVerticalScale[device] = value;
+        }
+
+        public int GyroMouseEvalCondIndex
+        {
+            get => Global.getSATriggerCond(device) ? 0 : 1;
+            set => Global.SetSaTriggerCond(device, value == 0 ? "and" : "or");
+        }
+
+        public int GyroMouseXAxis
+        {
+            get => Global.GyroMouseHorizontalAxis[device];
+            set => Global.GyroMouseHorizontalAxis[device] = value;
+        }
+
+        public bool GyroMouseInvertX
+        {
+            get => (Global.GyroInvert[device] & 2) == 2;
+            set
+            {
+                if (value)
+                {
+                    Global.GyroInvert[device] |= 2;
+                }
+                else
+                {
+                    Global.GyroInvert[device] &= ~2;
+                }
+            }
+        }
+
+        public bool GyroMouseInvertY
+        {
+            get => (Global.GyroInvert[device] & 1) == 1;
+            set
+            {
+                if (value)
+                {
+                    Global.GyroInvert[device] |= 1;
+                }
+                else
+                {
+                    Global.GyroInvert[device] &= ~1;
+                }
+            }
+        }
+
+        public bool GyroMouseSmooth
+        {
+            get => Global.GyroSmoothing[device];
+            set => Global.GyroSmoothing[device] = value;
+        }
+
+        public double GyroMouseSmoothWeight
+        {
+            get => Global.GyroSmoothingWeight[device];
+            set => Global.GyroSmoothingWeight[device] = value;
+        }
+
+        public int GyroMouseDeadZone
+        {
+            get => Global.GyroMouseDeadZone[device];
+            set => Global.GyroMouseDeadZone[device] = value;
+        }
+
+        public bool GyroMouseToggle
+        {
+            get => Global.GyroMouseToggle[device];
+            set => Global.GyroMouseToggle[device] = value;
+        }
+
+        public bool GyroMouseStickTurns
+        {
+            get => Global.GyroMouseStickTriggerTurns[device];
+            set => Global.GyroMouseStickTriggerTurns[device] = value;
+        }
+
+        public bool GyroMouseStickToggle
+        {
+            get => Global.GyroMouseStickToggle[device];
+            set => Global.GyroMouseStickToggle[device] = value;
+        }
+
+        public int GyroMouseStickDeadZone
+        {
+            get => Global.GyroMouseStickInf[device].deadZone;
+            set => Global.GyroMouseStickInf[device].deadZone = value;
+        }
+
+        public int GyroMouseStickMaxZone
+        {
+            get => Global.GyroMouseStickInf[device].maxZone;
+            set => Global.GyroMouseStickInf[device].maxZone = value;
+        }
+
+        public double GyroMouseStickAntiDeadX
+        {
+            get => Global.GyroMouseStickInf[device].antiDeadX;
+            set => Global.GyroMouseStickInf[device].antiDeadX = value;
+        }
+
+        public double GyroMouseStickAntiDeadY
+        {
+            get => Global.GyroMouseStickInf[device].antiDeadY;
+            set => Global.GyroMouseStickInf[device].antiDeadY = value;
+        }
+
+        public int GyroMouseStickVertScale
+        {
+            get => Global.GyroMouseStickInf[device].vertScale;
+            set => Global.GyroMouseStickInf[device].vertScale = value;
+        }
+
+        public int GyroMouseStickEvalCondIndex
+        {
+            get => Global.GetSAMouseStickTriggerCond(device) ? 0 : 1;
+            set => Global.SetSaMouseStickTriggerCond(device, value == 0 ? "and" : "or");
+        }
+
+        public int GyroMouseStickXAxis
+        {
+            get => Global.GyroMouseStickHorizontalAxis[device];
+            set => Global.GyroMouseStickHorizontalAxis[device] = value;
+        }
+
+        public bool GyroMouseStickInvertX
+        {
+            get => (Global.GyroMouseStickInf[device].inverted & 2) == 2;
+            set
+            {
+                if (value)
+                {
+                    Global.GyroMouseStickInf[device].inverted |= 2;
+                }
+                else
+                {
+                    Global.GyroMouseStickInf[device].inverted &= 1;
+                }
+            }
+        }
+
+        public bool GyroMouseStickInvertY
+        {
+            get => (Global.GyroInvert[device] & 1) == 1;
+            set
+            {
+                if (value)
+                {
+                    Global.GyroInvert[device] |= 1;
+                }
+                else
+                {
+                    Global.GyroInvert[device] &= 2;
+                }
+            }
+        }
+
+        public bool GyroMouseStickSmooth
+        {
+            get => Global.GyroMouseStickInf[device].useSmoothing;
+            set => Global.GyroMouseStickInf[device].useSmoothing = value;
+        }
+
+        public double GyroMousetickSmoothWeight
+        {
+            get => Global.GyroMouseStickInf[device].smoothWeight;
+            set => Global.GyroMouseStickInf[device].smoothWeight = value;
         }
 
         public ProfileSettingsViewModel(int device)

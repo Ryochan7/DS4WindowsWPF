@@ -585,21 +585,22 @@
                             <Button Content="Always On" />
                         </StackPanel>
 
-                        <CheckBox Content="Turn Behavior - Turns Gyro" />
+                        <CheckBox Content="Turn Behavior - Turns Gyro" IsChecked="{Binding GyroMouseTurns}" />
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Gyro Sensitivity:" />
-                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Value="100" />
+                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Value="{Binding GyroSensitivity}" Minimum="0" Maximum="500" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Vertical Scale:" />
-                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" />
+                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Value="{Binding GyroVertScale}" Minimum="0" Maximum="500" />
+                            <Label Content="%" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <StackPanel>
                                 <Label Content="Eval Cond." />
-                                <ComboBox>
+                                <ComboBox SelectedIndex="{Binding GyroMouseEvalCondIndex,FallbackValue=0}">
                                     <ComboBoxItem Content="And" />
                                     <ComboBoxItem Content="Or" />
                                 </ComboBox>
@@ -607,7 +608,7 @@
 
                             <StackPanel>
                                 <Label Content="X Axis" />
-                                <ComboBox>
+                                <ComboBox SelectedIndex="{Binding GyroMouseXAxis,FallbackValue=0}">
                                     <ComboBoxItem Content="Yaw" />
                                     <ComboBoxItem Content="Roll" />
                                 </ComboBox>
@@ -616,24 +617,24 @@
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Invert" />
-                            <CheckBox Content="X" />
-                            <CheckBox Content="Y" />
+                            <CheckBox Content="X" IsChecked="{Binding GyroMouseInvertX}" />
+                            <CheckBox Content="Y" IsChecked="{Binding GyroMouseInvertY}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Height="30">
-                            <CheckBox Content="Smoothing" />
+                            <CheckBox Content="Smoothing" IsChecked="{Binding GyroMouseSmooth}" />
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Smooth Weight" Padding="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="60" Value="0.500"/>
+                                <xctk:DoubleUpDown d:IsHidden="True" MinWidth="60" Value="{Binding GyroMouseSmoothWeight}" Minimum="0.0" Maximum="1.0" IsEnabled="{Binding GyroMouseSmooth}" />
                             </StackPanel>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Deadzone" />
-                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" />
+                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" Value="{Binding GyroMouseDeadZone}" Minimum="0" Maximum="1000" />
                         </StackPanel>
 
-                        <CheckBox Content="Toggle" />
+                        <CheckBox Content="Toggle" IsChecked="{Binding GyroMouseToggle}" />
                     </StackPanel>
 
                     <StackPanel x:Name="gyroMouseJoystickPanel" Visibility="Collapsed">
@@ -643,52 +644,52 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Turn Behavior - Turns Gyro" />
-                            <CheckBox Content="Toggle" />
+                            <CheckBox Content="Turn Behavior - Turns Gyro" IsChecked="{Binding GyroMouseStickTurns}" />
+                            <CheckBox Content="Toggle" IsChecked="{Binding GyroMouseStickToggle}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Dead Zone" />
-                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" />
+                            <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding GyroMouseStickDeadZone}" MinWidth="60" />
                             <Label Content="Max Zone" />
-                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" />
+                            <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding GyroMouseStickMaxZone}" MinWidth="60" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Height="30">
                             <Label Content="Minimum X" />
-                            <xctk:DoubleUpDown d:IsHidden="True" MinWidth="60" />
+                            <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding GyroMouseStickAntiDeadX}" MinWidth="60" />
                             <Label Content="Minimum Y" />
-                            <xctk:DoubleUpDown d:IsHidden="True" MinWidth="60" />
+                            <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding GyroMouseStickAntiDeadY}" MinWidth="60" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Vertical Scale" />
-                            <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" />
+                            <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding GyroMouseStickVertScale}" MinWidth="60" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Eval Cond." />
-                            <ComboBox SelectedIndex="0">
+                            <ComboBox SelectedIndex="{Binding GyroMouseStickEvalCondIndex,FallbackValue=0}">
                                 <ComboBoxItem Content="And" />
                                 <ComboBoxItem Content="Or" />
                             </ComboBox>
 
                             <Label Content="X-Axis" />
-                            <ComboBox SelectedIndex="0">
+                            <ComboBox SelectedIndex="{Binding GyroMouseStickXAxis,FallbackValue=0}">
                                 <ComboBoxItem Content="Yaw" />
                                 <ComboBoxItem Content="Roll" />
                             </ComboBox>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Invert X"/>
-                            <CheckBox Content="Invert Y" />
+                            <CheckBox Content="Invert X" IsChecked="{Binding GyroMouseStickInvertX}"/>
+                            <CheckBox Content="Invert Y" IsChecked="{Binding GyroMouseStickInvertY}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Height="30">
-                            <CheckBox Content="Smoothing" />
+                            <CheckBox Content="Smoothing" IsChecked="{Binding GyroMouseStickSmooth}" />
                             <Label Content="Weight" Padding="0" />
-                            <xctk:DoubleUpDown d:IsHidden="True" MinWidth="60" />
+                            <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding GyroMousetickSmoothWeight}" Minimum="0.0" Maximum="1.0" MinWidth="60" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
