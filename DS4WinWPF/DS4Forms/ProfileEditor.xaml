@@ -229,7 +229,7 @@
                                     <Slider Value="{Binding LowColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding LowColorB}" Background="{Binding LowColorBString, FallbackValue=Blue}"/>
                                 </StackPanel>
 
-                                <Button x:Name="lowColorBtn" Width="10" Height="10" Background="{x:Null}" HorizontalAlignment="Right" Margin="0,6,0,0" Click="LowColorBtn_Click" />
+                                <Button x:Name="lowColorBtn" Width="10" Height="10" Background="{Binding LowColor}" HorizontalAlignment="Right" Margin="0,6,0,0" Click="LowColorBtn_Click" />
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
@@ -525,22 +525,22 @@
 
                     <StackPanel x:Name="gyroControlsPanel">
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="gyroZNBtn" Width="100"/>
+                            <Button x:Name="gyroZNBtn" Content="Tilt Up" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="gyroZPBtn" Width="100"/>
+                            <Button x:Name="gyroZPBtn" Content="Tilt Down" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="gyroXNBtn" Width="100"/>
+                            <Button x:Name="gyroXNBtn" Content="Tilt Left" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <Button x:Name="gyroXPBtn" Width="100"/>
+                            <Button x:Name="gyroXPBtn" Content="Tilt Right" Width="100"/>
                             <Label Content="Unassigned" />
                         </StackPanel>
 

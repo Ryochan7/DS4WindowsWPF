@@ -66,15 +66,27 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler MainColorBStringChanged;
 
+        public string LowColor
+        {
+            get
+            {
+                ref DS4Color color = ref Global.LowColor[device];
+                return $"#FF{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
+            }
+        }
+        public event EventHandler LowColorChanged;
+
         public int LowColorR
         {
             get => Global.LowColor[device].red;
             set
             {
                 Global.LowColor[device].red = (byte)value;
+                LowColorRChanged?.Invoke(this, EventArgs.Empty);
                 LowColorRStringChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public event EventHandler LowColorRChanged;
 
         public string LowColorRString
         {
@@ -88,13 +100,15 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set
             {
                 Global.LowColor[device].green = (byte)value;
+                LowColorGChanged?.Invoke(this, EventArgs.Empty);
                 LowColorGStringChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public event EventHandler LowColorGChanged;
 
         public string LowColorGString
         {
-            get => $"#{ Global.LowColor[device].green.ToString("X2")}FF0000";
+            get => $"#{ Global.LowColor[device].green.ToString("X2")}00FF00";
         }
         public event EventHandler LowColorGStringChanged;
 
@@ -104,15 +118,32 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set
             {
                 Global.LowColor[device].blue = (byte)value;
+                LowColorBChanged?.Invoke(this, EventArgs.Empty);
                 LowColorBStringChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public event EventHandler LowColorBChanged;
 
         public string LowColorBString
         {
-            get => $"#{ Global.LowColor[device].blue.ToString("X2")}FF0000";
+            get => $"#{ Global.LowColor[device].blue.ToString("X2")}0000FF";
         }
         public event EventHandler LowColorBStringChanged;
+
+        public System.Windows.Media.Color LowColorMedia
+        {
+            get
+            {
+                ref DS4Color color = ref Global.LowColor[device];
+                return new System.Windows.Media.Color()
+                {
+                    A = 255,
+                    R = color.red,
+                    B = color.blue,
+                    G = color.green
+                };
+            }
+        }
 
         public int FlashTypeIndex
         {
@@ -140,6 +171,26 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
         public event EventHandler FlashColorChanged;
+
+        public System.Windows.Media.Color FlashColorMedia
+        {
+            get
+            {
+                ref DS4Color color = ref Global.FlashColor[device];
+                if (color.red == 0 && color.green == 0 && color.blue == 0)
+                {
+                    color = ref Global.MainColor[device];
+                }
+
+                return new System.Windows.Media.Color()
+                {
+                    A = 255,
+                    R = color.red,
+                    B = color.blue,
+                    G = color.green
+                };
+            }
+        }
 
         public int ChargingType
         {
@@ -956,6 +1007,48 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             Global.FlashColor[device] = new DS4Color() { red = color.R, green = color.G, blue = color.B };
             FlashColorChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void CopyForceFlashColor()
+        {
+            Global.FlashColor[device] = DS4LightBar.forcedColor[device];
+            FlashColorChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void CopyForceLowColor()
+        {
+            Global.LowColor[device] = DS4LightBar.forcedColor[device];
+
+            LowColorChanged?.Invoke(this, EventArgs.Empty);
+            LowColorRChanged?.Invoke(this, EventArgs.Empty);
+            LowColorGChanged?.Invoke(this, EventArgs.Empty);
+            LowColorBChanged?.Invoke(this, EventArgs.Empty);
+            LowColorRStringChanged?.Invoke(this, EventArgs.Empty);
+            LowColorGStringChanged?.Invoke(this, EventArgs.Empty);
+            LowColorBStringChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateForcedColor(System.Windows.Media.Color color)
+        {
+            DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+            DS4LightBar.forcedColor[device] = dcolor;
+            DS4LightBar.forcedFlash[device] = 0;
+            DS4LightBar.forcelight[device] = true;
+        }
+
+        public void StartForcedColor(System.Windows.Media.Color color)
+        {
+            DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+            DS4LightBar.forcedColor[device] = dcolor;
+            DS4LightBar.forcedFlash[device] = 0;
+            DS4LightBar.forcelight[device] = true;
+        }
+
+        public void EndForcedColor()
+        {
+            DS4LightBar.forcedColor[device] = new DS4Color(0, 0, 0);
+            DS4LightBar.forcedFlash[device] = 0;
+            DS4LightBar.forcelight[device] = false;
         }
 
         public void UpdateLaunchProgram(string path)
