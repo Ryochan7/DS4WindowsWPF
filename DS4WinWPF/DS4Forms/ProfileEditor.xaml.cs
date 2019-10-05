@@ -398,6 +398,10 @@ namespace DS4WinWPF.DS4Forms
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (deviceNum < 4)
+            {
+                App.rootHub.setRumble(0, 0, deviceNum);
+            }
             DS4Windows.Global.LoadProfile(deviceNum, false, App.rootHub);
             Closed?.Invoke(this, EventArgs.Empty);
         }
@@ -498,6 +502,11 @@ namespace DS4WinWPF.DS4Forms
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (deviceNum < 4)
+            {
+                App.rootHub.setRumble(0, 0, deviceNum);
+            }
+
             string temp = profileNameTxt.Text;
             if (!string.IsNullOrWhiteSpace(temp) &&
                 temp.IndexOfAny(System.IO.Path.GetInvalidFileNameChars()) == -1)
@@ -546,6 +555,11 @@ namespace DS4WinWPF.DS4Forms
 
         public void Close()
         {
+            if (deviceNum < 4)
+            {
+                App.rootHub.setRumble(0, 0, deviceNum);
+            }
+
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
@@ -581,12 +595,52 @@ namespace DS4WinWPF.DS4Forms
 
         private void HeavyRumbleTestBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (deviceNum < 4)
+            {
+                DS4Windows.DS4Device d = App.rootHub.DS4Controllers[deviceNum];
+                if (d != null)
+                {
+                    bool rumbleActive = profileSettingsVM.HeavyRumbleActive;
+                    if (!rumbleActive)
+                    {
+                        profileSettingsVM.HeavyRumbleActive = true;
+                        d.setRumble(d.LeftHeavySlowRumble,
+                            (byte)Math.Min(255, 255 * profileSettingsVM.RumbleBoost / 100));
+                        heavyRumbleTestBtn.Content = Properties.Resources.StopHText;
+                    }
+                    else
+                    {
+                        profileSettingsVM.HeavyRumbleActive = false;
+                        d.setRumble(0, 0);
+                        heavyRumbleTestBtn.Content = Properties.Resources.TestHText;
+                    }
+                }
+            }
         }
 
         private void LightRumbleTestBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (deviceNum < 4)
+            {
+                DS4Windows.DS4Device d = App.rootHub.DS4Controllers[deviceNum];
+                if (d != null)
+                {
+                    bool rumbleActive = profileSettingsVM.LightRumbleActive;
+                    if (!rumbleActive)
+                    {
+                        profileSettingsVM.LightRumbleActive = true;
+                        d.setRumble((byte)Math.Min(255, 255 * profileSettingsVM.RumbleBoost / 100),
+                            d.RightLightFastRumble);
+                        lightRumbleTestBtn.Content = Properties.Resources.StopLText;
+                    }
+                    else
+                    {
+                        profileSettingsVM.LightRumbleActive = false;
+                        d.setRumble(0, 0);
+                        lightRumbleTestBtn.Content = Properties.Resources.TestLText;
+                    }
+                }
+            }
         }
 
         private void CustomEditorBtn_Click(object sender, RoutedEventArgs e)

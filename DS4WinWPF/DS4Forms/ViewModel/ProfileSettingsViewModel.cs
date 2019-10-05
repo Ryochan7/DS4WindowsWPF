@@ -207,6 +207,30 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set => Global.RumbleBoost[device] = (byte)value;
         }
 
+        private bool heavyRumbleActive;
+        public bool HeavyRumbleActive
+        {
+            get => heavyRumbleActive;
+            set
+            {
+                heavyRumbleActive = value;
+                HeavyRumbleActiveChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler HeavyRumbleActiveChanged;
+
+        private bool lightRumbleActive;
+        public bool LightRumbleActive
+        {
+            get => lightRumbleActive;
+            set
+            {
+                lightRumbleActive = value;
+                LightRumbleActiveChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler LightRumbleActiveChanged;
+
         public bool MouseAcceleration
         {
             get => Global.MouseAccel[device];
@@ -292,7 +316,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             get => Global.IdleDisconnectTimeout[device] != 0;
             set
             {
-                Global.IdleDisconnectTimeout[device] = 5;
+                Global.IdleDisconnectTimeout[device] = value ? 5 : 0;
                 IdleDisconnectChanged?.Invoke(this, EventArgs.Empty);
                 IdleDisconnectExistsChanged?.Invoke(this, EventArgs.Empty);
             }

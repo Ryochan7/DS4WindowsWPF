@@ -699,7 +699,7 @@
                     <GroupBox Header="Rumble" Height="50">
                         <UniformGrid Rows="1" Columns="3">
                             <UniformGrid Columns="2">
-                                <xctk:IntegerUpDown d:IsHidden="True" MinWidth="60" Value="{Binding RumbleBoost}" Minimum="0" Maximum="200" Increment="10" />
+                                <xctk:IntegerUpDown x:Name="RumbleBoostIUD" d:IsHidden="True" MinWidth="60" Value="{Binding RumbleBoost}" Minimum="0" Maximum="200" Increment="10" />
                                 <Label Content="%" />
                             </UniformGrid>
 
