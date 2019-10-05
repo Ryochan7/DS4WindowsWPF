@@ -1,6 +1,7 @@
 # TODO
 
-* Add color picker to Profile editor
+* Add control mapping display to profile editor
+* ~~Add color picker to Profile editor~~
 * Implement Gyro panels in Profile editor
 * Implement auto profile execution
 * Create Options ViewModels. Bind data
