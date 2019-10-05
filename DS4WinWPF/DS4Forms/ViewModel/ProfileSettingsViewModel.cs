@@ -144,7 +144,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public int ChargingType
         {
             get => Global.ChargingType[device];
-            set => Global.ChargingType[device] = value;
+            set
+            {
+                Global.ChargingType[device] = value;
+                ChargingColorVisibleChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public bool ColorBatteryPercent
@@ -156,11 +160,40 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
+        public string ChargingColor
+        {
+            get
+            {
+                ref DS4Color color = ref Global.ChargingColor[device];
+                return $"#FF{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
+            }
+        }
+        //public event EventHandler ChargingColorChanged;
+
+        public Visibility ChargingColorVisible
+        {
+            get => Global.ChargingType[device] == 3 ? Visibility.Visible : Visibility.Hidden;
+        }
+        public event EventHandler ChargingColorVisibleChanged;
+
         public double Rainbow
         {
             get => Global.Rainbow[device];
-            set => Global.Rainbow[device] = value;
+            set
+            {
+                Global.Rainbow[device] = value;
+                RainbowChanged?.Invoke(this, EventArgs.Empty);
+                RainbowExistsChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler RainbowChanged;
+
+        public bool RainbowExists
+        {
+            get => Global.Rainbow[device] != 0.0;
+        }
+
+        public event EventHandler RainbowExistsChanged;
 
         public double MaxSatRainbow
         {
@@ -849,6 +882,24 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 int invert = touchpadInvertToValue[value];
                 Global.TouchpadInvert[device] = invert;
+            }
+        }
+
+        public bool LowerRightTouchRMB
+        {
+            get => Global.LowerRCOn[device];
+            set
+            {
+                Global.LowerRCOn[device] = value;
+            }
+        }
+
+        public bool StartTouchpadOff
+        {
+            get => Global.StartTouchpadOff[device];
+            set
+            {
+                Global.StartTouchpadOff[device] = value;
             }
         }
 

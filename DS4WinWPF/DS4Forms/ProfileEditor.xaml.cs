@@ -530,6 +530,11 @@ namespace DS4WinWPF.DS4Forms
 
                 Closed?.Invoke(this, EventArgs.Empty);
             }
+            else
+            {
+                MessageBox.Show(Properties.Resources.ValidName, Properties.Resources.NotValid,
+                    MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
         }
 
         private void KeepSizeBtn_Click(object sender, RoutedEventArgs e)
@@ -602,6 +607,33 @@ namespace DS4WinWPF.DS4Forms
             if (dialog.ShowDialog() == true)
             {
                 profileSettingsVM.UpdateLaunchProgram(dialog.FileName);
+            }
+        }
+
+        private void FrictionUD_ValueChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (deviceNum < 4)
+            {
+                App.rootHub.touchPad[deviceNum]?.ResetTrackAccel(frictionUD.Value.GetValueOrDefault());
+            }
+        }
+
+        private void RainbowBtn_Click(object sender, RoutedEventArgs e)
+        {
+            bool active = profileSettingsVM.Rainbow != 0.0;
+            if (active)
+            {
+                profileSettingsVM.Rainbow = 0.0;
+                colorByBatteryPerCk.Content = Properties.Resources.ColorByBattery;
+                colorGB.IsEnabled = true;
+                emptyColorGB.IsEnabled = true;
+            }
+            else
+            {
+                profileSettingsVM.Rainbow = 5.0;
+                colorByBatteryPerCk.Content = Properties.Resources.DimByBattery;
+                colorGB.IsEnabled = false;
+                emptyColorGB.IsEnabled = false;
             }
         }
     }

@@ -132,7 +132,8 @@
 
                                             <StackPanel Orientation="Vertical" MinWidth="80" Margin="10,0,0,0">
                                                 <Label Content="Invert" Padding="0" />
-                                                <ComboBox MinWidth="50">
+                                                <ComboBox MinWidth="50" SelectedIndex="{Binding TouchInvertIndex}">
+                                                    <ComboBoxItem Content="None" />
                                                     <ComboBoxItem Content="X" />
                                                     <ComboBoxItem Content="Y" />
                                                     <ComboBoxItem Content="X+Y" />
@@ -142,22 +143,20 @@
 
                                         <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Lower Right as RMB" />
+                                                <CheckBox Content="Lower Right as RMB" IsChecked="{Binding LowerRightTouchRMB}" />
                                             </StackPanel>
 
                                             <StackPanel Orientation="Vertical" MinWidth="80" Margin="10,0,0,0">
                                                 <Label Content="Disable Invert" Padding="0" />
-                                                <ComboBox>
-
-                                                </ComboBox>
+                                                <Button Content="None" />
                                             </StackPanel>
                                         </StackPanel>
 
-                                        <CheckBox Content="Start with Slide/Scroll Off" />
+                                        <CheckBox Content="Start with Slide/Scroll Off" IsChecked="{Binding StartTouchpadOff}" />
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox Content="Trackball" IsChecked="{Binding TouchTrackball}" />
                                             <Label Content="Friction:" Padding="0" Margin="20,0,0,0"/>
-                                            <xctk:DoubleUpDown d:IsHidden="True" IsEnabled="{Binding TouchTrackball}" Minimum="0.1" Maximum="10.0" Value="{Binding TouchTrackballFriction,FallbackValue=10}"/>
+                                            <xctk:DoubleUpDown x:Name="frictionUD" d:IsHidden="True" IsEnabled="{Binding TouchTrackball}" Minimum="0.1" Maximum="10.0" Value="{Binding TouchTrackballFriction,FallbackValue=10}" ValueChanged="FrictionUD_ValueChanged" />
                                         </StackPanel>
                                     </StackPanel>
 
@@ -193,11 +192,11 @@
             </TabItem>
         </TabControl>
 
-        <TabControl x:Name="profileSettingsTabCon" DockPanel.Dock="Right" MinWidth="520" Margin="10,0,0,0">
+        <TabControl x:Name="profileSettingsTabCon" DockPanel.Dock="Right" MinWidth="510" Margin="10,0,0,0" Padding="6">
             <TabItem Header="Lighbar">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <GroupBox x:Name="colorGB" Header="Color">
+                        <GroupBox x:Name="colorGB" Header="Color" Padding="4">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="R" />
@@ -214,7 +213,7 @@
                             </StackPanel>
                         </GroupBox>
 
-                        <GroupBox x:Name="emptyColorGB" Header="Empty">
+                        <GroupBox x:Name="emptyColorGB" Header="Empty" Padding="4">
                             <StackPanel>
 
                                 <StackPanel Orientation="Horizontal">
@@ -234,7 +233,7 @@
                             </StackPanel>
                         </GroupBox>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <ComboBox x:Name="flashTypeCombo" SelectedIndex="{Binding FlashTypeIndex,FallbackValue=0}">
                             <ComboBoxItem Content="Flash at"/>
                             <ComboBoxItem Content="Pulse at"/>
@@ -244,7 +243,7 @@
                         <Button x:Name="flashColorBtn" Width="20" Height="20" Background="{Binding FlashColor,FallbackValue=Blue}" Click="FlashColorBtn_Click" />
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
                         <Label Content="While Charging:"/>
                         <ComboBox SelectedIndex="{Binding ChargingType,FallbackValue=0}">
                             <ComboBoxItem Content="Normal" />
@@ -252,22 +251,23 @@
                             <ComboBoxItem Content="Rainbow" />
                             <ComboBoxItem Content="Color" />
                         </ComboBox>
+                        <Button x:Name="chargingColorBtn" Width="20" Height="20" Background="{Binding ChargingColor,FallbackValue=Blue}" Visibility="{Binding ChargingColorVisible}" Margin="20,0,0,0" />
                     </StackPanel>
 
                     <CheckBox x:Name="colorByBatteryPerCk" Content="Color by Battery %" IsChecked="{Binding ColorBatteryPercent}"
-                              Click="ColorByBatteryPerCk_Click" />
+                              Click="ColorByBatteryPerCk_Click" Margin="0,10,0,0" />
 
-                    <StackPanel Orientation="Horizontal" Height="60">
-                        <Button Height="20" Width="20">
+                    <StackPanel Orientation="Horizontal" Height="60" Margin="0,10,0,0">
+                        <Button x:Name="rainbowBtn" Height="20" Width="20" Click="RainbowBtn_Click">
                             <Button.Content>
                                 <Image Source="/DS4WinWPF;component/Resources/rainbow.png" />
                             </Button.Content>
                         </Button>
-                        <xctk:IntegerUpDown MinWidth="30" Height="30" Minimum="0" Maximum="60" Value="{Binding Rainbow,FallbackValue=5}" />
+                        <xctk:IntegerUpDown MinWidth="30" Height="30" Minimum="0" Maximum="60" Value="{Binding Rainbow,FallbackValue=5}" IsEnabled="{Binding RainbowExists}" />
                         <Label Content="secs/cycle" Padding="0" VerticalContentAlignment="Center" />
                         <StackPanel>
                             <Label Content="Max Sat." />
-                            <Slider Value="{Binding MaxSatRainbow,FallbackValue=100}" Minimum="0" Maximum="100" Width="100" />
+                            <Slider Value="{Binding MaxSatRainbow,FallbackValue=100}" Minimum="0" Maximum="100" Width="100" IsEnabled="{Binding RainbowExists}" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
@@ -707,30 +707,30 @@
                             <Button x:Name="lightRumbleTestBtn" Content="Test Light" Margin="10,0,0,0" Click="LightRumbleTestBtn_Click" />
                         </UniformGrid>
                     </GroupBox>
-                    <StackPanel Orientation="Horizontal" Height="40">
+                    <StackPanel Orientation="Horizontal" Height="40" Margin="0,4,0,0">
                         <Label Content="Mouse Sensitivity" VerticalAlignment="Center" />
-                        <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Value="25" />
+                        <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Height="20" Value="25" Margin="10,0,0,0" />
                     </StackPanel>
-                    <CheckBox Content="Mouse Acceleration" IsChecked="{Binding MouseAcceleration}" />
-                    <CheckBox Content="Enable Touchpad Toggle" IsChecked="{Binding EnableTouchpadToggle}" />
-                    <StackPanel Orientation="Horizontal">
+                    <CheckBox Content="Mouse Acceleration" IsChecked="{Binding MouseAcceleration}" Margin="0,6,0,0" />
+                    <CheckBox Content="Enable Touchpad Toggle" IsChecked="{Binding EnableTouchpadToggle}" Margin="0,6,0,0" />
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <CheckBox x:Name="launchProgCk" Content="Launch program with profile" IsChecked="{Binding LaunchProgramExists}" IsEnabled="{Binding LaunchProgramExists}" />
-                        <Button x:Name="launchProgBrowseBtn" Content="{Binding LaunchProgramName,FallbackValue=Browse}" Click="LaunchProgBrowseBtn_Click" Margin="20,0,0,0" />
+                        <Button x:Name="launchProgBrowseBtn" Content="{Binding LaunchProgramName,FallbackValue=Browse}" Click="LaunchProgBrowseBtn_Click" Width="80" Height="30" Margin="20,0,0,0" />
                         <Button x:Name="launchProgIconBtn" Width="20" Height="20" Margin="20,0,0,0" Focusable="False" >
                             <Button.Background>
                                 <ImageBrush ImageSource="{Binding LaunchProgramIcon}" />
                             </Button.Background>
                         </Button>
                     </StackPanel>
-                    <CheckBox Content="Use DInput only" IsChecked="{Binding UseDInputOnly}" />
-                    <CheckBox Content="Flush HID" IsChecked="{Binding FlushHid}" />
-                    <StackPanel Orientation="Horizontal" Height="30">
+                    <CheckBox Content="Use DInput only" IsChecked="{Binding UseDInputOnly}" Margin="0,6,0,0" />
+                    <CheckBox Content="Flush HID" IsChecked="{Binding FlushHid}" Margin="0,6,0,0" />
+                    <StackPanel Orientation="Horizontal" Height="30" Margin="0,6,0,0">
                         <CheckBox Content="Idle Disconnect" VerticalAlignment="Center" IsChecked="{Binding IdleDisconnectExists}" />
                         <xctk:IntegerUpDown x:Name="idleDisconnectUD" d:IsHidden="True" Value="{Binding IdleDisconnect,FallbackValue=5}"
-                                            IsEnabled="{Binding IdleDisconnectExists}" MinWidth="50" Minimum="0" Maximum="60" />
+                                            IsEnabled="{Binding IdleDisconnectExists}" MinWidth="50" Height="20" Minimum="0" Maximum="60" Margin="10,0,0,0" />
                         <Label Content="mins" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <Label Content="BT Poll Rate" />
                         <ComboBox x:Name="btPollRateCombo" SelectedIndex="{Binding BTPollRateIndex,Mode=OneTime,FallbackValue=4}" MinWidth="140">
                             <ComboBoxItem Content="Max (1 ms)" />
@@ -752,7 +752,7 @@
                             <ComboBoxItem Content="62 Hz (16 ms)" />
                         </ComboBox>
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <Label Content="Controller" />
                         <ComboBox x:Name="outConTypeCombo" SelectedIndex="{Binding ControllerTypeIndex,Mode=OneTime,FallbackValue=0}" MinWidth="140">
                             <ComboBoxItem Content="Xbox 360"/>
