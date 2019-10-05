@@ -80,6 +80,10 @@ namespace DS4WinWPF.DS4Forms
             gyroMouseJoystickPanel.Visibility = Visibility.Collapsed;
             activeGyroModePanel.Visibility = Visibility.Visible;
 
+            profileSettingsVM.PopulateTouchDisInver(touchDisInvertBtn.ContextMenu);
+            profileSettingsVM.PopulateGyroMouseTrig(gyroMouseTrigBtn.ContextMenu);
+            profileSettingsVM.PopulateGyroMouseStickTrig(gyroMouseStickTrigBtn.ContextMenu);
+
             RemoveHoverBtnText();
             PopulateHoverImages();
             PopulateHoverLocations();
@@ -775,6 +779,36 @@ namespace DS4WinWPF.DS4Forms
                     MessageBox.Show($"{Properties.Resources.SASteeringWheelEmulationCalibrateNoControllerError}.");
                 }
             }
+        }
+
+        private void TouchDisInvertBtn_Click(object sender, RoutedEventArgs e)
+        {
+            touchDisInvertBtn.ContextMenu.IsOpen = true;
+        }
+
+        private void TouchDisInvertMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            profileSettingsVM.UpdateTouchDisInvert(touchDisInvertBtn.ContextMenu);
+        }
+
+        private void GyroMouseTrigMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            profileSettingsVM.UpdateGyroMouseTrig(gyroMouseTrigBtn.ContextMenu);
+        }
+
+        private void GyroMouseStickTrigMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            profileSettingsVM.UpdateGyroMouseStickTrig(gyroMouseStickTrigBtn.ContextMenu);
+        }
+
+        private void GyroMouseTrigBtn_Click(object sender, RoutedEventArgs e)
+        {
+            gyroMouseTrigBtn.ContextMenu.IsOpen = true;
+        }
+
+        private void GyroMouseStickTrigBtn_Click(object sender, RoutedEventArgs e)
+        {
+            gyroMouseStickTrigBtn.ContextMenu.IsOpen = true;
         }
     }
 }

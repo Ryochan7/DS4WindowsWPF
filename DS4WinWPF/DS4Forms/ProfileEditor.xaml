@@ -148,7 +148,31 @@
 
                                             <StackPanel Orientation="Vertical" MinWidth="80" Margin="10,0,0,0">
                                                 <Label Content="Disable Invert" Padding="0" />
-                                                <Button Content="None" />
+                                                <Button x:Name="touchDisInvertBtn" Content="{Binding TouchDisInvertString,FallbackValue=None}" Click="TouchDisInvertBtn_Click">
+                                                    <Button.ContextMenu>
+                                                        <ContextMenu>
+                                                            <MenuItem Header="Cross" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Circle" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Square" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Triangle" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="L1" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="L2" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="R1" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="R2" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Up" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Down" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Left" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Right" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="L3" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="R3" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Finger on Touchpad" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="2 Fingers on Touchpad" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Options" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="Share" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                            <MenuItem Header="PS" IsCheckable="True" Click="TouchDisInvertMenuItem_Click" />
+                                                        </ContextMenu>
+                                                    </Button.ContextMenu>
+                                                </Button>
                                             </StackPanel>
                                         </StackPanel>
 
@@ -516,7 +540,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                         <Label Content="Output Mode" />
-                        <ComboBox x:Name="gyroOutModeCombo" Width="100" SelectedIndex="{Binding GyroOutModeIndex, FallbackValue=0}" VerticalContentAlignment="Center" Margin="10,0,0,0">
+                        <ComboBox x:Name="gyroOutModeCombo" Width="160" SelectedIndex="{Binding GyroOutModeIndex, FallbackValue=0}" VerticalContentAlignment="Center" Margin="10,0,0,0">
                             <ComboBoxItem Content="Controls" />
                             <ComboBoxItem Content="Mouse" />
                             <ComboBoxItem Content="Mouse Joystick" />
@@ -582,7 +606,32 @@
                     <StackPanel x:Name="gyroMousePanel" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Triggers" />
-                            <Button Content="Always On" />
+                            <Button x:Name="gyroMouseTrigBtn" Content="{Binding GyroMouseTrigDisplay,FallbackValue=Always On}" Click="GyroMouseTrigBtn_Click" >
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Cross" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Circle" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Square" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Triangle" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="L1" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="L2" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="R1" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="R2" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Up" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Down" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Left" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Right" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="L3" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="R3" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Finger on Touchpad" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="2 Fingers on Touchpad" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Options" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Share" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="PS" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                        <MenuItem Header="Always On" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
                         </StackPanel>
 
                         <CheckBox Content="Turn Behavior - Turns Gyro" IsChecked="{Binding GyroMouseTurns}" />
@@ -640,7 +689,32 @@
                     <StackPanel x:Name="gyroMouseJoystickPanel" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Triggers" />
-                            <Button Content="Always On" Width="160" />
+                            <Button x:Name="gyroMouseStickTrigBtn" Content="{Binding GyroMouseStickTrigDisplay,FallbackValue=Always On}" Width="160" Click="GyroMouseStickTrigBtn_Click" >
+                                <Button.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem Header="Cross" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Circle" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Square" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Triangle" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="L1" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="L2" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="R1" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="R2" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Up" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Down" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Left" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Right" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="L3" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="R3" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Finger on Touchpad" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="2 Fingers on Touchpad" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Options" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Share" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="PS" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                        <MenuItem Header="Always On" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
+                                    </ContextMenu>
+                                </Button.ContextMenu>
+                            </Button>
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">

@@ -1,15 +1,13 @@
-﻿using System;
+﻿using DS4Windows;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
 {
@@ -1202,6 +1200,44 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             get => Global.GyroMouseStickInf[device].smoothWeight;
             set => Global.GyroMouseStickInf[device].smoothWeight = value;
         }
+        
+        private string touchDisInvertString = "None";
+        public string TouchDisInvertString
+        {
+            get => touchDisInvertString;
+            set
+            {
+                touchDisInvertString = value;
+                TouchDisInvertStringChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        
+        public event EventHandler TouchDisInvertStringChanged;
+
+        private string gyroMouseTrigDisplay = "Always On";
+        public string GyroMouseTrigDisplay
+        {
+            get => gyroMouseTrigDisplay;
+            set
+            {
+                gyroMouseTrigDisplay = value;
+                GyroMouseTrigDisplayChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler GyroMouseTrigDisplayChanged;
+
+        private string gyroMouseStickTrigDisplay = "Always On";
+        public string GyroMouseStickTrigDisplay
+        {
+            get => gyroMouseStickTrigDisplay;
+            set
+            {
+                gyroMouseStickTrigDisplay = value;
+                GyroMouseStickTrigDisplayChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler GyroMouseStickTrigDisplayChanged;
 
         public ProfileSettingsViewModel(int device)
         {
@@ -1278,6 +1314,190 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             LaunchProgramChanged?.Invoke(this, EventArgs.Empty);
             LaunchProgramNameChanged?.Invoke(this, EventArgs.Empty);
             LaunchProgramIconChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateTouchDisInvert(ContextMenu menu)
+        {
+            int index = 0;
+            List<int> triggerList = new List<int>();
+            List<string> triggerName = new List<string>();
+            
+            foreach(MenuItem item in menu.Items)
+            {
+                if (item.IsChecked)
+                {
+                    triggerList.Add(index);
+                    triggerName.Add(item.Header.ToString());
+                }
+                
+                index++;
+            }
+
+            if (triggerList.Count == 0)
+            {
+                triggerList.Add(-1);
+                triggerName.Add("None");
+            }
+
+            Global.TouchDisInvertTriggers[device] = triggerList.ToArray();
+            TouchDisInvertString = string.Join(", ", triggerName.ToArray());
+        }
+
+        public void PopulateTouchDisInver(ContextMenu menu)
+        {
+            int[] triggers = Global.TouchDisInvertTriggers[device];
+            int itemCount = menu.Items.Count;
+            List<string> triggerName = new List<string>();
+            foreach (int trigid in triggers)
+            {
+                if (trigid >= 0 && trigid < itemCount - 1)
+                {
+                    MenuItem current = menu.Items[trigid] as MenuItem;
+                    current.IsChecked = true;
+                    triggerName.Add(current.Header.ToString());
+                }
+                else if (trigid == -1)
+                {
+                    triggerName.Add("None");
+                    break;
+                }
+            }
+
+            TouchDisInvertString = string.Join(", ", triggerName.ToArray());
+        }
+
+        public void UpdateGyroMouseTrig(ContextMenu menu)
+        {
+            int index = 0;
+            List<int> triggerList = new List<int>();
+            List<string> triggerName = new List<string>();
+
+            int itemCount = menu.Items.Count;
+            MenuItem alwaysOnItem = menu.Items[itemCount - 1] as MenuItem;
+            if (alwaysOnItem.IsChecked)
+            {
+                for (int i = 0; i < itemCount - 1; i++)
+                {
+                    MenuItem item = menu.Items[i] as MenuItem;
+                    item.IsChecked = false;
+                }
+            }
+            else
+            {
+                foreach (MenuItem item in menu.Items)
+                {
+                    if (item.IsChecked)
+                    {
+                        triggerList.Add(index);
+                        triggerName.Add(item.Header.ToString());
+                    }
+
+                    index++;
+                }
+            }
+
+            if (triggerList.Count == 0)
+            {
+                triggerList.Add(-1);
+                triggerName.Add("Always On");
+                alwaysOnItem.IsChecked = true;
+            }
+
+            Global.SATriggers[device] = string.Join(",", triggerList.ToArray());
+            GyroMouseTrigDisplay = string.Join(", ", triggerName.ToArray());
+        }
+
+        public void PopulateGyroMouseTrig(ContextMenu menu)
+        {
+            string[] triggers = Global.SATriggers[device].Split(',');
+            int itemCount = menu.Items.Count;
+            List<string> triggerName = new List<string>();
+            foreach (string trig in triggers)
+            {
+                bool valid = int.TryParse(trig, out int trigid);
+                if (valid && trigid >= 0 && trigid < itemCount - 1)
+                {
+                    MenuItem current = menu.Items[trigid] as MenuItem;
+                    current.IsChecked = true;
+                    triggerName.Add(current.Header.ToString());
+                }
+                else if (valid && trigid == -1)
+                {
+                    MenuItem current = menu.Items[itemCount - 1] as MenuItem;
+                    current.IsChecked = true;
+                    triggerName.Add("Always On");
+                    break;
+                }
+            }
+
+            GyroMouseStickTrigDisplay = string.Join(", ", triggerName.ToArray());
+        }
+
+        public void UpdateGyroMouseStickTrig(ContextMenu menu)
+        {
+            int index = 0;
+            List<int> triggerList = new List<int>();
+            List<string> triggerName = new List<string>();
+
+            int itemCount = menu.Items.Count;
+            MenuItem alwaysOnItem = menu.Items[itemCount - 1] as MenuItem;
+            if (alwaysOnItem.IsChecked)
+            {
+                for (int i = 0; i < itemCount - 1; i++)
+                {
+                    MenuItem item = menu.Items[i] as MenuItem;
+                    item.IsChecked = false;
+                }
+            }
+            else
+            {
+                foreach (MenuItem item in menu.Items)
+                {
+                    if (item.IsChecked)
+                    {
+                        triggerList.Add(index);
+                        triggerName.Add(item.Header.ToString());
+                    }
+
+                    index++;
+                }
+            }
+
+            if (triggerList.Count == 0)
+            {
+                triggerList.Add(-1);
+                triggerName.Add("Always On");
+                alwaysOnItem.IsChecked = true;
+            }
+
+            Global.SAMousestickTriggers[device] = string.Join(",", triggerList.ToArray());
+            GyroMouseStickTrigDisplay = string.Join(", ", triggerName.ToArray());
+        }
+
+        public void PopulateGyroMouseStickTrig(ContextMenu menu)
+        {
+            string[] triggers = Global.SAMousestickTriggers[device].Split(',');
+            int itemCount = menu.Items.Count;
+            List<string> triggerName = new List<string>();
+            foreach (string trig in triggers)
+            {
+                bool valid = int.TryParse(trig, out int trigid);
+                if (valid && trigid >= 0 && trigid < itemCount - 1)
+                {
+                    MenuItem current = menu.Items[trigid] as MenuItem;
+                    current.IsChecked = true;
+                    triggerName.Add(current.Header.ToString());
+                }
+                else if (valid && trigid == -1)
+                {
+                    MenuItem current = menu.Items[itemCount-1] as MenuItem;
+                    current.IsChecked = true;
+                    triggerName.Add("Always On");
+                    break;
+                }
+            }
+
+            GyroMouseStickTrigDisplay = string.Join(", ", triggerName.ToArray());
         }
     }
 }
