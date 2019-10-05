@@ -556,14 +556,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public double LSRotation
         {
-            get => Global.LSRotation[device];
-            set => Global.LSRotation[device] = value;
+            get => Global.LSRotation[device] * 180.0 / Math.PI;
+            set => Global.LSRotation[device] = value * Math.PI / 180.0;
         }
 
         public double RSRotation
         {
-            get => Global.RSRotation[device];
-            set => Global.RSRotation[device] = value;
+            get => Global.RSRotation[device] * 180.0 / Math.PI;
+            set => Global.RSRotation[device] = value * Math.PI / 180.0;
         }
 
         public bool LSCustomCurveSelected
