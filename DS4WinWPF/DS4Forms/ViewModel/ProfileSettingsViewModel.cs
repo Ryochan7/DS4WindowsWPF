@@ -1083,25 +1083,38 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public int GyroMouseDeadZone
         {
             get => Global.GyroMouseDeadZone[device];
-            set => Global.GyroMouseDeadZone[device] = value;
+            set
+            {
+                Global.SetGyroMouseDeadZone(device, value, App.rootHub);
+
+            }
         }
 
         public bool GyroMouseToggle
         {
             get => Global.GyroMouseToggle[device];
-            set => Global.GyroMouseToggle[device] = value;
+            set
+            {
+                Global.SetGyroMouseToggle(device, value, App.rootHub);
+            }
         }
 
         public bool GyroMouseStickTurns
         {
             get => Global.GyroMouseStickTriggerTurns[device];
-            set => Global.GyroMouseStickTriggerTurns[device] = value;
+            set
+            {
+                Global.GyroMouseStickTriggerTurns[device] = value;
+            }
         }
 
         public bool GyroMouseStickToggle
         {
             get => Global.GyroMouseStickToggle[device];
-            set => Global.GyroMouseStickToggle[device] = value;
+            set
+            {
+                Global.SetGyroMouseStickToggle(device, value, App.rootHub);
+            }
         }
 
         public int GyroMouseStickDeadZone

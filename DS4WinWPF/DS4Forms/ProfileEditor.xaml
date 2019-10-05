@@ -575,7 +575,7 @@
                                 <ComboBoxItem Content="1080" />
                                 <ComboBoxItem Content="1440" />
                             </ComboBox>
-                            <Button Content="Calibrate" />
+                            <Button x:Name="steeringWheelEmulationCalibrateBtn" Content="Calibrate" Click="SteeringWheelEmulationCalibrateBtn_Click" />
                         </StackPanel>
                     </StackPanel>
 
@@ -689,7 +689,7 @@
                         <StackPanel Orientation="Horizontal" Height="30">
                             <CheckBox Content="Smoothing" IsChecked="{Binding GyroMouseStickSmooth}" />
                             <Label Content="Weight" Padding="0" />
-                            <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding GyroMousetickSmoothWeight}" Minimum="0.0" Maximum="1.0" MinWidth="60" />
+                            <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding GyroMousetickSmoothWeight}" Minimum="0.0" Maximum="1.0" MinWidth="60" IsEnabled="{Binding GyroMouseStickSmooth}" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
