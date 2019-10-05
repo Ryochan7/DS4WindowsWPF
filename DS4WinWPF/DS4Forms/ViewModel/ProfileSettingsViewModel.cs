@@ -219,7 +219,22 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 return $"#FF{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
             }
         }
-        //public event EventHandler ChargingColorChanged;
+        public event EventHandler ChargingColorChanged;
+
+        public System.Windows.Media.Color ChargingColorMedia
+        {
+            get
+            {
+                ref DS4Color color = ref Global.ChargingColor[device];
+                return new System.Windows.Media.Color()
+                {
+                    A = 255,
+                    R = color.red,
+                    B = color.blue,
+                    G = color.green
+                };
+            }
+        }
 
         public Visibility ChargingColorVisible
         {
@@ -1049,6 +1064,12 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             DS4LightBar.forcedColor[device] = new DS4Color(0, 0, 0);
             DS4LightBar.forcedFlash[device] = 0;
             DS4LightBar.forcelight[device] = false;
+        }
+
+        public void CopyForceChargingColor()
+        {
+            Global.ChargingColor[device] = DS4LightBar.forcedColor[device];
+            ChargingColorChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateLaunchProgram(string path)

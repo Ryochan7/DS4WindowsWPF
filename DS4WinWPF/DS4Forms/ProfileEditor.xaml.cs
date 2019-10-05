@@ -712,6 +712,21 @@ namespace DS4WinWPF.DS4Forms
                 emptyColorGB.IsEnabled = false;
             }
         }
+
+        private void ChargingColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPickerWindow dialog = new ColorPickerWindow();
+            dialog.Owner = Application.Current.MainWindow;
+            Color tempcolor = profileSettingsVM.ChargingColorMedia;
+            dialog.colorPicker.SelectedColor = tempcolor;
+            profileSettingsVM.StartForcedColor(tempcolor);
+            dialog.ColorChanged += (sender2, color) =>
+            {
+                profileSettingsVM.UpdateForcedColor(color);
+            };
+            dialog.ShowDialog();
+            profileSettingsVM.CopyForceChargingColor();
+            profileSettingsVM.EndForcedColor();
+        }
     }
 }
-;

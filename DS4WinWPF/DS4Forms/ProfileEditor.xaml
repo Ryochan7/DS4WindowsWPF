@@ -251,7 +251,7 @@
                             <ComboBoxItem Content="Rainbow" />
                             <ComboBoxItem Content="Color" />
                         </ComboBox>
-                        <Button x:Name="chargingColorBtn" Width="20" Height="20" Background="{Binding ChargingColor,FallbackValue=Blue}" Visibility="{Binding ChargingColorVisible}" Margin="20,0,0,0" />
+                        <Button x:Name="chargingColorBtn" Width="20" Height="20" Background="{Binding ChargingColor,FallbackValue=Blue}" Visibility="{Binding ChargingColorVisible}" Click="ChargingColorBtn_Click" Margin="20,0,0,0" />
                     </StackPanel>
 
                     <CheckBox x:Name="colorByBatteryPerCk" Content="Color by Battery %" IsChecked="{Binding ColorBatteryPercent}"
