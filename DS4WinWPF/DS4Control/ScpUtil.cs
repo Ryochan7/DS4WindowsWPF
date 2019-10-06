@@ -2050,8 +2050,8 @@ namespace DS4Windows
         public bool[] useSAforMouse = new bool[5] { false, false, false, false, false };
         public GyroOutMode[] gyroOutMode = new GyroOutMode[5] { GyroOutMode.Controls, GyroOutMode.Controls,
             GyroOutMode.Controls, GyroOutMode.Controls, GyroOutMode.Controls };
-        public string[] sATriggers = new string[5] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
-        public string[] sAMouseStickTriggers = new string[5] { string.Empty, string.Empty, string.Empty, string.Empty, string.Empty };
+        public string[] sATriggers = new string[5] { "-1", "-1", "-1", "-1", "-1" };
+        public string[] sAMouseStickTriggers = new string[5] { "-1", "-1", "-1", "-1", "-1" };
         public bool[] sATriggerCond = new bool[5] { true, true, true, true, true };
         public bool[] sAMouseStickTriggerCond = new bool[5] { true, true, true, true, true };
         public bool[] gyroMouseStickTriggerTurns = new bool[5] { true, true, true, true, true };
