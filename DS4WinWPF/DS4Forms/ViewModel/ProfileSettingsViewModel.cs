@@ -401,9 +401,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler IdleDisconnectChanged;
 
-        public int BTPollRateIndex
+        private int tempBtPollRate;
+        public int TempBTPollRateIndex
         {
-            get => Global.BTPollRate[device];
+            get => tempBtPollRate;
+            set => tempBtPollRate = value;
         }
 
         public int ControllerTypeIndex
@@ -425,6 +427,26 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 }
 
                 return type;
+            }
+        }
+
+        private int tempControllerIndex;
+        public int TempControllerIndex { get => tempControllerIndex; set => tempControllerIndex = value; }
+
+        public OutContType TempConType
+        {
+            get
+            {
+                OutContType result = OutContType.None;
+                switch (tempControllerIndex)
+                {
+                    case 0:
+                        result = OutContType.X360; break;
+                    case 1:
+                        result = OutContType.DS4; break;
+                    default: result = OutContType.X360; break;
+                }
+                return result;
             }
         }
 
@@ -461,6 +483,12 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
                 Global.GyroOutputMode[device] = temp;
             }
+        }
+
+
+        public OutContType ContType
+        {
+            get => Global.OutContType[device];
         }
 
         public int SASteeringWheelEmulationAxisIndex
@@ -1237,11 +1265,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 GyroMouseStickTrigDisplayChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler GyroMouseStickTrigDisplayChanged;
 
         public ProfileSettingsViewModel(int device)
         {
             this.device = device;
+            tempControllerIndex = ControllerTypeIndex;
+            tempBtPollRate = Global.BTPollRate[device];
         }
 
         public void UpdateFlashColor(System.Windows.Media.Color color)
@@ -1363,10 +1394,15 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 }
             }
 
+            if (triggerName.Count == 0)
+            {
+                triggerName.Add("None");
+            }
+
             TouchDisInvertString = string.Join(", ", triggerName.ToArray());
         }
 
-        public void UpdateGyroMouseTrig(ContextMenu menu)
+        public void UpdateGyroMouseTrig(ContextMenu menu, bool alwaysOnChecked)
         {
             int index = 0;
             List<int> triggerList = new List<int>();
@@ -1374,7 +1410,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
             int itemCount = menu.Items.Count;
             MenuItem alwaysOnItem = menu.Items[itemCount - 1] as MenuItem;
-            if (alwaysOnItem.IsChecked)
+            if (alwaysOnChecked)
             {
                 for (int i = 0; i < itemCount - 1; i++)
                 {
@@ -1384,6 +1420,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
             else
             {
+                alwaysOnItem.IsChecked = false;
                 foreach (MenuItem item in menu.Items)
                 {
                     if (item.IsChecked)
@@ -1430,10 +1467,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 }
             }
 
+            if (triggerName.Count == 0)
+            {
+                MenuItem current = menu.Items[itemCount - 1] as MenuItem;
+                current.IsChecked = true;
+                triggerName.Add("Always On");
+            }
+
             GyroMouseStickTrigDisplay = string.Join(", ", triggerName.ToArray());
         }
 
-        public void UpdateGyroMouseStickTrig(ContextMenu menu)
+        public void UpdateGyroMouseStickTrig(ContextMenu menu, bool alwaysOnChecked)
         {
             int index = 0;
             List<int> triggerList = new List<int>();
@@ -1441,7 +1485,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
             int itemCount = menu.Items.Count;
             MenuItem alwaysOnItem = menu.Items[itemCount - 1] as MenuItem;
-            if (alwaysOnItem.IsChecked)
+            if (alwaysOnChecked)
             {
                 for (int i = 0; i < itemCount - 1; i++)
                 {
@@ -1451,6 +1495,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
             else
             {
+                alwaysOnItem.IsChecked = false;
                 foreach (MenuItem item in menu.Items)
                 {
                     if (item.IsChecked)
@@ -1495,6 +1540,13 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                     triggerName.Add("Always On");
                     break;
                 }
+            }
+
+            if (triggerName.Count == 0)
+            {
+                MenuItem current = menu.Items[itemCount - 1] as MenuItem;
+                current.IsChecked = true;
+                triggerName.Add("Always On");
             }
 
             GyroMouseStickTrigDisplay = string.Join(", ", triggerName.ToArray());

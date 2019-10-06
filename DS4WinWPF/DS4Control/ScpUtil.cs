@@ -261,7 +261,7 @@ namespace DS4Windows
             X360Controls.LYNeg, X360Controls.LYPos, X360Controls.RXNeg, X360Controls.RXPos, X360Controls.RYNeg, X360Controls.RYPos,
             X360Controls.LB, X360Controls.LT, X360Controls.LS, X360Controls.RB, X360Controls.RT, X360Controls.RS, X360Controls.X,
             X360Controls.Y, X360Controls.B, X360Controls.A, X360Controls.DpadUp, X360Controls.DpadRight, X360Controls.DpadDown,
-            X360Controls.DpadLeft, X360Controls.Guide, X360Controls.None, X360Controls.None, X360Controls.None, X360Controls.None,
+            X360Controls.DpadLeft, X360Controls.Guide, X360Controls.LeftMouse, X360Controls.RightMouse, X360Controls.MiddleMouse, X360Controls.LeftMouse,
             X360Controls.Back, X360Controls.Start, X360Controls.None, X360Controls.None, X360Controls.None, X360Controls.None,
             X360Controls.None, X360Controls.None, X360Controls.None, X360Controls.None
         };
@@ -281,6 +281,103 @@ namespace DS4Windows
 
             return temp;
         })();
+
+        public static Dictionary<X360Controls, string> xboxDefaultNames = new Dictionary<X360Controls, string>()
+        {
+            [X360Controls.LXNeg] = "Left X-Axis-",
+            [X360Controls.LXPos] = "Left X-Axis+",
+            [X360Controls.LYNeg] = "Left Y-Axis-",
+            [X360Controls.LYPos] = "Left Y-Axis+",
+            [X360Controls.RXNeg] = "Right X-Axis-",
+            [X360Controls.RXPos] = "Right X-Axis+",
+            [X360Controls.RYNeg] = "Right Y-Axis-",
+            [X360Controls.RYPos] = "Right Y-Axis+",
+            [X360Controls.LB] = "Left Bumper",
+            [X360Controls.LT] = "Left Trigger",
+            [X360Controls.LS] = "Left Stick",
+            [X360Controls.RB] = "Right Bumper",
+            [X360Controls.RT] = "Right Trigger",
+            [X360Controls.RS] = "Right Stick",
+            [X360Controls.X] = "X Button",
+            [X360Controls.Y] = "Y Button",
+            [X360Controls.B] = "B Button",
+            [X360Controls.A] = "A Button",
+            [X360Controls.DpadUp] = "Up Button",
+            [X360Controls.DpadRight] = "Right Button",
+            [X360Controls.DpadDown] = "Down Button",
+            [X360Controls.DpadLeft] = "Left Button",
+            [X360Controls.Guide] = "Guide",
+            [X360Controls.Back] = "Back",
+            [X360Controls.Start] = "Start",
+            [X360Controls.LeftMouse] = "Left Mouse Button",
+            [X360Controls.RightMouse] = "Right Mouse Button",
+            [X360Controls.MiddleMouse] = "Middle Mouse Button",
+            [X360Controls.FourthMouse] = "4th Mouse Button",
+            [X360Controls.FifthMouse] = "5th Mouse Button",
+            [X360Controls.WUP] = "Mouse Wheel Up",
+            [X360Controls.WDOWN] = "Mouse Wheel Down",
+            [X360Controls.MouseUp] = "Mouse Up",
+            [X360Controls.MouseDown] = "Mouse Down",
+            [X360Controls.MouseLeft] = "Mouse Left",
+            [X360Controls.MouseRight] = "Mouse Right",
+            [X360Controls.Unbound] = "Unbound",
+        };
+
+        public static Dictionary<X360Controls, string> ds4DefaultNames = new Dictionary<X360Controls, string>()
+        {
+            [X360Controls.LXNeg] = "Left X-Axis-",
+            [X360Controls.LXPos] = "Left X-Axis+",
+            [X360Controls.LYNeg] = "Left Y-Axis-",
+            [X360Controls.LYPos] = "Left Y-Axis+",
+            [X360Controls.RXNeg] = "Right X-Axis-",
+            [X360Controls.RXPos] = "Right X-Axis+",
+            [X360Controls.RYNeg] = "Right Y-Axis-",
+            [X360Controls.RYPos] = "Right Y-Axis+",
+            [X360Controls.LB] = "L1",
+            [X360Controls.LT] = "LT",
+            [X360Controls.LS] = "L3",
+            [X360Controls.RB] = "R1",
+            [X360Controls.RT] = "R2",
+            [X360Controls.RS] = "R3",
+            [X360Controls.X] = "Square",
+            [X360Controls.Y] = "Triangle",
+            [X360Controls.B] = "Circle",
+            [X360Controls.A] = "Cross",
+            [X360Controls.DpadUp] = "Dpad Up",
+            [X360Controls.DpadRight] = "Dpad Right",
+            [X360Controls.DpadDown] = "Dpad Down",
+            [X360Controls.DpadLeft] = "Dpad Left",
+            [X360Controls.Guide] = "PS",
+            [X360Controls.Back] = "Share",
+            [X360Controls.Start] = "Options",
+            [X360Controls.LeftMouse] = "Left Mouse Button",
+            [X360Controls.RightMouse] = "Right Mouse Button",
+            [X360Controls.MiddleMouse] = "Middle Mouse Button",
+            [X360Controls.FourthMouse] = "4th Mouse Button",
+            [X360Controls.FifthMouse] = "5th Mouse Button",
+            [X360Controls.WUP] = "Mouse Wheel Up",
+            [X360Controls.WDOWN] = "Mouse Wheel Down",
+            [X360Controls.MouseUp] = "Mouse Up",
+            [X360Controls.MouseDown] = "Mouse Down",
+            [X360Controls.MouseLeft] = "Mouse Left",
+            [X360Controls.MouseRight] = "Mouse Right",
+            [X360Controls.Unbound] = "Unbound",
+        };
+
+        public static string getX360ControlString(X360Controls key, OutContType conType)
+        {
+            string result = string.Empty;
+            if (conType == DS4Windows.OutContType.X360)
+            {
+                xboxDefaultNames.TryGetValue(key, out result);
+            }
+            else if (conType == DS4Windows.OutContType.DS4)
+            {
+                ds4DefaultNames.TryGetValue(key, out result);
+            }
+
+            return result;
+        }
 
         public static void SaveWhere(string path)
         {
@@ -3206,7 +3303,7 @@ namespace DS4Windows
                 catch { gyroOutMode[device] = GyroOutMode.Controls; missingSetting = true; }
 
                 try { Item = m_Xdoc.SelectSingleNode("/" + rootname + "/SATriggers"); sATriggers[device] = Item.InnerText; }
-                catch { sATriggers[device] = ""; missingSetting = true; }
+                catch { sATriggers[device] = "-1"; missingSetting = true; }
 
                 try { Item = m_Xdoc.SelectSingleNode("/" + rootname + "/SATriggerCond"); sATriggerCond[device] = SaTriggerCondValue(Item.InnerText); }
                 catch { sATriggerCond[device] = true; missingSetting = true; }
@@ -3222,7 +3319,7 @@ namespace DS4Windows
                 catch { PortOldGyroSettings(device); missingSetting = true; }
 
                 try { Item = m_Xdoc.SelectSingleNode("/" + rootname + "/GyroMouseStickTriggers"); sAMouseStickTriggers[device] = Item.InnerText; }
-                catch { sAMouseStickTriggers[device] = ""; missingSetting = true; }
+                catch { sAMouseStickTriggers[device] = "-1"; missingSetting = true; }
 
                 try { Item = m_Xdoc.SelectSingleNode("/" + rootname + "/GyroMouseStickTriggerCond"); sAMouseStickTriggerCond[device] = SaTriggerCondValue(Item.InnerText); }
                 catch { sAMouseStickTriggerCond[device] = true; missingSetting = true; }
@@ -4671,10 +4768,10 @@ namespace DS4Windows
             startTouchpadOff[device] = false;
             useTPforControls[device] = false;
             useSAforMouse[device] = false;
-            sATriggers[device] = string.Empty;
+            sATriggers[device] = "-1";
             sATriggerCond[device] = true;
             gyroOutMode[device] = GyroOutMode.Controls;
-            sAMouseStickTriggers[device] = string.Empty;
+            sAMouseStickTriggers[device] = "-1";
             sAMouseStickTriggerCond[device] = true;
             gyroMStickInfo[device].deadZone = 30; gyroMStickInfo[device].maxZone = 830;
             gyroMStickInfo[device].antiDeadX = 0.4; gyroMStickInfo[device].antiDeadY = 0.4;

@@ -85,7 +85,7 @@
                         <Button Content="Down" x:Name="downConBtn" Canvas.Left="106" Canvas.Top="136" Width="16" Height="16" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
                         <Button Content="Left" x:Name="leftConBtn" Canvas.Left="81" Canvas.Top="116" Width="16" Height="16" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
 
-                        <Label Content="Cross: A" Canvas.Left="199" Canvas.Top="211" Width="99" HorizontalContentAlignment="Center" >
+                        <Label x:Name="highlightControlDisplayLb" Content="" Canvas.Left="176" Canvas.Top="211" MinWidth="150" HorizontalContentAlignment="Center" >
                             <Label.Foreground>
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                             </Label.Foreground>
@@ -97,8 +97,8 @@
                             <GroupBox Header="Touchpad">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                                        <RadioButton x:Name="useTouchMouseRadio" Content="Use As Mouse" GroupName="tpMode" IsChecked="{Binding UseTouchMouse,Mode=OneWay}" Click="UseTouchMouseRadio_Click" />
-                                        <RadioButton x:Name="useTouchControlsRadio" Content="Use As Controls" GroupName="tpMode" IsChecked="{Binding UseTouchControls}" Click="UseTouchControlsRadio_Click" Margin="10,0,0,0" />
+                                        <RadioButton x:Name="useTouchMouseRadio" Content="Use As Mouse" GroupName="tpMode" Click="UseTouchMouseRadio_Click" />
+                                        <RadioButton x:Name="useTouchControlsRadio" Content="Use As Controls" GroupName="tpMode" Click="UseTouchControlsRadio_Click" Margin="10,0,0,0" />
                                     </StackPanel>
 
                                     <StackPanel x:Name="useMousePanel" Margin="0,10,0,0">
@@ -184,22 +184,22 @@
                                         </StackPanel>
                                     </StackPanel>
 
-                                    <StackPanel x:Name="useControlsPanel" Margin="0,10,0,0" Visibility="{Binding UseTouchControls, Mode=OneWay, FallbackValue='Collapsed'}">
+                                    <StackPanel x:Name="useControlsPanel" Margin="0,10,0,0" Visibility="Collapsed">
                                         <StackPanel Orientation="Horizontal">
                                             <Button x:Name="swipeUpBtn" Content="Swipe Up" Width="70" />
-                                            <Label Content="Unassigned" Margin="10,0,0,0"/>
+                                            <Label x:Name="swipeUpLb" Content="{Binding MappingName,FallbackValue=Unassigned}"  Margin="10,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                                             <Button x:Name="swipeDownBtn" Content="Swipe Down" Width="70" />
-                                            <Label Content="Unassigned" Margin="10,0,0,0"/>
+                                            <Label x:Name="swipeDownLb" Content="{Binding MappingName,FallbackValue=Unassigned}"  Margin="10,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                                             <Button x:Name="swipeLeftBtn" Content="Swipe Left" Width="70" />
-                                            <Label Content="Unassigned" Margin="10,0,0,0"/>
+                                            <Label x:Name="swipeLeftLb" Content="{Binding MappingName,FallbackValue=Unassigned}"  Margin="10,0,0,0"/>
                                         </StackPanel>
                                         <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                                             <Button x:Name="swipeRightBtn" Content="Swipe Right" Width="70" />
-                                            <Label Content="Unassigned" Margin="10,0,0,0"/>
+                                            <Label x:Name="swipeRightLb" Content="{Binding MappingName,FallbackValue=Unassigned}"  Margin="10,0,0,0"/>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -208,8 +208,16 @@
                             </GroupBox>
                         </StackPanel>
 
-                        <ListBox x:Name="mappingListBox" Width="200" Margin="30,0,0,0">
-                            <ListBoxItem Content="Cross: Cross" />
+                        <ListBox x:Name="mappingListBox" ItemsSource="{Binding Mappings}"
+                                 SelectedIndex="{Binding SelectedIndex}" Width="200" Margin="30,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="{Binding ControlName,StringFormat='\{0\}: '}" />
+                                        <TextBlock Text="{Binding MappingName}"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
                         </ListBox>
                     </StackPanel>
                 </DockPanel>
@@ -547,25 +555,25 @@
                         </ComboBox>
                     </StackPanel>
 
-                    <StackPanel x:Name="gyroControlsPanel">
+                    <StackPanel x:Name="gyroControlsPanel" Visibility="Visible">
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="gyroZNBtn" Content="Tilt Up" Width="100"/>
-                            <Label Content="Unassigned" />
+                            <Label x:Name="gyroZNLb" Content="{Binding MappingName,FallbackValue=Unassigned}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="gyroZPBtn" Content="Tilt Down" Width="100"/>
-                            <Label Content="Unassigned" />
+                            <Label x:Name="gyroZPLb" Content="{Binding MappingName,FallbackValue=Unassigned}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="gyroXNBtn" Content="Tilt Left" Width="100"/>
-                            <Label Content="Unassigned" />
+                            <Label x:Name="gyroXNLb" Content="{Binding MappingName,FallbackValue=Unassigned}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
                             <Button x:Name="gyroXPBtn" Content="Tilt Right" Width="100"/>
-                            <Label Content="Unassigned" />
+                            <Label x:Name="gyroXLb" Content="{Binding MappingName,FallbackValue=Unassigned}" />
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
@@ -606,7 +614,7 @@
                     <StackPanel x:Name="gyroMousePanel" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Triggers" />
-                            <Button x:Name="gyroMouseTrigBtn" Content="{Binding GyroMouseTrigDisplay,FallbackValue=Always On}" Click="GyroMouseTrigBtn_Click" >
+                            <Button x:Name="gyroMouseTrigBtn" Content="{Binding GyroMouseTrigDisplay,FallbackValue=Always On}" MinWidth="160" Click="GyroMouseTrigBtn_Click" >
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Cross" IsCheckable="True" Click="GyroMouseTrigMenuItem_Click" />
@@ -689,7 +697,7 @@
                     <StackPanel x:Name="gyroMouseJoystickPanel" Visibility="Collapsed">
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Triggers" />
-                            <Button x:Name="gyroMouseStickTrigBtn" Content="{Binding GyroMouseStickTrigDisplay,FallbackValue=Always On}" Width="160" Click="GyroMouseStickTrigBtn_Click" >
+                            <Button x:Name="gyroMouseStickTrigBtn" Content="{Binding GyroMouseStickTrigDisplay,FallbackValue=Always On}" MinWidth="160" Click="GyroMouseStickTrigBtn_Click" >
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="Cross" IsCheckable="True" Click="GyroMouseStickTrigMenuItem_Click" />
@@ -807,7 +815,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <Label Content="BT Poll Rate" />
-                        <ComboBox x:Name="btPollRateCombo" SelectedIndex="{Binding BTPollRateIndex,Mode=OneTime,FallbackValue=4}" MinWidth="140">
+                        <ComboBox x:Name="btPollRateCombo" SelectedIndex="{Binding TempBTPollRateIndex,FallbackValue=4}" MinWidth="140">
                             <ComboBoxItem Content="Max (1 ms)" />
                             <ComboBoxItem Content="1000 Hz (1 ms)" />
                             <ComboBoxItem Content="500 Hz (2 ms)" />
@@ -829,7 +837,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <Label Content="Controller" />
-                        <ComboBox x:Name="outConTypeCombo" SelectedIndex="{Binding ControllerTypeIndex,Mode=OneTime,FallbackValue=0}" MinWidth="140">
+                        <ComboBox x:Name="outConTypeCombo" SelectedIndex="{Binding TempControllerIndex,FallbackValue=0}" MinWidth="140">
                             <ComboBoxItem Content="Xbox 360"/>
                             <ComboBoxItem Content="DualShock 4"/>
                         </ComboBox>
