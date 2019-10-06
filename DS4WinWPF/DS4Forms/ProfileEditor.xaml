@@ -805,7 +805,7 @@
                             </Button.Background>
                         </Button>
                     </StackPanel>
-                    <CheckBox Content="Use DInput only" IsChecked="{Binding UseDInputOnly}" Margin="0,6,0,0" />
+                    <CheckBox Content="Use DInput only" IsChecked="{Binding DInputOnly}" Margin="0,6,0,0" />
                     <CheckBox Content="Flush HID" IsChecked="{Binding FlushHid}" Margin="0,6,0,0" />
                     <StackPanel Orientation="Horizontal" Height="30" Margin="0,6,0,0">
                         <CheckBox Content="Idle Disconnect" VerticalAlignment="Center" IsChecked="{Binding IdleDisconnectExists}" />

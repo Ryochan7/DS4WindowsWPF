@@ -1,13 +1,15 @@
 # TODO
 
-* Add control mapping display to profile editor
-* ~~Add color picker to Profile editor~~
-* Implement Gyro panels in Profile editor
+* Add lightbar top image to controls display
+* Create KB360 window
 * Implement auto profile execution
-* Create Options ViewModels. Bind data
 * Evaluate Task Scheduler
 * Create Command line argument checker
 * Choose between WebClient or HttpClient for download library
+* ~~Add control mapping display to profile editor~~
+* ~~Add color picker to Profile editor~~
+* ~~Implement Gyro panels in Profile editor~~
+* ~~Create Options ViewModels. Bind data~~
 * ~~Start making Options window~~
 * ~~Implement Swipe changes profiles Timer routine~~
 * ~~Work on Auto Profiles user control~~

@@ -363,10 +363,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler LaunchProgramIconChanged;
 
-        public bool UseDInputOnly
+        public bool DInputOnly
         {
-            get => Global.useDInputOnly[device];
-            set => Global.useDInputOnly[device] = value;
+            get => Global.DinputOnly[device];
+            set => Global.DinputOnly[device] = value;
         }
 
         public bool FlushHid
