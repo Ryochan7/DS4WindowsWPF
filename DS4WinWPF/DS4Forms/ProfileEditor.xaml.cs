@@ -469,6 +469,9 @@ namespace DS4WinWPF.DS4Forms
         private void CrossConBtn_Click(object sender, RoutedEventArgs e)
         {
             _ = sender as Button;
+            BindingWindow window = new BindingWindow();
+            window.Owner = App.Current.MainWindow;
+            window.ShowDialog();
         }
 
         private void InputControlHighlight(Button control)

@@ -1,0 +1,497 @@
+﻿<Window x:Class="DS4WinWPF.DS4Forms.BindingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        mc:Ignorable="d"
+        Title="Select action" Height="500" Width="1200">
+    <DockPanel Margin="4">
+        <StackPanel Width="170" Orientation="Vertical" DockPanel.Dock="Right">
+            <GroupBox Header="Extra">
+                <StackPanel Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Rumble" />
+                        <xctk:IntegerUpDown Value="0" Width="50" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Heavy" />
+                        <xctk:IntegerUpDown Value="0" Width="50" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Light" />
+                        <xctk:IntegerUpDown Value="0" Width="50" />
+                    </StackPanel>
+
+                    <StackPanel Orientation="Vertical">
+                        <CheckBox Content="Change Light" />
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="R" />
+                                <Slider Value="255" Minimum="0" Maximum="255" ToolTip="255" MinWidth="100" Background="{Binding MainColorRString, FallbackValue=Red}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="G" />
+                                <Slider Value="255" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding MainColorGString, FallbackValue=Lime}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="B" />
+                                <Slider Value="255" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding MainColorBString, FallbackValue=Blue}"/>
+                            </StackPanel>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Flash Rate"/>
+                            <xctk:IntegerUpDown Value="0" />
+                            <CheckBox Content="" />
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Content="Change Mouse Sensitivity" Margin="0,10,0,0"/>
+                            <xctk:IntegerUpDown Value="0" MinWidth="50" Height="20" />
+                        </StackPanel>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+        </StackPanel>
+        <DockPanel DockPanel.Dock="Left">
+            <DockPanel DockPanel.Dock="Bottom" Margin="0">
+                <StackPanel MinWidth="200" DockPanel.Dock="Left" Margin="8,0,0,0">
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Content="Regular" IsChecked="True" />
+                        <RadioButton Content="Shift Modifier" Margin="10,0,0,0" />
+                    </StackPanel>
+
+                    <ComboBox Margin="0,8,0,0">
+
+                    </ComboBox>
+
+                    <Button Content="Default" Margin="0,50,0,0" />
+                    <Button Content="Unbound" Margin="0,10,0,0" />
+                </StackPanel>
+
+                <StackPanel x:Name="outConPanel" Width="668" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center">
+                    <Canvas Height="247">
+                        <Canvas.Background>
+                            <ImageBrush ImageSource="/DS4WinWPF;component/Resources/360 map.png" Stretch="Uniform"/>
+                        </Canvas.Background>
+                        <Canvas.Resources>
+                            <Style TargetType="{x:Type Button}" x:Key="NoBGHoverBtn">
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="{x:Type Button}">
+                                            <Border Name="border" BorderThickness="0" Background="{TemplateBinding Background}">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Canvas.Resources>
+
+                        <Image x:Name="highlightImg" Width="20" Height="20" Source="/DS4WinWPF;component/Resources/360 highlight.png" Canvas.Left="622" Canvas.Top="11" IsEnabled="False" />
+                        <Label x:Name="highlightLb" Content="A" Background="Black" Foreground="White" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+
+                        <Button x:Name="guideBtn" Width="26" Height="20" Tag="Guide" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="320" Canvas.Top="84" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave"  />
+                        <Button x:Name="aBtn" Width="24" Height="18" Tag="A" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="460" Canvas.Top="114" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="bBtn" Width="24" Height="18" Tag="B" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="498" Canvas.Top="84" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="xBtn" Width="24" Height="18" Tag="X" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="426" Canvas.Top="86" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="yBtn" Width="24" Height="18" Tag="Y" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="463" Canvas.Top="55" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="lbBtn" Width="64" Height="18" Tag="LB" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="26" Canvas.Top="53" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="rbBtn" Width="64" Height="18" Tag="RB" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="576" Canvas.Top="52" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="ltBtn" Width="42" Height="36" Tag="LT" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="48" Canvas.Top="17" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="rtBtn" Width="42" Height="36" Tag="RT" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="578" Canvas.Top="15" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="backBtn" Width="20" Height="20" Tag="Back" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="274" Canvas.Top="84" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="startBtn" Width="20" Height="20" Tag="Start" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="374" Canvas.Top="84" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+
+                        <Button x:Name="lsbBtn" Width="16" Height="16" Tag="Left Stick" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="183" Canvas.Top="101" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="lsuBtn" Width="47" Height="16" Tag="LS Y-Axis-" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="169" Canvas.Top="81" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="lsrBtn" Width="16" Height="28" Tag="LS X-Axis+" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="208" Canvas.Top="96" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="lsdBtn" Width="28" Height="16" Tag="LS Y-Axis+" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="181" Canvas.Top="125" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="lslBtn" Width="16" Height="28" Tag="LS X-Axis-" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="154" Canvas.Top="92" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+
+                        <Button x:Name="rsbBtn" Width="16" Height="16" Tag="Right Stick" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="392" Canvas.Top="170" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="rsuBtn" Width="26" Height="16" Tag="RS Y-Axis-" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="390" Canvas.Top="150" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="rsrBtn" Width="16" Height="28" Tag="RS X-Axis+" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="416" Canvas.Top="166" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="rsdBtn" Width="28" Height="16" Tag="RS Y-Axis+" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="387" Canvas.Top="190" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="rslBtn" Width="16" Height="16" Tag="RS X-Axis-" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="366" Canvas.Top="172" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+
+                        <Button x:Name="dpadUBtn" Width="16" Height="12" Tag="Dpad Up" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="255" Canvas.Top="140" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="dpadRBtn" Width="16" Height="30" Tag="Dpad Right" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="281" Canvas.Top="149" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="dpadDBtn" Width="16" Height="12" Tag="Dpad Down" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="258" Canvas.Top="187" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                        <Button x:Name="dpadLBtn" Width="16" Height="30" Tag="Dpad Left" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="229" Canvas.Top="153" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
+                    </Canvas>
+                </StackPanel>
+            </DockPanel>
+
+            <Grid DockPanel.Dock="Top">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="1" HorizontalAlignment="Center">
+                    <TextBlock Text="Keyboard and Mouse"  />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                    <CheckBox Content="Toggle" />
+                    <CheckBox Content="Scan Code" Margin="10,0,0,0" />
+                </StackPanel>
+                <StackPanel Grid.Column="3">
+                    <Button Content="Record A Macro" Margin="10,0" />
+                </StackPanel>
+            </Grid>
+            <UniformGrid Rows="1" Columns="2" DockPanel.Dock="Top">
+                <UniformGrid Columns="1">
+                    <Grid Margin="0,0,0,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style x:Key="midMar" TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="8,0,0,0" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Content="Esc" Grid.Column="0"/>
+                        <Button Content="F1" Grid.Column="1" Style="{StaticResource midMar}"/>
+                        <Button Content="F2" Grid.Column="2" Style="{StaticResource midMar}"/>
+                        <Button Content="F3" Grid.Column="3" Style="{StaticResource midMar}"/>
+                        <Button Content="F4" Grid.Column="4" Style="{StaticResource midMar}"/>
+                        <Button Content="F5" Grid.Column="5" Style="{StaticResource midMar}"/>
+                        <Button Content="F6" Grid.Column="6" Style="{StaticResource midMar}"/>
+                        <Button Content="F7" Grid.Column="7" Style="{StaticResource midMar}"/>
+                        <Button Content="F8" Grid.Column="8" Style="{StaticResource midMar}"/>
+                        <Button Content="F9" Grid.Column="9" Style="{StaticResource midMar}"/>
+                        <Button Content="F10" Grid.Column="10" Style="{StaticResource midMar}"/>
+                        <Button Content="F11" Grid.Column="11" Style="{StaticResource midMar}"/>
+                        <Button Content="F12" Grid.Column="12" Style="{StaticResource midMar}"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="1.75*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style x:Key="midMargin" TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="8,0,0,0" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Content="`" Grid.Column="0"/>
+                        <Button Content="1" Grid.Column="1" Style="{StaticResource midMargin}"/>
+                        <Button Content="2" Grid.Column="2" Style="{StaticResource midMargin}"/>
+                        <Button Content="3" Grid.Column="3" Style="{StaticResource midMargin}"/>
+                        <Button Content="4" Grid.Column="4" Style="{StaticResource midMargin}"/>
+                        <Button Content="5" Grid.Column="5" Style="{StaticResource midMargin}"/>
+                        <Button Content="6" Grid.Column="6" Style="{StaticResource midMargin}"/>
+                        <Button Content="7" Grid.Column="7" Style="{StaticResource midMargin}"/>
+                        <Button Content="8" Grid.Column="8" Style="{StaticResource midMargin}"/>
+                        <Button Content="9" Grid.Column="9" Style="{StaticResource midMargin}"/>
+                        <Button Content="0" Grid.Column="10" Style="{StaticResource midMargin}"/>
+                        <Button Content="-" Grid.Column="11" Style="{StaticResource midMargin}"/>
+                        <Button Content="=" Grid.Column="12" Style="{StaticResource midMargin}"/>
+                        <Button Content="BkSpace" Grid.Column="13" Style="{StaticResource midMargin}"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.5*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
+                            <Style x:Key="midMargin" TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="8,0,0,0" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Content="Tab" Grid.Column="0"/>
+                        <Button Content="Q" Grid.Column="1" Style="{StaticResource midMargin}"/>
+                        <Button Content="W" Grid.Column="2" Style="{StaticResource midMargin}"/>
+                        <Button Content="E" Grid.Column="3" Style="{StaticResource midMargin}"/>
+                        <Button Content="R" Grid.Column="4" Style="{StaticResource midMargin}"/>
+                        <Button Content="T" Grid.Column="5" Style="{StaticResource midMargin}"/>
+                        <Button Content="Y" Grid.Column="6" Style="{StaticResource midMargin}"/>
+                        <Button Content="U" Grid.Column="7" Style="{StaticResource midMargin}"/>
+                        <Button Content="I" Grid.Column="8" Style="{StaticResource midMargin}"/>
+                        <Button Content="O" Grid.Column="9" Style="{StaticResource midMargin}"/>
+                        <Button Content="P" Grid.Column="10" Style="{StaticResource midMargin}"/>
+                        <Button Content="[" Grid.Column="11" Style="{StaticResource midMargin}"/>
+                        <Button Content="]" Grid.Column="12" Style="{StaticResource midMargin}"/>
+                        <Button Content="\" Grid.Column="13" Style="{StaticResource midMargin}"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="1.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style x:Key="midMargin" TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="8,0,0,0" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Content="Caps" Grid.Column="0"/>
+                        <Button Content="A" Grid.Column="1" Style="{StaticResource midMargin}"/>
+                        <Button Content="S" Grid.Column="2" Style="{StaticResource midMargin}"/>
+                        <Button Content="D" Grid.Column="3" Style="{StaticResource midMargin}"/>
+                        <Button Content="F" Grid.Column="4" Style="{StaticResource midMargin}"/>
+                        <Button Content="G" Grid.Column="5" Style="{StaticResource midMargin}"/>
+                        <Button Content="H" Grid.Column="6" Style="{StaticResource midMargin}"/>
+                        <Button Content="J" Grid.Column="7" Style="{StaticResource midMargin}"/>
+                        <Button Content="K" Grid.Column="8" Style="{StaticResource midMargin}"/>
+                        <Button Content="L" Grid.Column="9" Style="{StaticResource midMargin}"/>
+                        <Button Content=";" Grid.Column="10" Style="{StaticResource midMargin}"/>
+                        <Button Content="'" Grid.Column="11" Style="{StaticResource midMargin}"/>
+                        <Button Content="Enter" Grid.Column="12" Style="{StaticResource midMargin}"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2.5*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="2.5*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style x:Key="midMargin" TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="8,0,0,0" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Content="LShift" Grid.Column="0"/>
+                        <Button Content="Z" Grid.Column="1" Style="{StaticResource midMargin}"/>
+                        <Button Content="X" Grid.Column="2" Style="{StaticResource midMargin}"/>
+                        <Button Content="C" Grid.Column="3" Style="{StaticResource midMargin}"/>
+                        <Button Content="V" Grid.Column="4" Style="{StaticResource midMargin}"/>
+                        <Button Content="B" Grid.Column="5" Style="{StaticResource midMargin}"/>
+                        <Button Content="N" Grid.Column="6" Style="{StaticResource midMargin}"/>
+                        <Button Content="M" Grid.Column="7" Style="{StaticResource midMargin}"/>
+                        <Button Content="," Grid.Column="8" Style="{StaticResource midMargin}"/>
+                        <Button Content="." Grid.Column="9" Style="{StaticResource midMargin}"/>
+                        <Button Content="/" Grid.Column="10" Style="{StaticResource midMargin}"/>
+                        <Button Content="RShift" Grid.Column="11" Style="{StaticResource midMargin}"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1.75*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="3*"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="1.75*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.Resources>
+                            <Style x:Key="midMargin" TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="8,0,0,0" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Content="LCtrl" Grid.Column="0"/>
+                        <Button Content="LWin" Grid.Column="1" Style="{StaticResource midMargin}"/>
+                        <Button Content="LAlt" Grid.Column="2" Style="{StaticResource midMargin}"/>
+                        <Button Content="Space" Grid.Column="3" Style="{StaticResource midMargin}"/>
+                        <Button Content="RAlt" Grid.Column="4" Style="{StaticResource midMargin}"/>
+                        <Button Content="RWin" Grid.Column="5" Style="{StaticResource midMargin}"/>
+                        <Button Content="RCtrl" Grid.Column="6" Style="{StaticResource midMargin}"/>
+                    </Grid>
+                </UniformGrid>
+                <UniformGrid Rows="1" Columns="3">
+                    <DockPanel LastChildFill="False" Margin="10,0,0,0">
+                        <UniformGrid Rows="3" Columns="3" Margin="2,0" MinHeight="104" DockPanel.Dock="Top">
+                            <UniformGrid.Resources>
+                                <Style x:Key="btnMargin" TargetType="{x:Type Button}">
+                                    <Setter Property="Margin" Value="3,0,3,6"/>
+                                </Style>
+                            </UniformGrid.Resources>
+                            <Button Content="Prt" Style="{StaticResource btnMargin}" />
+                            <Button Content="Scl" Style="{StaticResource btnMargin}" />
+                            <Button Content="Brk" Style="{StaticResource btnMargin}" />
+
+                            <Button Content="Ins" Style="{StaticResource btnMargin}" />
+                            <Button Content="Home" Style="{StaticResource btnMargin}" />
+                            <Button Content="PgUp" Style="{StaticResource btnMargin}" />
+
+                            <Button Content="Del" Style="{StaticResource btnMargin}" />
+                            <Button Content="End" Style="{StaticResource btnMargin}" />
+                            <Button Content="PgDown" Style="{StaticResource btnMargin}" />
+                        </UniformGrid>
+
+                        <Grid DockPanel.Dock="Bottom" MinHeight="60" Margin="2,0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <Button Content="↑ U" Grid.Row="0" Grid.Column="1" Margin="6,0,0,6" />
+                            <Button Content="← L" Grid.Row="1" Grid.Column="0" Margin="6,0,0,6" />
+                            <Button Content="↓ D" Grid.Row="1" Grid.Column="1" Margin="6,0,0,6" />
+                            <Button Content="R →" Grid.Row="1" Grid.Column="2" Margin="6,0,0,6" />
+                        </Grid>
+                    </DockPanel>
+
+                    <Grid Margin="4,0,0,6">
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.Resources>
+                            <Style TargetType="{x:Type Button}">
+                                <Setter Property="Margin" Value="2" />
+                            </Style>
+                        </Grid.Resources>
+
+                        <Button Content="9" FontFamily="Webdings" />
+                        <Button Content="&lt;" FontFamily="Webdings" Grid.Column="1" />
+                        <Button Content="4" FontFamily="Webdings" Grid.Column="2" />
+                        <Button Content=":" FontFamily="Webdings" Grid.Column="3" />
+                        <Button Content="↑ Vol" Grid.Column="4" />
+
+                        <Button Content="NumLk" Grid.Row="1" Grid.Column="0" />
+                        <Button Content="/" Grid.Row="1" Grid.Column="1" />
+                        <Button Content="*" Grid.Row="1" Grid.Column="2" />
+                        <Button Content="-" Grid.Row="1" Grid.Column="3" />
+                        <Button Content="↓ Vol" Grid.Row="1" Grid.Column="4" />
+
+                        <Button Content="7" Grid.Row="2" Grid.Column="0" />
+                        <Button Content="8" Grid.Row="2" Grid.Column="1" />
+                        <Button Content="9" Grid.Row="2" Grid.Column="2" />
+                        <Button Content="+" Grid.Row="2" Grid.Column="3" Grid.RowSpan="2" />
+                        <Button Content="Mute" Grid.Row="2" Grid.Column="4" />
+
+                        <Button Content="4" Grid.Row="3" Grid.Column="0" />
+                        <Button Content="5" Grid.Row="3" Grid.Column="1" />
+                        <Button Content="6" Grid.Row="3" Grid.Column="2" />
+
+                        <Button Content="1" Grid.Row="4" Grid.Column="0" />
+                        <Button Content="2" Grid.Row="4" Grid.Column="1" />
+                        <Button Content="3" Grid.Row="4" Grid.Column="2" />
+                        <Button Content="Enter" Grid.Row="4" Grid.Column="3" Grid.RowSpan="2" />
+
+                        <Button Content="0" Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2" />
+                        <Button Content="." Grid.Row="5" Grid.Column="2" />
+                    </Grid>
+                    <Canvas Width="172" Height="202">
+                        <Canvas.Background>
+                            <ImageBrush Stretch="Uniform" ImageSource="/DS4WinWPF;component/Resources/mouse.png"/>
+                        </Canvas.Background>
+
+                        <Button Content="↑" Width="26" Height="26" Canvas.Left="72" />
+                        <Button Content="↓" Width="26" Height="26" Canvas.Left="72" Canvas.Top="172" />
+                        <Button Content="←" Width="26" Height="26" Canvas.Left="2" Canvas.Top="109" />
+                        <Button Content="→" Width="26" Height="26" Canvas.Left="144" Canvas.Top="109" />
+
+                        <Button Content="L" Width="26" Height="26" Canvas.Left="36" Canvas.Top="63" />
+                        <Button Content="M" Width="26" Height="26" Canvas.Left="72" Canvas.Top="63" />
+                        <Button Content="R" Width="26" Height="26" Canvas.Left="107" Canvas.Top="63" />
+
+                        <Button Content="↑" Width="26" Height="26" Canvas.Left="72" Canvas.Top="34" />
+                        <Button Content="↓" Width="26" Height="26" Canvas.Left="72" Canvas.Top="92" />
+                    </Canvas>
+                </UniformGrid>
+            </UniformGrid>
+        </DockPanel>
+    </DockPanel>
+</Window>

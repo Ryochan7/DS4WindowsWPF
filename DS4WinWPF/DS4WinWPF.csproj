@@ -160,6 +160,9 @@
     <Compile Include="DS4Forms\AutoProfiles.xaml.cs">
       <DependentUpon>AutoProfiles.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\BindingWindow.xaml.cs">
+      <DependentUpon>BindingWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Forms\ColorPickerWindow.xaml.cs">
       <DependentUpon>ColorPickerWindow.xaml</DependentUpon>
     </Compile>
@@ -206,6 +209,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DS4Forms\AutoProfiles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DS4Forms\BindingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -305,6 +312,9 @@
     <Content Include="BezierCurveEditor\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\mouse.png" />
+    <Resource Include="Resources\360 highlight.png" />
+    <Resource Include="Resources\360 map.png" />
     <Resource Include="Resources\size.png" />
     <Resource Include="Resources\DS4-Config_PS.png" />
     <Resource Include="Resources\DS4-Config_Right.png" />
