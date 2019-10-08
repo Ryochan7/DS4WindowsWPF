@@ -176,6 +176,7 @@
       <DependentUpon>SaveWhere.xaml</DependentUpon>
     </Compile>
     <Compile Include="DS4Forms\ViewModel\AutoProfilesViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\BindingWindowViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\MappingListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\ProfileSettingsViewModel.cs" />

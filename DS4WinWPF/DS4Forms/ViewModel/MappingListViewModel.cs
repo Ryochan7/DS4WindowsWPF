@@ -174,7 +174,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             string temp = Properties.Resources.Unassigned;
             object action = !shift ? setting.action : setting.shiftAction;
-            bool sc = setting.keyType.HasFlag(DS4KeyType.ScanCode);
+            bool sc = !shift ? setting.keyType.HasFlag(DS4KeyType.ScanCode) :
+                setting.shiftKeyType.HasFlag(DS4KeyType.ScanCode);
             bool extra = control >= DS4Controls.GyroXPos && control <= DS4Controls.SwipeDown;
             if (action != null)
             {

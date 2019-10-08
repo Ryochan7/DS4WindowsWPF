@@ -469,7 +469,7 @@ namespace DS4WinWPF.DS4Forms
         private void CrossConBtn_Click(object sender, RoutedEventArgs e)
         {
             _ = sender as Button;
-            BindingWindow window = new BindingWindow();
+            BindingWindow window = new BindingWindow(deviceNum, mappingListVM.Mappings[mappingListVM.SelectedIndex]);
             window.Owner = App.Current.MainWindow;
             window.ShowDialog();
         }
