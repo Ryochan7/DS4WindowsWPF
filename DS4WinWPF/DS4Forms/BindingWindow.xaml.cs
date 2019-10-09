@@ -641,7 +641,27 @@ namespace DS4WinWPF.DS4Forms
 
         private void TestRumbleBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            int deviceNum = bindingVM.DeviceNum;
+            if (deviceNum < 4)
+            {
+                DS4Windows.DS4Device d = App.rootHub.DS4Controllers[deviceNum];
+                if (d != null)
+                {
+                    if (!bindingVM.RumbleActive)
+                    {
+                        bindingVM.RumbleActive = true;
+                        d.setRumble((byte)Math.Min(255, bindingVM.ActionBinding.LightRumble),
+                            (byte)Math.Min(255, bindingVM.ActionBinding.HeavyRumble));
+                        testRumbleBtn.Content = Properties.Resources.StopText;
+                    }
+                    else
+                    {
+                        bindingVM.RumbleActive = false;
+                        d.setRumble(0, 0);
+                        testRumbleBtn.Content = Properties.Resources.TestText;
+                    }
+                }
+            }
         }
     }
 }

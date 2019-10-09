@@ -27,19 +27,19 @@
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
-                        <CheckBox Content="Change Light" IsChecked="{Binding UseCustomColor}" />
+                        <CheckBox Content="Change Light" IsChecked="{Binding UseExtrasColor}" />
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="R" />
-                                <Slider Value="{Binding ExtrasColorR}" Minimum="0" Maximum="255" ToolTip="255" MinWidth="100" Background="{Binding ExtrasColorR, FallbackValue=Red,StringFormat='#\{0\}FF0000'}"/>
+                                <Slider Value="{Binding ExtrasColorR}" Minimum="0" Maximum="255" ToolTip="{Binding ExtrasColorR}" MinWidth="100" Background="{Binding ExtrasColorRString, FallbackValue=Red}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="G" />
-                                <Slider Value="{Binding ExtrasColorG}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding ExtrasColorG, FallbackValue=Lime,StringFormat='#\{0\}00FF00'}"/>
+                                <Slider Value="{Binding ExtrasColorG}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding ExtrasColorG}" Background="{Binding ExtrasColorGString, FallbackValue=Lime}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="B" />
-                                <Slider Value="{Binding ExtrasColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding ExtrasColorB, FallbackValue=Blue,StringFormat='#\{0\}0000FF'}"/>
+                                <Slider Value="{Binding ExtrasColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding ExtrasColorB}" Background="{Binding ExtrasColorBString, FallbackValue=Blue}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
@@ -48,7 +48,7 @@
                             <CheckBox Content="" IsChecked="{Binding UseFlashRate,Mode=OneWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
-                            <CheckBox Content="Change Mouse Sensitivity" IsChecked="{Binding UseMouseSens,Mode=OneWay}" Margin="0,10,0,0"/>
+                            <CheckBox Content="Change Mouse Sensitivity" IsChecked="{Binding UseMouseSens}" Margin="0,10,0,0"/>
                             <xctk:IntegerUpDown Value="{Binding MouseSens}" MinWidth="50" Height="20" />
                         </StackPanel>
                     </StackPanel>

@@ -18,6 +18,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private OutBinding shiftOutBind;
         private OutBinding actionBinding;
         private bool showShift;
+        private bool rumbleActive;
 
         public bool Using360Mode
         {
@@ -37,6 +38,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
 
         public bool ShowShift { get => showShift; set => showShift = value; }
+        public bool RumbleActive { get => rumbleActive; set => rumbleActive = value; }
 
         public BindingWindowViewModel(int deviceNum, MappedControl mappedControl)
         {
@@ -83,6 +85,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 currentOutBind.outputType = OutBinding.OutType.Default;
             }
 
+            if (!string.IsNullOrEmpty(setting.extras))
+            {
+                currentOutBind.ParseExtras(setting.extras);
+            }
+
             if (setting.shiftAction != null)
             {
                 sc = setting.shiftKeyType.HasFlag(DS4KeyType.ScanCode);
@@ -113,6 +120,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                         shiftOutBind.macro = (int[])setting.shiftAction;
                         break;
                 }
+            }
+
+            if (!string.IsNullOrEmpty(setting.shiftExtras))
+            {
+                shiftOutBind.ParseExtras(setting.shiftExtras);
             }
         }
     }
@@ -161,11 +173,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public X360Controls control;
         public bool shiftBind;
         public int shiftTrigger;
-        private int heavyRumble;
-        private int lightRumble;
+        private int heavyRumble = 255;
+        private int lightRumble = 255;
         private int flashRate;
-        private int mouseSens;
-        private DS4Color extrasColor;
+        private int mouseSens = 25;
+        private DS4Color extrasColor = new DS4Color(255,255,255);
 
         public bool HasScanCode { get => hasScanCode; }
         public bool Toggle { get => toggle; }
@@ -202,30 +214,96 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler MouseSensChanged;
 
+        private bool useMouseSens;
         public bool UseMouseSens
         {
             get
             {
-                return mouseSens != 0;
+                return useMouseSens;
+            }
+            set
+            {
+                useMouseSens = value;
+                UseMouseSensChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public event EventHandler UseMouseSensChanged;
 
+        private bool useExtrasColor;
         public bool UseExtrasColor {
             get
             {
-                return false;
+                return useExtrasColor;
+            }
+            set
+            {
+                useExtrasColor = value;
+                UseExtrasColorChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public event EventHandler UseExtrasColorChanged;
 
-        public int ExtrasColorR { get => extrasColor.red; set => extrasColor.red = (byte)value; }
+        public int ExtrasColorR
+        {
+            get => extrasColor.red;
+            set
+            {
+                extrasColor.red = (byte)value;
+                ExtrasColorRChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
         public event EventHandler ExtrasColorRChanged;
-        public int ExtrasColorG { get => extrasColor.green; set => extrasColor.green = (byte)value; }
-        public event EventHandler ExtrasColorGChanged;
-        public int ExtrasColorB { get => extrasColor.blue; set => extrasColor.blue = (byte)value; }
 
+        public string ExtrasColorRString
+        {
+            get
+            {
+                string temp = $"#{extrasColor.red.ToString("X2")}FF0000";
+                return temp;
+            }
+        }
+        public event EventHandler ExtrasColorRStringChanged;
+        public int ExtrasColorG
+        {
+            get => extrasColor.green;
+            set
+            {
+                extrasColor.green = (byte)value;
+                ExtrasColorGChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler ExtrasColorGChanged;
+
+        public string ExtrasColorGString
+        {
+            get
+            {
+                string temp = $"#{ extrasColor.green.ToString("X2")}00FF00";
+                return temp;
+            }
+        }
+        public event EventHandler ExtrasColorGStringChanged;
+
+        public int ExtrasColorB
+        {
+            get => extrasColor.blue;
+            set
+            {
+                extrasColor.blue = (byte)value;
+                ExtrasColorBChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
         public event EventHandler ExtrasColorBChanged;
+
+        public string ExtrasColorBString
+        {
+            get
+            {
+                string temp = $"#{extrasColor.blue.ToString("X2")}0000FF";
+                return temp;
+            }
+        }
+        public event EventHandler ExtrasColorBStringChanged;
 
         private int shiftTriggerIndex;
         public int ShiftTriggerIndex { get => shiftTriggerIndex; set => shiftTriggerIndex = value; }
@@ -268,22 +346,43 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public OutBinding()
         {
-            ExtrasColorRChanged += OutBinding_ExtrasColorChanged;
-            ExtrasColorGChanged += OutBinding_ExtrasColorChanged;
-            ExtrasColorBChanged += OutBinding_ExtrasColorChanged;
+            ExtrasColorRChanged += OutBinding_ExtrasColorRChanged;
+            ExtrasColorGChanged += OutBinding_ExtrasColorGChanged;
+            ExtrasColorBChanged += OutBinding_ExtrasColorBChanged;
             FlashRateChanged += (sender, e) =>
             {
                 UseFlashRateChanged?.Invoke(this, EventArgs.Empty);
             };
             MouseSensChanged += (sender, e) =>
             {
-                UseMouseSensChanged?.Invoke(this, EventArgs.Empty);
+                UseMouseSens = mouseSens != 0;
             };
+            UseExtrasColorChanged += OutBinding_UseExtrasColorChanged;
         }
 
-        private void OutBinding_ExtrasColorChanged(object sender, EventArgs e)
+        private void OutBinding_ExtrasColorBChanged(object sender, EventArgs e)
         {
-            UseExtrasColorChanged?.Invoke(this, EventArgs.Empty);
+            ExtrasColorBStringChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OutBinding_ExtrasColorGChanged(object sender, EventArgs e)
+        {
+            ExtrasColorGStringChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OutBinding_ExtrasColorRChanged(object sender, EventArgs e)
+        {
+            ExtrasColorRStringChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OutBinding_UseExtrasColorChanged(object sender, EventArgs e)
+        {
+            if (!useExtrasColor)
+            {
+                ExtrasColorR = 255;
+                ExtrasColorG = 255;
+                ExtrasColorB = 255;
+            }
         }
 
         public bool IsShift()
@@ -303,12 +402,42 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public void ParseExtras(string extras)
         {
+            string[] temp = extras.Split(',');
+            if (temp.Length == 9)
+            {
+                int.TryParse(temp[0], out heavyRumble);
+                int.TryParse(temp[1], out lightRumble);
+                int.TryParse(temp[2], out int useColor);
+                if (useColor == 1)
+                {
+                    byte.TryParse(temp[3], out extrasColor.red);
+                    byte.TryParse(temp[4], out extrasColor.green);
+                    byte.TryParse(temp[5], out extrasColor.blue);
+                    int.TryParse(temp[6], out flashRate);
+                }
+                else
+                {
+                    extrasColor.red = extrasColor.green = extrasColor.blue = 255;
+                    flashRate = 0;
+                }
 
+                int.TryParse(temp[7], out int useM);
+                if (useM == 1)
+                {
+                    useMouseSens = true;
+                    int.TryParse(temp[8], out mouseSens);
+                }
+                else
+                {
+                    useMouseSens = false;
+                    mouseSens = 25;
+                }
+            }
         }
 
-        public string compileExtras()
+        public string CompileExtras()
         {
-            string result = string.Empty;
+            string result = $"{heavyRumble},{lightRumble},{(useExtrasColor ? "1" : "0")},{extrasColor.red},{extrasColor.green},{extrasColor.blue},{flashRate},{(useMouseSens ? "1" : "0")},{mouseSens}";
             return result;
         }
     }
