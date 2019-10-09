@@ -157,7 +157,11 @@ namespace DS4WinWPF.DS4Forms
                 }
                 else if (binding.outputType == OutBinding.OutType.Key)
                 {
-                    keyBtnMap.Add(binding.outkey, button);
+                    if (keyBtnMap.ContainsKey(binding.outkey))
+                    {
+                        keyBtnMap.Add(binding.outkey, button);
+                    }
+                    
                 }
             }
         }
@@ -437,7 +441,169 @@ namespace DS4WinWPF.DS4Forms
                 new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x0D });
             enterBtn.Click += OutputBtn_Click;
 
+            associatedBindings.Add(lshiftBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x10 });
+            lshiftBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(zBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x5A });
+            zBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(xKeyBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x58 });
+            xKeyBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(cBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x43 });
+            cBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(vBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x56 });
+            vBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(bKeyBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x42 });
+            bKeyBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(nBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x4E });
+            nBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(mBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x4D });
+            mBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(commaBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xBC });
+            commaBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(periodBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xBE });
+            periodBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(bslashBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xBF });
+            bslashBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(rshiftBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xA1 });
+            rshiftBtn.Click += OutputBtn_Click;
 
+            associatedBindings.Add(lctrlBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xA2 });
+            lctrlBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(lWinBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x5B });
+            lWinBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(laltBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x12 });
+            laltBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(spaceBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x20 });
+            spaceBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(raltBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xA5 });
+            raltBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(rctrlBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xA3 });
+            rctrlBtn.Click += OutputBtn_Click;
+
+            associatedBindings.Add(prtBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x2C });
+            prtBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(sclBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x91 });
+            sclBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(brkBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x13 });
+            brkBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(insBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x2D });
+            insBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(homeBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x24 });
+            homeBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(pgupBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x21 });
+            pgupBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(delBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x2E });
+            delBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(endBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x23 });
+            endBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(pgdwBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x22 });
+            pgdwBtn.Click += OutputBtn_Click;
+
+            associatedBindings.Add(uarrowBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x26 });
+            uarrowBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(larrowBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x25 });
+            larrowBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(darrowBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x28 });
+            darrowBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(rarrowBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x27 });
+            rarrowBtn.Click += OutputBtn_Click;
+
+            associatedBindings.Add(prevTrackBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xB1 });
+            prevTrackBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(stopBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xB2 });
+            stopBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(playBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xB3 });
+            playBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(nextTrackBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xB0 });
+            nextTrackBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(volupBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xAF });
+            volupBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(numlockBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x90 });
+            numlockBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(numdivideBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x64 });
+            numdivideBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(nummultiBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x6A });
+            nummultiBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(numminusBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x6D });
+            numminusBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(voldownBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xAE });
+            voldownBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(num7Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x67 });
+            num7Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(num8Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x68 });
+            num8Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(num9Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x69 });
+            num9Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(numplusBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x6B });
+            numplusBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(volmuteBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0xAD });
+            volmuteBtn.Click += OutputBtn_Click;
+            associatedBindings.Add(num4Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x64 });
+            num4Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(num5Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x65 });
+            num5Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(num6Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x66 });
+            num6Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(num1Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x61 });
+            num1Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(num2Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x62 });
+            num2Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(num3Btn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x63 });
+            num3Btn.Click += OutputBtn_Click;
+            associatedBindings.Add(numEnterBtn,
+                new OutBinding() { outputType = OutBinding.OutType.Key, outkey = 0x13 });
+            numEnterBtn.Click += OutputBtn_Click;
         }
     }
 }
