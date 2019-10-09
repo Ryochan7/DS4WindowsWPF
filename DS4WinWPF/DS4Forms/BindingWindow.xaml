@@ -9,47 +9,47 @@
         Title="Select action" Height="500" Width="1200">
     <DockPanel Margin="4">
         <StackPanel Width="170" Orientation="Vertical" DockPanel.Dock="Right">
-            <GroupBox Header="Extra">
+            <GroupBox Header="Extra" x:Name="extrasGB">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Rumble" />
-                        <xctk:IntegerUpDown Value="0" Width="50" />
+                        <Button x:Name="testRumbleBtn" Width="100" Content="Test" Click="TestRumbleBtn_Click" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Heavy" />
-                        <xctk:IntegerUpDown Value="0" Width="50" />
+                        <xctk:IntegerUpDown Value="{Binding HeavyRumble}" MinWidth="100" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Light" />
-                        <xctk:IntegerUpDown Value="0" Width="50" />
+                        <xctk:IntegerUpDown Value="{Binding LightRumble}" MinWidth="100" />
                     </StackPanel>
 
                     <StackPanel Orientation="Vertical">
-                        <CheckBox Content="Change Light" />
+                        <CheckBox Content="Change Light" IsChecked="{Binding UseCustomColor}" />
                         <StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="R" />
-                                <Slider Value="255" Minimum="0" Maximum="255" ToolTip="255" MinWidth="100" Background="{Binding MainColorRString, FallbackValue=Red}"/>
+                                <Slider Value="{Binding ExtrasColorR}" Minimum="0" Maximum="255" ToolTip="255" MinWidth="100" Background="{Binding ExtrasColorR, FallbackValue=Red,StringFormat='#\{0\}FF0000'}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="G" />
-                                <Slider Value="255" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding MainColorGString, FallbackValue=Lime}"/>
+                                <Slider Value="{Binding ExtrasColorG}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding ExtrasColorG, FallbackValue=Lime,StringFormat='#\{0\}00FF00'}"/>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="B" />
-                                <Slider Value="255" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding MainColorBString, FallbackValue=Blue}"/>
+                                <Slider Value="{Binding ExtrasColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="255" Background="{Binding ExtrasColorB, FallbackValue=Blue,StringFormat='#\{0\}0000FF'}"/>
                             </StackPanel>
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Flash Rate"/>
-                            <xctk:IntegerUpDown Value="0" />
-                            <CheckBox Content="" />
+                            <xctk:IntegerUpDown MinWidth="50" Value="{Binding FlashRate}" />
+                            <CheckBox Content="" IsChecked="{Binding UseFlashRate,Mode=OneWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
-                            <CheckBox Content="Change Mouse Sensitivity" Margin="0,10,0,0"/>
-                            <xctk:IntegerUpDown Value="0" MinWidth="50" Height="20" />
+                            <CheckBox Content="Change Mouse Sensitivity" IsChecked="{Binding UseMouseSens,Mode=OneWay}" Margin="0,10,0,0"/>
+                            <xctk:IntegerUpDown Value="{Binding MouseSens}" MinWidth="50" Height="20" />
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
@@ -58,18 +58,44 @@
         </StackPanel>
         <DockPanel DockPanel.Dock="Left">
             <DockPanel DockPanel.Dock="Bottom" Margin="0">
-                <StackPanel MinWidth="200" DockPanel.Dock="Left" Margin="8,0,0,0">
+                <StackPanel x:Name="modePanel" MinWidth="200" DockPanel.Dock="Left" Margin="8,0,0,0">
                     <StackPanel Orientation="Horizontal">
-                        <RadioButton x:Name="regBindRadio" Content="Regular" IsChecked="True" />
-                        <RadioButton x:Name="shiftBindRadio" Content="Shift Modifier" Margin="10,0,0,0" />
+                        <RadioButton x:Name="regBindRadio" Content="Regular" GroupName="bindModeGroup" IsChecked="True" Click="RegBindRadio_Click" />
+                        <RadioButton x:Name="shiftBindRadio" Content="Shift Modifier" GroupName="bindModeGroup" Margin="10,0,0,0" Click="ShiftBindRadio_Click" />
                     </StackPanel>
 
-                    <ComboBox Margin="0,8,0,0">
-                        <ComboBoxItem Content=""></ComboBoxItem>
+                    <ComboBox x:Name="shiftTriggerCombo" Margin="0,8,0,0" SelectedIndex="0">
+                        <ComboBoxItem Content="Select Shift Trigger"/>
+                        <ComboBoxItem Content="Cross"/>
+                        <ComboBoxItem Content="Circle"/>
+                        <ComboBoxItem Content="Square"/>
+                        <ComboBoxItem Content="Triangle"/>
+                        <ComboBoxItem Content="Options"/>
+                        <ComboBoxItem Content="Share"/>
+                        <ComboBoxItem Content="Up"/>
+                        <ComboBoxItem Content="Down"/>
+                        <ComboBoxItem Content="Left"/>
+                        <ComboBoxItem Content="Right"/>
+                        <ComboBoxItem Content="PS"/>
+                        <ComboBoxItem Content="L1"/>
+                        <ComboBoxItem Content="R1"/>
+                        <ComboBoxItem Content="L2"/>
+                        <ComboBoxItem Content="R2"/>
+                        <ComboBoxItem Content="L3"/>
+                        <ComboBoxItem Content="R3"/>
+                        <ComboBoxItem Content="Left Touch"/>
+                        <ComboBoxItem Content="Upper Touch"/>
+                        <ComboBoxItem Content="Multitouch"/>
+                        <ComboBoxItem Content="Right Touch"/>
+                        <ComboBoxItem Content="Sixaxis Up"/>
+                        <ComboBoxItem Content="Sixaxis Down"/>
+                        <ComboBoxItem Content="Sixaxis Left"/>
+                        <ComboBoxItem Content="Sixaxis Right"/>
+                        <ComboBoxItem Content="Finger on Touchpad"/>
                     </ComboBox>
 
-                    <Button x:Name="defaultBtn" Content="Default" Margin="0,50,0,0" />
-                    <Button x:Name="unboundBtn" Content="Unbound" Margin="0,10,0,0" />
+                    <Button x:Name="defaultBtn" Content="Default" Background="{Binding DefaultColor,FallbackValue=#FFDDDDDD}" Margin="0,50,0,0" />
+                    <Button x:Name="unboundBtn" Content="Unbound" Background="{Binding UnboundColor,FallbackValue=#FFDDDDDD}" Margin="0,10,0,0" />
                 </StackPanel>
 
                 <StackPanel x:Name="outConPanel" Width="668" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center">
@@ -137,9 +163,9 @@
                 <StackPanel Grid.Column="1" HorizontalAlignment="Center">
                     <TextBlock Text="Keyboard and Mouse"  />
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                    <CheckBox Content="Toggle" />
-                    <CheckBox Content="Scan Code" Margin="10,0,0,0" />
+                <StackPanel x:Name="topOptsPanel" Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
+                    <CheckBox Content="Toggle" IsChecked="{Binding Toggle,Mode=OneWay}" />
+                    <CheckBox Content="Scan Code" IsChecked="{Binding HasScanCode,Mode=OneWay}" Margin="10,0,0,0" />
                 </StackPanel>
                 <StackPanel Grid.Column="3">
                     <Button Content="Record A Macro" Margin="10,0" />

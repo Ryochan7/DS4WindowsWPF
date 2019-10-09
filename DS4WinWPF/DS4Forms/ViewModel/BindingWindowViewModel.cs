@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
@@ -15,6 +17,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private OutBinding currentOutBind;
         private OutBinding shiftOutBind;
         private OutBinding actionBinding;
+        private bool showShift;
 
         public bool Using360Mode
         {
@@ -33,6 +36,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
+        public bool ShowShift { get => showShift; set => showShift = value; }
+
         public BindingWindowViewModel(int deviceNum, MappedControl mappedControl)
         {
             this.deviceNum = deviceNum;
@@ -40,6 +45,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             this.mappedControl = mappedControl;
             currentOutBind = new OutBinding();
             shiftOutBind = new OutBinding();
+            shiftOutBind.shiftBind = true;
             PopulateCurrentBinds();
         }
 
@@ -83,31 +89,56 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 switch (setting.shiftAction)
                 {
                     case DS4ControlSettings.ActionType.Button:
-                        shiftOutBind.shiftAction = true;
+                        shiftOutBind.shiftBind = true;
                         shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Button;
                         shiftOutBind.control = (X360Controls)setting.shiftAction;
                         break;
                     case DS4ControlSettings.ActionType.Default:
-                        shiftOutBind.shiftAction = true;
+                        shiftOutBind.shiftBind = true;
                         shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Default;
                         break;
                     case DS4ControlSettings.ActionType.Key:
-                        shiftOutBind.shiftAction = true;
+                        shiftOutBind.shiftBind = true;
                         shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Key;
                         shiftOutBind.outkey = (int)setting.shiftAction;
                         shiftOutBind.hasScanCode = sc;
                         break;
                     case DS4ControlSettings.ActionType.Macro:
-                        shiftOutBind.shiftAction = true;
+                        shiftOutBind.shiftBind = true;
                         shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Macro;
                         shiftOutBind.macro = (int[])setting.shiftAction;
                         break;
                 }
             }
+        }
+    }
+
+    public class BindAssociation
+    {
+        public enum OutType : uint
+        {
+            Default,
+            Key,
+            Button,
+            Macro
+        }
+
+        public OutType outputType;
+        public X360Controls control;
+        public int outkey;
+
+        public bool IsMouse()
+        {
+            return outputType == OutType.Button && (control >= X360Controls.LeftMouse && control < X360Controls.Unbound);
+        }
+
+        public static bool IsMouseRange(X360Controls control)
+        {
+            return control >= X360Controls.LeftMouse && control < X360Controls.Unbound;
         }
     }
 
@@ -128,16 +159,136 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public int outkey;
         public int[] macro;
         public X360Controls control;
-        public bool shiftAction;
+        public bool shiftBind;
         public int shiftTrigger;
+        private int heavyRumble;
+        private int lightRumble;
+        private int flashRate;
+        private int mouseSens;
+        private DS4Color extrasColor;
 
         public bool HasScanCode { get => hasScanCode; }
         public bool Toggle { get => toggle; }
         public int ShiftTrigger { get => shiftTrigger; }
+        public int HeavyRumble { get => heavyRumble; set => heavyRumble = value; }
+        public int LightRumble { get => lightRumble; set => lightRumble = value; }
+        public int FlashRate
+        {
+            get => flashRate;
+            set
+            {
+                flashRate = value;
+                FlashRateChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler FlashRateChanged;
+
+        public bool UseFlashRate
+        {
+            get
+            {
+                return flashRate != 0;
+            }
+        }
+        public event EventHandler UseFlashRateChanged;
+        public int MouseSens
+        {
+            get => mouseSens;
+            set
+            {
+                mouseSens = value;
+                MouseSensChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler MouseSensChanged;
+
+        public bool UseMouseSens
+        {
+            get
+            {
+                return mouseSens != 0;
+            }
+        }
+        public event EventHandler UseMouseSensChanged;
+
+        public bool UseExtrasColor {
+            get
+            {
+                return false;
+            }
+        }
+        public event EventHandler UseExtrasColorChanged;
+
+        public int ExtrasColorR { get => extrasColor.red; set => extrasColor.red = (byte)value; }
+        public event EventHandler ExtrasColorRChanged;
+        public int ExtrasColorG { get => extrasColor.green; set => extrasColor.green = (byte)value; }
+        public event EventHandler ExtrasColorGChanged;
+        public int ExtrasColorB { get => extrasColor.blue; set => extrasColor.blue = (byte)value; }
+
+        public event EventHandler ExtrasColorBChanged;
+
+        private int shiftTriggerIndex;
+        public int ShiftTriggerIndex { get => shiftTriggerIndex; set => shiftTriggerIndex = value; }
+
+        public string DefaultColor
+        {
+            get
+            {
+                string color;
+                if (outputType == OutType.Default)
+                {
+                    color =  Colors.LimeGreen.ToString();
+                }
+                else
+                {
+                    color = SystemColors.ControlBrush.Color.ToString();
+                }
+
+                return color;
+            }
+        }
+
+        public string UnboundColor
+        {
+            get
+            {
+                string color;
+                if (outputType == OutType.Button && control == X360Controls.Unbound)
+                {
+                    color = Colors.LimeGreen.ToString();
+                }
+                else
+                {
+                    color = SystemColors.ControlBrush.Color.ToString();
+                }
+
+                return color;
+            }
+        }
+
+        public OutBinding()
+        {
+            ExtrasColorRChanged += OutBinding_ExtrasColorChanged;
+            ExtrasColorGChanged += OutBinding_ExtrasColorChanged;
+            ExtrasColorBChanged += OutBinding_ExtrasColorChanged;
+            FlashRateChanged += (sender, e) =>
+            {
+                UseFlashRateChanged?.Invoke(this, EventArgs.Empty);
+            };
+            MouseSensChanged += (sender, e) =>
+            {
+                UseMouseSensChanged?.Invoke(this, EventArgs.Empty);
+            };
+        }
+
+        private void OutBinding_ExtrasColorChanged(object sender, EventArgs e)
+        {
+            UseExtrasColorChanged?.Invoke(this, EventArgs.Empty);
+        }
 
         public bool IsShift()
         {
-            return shiftAction;
+            return shiftBind;
         }
 
         public bool IsMouse()
@@ -148,6 +299,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public static bool IsMouseRange(X360Controls control)
         {
             return control >= X360Controls.LeftMouse && control < X360Controls.Unbound;
+        }
+
+        public void ParseExtras(string extras)
+        {
+
+        }
+
+        public string compileExtras()
+        {
+            string result = string.Empty;
+            return result;
         }
     }
 }
