@@ -93,29 +93,22 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             if (setting.shiftAction != null)
             {
                 sc = setting.shiftKeyType.HasFlag(DS4KeyType.ScanCode);
-                switch (setting.shiftAction)
+                shiftOutBind.shiftTrigger = setting.shiftTrigger;
+                switch (setting.shiftActionType)
                 {
                     case DS4ControlSettings.ActionType.Button:
-                        shiftOutBind.shiftBind = true;
-                        shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Button;
                         shiftOutBind.control = (X360Controls)setting.shiftAction;
                         break;
                     case DS4ControlSettings.ActionType.Default:
-                        shiftOutBind.shiftBind = true;
-                        shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Default;
                         break;
                     case DS4ControlSettings.ActionType.Key:
-                        shiftOutBind.shiftBind = true;
-                        shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Key;
                         shiftOutBind.outkey = (int)setting.shiftAction;
                         shiftOutBind.hasScanCode = sc;
                         break;
                     case DS4ControlSettings.ActionType.Macro:
-                        shiftOutBind.shiftBind = true;
-                        shiftOutBind.shiftTrigger = setting.shiftTrigger;
                         shiftOutBind.outputType = OutBinding.OutType.Macro;
                         shiftOutBind.macro = (int[])setting.shiftAction;
                         break;
@@ -126,6 +119,12 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 shiftOutBind.ParseExtras(setting.shiftExtras);
             }
+        }
+
+        public void WriteBinds()
+        {
+            currentOutBind.WriteBind(mappedControl.Setting);
+            shiftOutBind.WriteBind(mappedControl.Setting);
         }
     }
 
@@ -173,15 +172,15 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public X360Controls control;
         public bool shiftBind;
         public int shiftTrigger;
-        private int heavyRumble = 255;
-        private int lightRumble = 255;
+        private int heavyRumble = 0;
+        private int lightRumble = 0;
         private int flashRate;
         private int mouseSens = 25;
         private DS4Color extrasColor = new DS4Color(255,255,255);
 
         public bool HasScanCode { get => hasScanCode; }
         public bool Toggle { get => toggle; }
-        public int ShiftTrigger { get => shiftTrigger; }
+        public int ShiftTrigger { get => shiftTrigger; set => shiftTrigger = value; }
         public int HeavyRumble { get => heavyRumble; set => heavyRumble = value; }
         public int LightRumble { get => lightRumble; set => lightRumble = value; }
         public int FlashRate
@@ -195,14 +194,6 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler FlashRateChanged;
 
-        public bool UseFlashRate
-        {
-            get
-            {
-                return flashRate != 0;
-            }
-        }
-        public event EventHandler UseFlashRateChanged;
         public int MouseSens
         {
             get => mouseSens;
@@ -344,19 +335,25 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
+        public string DefaultBtnString
+        {
+            get
+            {
+                string result = "Default";
+                if (shiftBind)
+                {
+                    result = Properties.Resources.FallBack;
+                }
+
+                return result;
+            }
+        }
+
         public OutBinding()
         {
             ExtrasColorRChanged += OutBinding_ExtrasColorRChanged;
             ExtrasColorGChanged += OutBinding_ExtrasColorGChanged;
             ExtrasColorBChanged += OutBinding_ExtrasColorBChanged;
-            FlashRateChanged += (sender, e) =>
-            {
-                UseFlashRateChanged?.Invoke(this, EventArgs.Empty);
-            };
-            MouseSensChanged += (sender, e) =>
-            {
-                UseMouseSens = mouseSens != 0;
-            };
             UseExtrasColorChanged += OutBinding_UseExtrasColorChanged;
         }
 
@@ -439,6 +436,103 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             string result = $"{heavyRumble},{lightRumble},{(useExtrasColor ? "1" : "0")},{extrasColor.red},{extrasColor.green},{extrasColor.blue},{flashRate},{(useMouseSens ? "1" : "0")},{mouseSens}";
             return result;
+        }
+
+        public bool IsUsingExtras()
+        {
+            bool result = false;
+            result = result || (heavyRumble != 0);
+            result = result || (lightRumble != 0);
+            result = result || useExtrasColor;
+            result = result ||
+                (extrasColor.red != 255 && extrasColor.green != 255 &&
+                extrasColor.blue != 255);
+
+            result = result || (flashRate != 0);
+            result = result || useMouseSens;
+            result = result || (mouseSens != 25);
+            return result;
+        }
+
+        public void WriteBind(DS4ControlSettings settings)
+        {
+            if (!shiftBind)
+            {
+                settings.keyType = DS4KeyType.None;
+
+                if (outputType == OutType.Default)
+                {
+                    settings.action = null;
+                    settings.actionType = DS4ControlSettings.ActionType.Default;
+                }
+                else if (outputType == OutType.Button)
+                {
+                    settings.action = control;
+                    settings.actionType = DS4ControlSettings.ActionType.Button;
+                }
+                else if (outputType == OutType.Key)
+                {
+                    settings.action = outkey;
+                    settings.actionType = DS4ControlSettings.ActionType.Key;
+                    if (hasScanCode)
+                    {
+                        settings.keyType |= DS4KeyType.ScanCode;
+                    }
+                }
+                else if (outputType == OutType.Macro)
+                {
+                    settings.action = macro;
+                    settings.actionType = DS4ControlSettings.ActionType.Macro;
+                }
+
+                if (IsUsingExtras())
+                {
+                    settings.extras = CompileExtras();
+                }
+                else
+                {
+                    settings.extras = string.Empty;
+                }
+            }
+            else
+            {
+                settings.shiftKeyType = DS4KeyType.None;
+                settings.shiftTrigger = shiftTrigger;
+
+                if (outputType == OutType.Default)
+                {
+                    settings.shiftAction = null;
+                    settings.shiftActionType = DS4ControlSettings.ActionType.Default;
+                }
+                else if (outputType == OutType.Button)
+                {
+                    settings.shiftAction = control;
+                    settings.shiftActionType = DS4ControlSettings.ActionType.Button;
+                }
+                else if (outputType == OutType.Key)
+                {
+                    settings.shiftAction = outkey;
+                    settings.shiftActionType = DS4ControlSettings.ActionType.Key;
+                    if (hasScanCode)
+                    {
+                        settings.shiftKeyType |= DS4KeyType.ScanCode;
+                    }
+                }
+                else if (outputType == OutType.Macro)
+                {
+                    settings.shiftAction = macro;
+                    settings.shiftActionType = DS4ControlSettings.ActionType.Macro;
+                }
+
+                if (IsUsingExtras())
+                {
+                    settings.shiftExtras = CompileExtras();
+                }
+                else
+                {
+                    settings.shiftExtras = string.Empty;
+                }
+            }
         }
     }
 }

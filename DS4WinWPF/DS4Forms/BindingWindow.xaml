@@ -45,7 +45,6 @@
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Flash Rate"/>
                             <xctk:IntegerUpDown MinWidth="50" Value="{Binding FlashRate}" />
-                            <CheckBox Content="" IsChecked="{Binding UseFlashRate,Mode=OneWay}" />
                         </StackPanel>
                         <StackPanel Orientation="Vertical">
                             <CheckBox Content="Change Mouse Sensitivity" IsChecked="{Binding UseMouseSens}" Margin="0,10,0,0"/>
@@ -64,7 +63,7 @@
                         <RadioButton x:Name="shiftBindRadio" Content="Shift Modifier" GroupName="bindModeGroup" Margin="10,0,0,0" Click="ShiftBindRadio_Click" />
                     </StackPanel>
 
-                    <ComboBox x:Name="shiftTriggerCombo" Margin="0,8,0,0" SelectedIndex="0">
+                    <ComboBox x:Name="shiftTriggerCombo" Margin="0,8,0,0" SelectedIndex="{Binding ShiftTrigger,FallbackValue=0}">
                         <ComboBoxItem Content="Select Shift Trigger"/>
                         <ComboBoxItem Content="Cross"/>
                         <ComboBoxItem Content="Circle"/>
@@ -94,7 +93,7 @@
                         <ComboBoxItem Content="Finger on Touchpad"/>
                     </ComboBox>
 
-                    <Button x:Name="defaultBtn" Content="Default" Background="{Binding DefaultColor,FallbackValue=#FFDDDDDD}" Margin="0,50,0,0" />
+                    <Button x:Name="defaultBtn" Content="{Binding DefaultBtnString,FallbackValue=Default}" Background="{Binding DefaultColor,FallbackValue=#FFDDDDDD}" Margin="0,50,0,0" />
                     <Button x:Name="unboundBtn" Content="Unbound" Background="{Binding UnboundColor,FallbackValue=#FFDDDDDD}" Margin="0,10,0,0" />
                 </StackPanel>
 

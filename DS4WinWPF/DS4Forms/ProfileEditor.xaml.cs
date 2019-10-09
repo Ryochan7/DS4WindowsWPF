@@ -468,10 +468,12 @@ namespace DS4WinWPF.DS4Forms
 
         private void CrossConBtn_Click(object sender, RoutedEventArgs e)
         {
-            _ = sender as Button;
-            BindingWindow window = new BindingWindow(deviceNum, mappingListVM.Mappings[mappingListVM.SelectedIndex]);
+            MappedControl mpControl = mappingListVM.Mappings[mappingListVM.SelectedIndex];
+            BindingWindow window = new BindingWindow(deviceNum, mpControl);
             window.Owner = App.Current.MainWindow;
             window.ShowDialog();
+            mpControl.UpdateMappingName();
+            UpdateHighlightLabel(mpControl);
         }
 
         private void InputControlHighlight(Button control)
@@ -502,15 +504,20 @@ namespace DS4WinWPF.DS4Forms
                 mappingListVM.SelectedIndex = tempIndex;
                 mappingListBox.ScrollIntoView(mappingListBox.SelectedItem);
                 MappedControl mapped = mappingListVM.Mappings[tempIndex];
-                string display = $"{mapped.ControlName}: {mapped.MappingName}";
-                if (mapped.HasShiftAction())
-                {
-                    display += "\n Shift: ";
-                    display += mapped.ShiftMappingName;
-                }
-
-                highlightControlDisplayLb.Content = display;
+                UpdateHighlightLabel(mapped);
             }
+        }
+
+        private void UpdateHighlightLabel(MappedControl mapped)
+        {
+            string display = $"{mapped.ControlName}: {mapped.MappingName}";
+            if (mapped.HasShiftAction())
+            {
+                display += "\nShift: ";
+                display += mapped.ShiftMappingName;
+            }
+
+            highlightControlDisplayLb.Content = display;
         }
 
         private void ContBtn_MouseEnter(object sender, MouseEventArgs e)
@@ -521,7 +528,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void ContBtn_MouseLeave(object sender, MouseEventArgs e)
         {
-            Button control = sender as Button;
+            //Button control = sender as Button;
             //control.Background = new SolidColorBrush(Colors.Transparent);
             Canvas.SetLeft(picBoxHover, 0);
             Canvas.SetTop(picBoxHover, 0);

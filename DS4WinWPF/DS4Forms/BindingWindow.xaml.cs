@@ -43,7 +43,6 @@ namespace DS4WinWPF.DS4Forms
             InitButtonBindings();
             InitKeyBindings();
             InitInfoMaps();
-            FindCurrentHighlightButton();
 
             regBindRadio.IsChecked = !bindingVM.ShowShift;
             shiftBindRadio.IsChecked = bindingVM.ShowShift;
@@ -78,12 +77,39 @@ namespace DS4WinWPF.DS4Forms
 
         private void OutputKeyBtn_Click(object sender, RoutedEventArgs e)
         {
+            Button button = sender as Button;
+            OutBinding binding = bindingVM.ActionBinding;
+            binding.outputType = OutBinding.OutType.Key;
+            if (associatedBindings.TryGetValue(button, out BindAssociation bind))
+            {
+                binding.outputType = OutBinding.OutType.Key;
+                binding.outkey = bind.outkey;
+            }
 
+            bindingVM.WriteBinds();
+            Close();
         }
 
         private void OutputButtonBtn_Click(object sender, RoutedEventArgs e)
         {
+            OutBinding binding = bindingVM.ActionBinding;
+            DS4Windows.X360Controls defaultControl = DS4Windows.Global.defaultButtonMapping[(int)binding.input];
+            if (defaultControl == binding.control)
+            {
+                binding.outputType = OutBinding.OutType.Default;
+            }
+            else
+            {
+                Button button = sender as Button;
+                if (associatedBindings.TryGetValue(button, out BindAssociation bind))
+                {
+                    binding.outputType = OutBinding.OutType.Button;
+                    binding.control = bind.control;
+                }
+            }
 
+            bindingVM.WriteBinds();
+            Close();
         }
 
         private void ChangeForCurrentAction()
@@ -93,6 +119,8 @@ namespace DS4WinWPF.DS4Forms
             modePanel.DataContext = bind;
             topOptsPanel.DataContext = bind;
             shiftTriggerCombo.Visibility = bind.IsShift() ? Visibility.Visible : Visibility.Hidden;
+
+            FindCurrentHighlightButton();
         }
 
         private void FindCurrentHighlightButton()
@@ -102,7 +130,7 @@ namespace DS4WinWPF.DS4Forms
                 highlightBtn.Background = SystemColors.ControlBrush;
             }
 
-            OutBinding binding = bindingVM.CurrentOutBind;
+            OutBinding binding = bindingVM.ActionBinding;
             if (binding.outputType == OutBinding.OutType.Default)
             {
                 DS4Windows.X360Controls defaultBind = DS4Windows.Global.defaultButtonMapping[(int)binding.input];
@@ -171,7 +199,7 @@ namespace DS4WinWPF.DS4Forms
                 }
                 else if (binding.outputType == BindAssociation.OutType.Key)
                 {
-                    if (keyBtnMap.ContainsKey(binding.outkey))
+                    if (!keyBtnMap.ContainsKey(binding.outkey))
                     {
                         keyBtnMap.Add(binding.outkey, button);
                     }
@@ -437,7 +465,7 @@ namespace DS4WinWPF.DS4Forms
                 new BindAssociation() { outputType = BindAssociation.OutType.Key, outkey = 0x48 });
             hBtn.Click += OutputKeyBtn_Click;
             associatedBindings.Add(jBtn,
-                new BindAssociation() { outputType = BindAssociation.OutType.Key, outkey = 0x48 });
+                new BindAssociation() { outputType = BindAssociation.OutType.Key, outkey = 0x4A });
             jBtn.Click += OutputKeyBtn_Click;
             associatedBindings.Add(kBtn,
                 new BindAssociation() { outputType = BindAssociation.OutType.Key, outkey = 0x4B });
@@ -627,7 +655,6 @@ namespace DS4WinWPF.DS4Forms
                 bindingVM.ActionBinding = bindingVM.CurrentOutBind;
                 ChangeForCurrentAction();
             }
-            
         }
 
         private void ShiftBindRadio_Click(object sender, RoutedEventArgs e)
