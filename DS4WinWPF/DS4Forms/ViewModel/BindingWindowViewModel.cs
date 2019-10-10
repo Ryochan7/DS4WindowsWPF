@@ -126,6 +126,38 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             currentOutBind.WriteBind(mappedControl.Setting);
             shiftOutBind.WriteBind(mappedControl.Setting);
         }
+
+        public void StartForcedColor(Color color)
+        {
+            if (deviceNum < 4)
+            {
+                DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+                DS4LightBar.forcedColor[deviceNum] = dcolor;
+                DS4LightBar.forcedFlash[deviceNum] = 0;
+                DS4LightBar.forcelight[deviceNum] = true;
+            }
+        }
+
+        public void EndForcedColor()
+        {
+            if (deviceNum < 4)
+            {
+                DS4LightBar.forcedColor[deviceNum] = new DS4Color(0, 0, 0);
+                DS4LightBar.forcedFlash[deviceNum] = 0;
+                DS4LightBar.forcelight[deviceNum] = false;
+            }
+        }
+
+        public void UpdateForcedColor(Color color)
+        {
+            if (deviceNum < 4)
+            {
+                DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+                DS4LightBar.forcedColor[deviceNum] = dcolor;
+                DS4LightBar.forcedFlash[deviceNum] = 0;
+                DS4LightBar.forcelight[deviceNum] = true;
+            }
+        }
     }
 
     public class BindAssociation
@@ -296,6 +328,26 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler ExtrasColorBStringChanged;
 
+        public string ExtrasColorString
+        {
+            get => $"#FF{extrasColor.red.ToString("X2")}{extrasColor.green.ToString("X2")}{extrasColor.blue.ToString("X2")}";
+        }
+        public event EventHandler ExtrasColorStringChanged;
+
+        public Color ExtrasColorMedia
+        {
+            get
+            {
+                return new Color()
+                {
+                    A = 255,
+                    R = extrasColor.red,
+                    B = extrasColor.blue,
+                    G = extrasColor.green
+                };
+            }
+        }
+
         private int shiftTriggerIndex;
         public int ShiftTriggerIndex { get => shiftTriggerIndex; set => shiftTriggerIndex = value; }
 
@@ -359,16 +411,19 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private void OutBinding_ExtrasColorBChanged(object sender, EventArgs e)
         {
+            ExtrasColorStringChanged?.Invoke(this, EventArgs.Empty);
             ExtrasColorBStringChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OutBinding_ExtrasColorGChanged(object sender, EventArgs e)
         {
+            ExtrasColorStringChanged?.Invoke(this, EventArgs.Empty);
             ExtrasColorGStringChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void OutBinding_ExtrasColorRChanged(object sender, EventArgs e)
         {
+            ExtrasColorStringChanged?.Invoke(this, EventArgs.Empty);
             ExtrasColorRStringChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -434,7 +489,25 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public string CompileExtras()
         {
-            string result = $"{heavyRumble},{lightRumble},{(useExtrasColor ? "1" : "0")},{extrasColor.red},{extrasColor.green},{extrasColor.blue},{flashRate},{(useMouseSens ? "1" : "0")},{mouseSens}";
+            string result = $"{heavyRumble},{lightRumble},";
+            if (useExtrasColor)
+            {
+                result += $"1,{extrasColor.red},{extrasColor.green},{extrasColor.blue},{flashRate},";
+            }
+            else
+            {
+                result += "0,0,0,0,0,";
+            }
+
+            if (useMouseSens)
+            {
+                result += $"1,{mouseSens}";
+            }
+            else
+            {
+                result += "0,0";
+            }
+
             return result;
         }
 
@@ -533,6 +606,13 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                     settings.shiftExtras = string.Empty;
                 }
             }
+        }
+
+        public void UpdateExtrasColor(Color color)
+        {
+            ExtrasColorR = color.R;
+            ExtrasColorG = color.G;
+            ExtrasColorB = color.B;
         }
     }
 }

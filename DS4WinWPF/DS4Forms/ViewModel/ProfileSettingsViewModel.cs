@@ -1281,15 +1281,12 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             FlashColorChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void CopyForceFlashColor()
+        public void UpdateLowColor(System.Windows.Media.Color color)
         {
-            Global.FlashColor[device] = DS4LightBar.forcedColor[device];
-            FlashColorChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        public void CopyForceLowColor()
-        {
-            Global.LowColor[device] = DS4LightBar.forcedColor[device];
+            ref DS4Color lowColor = ref Global.LowColor[device];
+            lowColor.red = color.R;
+            lowColor.green = color.G;
+            lowColor.blue = color.B;
 
             LowColorChanged?.Invoke(this, EventArgs.Empty);
             LowColorRChanged?.Invoke(this, EventArgs.Empty);
@@ -1302,30 +1299,42 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public void UpdateForcedColor(System.Windows.Media.Color color)
         {
-            DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
-            DS4LightBar.forcedColor[device] = dcolor;
-            DS4LightBar.forcedFlash[device] = 0;
-            DS4LightBar.forcelight[device] = true;
+            if (device < 4)
+            {
+                DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+                DS4LightBar.forcedColor[device] = dcolor;
+                DS4LightBar.forcedFlash[device] = 0;
+                DS4LightBar.forcelight[device] = true;
+            }
         }
 
         public void StartForcedColor(System.Windows.Media.Color color)
         {
-            DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
-            DS4LightBar.forcedColor[device] = dcolor;
-            DS4LightBar.forcedFlash[device] = 0;
-            DS4LightBar.forcelight[device] = true;
+            if (device < 4)
+            {
+                DS4Color dcolor = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+                DS4LightBar.forcedColor[device] = dcolor;
+                DS4LightBar.forcedFlash[device] = 0;
+                DS4LightBar.forcelight[device] = true;
+            }
         }
 
         public void EndForcedColor()
         {
-            DS4LightBar.forcedColor[device] = new DS4Color(0, 0, 0);
-            DS4LightBar.forcedFlash[device] = 0;
-            DS4LightBar.forcelight[device] = false;
+            if (device < 4)
+            {
+                DS4LightBar.forcedColor[device] = new DS4Color(0, 0, 0);
+                DS4LightBar.forcedFlash[device] = 0;
+                DS4LightBar.forcelight[device] = false;
+            }
         }
 
-        public void CopyForceChargingColor()
+        public void UpdateChargingColor(System.Windows.Media.Color color)
         {
-            Global.ChargingColor[device] = DS4LightBar.forcedColor[device];
+            ref DS4Color chargeColor = ref Global.ChargingColor[device];
+            chargeColor.red = color.R;
+            chargeColor.green = color.G;
+            chargeColor.blue = color.B;
             ChargingColorChanged?.Invoke(this, EventArgs.Empty);
         }
 

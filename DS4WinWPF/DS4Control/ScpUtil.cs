@@ -334,7 +334,7 @@ namespace DS4Windows
             [X360Controls.RYNeg] = "Right Y-Axis-",
             [X360Controls.RYPos] = "Right Y-Axis+",
             [X360Controls.LB] = "L1",
-            [X360Controls.LT] = "LT",
+            [X360Controls.LT] = "L2",
             [X360Controls.LS] = "L3",
             [X360Controls.RB] = "R1",
             [X360Controls.RT] = "R2",
@@ -378,6 +378,48 @@ namespace DS4Windows
 
             return result;
         }
+
+        public static Dictionary<DS4Controls, string> ds4inputNames = new Dictionary<DS4Controls, string>()
+        {
+            [DS4Controls.LXNeg] = "Left X-Axis-",
+            [DS4Controls.LXPos] = "Left X-Axis+",
+            [DS4Controls.LYNeg] = "Left Y-Axis-",
+            [DS4Controls.LYPos] = "Left Y-Axis+",
+            [DS4Controls.RXNeg] = "Right X-Axis-",
+            [DS4Controls.RXPos] = "Right X-Axis+",
+            [DS4Controls.RYNeg] = "Right Y-Axis-",
+            [DS4Controls.RYPos] = "Right Y-Axis+",
+            [DS4Controls.L1] = "L1",
+            [DS4Controls.L2] = "L2",
+            [DS4Controls.L3] = "L3",
+            [DS4Controls.R1] = "R1",
+            [DS4Controls.R2] = "R2",
+            [DS4Controls.R3] = "R3",
+            [DS4Controls.Square] = "Square",
+            [DS4Controls.Triangle] = "Triangle",
+            [DS4Controls.Circle] = "Circle",
+            [DS4Controls.Cross] = "Cross",
+            [DS4Controls.DpadUp] = "Dpad Up",
+            [DS4Controls.DpadRight] = "Dpad Right",
+            [DS4Controls.DpadDown] = "Dpad Down",
+            [DS4Controls.DpadLeft] = "Dpad Left",
+            [DS4Controls.PS] = "PS",
+            [DS4Controls.Share] = "Share",
+            [DS4Controls.Options] = "Options",
+            [DS4Controls.TouchLeft] = "Left Touch",
+            [DS4Controls.TouchUpper] = "Upper Touch",
+            [DS4Controls.TouchMulti] = "Multitouch",
+            [DS4Controls.TouchRight] = "Right Touch",
+            [DS4Controls.GyroXPos] = "Gyro X+",
+            [DS4Controls.GyroXNeg] = "Gyro X-",
+            [DS4Controls.GyroZPos] = "Gyro Z+",
+            [DS4Controls.GyroZNeg] = "Gyro Z+-",
+            [DS4Controls.SwipeLeft] = "Swipe Left",
+            [DS4Controls.SwipeRight] = "Swipe Right",
+            [DS4Controls.SwipeUp] = "Swipe Up",
+            [DS4Controls.SwipeUp] = "Swipe Up",
+            [DS4Controls.SwipeDown] = "None",
+        };
 
         public static void SaveWhere(string path)
         {

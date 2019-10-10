@@ -41,6 +41,7 @@
                                 <Label Content="B" />
                                 <Slider Value="{Binding ExtrasColorB}" MinWidth="100" Minimum="0" Maximum="255" ToolTip="{Binding ExtrasColorB}" Background="{Binding ExtrasColorBString, FallbackValue=Blue}"/>
                             </StackPanel>
+                            <Button x:Name="extrasColorChoosebtn" Width="20" Height="20" Background="{Binding ExtrasColorString}" HorizontalAlignment="Right" Margin="0,10,10,0" Click="ExtrasColorChoosebtn_Click" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Flash Rate"/>

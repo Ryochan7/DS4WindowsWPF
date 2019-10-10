@@ -681,8 +681,8 @@ namespace DS4WinWPF.DS4Forms
                 profileSettingsVM.UpdateForcedColor(color);
             };
             dialog.ShowDialog();
-            profileSettingsVM.CopyForceFlashColor();
             profileSettingsVM.EndForcedColor();
+            profileSettingsVM.UpdateFlashColor(dialog.colorPicker.SelectedColor.GetValueOrDefault());
         }
 
         private void LowColorBtn_Click(object sender, RoutedEventArgs e)
@@ -697,8 +697,8 @@ namespace DS4WinWPF.DS4Forms
                 profileSettingsVM.UpdateForcedColor(color);
             };
             dialog.ShowDialog();
-            profileSettingsVM.CopyForceLowColor();
             profileSettingsVM.EndForcedColor();
+            profileSettingsVM.UpdateLowColor(dialog.colorPicker.SelectedColor.GetValueOrDefault());
         }
 
         private void HeavyRumbleTestBtn_Click(object sender, RoutedEventArgs e)
@@ -811,8 +811,8 @@ namespace DS4WinWPF.DS4Forms
                 profileSettingsVM.UpdateForcedColor(color);
             };
             dialog.ShowDialog();
-            profileSettingsVM.CopyForceChargingColor();
             profileSettingsVM.EndForcedColor();
+            profileSettingsVM.UpdateChargingColor(dialog.colorPicker.SelectedColor.GetValueOrDefault());
         }
 
         private void SteeringWheelEmulationCalibrateBtn_Click(object sender, RoutedEventArgs e)

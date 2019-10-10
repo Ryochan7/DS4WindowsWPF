@@ -36,6 +36,7 @@ namespace DS4WinWPF.DS4Forms
 
             bindingVM = new BindingWindowViewModel(deviceNum, mappedControl);
 
+            Title = $"Select action for {DS4Windows.Global.ds4inputNames[mappedControl.Control]}";
             guideBtn.Content = "";
             highlightImg.Visibility = Visibility.Hidden;
             highlightLb.Visibility = Visibility.Hidden;
@@ -689,6 +690,23 @@ namespace DS4WinWPF.DS4Forms
                     }
                 }
             }
+        }
+
+        private void ExtrasColorChoosebtn_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPickerWindow dialog = new ColorPickerWindow();
+            dialog.Owner = Application.Current.MainWindow;
+            OutBinding actBind = bindingVM.ActionBinding;
+            Color tempcolor = actBind.ExtrasColorMedia;
+            dialog.colorPicker.SelectedColor = tempcolor;
+            bindingVM.StartForcedColor(tempcolor);
+            dialog.ColorChanged += (sender2, color) =>
+            {
+                bindingVM.UpdateForcedColor(color);
+            };
+            dialog.ShowDialog();
+            bindingVM.EndForcedColor();
+            actBind.UpdateExtrasColor(dialog.colorPicker.SelectedColor.GetValueOrDefault());
         }
     }
 }
