@@ -708,5 +708,32 @@ namespace DS4WinWPF.DS4Forms
             bindingVM.EndForcedColor();
             actBind.UpdateExtrasColor(dialog.colorPicker.SelectedColor.GetValueOrDefault());
         }
+
+        private void DefaultBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OutBinding actBind = bindingVM.ActionBinding;
+
+            if (!actBind.shiftBind)
+            {
+                actBind.outputType = OutBinding.OutType.Default;
+                actBind.control = DS4Windows.Global.defaultButtonMapping[(int)actBind.input];
+            }
+            else
+            {
+                actBind.outputType = OutBinding.OutType.Default;
+            }
+
+            bindingVM.WriteBinds();
+            Close();
+        }
+
+        private void UnboundBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OutBinding actBind = bindingVM.ActionBinding;
+            actBind.outputType = OutBinding.OutType.Button;
+            actBind.control = DS4Windows.X360Controls.Unbound;
+            bindingVM.WriteBinds();
+            Close();
+        }
     }
 }
