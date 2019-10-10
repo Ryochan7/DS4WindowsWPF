@@ -101,7 +101,7 @@
                 <StackPanel x:Name="outConPanel" Width="668" Orientation="Vertical" DockPanel.Dock="Right" HorizontalAlignment="Center">
                     <Canvas Height="247">
                         <Canvas.Background>
-                            <ImageBrush ImageSource="/DS4WinWPF;component/Resources/360 map.png" Stretch="Uniform"/>
+                            <ImageBrush x:Name="conImageBrush" ImageSource="/DS4WinWPF;component/Resources/360 map.png" Stretch="Uniform"/>
                         </Canvas.Background>
                         <Canvas.Resources>
                             <Style TargetType="{x:Type Button}" x:Key="NoBGHoverBtn">
@@ -121,6 +121,7 @@
                         <Image x:Name="highlightImg" Width="20" Height="20" Source="/DS4WinWPF;component/Resources/360 highlight.png" Canvas.Left="622" Canvas.Top="11" IsEnabled="False" />
                         <Label x:Name="highlightLb" Content="A" Background="Black" Foreground="White" IsEnabled="False" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
 
+                        <!--<Button x:Name="guideBtn2" Width="16" Height="30" Tag="Ni" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="212" Canvas.Top="112"  />-->
                         <Button x:Name="guideBtn" Width="26" Height="20" Tag="Guide" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="320" Canvas.Top="84" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave"  />
                         <Button x:Name="aBtn" Width="24" Height="18" Tag="A" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="460" Canvas.Top="114" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
                         <Button x:Name="bBtn" Width="24" Height="18" Tag="B" Style="{StaticResource NoBGHoverBtn}" Canvas.Left="498" Canvas.Top="84" MouseEnter="OutConBtn_MouseEnter" MouseLeave="OutConBtn_MouseLeave" />
@@ -164,8 +165,8 @@
                     <TextBlock Text="Keyboard and Mouse"  />
                 </StackPanel>
                 <StackPanel x:Name="topOptsPanel" Orientation="Horizontal" Grid.Column="2" HorizontalAlignment="Right">
-                    <CheckBox Content="Toggle" IsChecked="{Binding Toggle,Mode=OneWay}" />
-                    <CheckBox Content="Scan Code" IsChecked="{Binding HasScanCode,Mode=OneWay}" Margin="10,0,0,0" />
+                    <CheckBox Content="Toggle" IsChecked="{Binding Toggle}" />
+                    <CheckBox Content="Scan Code" IsChecked="{Binding HasScanCode}" Margin="10,0,0,0" />
                 </StackPanel>
                 <StackPanel Grid.Column="3">
                     <Button Content="Record A Macro" Margin="10,0" />

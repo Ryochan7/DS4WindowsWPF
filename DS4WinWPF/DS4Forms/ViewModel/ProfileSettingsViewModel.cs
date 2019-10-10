@@ -431,7 +431,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
 
         private int tempControllerIndex;
-        public int TempControllerIndex { get => tempControllerIndex; set => tempControllerIndex = value; }
+        public int TempControllerIndex
+        {
+            get => tempControllerIndex; set
+            {
+                tempControllerIndex = value;
+                Global.outDevTypeTemp[device] = TempConType;
+            }
+        }
 
         public OutContType TempConType
         {
@@ -1273,6 +1280,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             this.device = device;
             tempControllerIndex = ControllerTypeIndex;
             tempBtPollRate = Global.BTPollRate[device];
+            Global.outDevTypeTemp[device] = OutContType.X360;
         }
 
         public void UpdateFlashColor(System.Windows.Media.Color color)

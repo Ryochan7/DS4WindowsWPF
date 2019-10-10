@@ -55,6 +55,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             DS4ControlSettings setting = mappedControl.Setting;
             bool sc = setting.keyType.HasFlag(DS4KeyType.ScanCode);
+            bool toggle = setting.keyType.HasFlag(DS4KeyType.Toggle);
             currentOutBind.input = setting.control;
             shiftOutBind.input = setting.control;
             if (setting.action != null)
@@ -72,7 +73,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                         currentOutBind.outputType = OutBinding.OutType.Key;
                         currentOutBind.outkey = (int)setting.action;
                         currentOutBind.hasScanCode = sc;
-
+                        currentOutBind.toggle = toggle;
                         break;
                     case DS4ControlSettings.ActionType.Macro:
                         currentOutBind.outputType = OutBinding.OutType.Macro;
@@ -93,6 +94,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             if (setting.shiftAction != null)
             {
                 sc = setting.shiftKeyType.HasFlag(DS4KeyType.ScanCode);
+                toggle = setting.shiftKeyType.HasFlag(DS4KeyType.Toggle);
                 shiftOutBind.shiftTrigger = setting.shiftTrigger;
                 switch (setting.shiftActionType)
                 {
@@ -107,6 +109,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                         shiftOutBind.outputType = OutBinding.OutType.Key;
                         shiftOutBind.outkey = (int)setting.shiftAction;
                         shiftOutBind.hasScanCode = sc;
+                        shiftOutBind.toggle = toggle;
                         break;
                     case DS4ControlSettings.ActionType.Macro:
                         shiftOutBind.outputType = OutBinding.OutType.Macro;
@@ -210,8 +213,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private int mouseSens = 25;
         private DS4Color extrasColor = new DS4Color(255,255,255);
 
-        public bool HasScanCode { get => hasScanCode; }
-        public bool Toggle { get => toggle; }
+        public bool HasScanCode { get => hasScanCode; set => hasScanCode = value; }
+        public bool Toggle { get => toggle; set => toggle = value; }
         public int ShiftTrigger { get => shiftTrigger; set => shiftTrigger = value; }
         public int HeavyRumble { get => heavyRumble; set => heavyRumble = value; }
         public int LightRumble { get => lightRumble; set => lightRumble = value; }
@@ -542,6 +545,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 {
                     settings.action = control;
                     settings.actionType = DS4ControlSettings.ActionType.Button;
+                    if (control == X360Controls.Unbound)
+                    {
+                        settings.keyType |= DS4KeyType.Unbound;
+                    }
                 }
                 else if (outputType == OutType.Key)
                 {
@@ -551,11 +558,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                     {
                         settings.keyType |= DS4KeyType.ScanCode;
                     }
+
+                    if (toggle)
+                    {
+                        settings.keyType |= DS4KeyType.Toggle;
+                    }
                 }
                 else if (outputType == OutType.Macro)
                 {
                     settings.action = macro;
                     settings.actionType = DS4ControlSettings.ActionType.Macro;
+                    settings.keyType |= DS4KeyType.Macro;
                 }
 
                 if (IsUsingExtras())
@@ -581,6 +594,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 {
                     settings.shiftAction = control;
                     settings.shiftActionType = DS4ControlSettings.ActionType.Button;
+                    if (control == X360Controls.Unbound)
+                    {
+                        settings.shiftKeyType |= DS4KeyType.Unbound;
+                    }
                 }
                 else if (outputType == OutType.Key)
                 {
@@ -590,11 +607,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                     {
                         settings.shiftKeyType |= DS4KeyType.ScanCode;
                     }
+
+                    if (toggle)
+                    {
+                        settings.shiftKeyType |= DS4KeyType.Toggle;
+                    }
                 }
                 else if (outputType == OutType.Macro)
                 {
                     settings.shiftAction = macro;
                     settings.shiftActionType = DS4ControlSettings.ActionType.Macro;
+                    settings.shiftKeyType |= DS4KeyType.Macro;
                 }
 
                 if (IsUsingExtras())

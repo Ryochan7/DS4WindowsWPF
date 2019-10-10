@@ -45,6 +45,11 @@ namespace DS4WinWPF.DS4Forms
             InitKeyBindings();
             InitInfoMaps();
 
+            if (!bindingVM.Using360Mode)
+            {
+                InitDS4Canvas();
+            }
+
             regBindRadio.IsChecked = !bindingVM.ShowShift;
             shiftBindRadio.IsChecked = bindingVM.ShowShift;
             bindingVM.ActionBinding = bindingVM.CurrentOutBind;
@@ -54,7 +59,8 @@ namespace DS4WinWPF.DS4Forms
         private void OutConBtn_MouseEnter(object sender, MouseEventArgs e)
         {
             Button button = sender as Button;
-            string name = button.Tag.ToString();
+            //string name = button.Tag.ToString();
+            string name = GetControlString(button);
             highlightLb.Content = name;
 
             double left = Canvas.GetLeft(button);
@@ -68,6 +74,23 @@ namespace DS4WinWPF.DS4Forms
 
             highlightImg.Visibility = Visibility.Visible;
             highlightLb.Visibility = Visibility.Visible;
+        }
+
+        private string GetControlString(Button button)
+        {
+            string result;
+            if (bindingVM.Using360Mode)
+            {
+                DS4Windows.X360Controls xboxcontrol = associatedBindings[button].control;
+                result = DS4Windows.Global.xboxDefaultNames[xboxcontrol];
+            }
+            else
+            {
+                DS4Windows.X360Controls xboxcontrol = associatedBindings[button].control;
+                result = DS4Windows.Global.ds4DefaultNames[xboxcontrol];
+            }
+
+            return result;
         }
 
         private void OutConBtn_MouseLeave(object sender, MouseEventArgs e)
@@ -95,14 +118,14 @@ namespace DS4WinWPF.DS4Forms
         {
             OutBinding binding = bindingVM.ActionBinding;
             DS4Windows.X360Controls defaultControl = DS4Windows.Global.defaultButtonMapping[(int)binding.input];
-            if (defaultControl == binding.control)
+            Button button = sender as Button;
+            if (associatedBindings.TryGetValue(button, out BindAssociation bind))
             {
-                binding.outputType = OutBinding.OutType.Default;
-            }
-            else
-            {
-                Button button = sender as Button;
-                if (associatedBindings.TryGetValue(button, out BindAssociation bind))
+                if (defaultControl == bind.control)
+                {
+                    binding.outputType = OutBinding.OutType.Default;
+                }
+                else
                 {
                     binding.outputType = OutBinding.OutType.Button;
                     binding.control = bind.control;
@@ -647,6 +670,56 @@ namespace DS4WinWPF.DS4Forms
             associatedBindings.Add(numEnterBtn,
                 new BindAssociation() { outputType = BindAssociation.OutType.Key, outkey = 0x13 });
             numEnterBtn.Click += OutputKeyBtn_Click;
+        }
+
+        private void InitDS4Canvas()
+        {
+            ImageSourceConverter sourceConverter = new ImageSourceConverter();
+            ImageSource temp = sourceConverter.
+                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4 Config.png") as ImageSource;
+            conImageBrush.ImageSource = temp;
+
+            Canvas.SetLeft(aBtn, 459); Canvas.SetTop(aBtn, 144);
+
+            Canvas.SetLeft(bBtn, 491); Canvas.SetTop(bBtn, 119);
+            Canvas.SetLeft(xBtn, 426); Canvas.SetTop(xBtn, 119);
+            Canvas.SetLeft(yBtn, 458); Canvas.SetTop(yBtn, 89);
+            Canvas.SetLeft(lbBtn, 176); Canvas.SetTop(lbBtn, 24);
+            lbBtn.Width = 46; lbBtn.Height = 20;
+            Canvas.SetLeft(rbBtn, 449); Canvas.SetTop(rbBtn, 24);
+            rbBtn.Width = 46; rbBtn.Height = 20;
+            Canvas.SetLeft(ltBtn, 177); Canvas.SetTop(ltBtn, 2);
+            ltBtn.Width = 46; ltBtn.Height = 20;
+            Canvas.SetLeft(rtBtn, 445); Canvas.SetTop(rtBtn, 2);
+            rtBtn.Width = 46; rtBtn.Height = 20;
+            Canvas.SetLeft(rtBtn, 445); Canvas.SetTop(rtBtn, 2);
+            rtBtn.Width = 46; rtBtn.Height = 20;
+            Canvas.SetLeft(backBtn, 237); Canvas.SetTop(backBtn, 74);
+            Canvas.SetLeft(startBtn, 415); Canvas.SetTop(startBtn, 74);
+            Canvas.SetLeft(guideBtn, 320); Canvas.SetTop(guideBtn, 163);
+            Canvas.SetLeft(guideBtn, 320); Canvas.SetTop(guideBtn, 163);
+
+            Canvas.SetLeft(lsbBtn, 258); Canvas.SetTop(lsbBtn, 182);
+            Canvas.SetLeft(lsuBtn, 250); Canvas.SetTop(lsuBtn, 169);
+            lsuBtn.Width = 32; lsuBtn.Height = 16;
+            Canvas.SetLeft(lsrBtn, 276); Canvas.SetTop(lsrBtn, 180);
+            lsrBtn.Width = 16; lsrBtn.Height = 24;
+            Canvas.SetLeft(lsdBtn, 251); Canvas.SetTop(lsdBtn, 200);
+            lsdBtn.Width = 28; lsdBtn.Height = 16;
+            Canvas.SetLeft(lslBtn, 240); Canvas.SetTop(lslBtn, 176);
+            lslBtn.Width = 16; lslBtn.Height = 28;
+
+            Canvas.SetLeft(rsbBtn, 396); Canvas.SetTop(rsbBtn, 194);
+            Canvas.SetLeft(rsuBtn, 391); Canvas.SetTop(rsuBtn, 168);
+            Canvas.SetLeft(rsrBtn, 414); Canvas.SetTop(rsrBtn, 176);
+            Canvas.SetLeft(rsdBtn, 391); Canvas.SetTop(rsdBtn, 198);
+            Canvas.SetLeft(rslBtn, 378); Canvas.SetTop(rslBtn, 176);
+            rslBtn.Width = 16; rslBtn.Height = 28;
+
+            Canvas.SetLeft(dpadUBtn, 189); Canvas.SetTop(dpadUBtn, 104);
+            Canvas.SetLeft(dpadRBtn, 212); Canvas.SetTop(dpadRBtn, 112);
+            Canvas.SetLeft(dpadDBtn, 190); Canvas.SetTop(dpadDBtn, 140);
+            Canvas.SetLeft(dpadLBtn, 166); Canvas.SetTop(dpadLBtn, 112);
         }
 
         private void RegBindRadio_Click(object sender, RoutedEventArgs e)

@@ -584,6 +584,7 @@ namespace DS4WinWPF.DS4Forms
         {
             DS4Windows.Global.BTPollRate[deviceNum] = profileSettingsVM.TempBTPollRateIndex;
             DS4Windows.Global.OutContType[deviceNum] = profileSettingsVM.TempConType;
+            DS4Windows.Global.outDevTypeTemp[deviceNum] = DS4Windows.OutContType.X360;
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
