@@ -175,14 +175,14 @@ namespace DS4WinWPF.DS4Forms
             hoverIndexes[topTouchConBtn] = 20;
 
             hoverIndexes[lsuConBtn] = 21;
-            hoverIndexes[lsrConBtn] = 22;
-            hoverIndexes[lsdConBtn] = 23;
-            hoverIndexes[lslConBtn] = 24;
+            hoverIndexes[lsdConBtn] = 22;
+            hoverIndexes[lslConBtn] = 23;
+            hoverIndexes[lsrConBtn] = 24;
 
             hoverIndexes[rsuConBtn] = 25;
-            hoverIndexes[rsrConBtn] = 26;
-            hoverIndexes[rsdConBtn] = 27;
-            hoverIndexes[rslConBtn] = 28;
+            hoverIndexes[rsdConBtn] = 26;
+            hoverIndexes[rslConBtn] = 27;
+            hoverIndexes[rsrConBtn] = 28;
 
             hoverIndexes[gyroZNBtn] = 29;
             hoverIndexes[gyroZPBtn] = 30;
@@ -462,11 +462,12 @@ namespace DS4WinWPF.DS4Forms
             {
                 App.rootHub.setRumble(0, 0, deviceNum);
             }
+            DS4Windows.Global.outDevTypeTemp[deviceNum] = DS4Windows.OutContType.X360;
             DS4Windows.Global.LoadProfile(deviceNum, false, App.rootHub);
             Closed?.Invoke(this, EventArgs.Empty);
         }
 
-        private void CrossConBtn_Click(object sender, RoutedEventArgs e)
+        private void HoverConBtn_Click(object sender, RoutedEventArgs e)
         {
             MappedControl mpControl = mappingListVM.Mappings[mappingListVM.SelectedIndex];
             BindingWindow window = new BindingWindow(deviceNum, mpControl);

@@ -585,7 +585,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 settings.shiftKeyType = DS4KeyType.None;
                 settings.shiftTrigger = shiftTrigger;
 
-                if (outputType == OutType.Default)
+                if (outputType == OutType.Default || shiftTrigger == 0)
                 {
                     settings.shiftAction = null;
                     settings.shiftActionType = DS4ControlSettings.ActionType.Default;
