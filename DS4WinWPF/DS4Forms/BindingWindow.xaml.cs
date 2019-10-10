@@ -168,7 +168,7 @@ namespace DS4WinWPF.DS4Forms
                 }
                 else
                 {
-                    if (mouseBtnMap.TryGetValue(binding.control, out Button tempBtn))
+                    if (mouseBtnMap.TryGetValue(defaultBind, out Button tempBtn))
                     {
                         tempBtn.Background = new SolidColorBrush(Colors.LimeGreen);
                         highlightBtn = tempBtn;
