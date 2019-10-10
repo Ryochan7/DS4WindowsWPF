@@ -52,7 +52,7 @@
                         <Button Content="Cross" x:Name="crossConBtn" Canvas.Left="370" Canvas.Top="136" Width="26" Click="HoverConBtn_Click" Height="26" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
                         <Button Content="Circle" x:Name="circleConBtn" Canvas.Left="402" Canvas.Top="109" Width="26" Height="26" Style="{StaticResource NoBGHoverBtn}" Click="HoverConBtn_Click" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
                         <Button Content="Square" x:Name="squareConBtn" Canvas.Left="339" Canvas.Top="110" Width="26" Height="26" Style="{StaticResource NoBGHoverBtn}" Click="HoverConBtn_Click" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
-                        <Button Content="Triangle" x:Name="triangleConBtn" Canvas.Left="370" Canvas.Top="83" Width="26" Height="26" Style="{StaticResource NoBGHoverBtn}" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
+                        <Button Content="Triangle" x:Name="triangleConBtn" Canvas.Left="370" Canvas.Top="83" Width="26" Height="26" Style="{StaticResource NoBGHoverBtn}" Click="HoverConBtn_Click" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
 
                         <Button Content="L1" x:Name="l1ConBtn" Canvas.Left="95" Canvas.Top="27" Width="50" Style="{StaticResource NoBGHoverBtn}" Click="HoverConBtn_Click" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
                         <Button Content="R1" x:Name="r1ConBtn" Canvas.Left="358" Canvas.Top="26" Width="50" Style="{StaticResource NoBGHoverBtn}" Click="HoverConBtn_Click" MouseEnter="ContBtn_MouseEnter" MouseLeave="ContBtn_MouseLeave" />
