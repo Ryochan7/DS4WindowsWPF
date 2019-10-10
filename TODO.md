@@ -1,11 +1,12 @@
 # TODO
 
+* Implement macro recorder
 * Add lightbar top image to controls display
-* Create KB360 window
 * Implement auto profile execution
 * Evaluate Task Scheduler
 * Create Command line argument checker
 * Choose between WebClient or HttpClient for download library
+* ~~Create KB360 window~~
 * ~~Add control mapping display to profile editor~~
 * ~~Add color picker to Profile editor~~
 * ~~Implement Gyro panels in Profile editor~~
