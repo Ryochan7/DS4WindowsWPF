@@ -180,6 +180,9 @@
     <Compile Include="DS4Forms\ProfileEditor.xaml.cs">
       <DependentUpon>ProfileEditor.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\RecordBox.xaml.cs">
+      <DependentUpon>RecordBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Forms\SaveWhere.xaml.cs">
       <DependentUpon>SaveWhere.xaml</DependentUpon>
     </Compile>
@@ -188,6 +191,7 @@
     <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\MappingListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\ProfileSettingsViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\RecordBoxViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />
     <Compile Include="DS4Forms\WelcomeDialog.xaml.cs">
       <DependentUpon>WelcomeDialog.xaml</DependentUpon>
@@ -250,6 +254,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="DS4Forms\ProfileEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DS4Forms\RecordBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -322,6 +330,8 @@
     <Content Include="BezierCurveEditor\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\right touch.png" />
+    <Resource Include="Resources\left touch.png" />
     <Resource Include="Resources\mouse.png" />
     <Resource Include="Resources\360 highlight.png" />
     <Resource Include="Resources\360 map.png" />
