@@ -159,9 +159,9 @@ namespace DS4WinWPF.DS4Forms
             hoverIndexes[optionsConBtn] = 4;
             hoverIndexes[shareConBtn] = 5;
             hoverIndexes[upConBtn] = 6;
-            hoverIndexes[rightConBtn] = 7;
-            hoverIndexes[downConBtn] = 8;
-            hoverIndexes[leftConBtn] = 9;
+            hoverIndexes[downConBtn] = 7;
+            hoverIndexes[leftConBtn] = 8;
+            hoverIndexes[rightConBtn] = 9;
             hoverIndexes[guideConBtn] = 10;
             hoverIndexes[l1ConBtn] = 11;
             hoverIndexes[r1ConBtn] = 12;
