@@ -165,6 +165,7 @@ namespace DS4WinWPF
             }
             else if (parser.Runtask)
             {
+                StartupMethods.LaunchOldTask();
                 Current.Shutdown();
             }
         }

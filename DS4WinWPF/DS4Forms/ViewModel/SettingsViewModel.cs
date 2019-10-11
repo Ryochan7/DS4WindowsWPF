@@ -21,13 +21,40 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set => DS4Windows.Global.SwipeProfiles = value; }
 
         private bool runAtStartup;
-        public bool RunAtStartup { get => runAtStartup; set => runAtStartup = value; }
+        public bool RunAtStartup
+        {
+            get => runAtStartup;
+            set
+            {
+                runAtStartup = value;
+                RunAtStartupChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler RunAtStartupChanged;
 
         private bool runStartProg;
-        public bool RunStartProg { get => runStartProg; set => runStartProg = value; }
+        public bool RunStartProg
+        {
+            get => runStartProg;
+            set
+            {
+                runStartProg = value;
+                RunStartProgChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler RunStartProgChanged;
 
         private bool runStartTask;
-        public bool RunStartTask { get => runStartTask; set => runStartTask = value; }
+        public bool RunStartTask
+        {
+            get => runStartTask;
+            set
+            {
+                runStartTask = value;
+                RunStartTaskChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler RunStartTaskChanged;
 
         public ImageSource uacSource;
         public ImageSource UACSource { get => uacSource; }
@@ -152,7 +179,62 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                       BitmapSizeOptions.FromEmptyOptions());
             uacSource = wpfBitmap;
 
+            runAtStartup = StartupMethods.RunAtStartup();
+            runStartProg = StartupMethods.HasStartProgEntry();
+            runStartTask = StartupMethods.HasTaskEntry();
+
+            if (!runAtStartup)
+            {
+                runStartProg = true;
+            }
+            else if (runAtStartup && runStartProg)
+            {
+                StartupMethods.CheckStartupExeLocation();
+            }
+
+            RunAtStartupChanged += SettingsViewModel_RunAtStartupChanged;
+            RunStartProgChanged += SettingsViewModel_RunStartProgChanged;
+            RunStartTaskChanged += SettingsViewModel_RunStartTaskChanged;
+
             //CheckForUpdatesChanged += SettingsViewModel_CheckForUpdatesChanged;
+        }
+
+        private void SettingsViewModel_RunStartTaskChanged(object sender, EventArgs e)
+        {
+            if (runStartTask)
+            {
+                StartupMethods.WriteTaskEntry();
+            }
+            else
+            {
+                StartupMethods.DeleteTaskEntry();
+            }
+        }
+
+        private void SettingsViewModel_RunStartProgChanged(object sender, EventArgs e)
+        {
+            if (runStartProg)
+            {
+                StartupMethods.WriteStartProgEntry();
+            }
+            else
+            {
+                StartupMethods.DeleteStartProgEntry();
+            }
+        }
+
+        private void SettingsViewModel_RunAtStartupChanged(object sender, EventArgs e)
+        {
+            if (runAtStartup)
+            {
+                RunStartProg = true;
+                RunStartTask = false;
+            }
+            else
+            {
+                StartupMethods.DeleteStartProgEntry();
+                StartupMethods.DeleteTaskEntry();
+            }
         }
 
         private void SettingsViewModel_CheckForUpdatesChanged(object sender, EventArgs e)

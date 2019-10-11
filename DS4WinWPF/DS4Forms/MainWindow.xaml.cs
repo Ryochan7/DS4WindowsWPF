@@ -36,7 +36,7 @@ namespace DS4WinWPF.DS4Forms
         private LogViewModel logvm;
         private ControllerListViewModel conLvViewModel;
         private TrayIconViewModel trayIconVM;
-        private SettingsViewModel settingsWrap;
+        private SettingsViewModel settingsWrapVM;
         private IntPtr regHandle = new IntPtr();
         private bool showInTaskbar = false;
         private ManagementEventWatcher managementEvWatcher;
@@ -55,8 +55,8 @@ namespace DS4WinWPF.DS4Forms
             InitializeComponent();
 
             App root = Application.Current as App;
-            settingsWrap = new SettingsViewModel();
-            settingsTab.DataContext = settingsWrap;
+            settingsWrapVM = new SettingsViewModel();
+            settingsTab.DataContext = settingsWrapVM;
             logvm = new LogViewModel(App.rootHub);
             //logListView.ItemsSource = logvm.LogItems;
             logListView.DataContext = logvm;
