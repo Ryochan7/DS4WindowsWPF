@@ -808,5 +808,28 @@ namespace DS4WinWPF.DS4Forms
             bindingVM.WriteBinds();
             Close();
         }
+
+        private void RecordMacroBtn_Click(object sender, RoutedEventArgs e)
+        {
+            RecordBox box = new RecordBox(bindingVM.DeviceNum, bindingVM.MappedControl.Setting);
+            box.Visibility = Visibility.Visible;
+            mapBindingPanel.Visibility = Visibility.Collapsed;
+            fullPanel.Children.Add(box);
+            box.Cancel += (sender2, args) =>
+            {
+                box.Visibility = Visibility.Collapsed;
+                fullPanel.Children.Remove(box);
+                box = null;
+                mapBindingPanel.Visibility = Visibility.Visible;
+            };
+
+            box.Save += (sender2, args) =>
+            {
+                box.Visibility = Visibility.Collapsed;
+                fullPanel.Children.Remove(box);
+                box = null;
+                mapBindingPanel.Visibility = Visibility.Visible;
+            };
+        }
     }
 }

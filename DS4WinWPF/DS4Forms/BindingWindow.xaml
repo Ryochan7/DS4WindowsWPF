@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Select action" Height="500" Width="1200">
-    <DockPanel Margin="4">
+    <DockPanel x:Name="fullPanel" Margin="4">
         <StackPanel Width="170" Orientation="Vertical" DockPanel.Dock="Right">
             <GroupBox Header="Extra" x:Name="extrasGB">
                 <StackPanel Orientation="Vertical">
@@ -56,7 +56,7 @@
             </GroupBox>
 
         </StackPanel>
-        <DockPanel DockPanel.Dock="Left">
+        <DockPanel x:Name="mapBindingPanel" DockPanel.Dock="Left">
             <DockPanel DockPanel.Dock="Bottom" Margin="0">
                 <StackPanel x:Name="modePanel" MinWidth="200" DockPanel.Dock="Left" Margin="8,0,0,0">
                     <StackPanel Orientation="Horizontal">
@@ -169,7 +169,7 @@
                     <CheckBox Content="Scan Code" IsChecked="{Binding HasScanCode}" Margin="10,0,0,0" />
                 </StackPanel>
                 <StackPanel Grid.Column="3">
-                    <Button Content="Record A Macro" Margin="10,0" />
+                    <Button x:Name="recordMacroBtn" Content="Record A Macro" Margin="10,0" Click="RecordMacroBtn_Click" />
                 </StackPanel>
             </Grid>
             <UniformGrid Rows="1" Columns="2" DockPanel.Dock="Top">
