@@ -20,13 +20,14 @@ namespace DS4WinWPF.DS4Forms
     /// </summary>
     public partial class BindingWindow : Window
     {
-        private Dictionary<Button, BindAssociation> associatedBindings =
+        private static Dictionary<Button, BindAssociation> associatedBindings =
             new Dictionary<Button, BindAssociation>();
-        private Dictionary<int, Button> keyBtnMap = new Dictionary<int, Button>();
-        private Dictionary<DS4Windows.X360Controls, Button> conBtnMap =
+        private static Dictionary<int, Button> keyBtnMap = new Dictionary<int, Button>();
+        private static Dictionary<DS4Windows.X360Controls, Button> conBtnMap =
             new Dictionary<DS4Windows.X360Controls, Button>();
-        private Dictionary<DS4Windows.X360Controls, Button> mouseBtnMap =
+        private static Dictionary<DS4Windows.X360Controls, Button> mouseBtnMap =
             new Dictionary<DS4Windows.X360Controls, Button>();
+        private static bool populated;
         private BindingWindowViewModel bindingVM;
         private Button highlightBtn;
 
@@ -41,9 +42,13 @@ namespace DS4WinWPF.DS4Forms
             highlightImg.Visibility = Visibility.Hidden;
             highlightLb.Visibility = Visibility.Hidden;
 
-            InitButtonBindings();
-            InitKeyBindings();
-            InitInfoMaps();
+            if (!populated)
+            {
+                InitButtonBindings();
+                InitKeyBindings();
+                InitInfoMaps();
+                populated = true;
+            }
 
             if (!bindingVM.Using360Mode)
             {
@@ -811,9 +816,11 @@ namespace DS4WinWPF.DS4Forms
 
         private void RecordMacroBtn_Click(object sender, RoutedEventArgs e)
         {
-            RecordBox box = new RecordBox(bindingVM.DeviceNum, bindingVM.MappedControl.Setting);
+            RecordBox box = new RecordBox(bindingVM.DeviceNum, bindingVM.MappedControl.Setting,
+                bindingVM.ActionBinding.IsShift());
             box.Visibility = Visibility.Visible;
             mapBindingPanel.Visibility = Visibility.Collapsed;
+            extrasGB.IsEnabled = false;
             fullPanel.Children.Add(box);
             box.Cancel += (sender2, args) =>
             {
@@ -821,6 +828,7 @@ namespace DS4WinWPF.DS4Forms
                 fullPanel.Children.Remove(box);
                 box = null;
                 mapBindingPanel.Visibility = Visibility.Visible;
+                extrasGB.IsEnabled = true;
             };
 
             box.Save += (sender2, args) =>
@@ -828,7 +836,8 @@ namespace DS4WinWPF.DS4Forms
                 box.Visibility = Visibility.Collapsed;
                 fullPanel.Children.Remove(box);
                 box = null;
-                mapBindingPanel.Visibility = Visibility.Visible;
+                //mapBindingPanel.Visibility = Visibility.Visible;
+                Close();
             };
         }
     }

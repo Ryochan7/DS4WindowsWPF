@@ -31,11 +31,11 @@ namespace DS4WinWPF.DS4Forms
         public event EventHandler Save;
         public event EventHandler Cancel;
 
-        public RecordBox(int deviceNum, DS4Windows.DS4ControlSettings controlSettings)
+        public RecordBox(int deviceNum, DS4Windows.DS4ControlSettings controlSettings, bool shift)
         {
             InitializeComponent();
 
-            recordBoxVM = new RecordBoxViewModel(deviceNum, controlSettings);
+            recordBoxVM = new RecordBoxViewModel(deviceNum, controlSettings, shift);
             mouseButtonsPanel.Visibility = Visibility.Hidden;
             extraConPanel.Visibility = Visibility.Hidden;
 
@@ -55,6 +55,7 @@ namespace DS4WinWPF.DS4Forms
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
             saved = true;
+            recordBoxVM.ExportMacro();
             Save?.Invoke(this, EventArgs.Empty);
         }
 
@@ -143,14 +144,46 @@ namespace DS4WinWPF.DS4Forms
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.Key);
-            Console.WriteLine(e.SystemKey);
+            if (recordBoxVM.Recording)
+            {
+                if (recordBoxVM.RecordDelays && recordBoxVM.MacroSteps.Count > 0)
+                {
+                    int elapsed = (int)sw.ElapsedMilliseconds + 300;
+                    DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
+                        DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
+                    MacroStepItem waititem = new MacroStepItem(waitstep);
+                    recordBoxVM.MacroSteps.Add(waititem);
+                }
+
+                DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
+                    DS4Windows.MacroStep.StepType.ActDown, DS4Windows.MacroStep.StepOutput.Key);
+                MacroStepItem item = new MacroStepItem(step);
+                recordBoxVM.MacroSteps.Add(item);
+                Console.WriteLine(e.Key);
+                Console.WriteLine(e.SystemKey);
+            }
         }
 
         private void UserControl_KeyUp(object sender, KeyEventArgs e)
         {
-            Console.WriteLine(e.Key);
-            Console.WriteLine(e.SystemKey);
+            if (recordBoxVM.Recording)
+            {
+                if (recordBoxVM.RecordDelays && recordBoxVM.MacroSteps.Count > 0)
+                {
+                    int elapsed = (int)sw.ElapsedMilliseconds + 300;
+                    DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
+                        DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
+                    MacroStepItem waititem = new MacroStepItem(waitstep);
+                    recordBoxVM.MacroSteps.Add(waititem);
+                }
+
+                DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
+                    DS4Windows.MacroStep.StepType.ActUp, DS4Windows.MacroStep.StepOutput.Key);
+                MacroStepItem item = new MacroStepItem(step);
+                recordBoxVM.MacroSteps.Add(item);
+                Console.WriteLine(e.Key);
+                Console.WriteLine(e.SystemKey);
+            }
         }
     }
 }

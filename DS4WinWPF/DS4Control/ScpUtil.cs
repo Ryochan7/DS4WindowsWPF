@@ -421,6 +421,23 @@ namespace DS4Windows
             [DS4Controls.SwipeDown] = "None",
         };
 
+        public static Dictionary<DS4Controls, int> macroDS4Values = new Dictionary<DS4Controls, int>()
+        {
+            [DS4Controls.Cross] = 261, [DS4Controls.Circle] = 262,
+            [DS4Controls.Square] = 263, [DS4Controls.Triangle] = 264,
+            [DS4Controls.Options] = 265, [DS4Controls.Share] = 266,
+            [DS4Controls.DpadUp] = 267, [DS4Controls.DpadDown] = 268,
+            [DS4Controls.DpadLeft] = 269, [DS4Controls.DpadRight] = 270,
+            [DS4Controls.PS] = 271, [DS4Controls.L1] = 272,
+            [DS4Controls.R1] = 273, [DS4Controls.L2] = 274,
+            [DS4Controls.R2] = 275, [DS4Controls.L3] = 276,
+            [DS4Controls.R3] = 277, [DS4Controls.LXPos] = 278,
+            [DS4Controls.LXNeg] = 279, [DS4Controls.LYPos] = 280,
+            [DS4Controls.LYNeg] = 281, [DS4Controls.RXPos] = 282,
+            [DS4Controls.RXNeg] = 283, [DS4Controls.RYPos] = 284,
+            [DS4Controls.RYNeg] = 285,
+        };
+
         public static void SaveWhere(string path)
         {
             appdatapath = path;

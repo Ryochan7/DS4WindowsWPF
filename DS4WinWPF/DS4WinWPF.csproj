@@ -211,6 +211,7 @@
     <Compile Include="HidLibrary\HidDevices.cs" />
     <Compile Include="HidLibrary\NativeMethods.cs" />
     <Compile Include="LogWriter.cs" />
+    <Compile Include="DS4Control\MacroParser.cs" />
     <Compile Include="ProfileEntity.cs" />
     <Compile Include="ProfileList.cs" />
     <Compile Include="DS4Forms\ViewModel\SettingsViewModel.cs" />
