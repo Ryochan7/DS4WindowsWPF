@@ -6,6 +6,14 @@
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
              mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="800" KeyDown="UserControl_KeyDown" KeyUp="UserControl_KeyUp">
+    <UserControl.Resources>
+        <DataTemplate x:Key="DisplayTemplate">
+            <TextBlock Text="{Binding Step.Name}" />
+        </DataTemplate>
+        <DataTemplate x:Key="EditTemplate">
+            <TextBox Text="{Binding Step.Value,UpdateSourceTrigger=LostFocus}" LostFocus="EditTextBox_LostFocus"/>
+        </DataTemplate>
+    </UserControl.Resources>
     <DockPanel Margin="4">
         <DockPanel DockPanel.Dock="Right" Width="200" LastChildFill="False" Margin="4,0">
             <StackPanel DockPanel.Dock="Top">
@@ -28,9 +36,9 @@
                     <Button x:Name="savePresetBtn" Content="Save Preset" Margin="5,0,0,0" Click="SavePresetBtn_Click" />
                 </UniformGrid>
 
-                <CheckBox x:Name="recordDelaysCk" Content="Record Delays" HorizontalAlignment="Center" Margin="0,10,0,0" />
+                <CheckBox x:Name="recordDelaysCk" Content="Record Delays" HorizontalAlignment="Center" IsChecked="{Binding RecordDelays}" Margin="0,10,0,0" />
                 <TextBlock Text="Double click on a wait to edit the time" Margin="0,10,0,0" />
-                <ComboBox x:Name="macroModeCombo" SelectedIndex="0" Margin="0,10,0,0">
+                <ComboBox x:Name="macroModeCombo" SelectedIndex="{Binding MacroModeIndex,FallbackValue=0}" Margin="0,10,0,0">
                     <ComboBoxItem Content="Play Once" />
                     <ComboBoxItem Content="Repeat While Held" />
                 </ComboBox>
@@ -59,8 +67,8 @@
                 <Label Content="Macro Order" />
                 <Label Content="Use Keyboard/Mouse + Controller 1 to record" DockPanel.Dock="Right" HorizontalAlignment="Right" />
             </DockPanel>
-            <ListBox x:Name="macroListBox" SelectedIndex="{Binding MacroModeIndex}">
-                
+            <ListBox x:Name="macroListBox" ItemsSource="{Binding MacroSteps}" SelectedIndex="{Binding MacroStepIndex}"
+                     ItemTemplate="{StaticResource DisplayTemplate}" MouseDoubleClick="MacroListBox_MouseDoubleClick">
             </ListBox>
         </DockPanel>
     </DockPanel>

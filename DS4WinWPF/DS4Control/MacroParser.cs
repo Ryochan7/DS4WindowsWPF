@@ -187,8 +187,26 @@ namespace DS4Windows
         private StepType actType;
         private StepOutput outputType;
 
-        public string Name { get => name; set => name = value; }
-        public int Value { get => value; set => this.value = value; }
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                NameChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler NameChanged;
+        public int Value
+        {
+            get => value;
+            set
+            {
+                this.value = value;
+                ValueChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler ValueChanged;
         public StepType ActType { get => actType; }
         public StepOutput OutputType { get => outputType; }
 
@@ -198,6 +216,16 @@ namespace DS4Windows
             this.name = name;
             actType = act;
             outputType = output;
+
+            ValueChanged += MacroStep_ValueChanged;
+        }
+
+        private void MacroStep_ValueChanged(object sender, EventArgs e)
+        {
+            if (actType == StepType.Wait)
+            {
+                Name = $"Wait {value}";
+            }
         }
     }
 }

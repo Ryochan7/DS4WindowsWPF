@@ -89,6 +89,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             foreach(MacroStepItem step in macroSteps)
             {
                 outmac[index] = step.Step.Value;
+                index++;
             }
 
             if (!shift)

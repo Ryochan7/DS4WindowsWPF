@@ -31,6 +31,8 @@ namespace DS4WinWPF.DS4Forms
         public event EventHandler Save;
         public event EventHandler Cancel;
 
+        private Dictionary<int, bool> keysdownMap = new Dictionary<int, bool>();
+
         public RecordBox(int deviceNum, DS4Windows.DS4ControlSettings controlSettings, bool shift)
         {
             InitializeComponent();
@@ -78,6 +80,7 @@ namespace DS4WinWPF.DS4Forms
                 }
 
                 Enable_Controls(false);
+                sw.Start();
                 this.Focus();
             }
             else
@@ -87,6 +90,7 @@ namespace DS4WinWPF.DS4Forms
                 mouseButtonsPanel.Visibility = Visibility.Hidden;
                 extraConPanel.Visibility = Visibility.Hidden;
                 Enable_Controls(true);
+                sw.Stop();
             }
 
             recordBoxVM.ToggleLightbar = false;
@@ -146,21 +150,33 @@ namespace DS4WinWPF.DS4Forms
         {
             if (recordBoxVM.Recording)
             {
-                if (recordBoxVM.RecordDelays && recordBoxVM.MacroSteps.Count > 0)
+                int value = KeyInterop.VirtualKeyFromKey(e.Key);
+                keysdownMap.TryGetValue(value, out bool isdown);
+                if (!isdown)
                 {
-                    int elapsed = (int)sw.ElapsedMilliseconds + 300;
-                    DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
-                        DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
-                    MacroStepItem waititem = new MacroStepItem(waitstep);
-                    recordBoxVM.MacroSteps.Add(waititem);
+                    if (recordBoxVM.RecordDelays)
+                    {
+                        if (recordBoxVM.MacroSteps.Count > 0)
+                        {
+                            int elapsed = (int)sw.ElapsedMilliseconds + 300;
+                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
+                                DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
+                            MacroStepItem waititem = new MacroStepItem(waitstep);
+                            recordBoxVM.MacroSteps.Add(waititem);
+                        }
+
+                        sw.Restart();
+                    }
+
+                    DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
+                            DS4Windows.MacroStep.StepType.ActDown, DS4Windows.MacroStep.StepOutput.Key);
+                    MacroStepItem item = new MacroStepItem(step);
+                    recordBoxVM.MacroSteps.Add(item);
+                    keysdownMap.Add(value, true);
                 }
 
-                DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
-                    DS4Windows.MacroStep.StepType.ActDown, DS4Windows.MacroStep.StepOutput.Key);
-                MacroStepItem item = new MacroStepItem(step);
-                recordBoxVM.MacroSteps.Add(item);
-                Console.WriteLine(e.Key);
-                Console.WriteLine(e.SystemKey);
+                //Console.WriteLine(e.Key);
+                //Console.WriteLine(e.SystemKey);
             }
         }
 
@@ -168,21 +184,57 @@ namespace DS4WinWPF.DS4Forms
         {
             if (recordBoxVM.Recording)
             {
-                if (recordBoxVM.RecordDelays && recordBoxVM.MacroSteps.Count > 0)
+                int value = KeyInterop.VirtualKeyFromKey(e.Key);
+                keysdownMap.TryGetValue(value, out bool isdown);
+                if (isdown)
                 {
-                    int elapsed = (int)sw.ElapsedMilliseconds + 300;
-                    DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
-                        DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
-                    MacroStepItem waititem = new MacroStepItem(waitstep);
-                    recordBoxVM.MacroSteps.Add(waititem);
+                    if (recordBoxVM.RecordDelays)
+                    {
+                        if (recordBoxVM.MacroSteps.Count > 0)
+                        {
+                            int elapsed = (int)sw.ElapsedMilliseconds + 300;
+                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
+                                DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
+                            MacroStepItem waititem = new MacroStepItem(waitstep);
+                            recordBoxVM.MacroSteps.Add(waititem);
+                        }
+
+                        sw.Restart();
+                    }
+
+                    DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
+                            DS4Windows.MacroStep.StepType.ActUp, DS4Windows.MacroStep.StepOutput.Key);
+                    MacroStepItem item = new MacroStepItem(step);
+                    recordBoxVM.MacroSteps.Add(item);
+                    keysdownMap.Remove(value);
                 }
 
-                DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
-                    DS4Windows.MacroStep.StepType.ActUp, DS4Windows.MacroStep.StepOutput.Key);
-                MacroStepItem item = new MacroStepItem(step);
-                recordBoxVM.MacroSteps.Add(item);
-                Console.WriteLine(e.Key);
-                Console.WriteLine(e.SystemKey);
+                //Console.WriteLine(e.Key);
+                //Console.WriteLine(e.SystemKey);
+            }
+        }
+
+        private void MacroListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (recordBoxVM.MacroStepIndex >= 0)
+            {
+                MacroStepItem item = recordBoxVM.MacroSteps[recordBoxVM.MacroStepIndex];
+                if (item.Step.ActType == DS4Windows.MacroStep.StepType.Wait)
+                {
+                    ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.MacroStepIndex)
+                        as ListBoxItem;
+                    lbitem.ContentTemplate = this.FindResource("EditTemplate") as DataTemplate;
+                }
+            }
+        }
+
+        private void EditTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (recordBoxVM.MacroStepIndex >= 0)
+            {
+                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.MacroStepIndex)
+                        as ListBoxItem;
+                lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
             }
         }
     }

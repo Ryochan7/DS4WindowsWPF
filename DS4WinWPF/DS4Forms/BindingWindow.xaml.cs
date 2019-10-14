@@ -20,14 +20,13 @@ namespace DS4WinWPF.DS4Forms
     /// </summary>
     public partial class BindingWindow : Window
     {
-        private static Dictionary<Button, BindAssociation> associatedBindings =
+        private Dictionary<Button, BindAssociation> associatedBindings =
             new Dictionary<Button, BindAssociation>();
-        private static Dictionary<int, Button> keyBtnMap = new Dictionary<int, Button>();
-        private static Dictionary<DS4Windows.X360Controls, Button> conBtnMap =
+        private Dictionary<int, Button> keyBtnMap = new Dictionary<int, Button>();
+        private Dictionary<DS4Windows.X360Controls, Button> conBtnMap =
             new Dictionary<DS4Windows.X360Controls, Button>();
-        private static Dictionary<DS4Windows.X360Controls, Button> mouseBtnMap =
+        private Dictionary<DS4Windows.X360Controls, Button> mouseBtnMap =
             new Dictionary<DS4Windows.X360Controls, Button>();
-        private static bool populated;
         private BindingWindowViewModel bindingVM;
         private Button highlightBtn;
 
@@ -42,13 +41,9 @@ namespace DS4WinWPF.DS4Forms
             highlightImg.Visibility = Visibility.Hidden;
             highlightLb.Visibility = Visibility.Hidden;
 
-            if (!populated)
-            {
-                InitButtonBindings();
-                InitKeyBindings();
-                InitInfoMaps();
-                populated = true;
-            }
+            InitButtonBindings();
+            InitKeyBindings();
+            InitInfoMaps();
 
             if (!bindingVM.Using360Mode)
             {
