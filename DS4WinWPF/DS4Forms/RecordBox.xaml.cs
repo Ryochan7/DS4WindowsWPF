@@ -41,6 +41,7 @@ namespace DS4WinWPF.DS4Forms
             extraConPanel.Visibility = Visibility.Hidden;
 
             DataContext = recordBoxVM;
+            SetupLateEvents();
         }
 
         private void SetupLateEvents()
@@ -50,7 +51,18 @@ namespace DS4WinWPF.DS4Forms
 
         private void MacroListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            if (!recordBoxVM.Recording)
+            {
+                if (recordBoxVM.MacroStepIndex >= 0)
+                {
+                    MacroStepItem item = recordBoxVM.MacroSteps[recordBoxVM.MacroStepIndex];
+                    recordBtn.Content = $"Record Before {item.Step.Name}";
+                }
+                else
+                {
+                    recordBtn.Content = "Record";
+                }
+            }
         }
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
@@ -77,6 +89,7 @@ namespace DS4WinWPF.DS4Forms
                 {
                     extraConPanel.Visibility = Visibility.Hidden;
                 }
+                recordBoxVM.AppendIndex = recordBoxVM.MacroStepIndex;
 
                 Enable_Controls(false);
                 recordBoxVM.Sw.Restart();
@@ -85,6 +98,7 @@ namespace DS4WinWPF.DS4Forms
             else
             {
                 DS4Windows.Program.rootHub.recordingMacro = false;
+                recordBoxVM.AppendIndex = -1;
                 recordBtn.Content = "Record";
                 mouseButtonsPanel.Visibility = Visibility.Hidden;
                 extraConPanel.Visibility = Visibility.Hidden;
@@ -166,29 +180,18 @@ namespace DS4WinWPF.DS4Forms
                 keysdownMap.TryGetValue(value, out bool isdown);
                 if (!isdown)
                 {
-                    if (recordBoxVM.RecordDelays)
-                    {
-                        if (recordBoxVM.MacroSteps.Count > 0)
-                        {
-                            int elapsed = (int)recordBoxVM.Sw.ElapsedMilliseconds + 300;
-                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed-300}",
-                                DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
-                            MacroStepItem waititem = new MacroStepItem(waitstep);
-                            recordBoxVM.MacroSteps.Add(waititem);
-                        }
-
-                        recordBoxVM.Sw.Restart();
-                    }
-
                     DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
                             DS4Windows.MacroStep.StepType.ActDown, DS4Windows.MacroStep.StepOutput.Key);
-                    MacroStepItem item = new MacroStepItem(step);
-                    recordBoxVM.MacroSteps.Add(item);
+                    recordBoxVM.AddMacroStep(step);
                     keysdownMap.Add(value, true);
                 }
 
                 //Console.WriteLine(e.Key);
                 //Console.WriteLine(e.SystemKey);
+            }
+            else if (e.Key == Key.Delete && recordBoxVM.MacroStepIndex >= 0)
+            {
+                recordBoxVM.MacroSteps.RemoveAt(recordBoxVM.MacroStepIndex);
             }
         }
 
@@ -200,24 +203,9 @@ namespace DS4WinWPF.DS4Forms
                 keysdownMap.TryGetValue(value, out bool isdown);
                 if (isdown)
                 {
-                    if (recordBoxVM.RecordDelays)
-                    {
-                        if (recordBoxVM.MacroSteps.Count > 0)
-                        {
-                            int elapsed = (int)recordBoxVM.Sw.ElapsedMilliseconds + 300;
-                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed-300}",
-                                DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
-                            MacroStepItem waititem = new MacroStepItem(waitstep);
-                            recordBoxVM.MacroSteps.Add(waititem);
-                        }
-
-                        recordBoxVM.Sw.Restart();
-                    }
-
                     DS4Windows.MacroStep step = new DS4Windows.MacroStep(KeyInterop.VirtualKeyFromKey(e.Key), e.Key.ToString(),
                             DS4Windows.MacroStep.StepType.ActUp, DS4Windows.MacroStep.StepOutput.Key);
-                    MacroStepItem item = new MacroStepItem(step);
-                    recordBoxVM.MacroSteps.Add(item);
+                    recordBoxVM.AddMacroStep(step);
                     keysdownMap.Remove(value);
                 }
 

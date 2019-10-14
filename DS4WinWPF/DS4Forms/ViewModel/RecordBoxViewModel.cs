@@ -37,6 +37,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private bool toggleRummble;
         public bool ToggleRumble { get => toggleRummble; set => toggleRummble = value; }
+
+        private bool toggle4thMouse;
+        private bool toggle5thMouse;
+        private int appendIndex = -1;
+
         
         private ObservableCollection<MacroStepItem> macroSteps =
             new ObservableCollection<MacroStepItem>();
@@ -45,6 +50,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private int macroStepIndex;
         public int MacroStepIndex { get => macroStepIndex; set => macroStepIndex = value; }
         public Stopwatch Sw { get => sw; }
+        public bool Toggle4thMouse { get => toggle4thMouse; set => toggle4thMouse = value; }
+        public bool Toggle5thMouse { get => toggle5thMouse; set => toggle5thMouse = value; }
+        public int AppendIndex { get => appendIndex; set => appendIndex = value; }
 
         public RecordBoxViewModel(int deviceNum, DS4ControlSettings controlSettings, bool shift)
         {
@@ -186,12 +194,28 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 MacroStep waitstep = new MacroStep(elapsed, $"Wait {elapsed - 300}",
                     MacroStep.StepType.Wait, MacroStep.StepOutput.None);
                 MacroStepItem waititem = new MacroStepItem(waitstep);
-                macroSteps.Add(waititem);
+                if (appendIndex == -1)
+                {
+                    macroSteps.Add(waititem);
+                }
+                else
+                {
+                    macroSteps.Insert(appendIndex, waititem);
+                    appendIndex++;
+                }
             }
 
             sw.Restart();
             MacroStepItem item = new MacroStepItem(step);
-            macroSteps.Add(item);
+            if (appendIndex == -1)
+            {
+                macroSteps.Add(item);
+            }
+            else
+            {
+                macroSteps.Insert(appendIndex, item);
+                appendIndex++;
+            }
         }
     }
 
