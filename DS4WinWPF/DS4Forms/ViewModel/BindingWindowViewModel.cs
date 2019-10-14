@@ -404,6 +404,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
+        public Visibility MacroLbVisible
+        {
+            get
+            {
+                return outputType == OutType.Macro ? Visibility.Visible : Visibility.Hidden;
+            }
+        }
+
         public OutBinding()
         {
             ExtrasColorRChanged += OutBinding_ExtrasColorRChanged;

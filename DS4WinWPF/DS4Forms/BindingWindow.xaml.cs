@@ -143,6 +143,7 @@ namespace DS4WinWPF.DS4Forms
             modePanel.DataContext = bind;
             topOptsPanel.DataContext = bind;
             shiftTriggerCombo.Visibility = bind.IsShift() ? Visibility.Visible : Visibility.Hidden;
+            macroOnLb.DataContext = bind;
 
             FindCurrentHighlightButton();
         }

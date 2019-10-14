@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NonFormTimer = System.Timers.Timer;
 using DS4WinWPF.DS4Forms.ViewModel;
+using Microsoft.Win32;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -143,7 +144,20 @@ namespace DS4WinWPF.DS4Forms
 
         private void SavePresetBtn_Click(object sender, RoutedEventArgs e)
         {
+            macroListBox.ItemsSource = null;
+            SaveFileDialog dialog = new SaveFileDialog();
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".txt";
+            dialog.Filter = "Text Documents (*.txt)|*.txt";
+            dialog.Title = "Select Export File";
+            dialog.InitialDirectory = $"{DS4Windows.Global.appdatapath}\\Macros";
+            if (dialog.ShowDialog() == true)
+            {
+                //recordBoxVM.MacroSteps.Clear();
+                recordBoxVM.SavePreset(dialog.FileName);
+            }
 
+            macroListBox.ItemsSource = recordBoxVM.MacroSteps;
         }
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
@@ -159,7 +173,7 @@ namespace DS4WinWPF.DS4Forms
                         if (recordBoxVM.MacroSteps.Count > 0)
                         {
                             int elapsed = (int)sw.ElapsedMilliseconds + 300;
-                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
+                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed-300}",
                                 DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
                             MacroStepItem waititem = new MacroStepItem(waitstep);
                             recordBoxVM.MacroSteps.Add(waititem);
@@ -193,7 +207,7 @@ namespace DS4WinWPF.DS4Forms
                         if (recordBoxVM.MacroSteps.Count > 0)
                         {
                             int elapsed = (int)sw.ElapsedMilliseconds + 300;
-                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed}",
+                            DS4Windows.MacroStep waitstep = new DS4Windows.MacroStep(elapsed, $"Wait {elapsed-300}",
                                 DS4Windows.MacroStep.StepType.Wait, DS4Windows.MacroStep.StepOutput.None);
                             MacroStepItem waititem = new MacroStepItem(waitstep);
                             recordBoxVM.MacroSteps.Add(waititem);
@@ -236,6 +250,32 @@ namespace DS4WinWPF.DS4Forms
                         as ListBoxItem;
                 lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
             }
+        }
+
+        private void CycleProgPresetMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            macroListBox.ItemsSource = null;
+            recordBoxVM.MacroSteps.Clear();
+            recordBoxVM.WriteCycleProgramsPreset();
+            macroListBox.ItemsSource = recordBoxVM.MacroSteps;
+        }
+
+        private void LoadPresetFromFileMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            macroListBox.ItemsSource = null;
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".txt";
+            dialog.Filter = "Text Documents (*.txt)|*.txt";
+            dialog.Title = "Select Preset File";
+            dialog.InitialDirectory = $"{DS4Windows.Global.appdatapath}\\Macros";
+            if (dialog.ShowDialog() == true)
+            {
+                recordBoxVM.MacroSteps.Clear();
+                recordBoxVM.LoadPresetFromFile(dialog.FileName);
+            }
+
+            macroListBox.ItemsSource = recordBoxVM.MacroSteps;
         }
     }
 }

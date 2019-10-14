@@ -224,7 +224,7 @@ namespace DS4Windows
         {
             if (actType == StepType.Wait)
             {
-                Name = $"Wait {value}";
+                Name = $"Wait {value-300}";
             }
         }
     }

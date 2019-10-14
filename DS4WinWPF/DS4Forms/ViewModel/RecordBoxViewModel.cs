@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
@@ -112,6 +114,65 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                     settings.shiftKeyType |= DS4KeyType.HoldMacro;
                 }
             }
+        }
+
+        public void WriteCycleProgramsPreset()
+        {
+            MacroStep step = new MacroStep(18, KeyInterop.KeyFromVirtualKey(18).ToString(),
+                MacroStep.StepType.ActDown, MacroStep.StepOutput.Key);
+            macroSteps.Add(new MacroStepItem(step));
+
+            step = new MacroStep(9, KeyInterop.KeyFromVirtualKey(9).ToString(),
+                MacroStep.StepType.ActDown, MacroStep.StepOutput.Key);
+            macroSteps.Add(new MacroStepItem(step));
+
+            step = new MacroStep(9, KeyInterop.KeyFromVirtualKey(9).ToString(),
+                MacroStep.StepType.ActUp, MacroStep.StepOutput.Key);
+            macroSteps.Add(new MacroStepItem(step));
+
+            step = new MacroStep(18, KeyInterop.KeyFromVirtualKey(18).ToString(),
+                MacroStep.StepType.ActUp, MacroStep.StepOutput.Key);
+            macroSteps.Add(new MacroStepItem(step));
+
+            step = new MacroStep(1300, $"Wait 1000",
+                MacroStep.StepType.Wait, MacroStep.StepOutput.None);
+            macroSteps.Add(new MacroStepItem(step));
+        }
+
+        public void LoadPresetFromFile(string filepath)
+        {
+            string[] macs = File.ReadAllText(filepath).Split('/');
+            List<int> tmpmacro = new List<int>();
+            int temp;
+            foreach (string s in macs)
+            {
+                if (int.TryParse(s, out temp))
+                    tmpmacro.Add(temp);
+            }
+
+            MacroParser macroParser = new MacroParser(tmpmacro.ToArray());
+            macroParser.LoadMacro();
+            foreach (MacroStep step in macroParser.MacroSteps)
+            {
+                MacroStepItem item = new MacroStepItem(step);
+                macroSteps.Add(item);
+            }
+        }
+
+        public void SavePreset(string filepath)
+        {
+            int[] outmac = new int[macroSteps.Count];
+            int index = 0;
+            foreach (MacroStepItem step in macroSteps)
+            {
+                outmac[index] = step.Step.Value;
+                index++;
+            }
+
+            string macro = string.Join("/", outmac);
+            StreamWriter sw = new StreamWriter(filepath);
+            sw.Write(macro);
+            sw.Close();
         }
     }
 

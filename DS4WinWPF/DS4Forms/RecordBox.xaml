@@ -28,8 +28,8 @@
                     <Button x:Name="loadPresetBtn" Content="Load Preset" Margin="0,0,5,0" Click="LoadPresetBtn_Click">
                         <Button.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="Cycle Programs" />
-                                <MenuItem Header="From File..." />
+                                <MenuItem x:Name="cycleProgPresetMenuItem" Header="Cycle Programs" Click="CycleProgPresetMenuItem_Click" />
+                                <MenuItem x:Name="loadPresetFromFileMenuItem" Header="From File..." Click="LoadPresetFromFileMenuItem_Click" />
                             </ContextMenu>
                         </Button.ContextMenu>
                     </Button>

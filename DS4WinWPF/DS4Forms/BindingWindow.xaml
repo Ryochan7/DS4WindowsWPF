@@ -161,6 +161,9 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Left">
+                    <Label x:Name="macroOnLb" Content="Macro On, Choose a key to disable, else close this window to save" Visibility="{Binding MacroLbVisible}" />
+                </StackPanel>
                 <StackPanel Grid.Column="1" HorizontalAlignment="Center">
                     <TextBlock Text="Keyboard and Mouse"  />
                 </StackPanel>
