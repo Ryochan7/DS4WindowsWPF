@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 {
     public class RecordBoxViewModel
     {
+        private Stopwatch sw = new Stopwatch();
         private int deviceNum;
         public int DeviceNum { get => deviceNum; }
 
@@ -42,6 +44,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         
         private int macroStepIndex;
         public int MacroStepIndex { get => macroStepIndex; set => macroStepIndex = value; }
+        public Stopwatch Sw { get => sw; }
 
         public RecordBoxViewModel(int deviceNum, DS4ControlSettings controlSettings, bool shift)
         {
@@ -174,6 +177,22 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             sw.Write(macro);
             sw.Close();
         }
+
+        public void AddMacroStep(MacroStep step)
+        {
+            if (recordDelays && macroSteps.Count > 0)
+            {
+                int elapsed = (int)sw.ElapsedMilliseconds + 300;
+                MacroStep waitstep = new MacroStep(elapsed, $"Wait {elapsed - 300}",
+                    MacroStep.StepType.Wait, MacroStep.StepOutput.None);
+                MacroStepItem waititem = new MacroStepItem(waitstep);
+                macroSteps.Add(waititem);
+            }
+
+            sw.Restart();
+            MacroStepItem item = new MacroStepItem(step);
+            macroSteps.Add(item);
+        }
     }
 
     public class MacroStepItem
@@ -190,6 +209,29 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public string Image { get => image; }
         public MacroStep Step { get => step; }
+        public int DisplayValue
+        {
+            get
+            {
+                int result = step.Value;
+                if (step.ActType == MacroStep.StepType.Wait)
+                {
+                    result -= 300;
+                }
+
+                return result;
+            }
+            set
+            {
+                int result = value;
+                if (step.ActType == MacroStep.StepType.Wait)
+                {
+                    result += 300;
+                }
+
+                step.Value = result;
+            }
+        }
 
         public MacroStepItem(MacroStep step)
         {
