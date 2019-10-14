@@ -79,7 +79,7 @@ namespace DS4WinWPF.DS4Forms
                 }
 
                 Enable_Controls(false);
-                recordBoxVM.Sw.Start();
+                recordBoxVM.Sw.Restart();
                 this.Focus();
             }
             else
@@ -320,6 +320,50 @@ namespace DS4WinWPF.DS4Forms
             }
             else
             {
+                DS4Windows.MacroStep step = new DS4Windows.MacroStep(value, DS4Windows.MacroParser.macroInputNames[value],
+                            DS4Windows.MacroStep.StepType.ActUp, DS4Windows.MacroStep.StepOutput.Button);
+                recordBoxVM.AddMacroStep(step);
+                keysdownMap.Remove(value);
+            }
+        }
+
+        private void UserControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (recordBoxVM.Recording)
+            {
+                int value;
+                switch (e.ChangedButton)
+                {
+                    case MouseButton.Left: value = 256; break;
+                    case MouseButton.Right: value = 257; break;
+                    case MouseButton.Middle: value = 258; break;
+                    case MouseButton.XButton1: value = 259; break;
+                    case MouseButton.XButton2: value = 260; break;
+                    default: value = 0; break;
+                }
+
+                DS4Windows.MacroStep step = new DS4Windows.MacroStep(value, DS4Windows.MacroParser.macroInputNames[value],
+                            DS4Windows.MacroStep.StepType.ActDown, DS4Windows.MacroStep.StepOutput.Button);
+                recordBoxVM.AddMacroStep(step);
+                keysdownMap.Add(value, true);
+            }
+        }
+
+        private void UserControl_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (recordBoxVM.Recording)
+            {
+                int value;
+                switch (e.ChangedButton)
+                {
+                    case MouseButton.Left: value = 256; break;
+                    case MouseButton.Right: value = 257; break;
+                    case MouseButton.Middle: value = 258; break;
+                    case MouseButton.XButton1: value = 259; break;
+                    case MouseButton.XButton2: value = 260; break;
+                    default: value = 0; break;
+                }
+
                 DS4Windows.MacroStep step = new DS4Windows.MacroStep(value, DS4Windows.MacroParser.macroInputNames[value],
                             DS4Windows.MacroStep.StepType.ActUp, DS4Windows.MacroStep.StepOutput.Button);
                 recordBoxVM.AddMacroStep(step);
