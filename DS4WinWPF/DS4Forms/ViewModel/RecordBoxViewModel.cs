@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using DS4Windows;
@@ -43,7 +44,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private bool toggle5thMouse;
         private int appendIndex = -1;
 
-        
+        private object _colLockobj = new object();
         private ObservableCollection<MacroStepItem> macroSteps =
             new ObservableCollection<MacroStepItem>();
         public ObservableCollection<MacroStepItem> MacroSteps { get => macroSteps; }
@@ -78,6 +79,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 LoadMacro();
             }
+
+            BindingOperations.EnableCollectionSynchronization(macroSteps, _colLockobj);
         }
 
         public void LoadMacro()
