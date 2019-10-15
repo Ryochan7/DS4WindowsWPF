@@ -79,6 +79,7 @@ namespace DS4WinWPF.DS4Forms
             if (!recordBoxVM.Recording)
             {
                 recordBtn.Content = "Record";
+                RevertListItemTemplate();
                 recordBoxVM.EditMacroIndex = -1;
             }
         }
@@ -319,6 +320,17 @@ namespace DS4WinWPF.DS4Forms
                     UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
                     elementWithFocus?.MoveFocus(request);
                 }
+            }
+        }
+
+        private void RevertListItemTemplate()
+        {
+            if (recordBoxVM.EditMacroIndex >= 0)
+            {
+                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.MacroStepIndex)
+                        as ListBoxItem;
+                lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
+                recordBoxVM.EditMacroIndex = -1;
             }
         }
 
