@@ -1,11 +1,16 @@
 # TODO
 
-* Implement macro recorder
+* Find way to hide TabControl tab headers again
+* Work on Special Actions list and controls
+* Evaluate explicit garbage collection calls
+* Enabled shared memory flags
 * Add lightbar top image to controls display
 * Implement auto profile execution
-* ~~Evaluate Task Scheduler~~
+* Implement auto profile execution
 * Create Command line argument checker
-* Choose between WebClient or HttpClient for download library
+* ~~Implement macro recorder~~
+* ~~Evaluate Task Scheduler~~
+* ~~Choose between WebClient or HttpClient for download library~~
 * ~~Create KB360 window~~
 * ~~Add control mapping display to profile editor~~
 * ~~Add color picker to Profile editor~~
