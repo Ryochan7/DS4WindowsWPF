@@ -57,18 +57,35 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public int AppendIndex { get => appendIndex; set => appendIndex = value; }
         public int EditMacroIndex { get => editMacroIndex; set => editMacroIndex = value; }
         public Dictionary<int, bool> KeysdownMap { get => keysdownMap; }
+        public bool UseScanCode { get => useScanCode; set => useScanCode = value; }
 
         private int editMacroIndex;
         private Dictionary<int, bool> keysdownMap = new Dictionary<int, bool>();
+
+        private bool useScanCode;
+
 
         public RecordBoxViewModel(int deviceNum, DS4ControlSettings controlSettings, bool shift)
         {
             this.deviceNum = deviceNum;
             settings = controlSettings;
             this.shift = shift;
-            if (settings.keyType.HasFlag(DS4KeyType.HoldMacro))
+            if (!shift && settings.keyType.HasFlag(DS4KeyType.HoldMacro))
             {
                 macroModeIndex = 1;
+            }
+            else if (shift && settings.shiftKeyType.HasFlag(DS4KeyType.HoldMacro))
+            {
+                macroModeIndex = 1;
+            }
+
+            if (!shift && settings.keyType.HasFlag(DS4KeyType.ScanCode))
+            {
+                useScanCode = true;
+            }
+            else if (shift && settings.shiftKeyType.HasFlag(DS4KeyType.ScanCode))
+            {
+                useScanCode = true;
             }
 
             if (!shift && settings.action is int[])
@@ -123,6 +140,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 {
                     settings.keyType |= DS4KeyType.HoldMacro;
                 }
+                if (useScanCode)
+                {
+                    settings.keyType |= DS4KeyType.ScanCode;
+                }
             }
             else
             {
@@ -132,6 +153,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 if (macroModeIndex == 1)
                 {
                     settings.shiftKeyType |= DS4KeyType.HoldMacro;
+                }
+                if (useScanCode)
+                {
+                    settings.shiftKeyType |= DS4KeyType.ScanCode;
                 }
             }
         }

@@ -14,7 +14,6 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NonFormTimer = System.Timers.Timer;
 using Microsoft.Win32;
-using Xceed.Wpf.Toolkit;
 using DS4WinWPF.DS4Forms.ViewModel;
 
 namespace DS4WinWPF.DS4Forms
@@ -25,6 +24,8 @@ namespace DS4WinWPF.DS4Forms
     public partial class RecordBox : UserControl
     {
         private RecordBoxViewModel recordBoxVM;
+        public RecordBoxViewModel RecordBoxVM { get => recordBoxVM; }
+
         private bool saved;
         public bool Saved { get => saved; }
 
@@ -34,13 +35,17 @@ namespace DS4WinWPF.DS4Forms
         private ColorPickerWindow colorDialog;
         private NonFormTimer ds4 = new NonFormTimer();
 
-        public RecordBox(int deviceNum, DS4Windows.DS4ControlSettings controlSettings, bool shift)
+        public RecordBox(int deviceNum, DS4Windows.DS4ControlSettings controlSettings, bool shift, bool showscan = true)
         {
             InitializeComponent();
 
             recordBoxVM = new RecordBoxViewModel(deviceNum, controlSettings, shift);
             mouseButtonsPanel.Visibility = Visibility.Hidden;
             extraConPanel.Visibility = Visibility.Hidden;
+            if (!showscan)
+            {
+                useScanCode.Visibility = Visibility.Collapsed;
+            }
 
             ds4.Elapsed += Ds4_Tick;
             ds4.Interval = 10;
