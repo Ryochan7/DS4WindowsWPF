@@ -299,9 +299,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
     {
         private static string[] imageSources = new string[]
         {
-            "/DS4WinWPF;component/Resources/DS4 Config.png",
-            "/DS4WinWPF;component/Resources/DS4 Config.png",
-            "/DS4WinWPF;component/Resources/DS4 Config.png",
+            "/DS4WinWPF;component/Resources/keydown.png",
+            "/DS4WinWPF;component/Resources/keyup.png",
+            "/DS4WinWPF;component/Resources/clock.png",
         };
 
         private MacroStep step;

@@ -331,6 +331,9 @@
     <Content Include="BezierCurveEditor\index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\keydown.png" />
+    <Resource Include="Resources\keyup.png" />
+    <Resource Include="Resources\clock.png" />
     <Resource Include="Resources\right touch.png" />
     <Resource Include="Resources\left touch.png" />
     <Resource Include="Resources\mouse.png" />
