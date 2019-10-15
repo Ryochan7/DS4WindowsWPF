@@ -224,7 +224,25 @@ namespace DS4Windows
         {
             if (actType == StepType.Wait)
             {
-                Name = $"Wait {value-300}";
+                Name = $"Wait {value-300}ms";
+            }
+            else if (outputType == StepOutput.Rumble)
+            {
+                int result = value;
+                result -= 1000000;
+                int curHeavy = result / 1000;
+                int curLight = result - (curHeavy * 1000);
+                Name = $"Rumble {curHeavy},{curLight}";
+            }
+            else if (outputType == StepOutput.Lightbar)
+            {
+                int temp = value - 1000000000;
+                int r = temp / 1000000;
+                temp -= (r * 1000000);
+                int g = temp / 1000;
+                temp -= (g * 1000);
+                int b = temp;
+                Name = $"Lightbar Color: {r},{g},{b}";
             }
         }
     }

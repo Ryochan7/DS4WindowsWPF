@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="800" KeyDown="UserControl_KeyDown" KeyUp="UserControl_KeyUp" MouseDown="UserControl_MouseDown" MouseUp="UserControl_MouseUp" >
     <UserControl.Resources>
@@ -12,6 +13,12 @@
         </DataTemplate>
         <DataTemplate x:Key="EditTemplate">
             <TextBox Text="{Binding DisplayValue,UpdateSourceTrigger=LostFocus}" KeyDown="TextBox_KeyDown" LostFocus="EditTextBox_LostFocus"/>
+        </DataTemplate>
+        <DataTemplate x:Key="EditRumbleTemplate">
+            <StackPanel x:Name="rumbleEditPabel" Orientation="Horizontal" LostFocus="RumbleEditPabel_LostFocus">
+                <xctk:IntegerUpDown x:Name="heavyRumbleUD" Value="{Binding RumbleHeavy,UpdateSourceTrigger=LostFocus}" Minimum="0" Maximum="255" />
+                <xctk:IntegerUpDown x:Name="lightRumbleUD" Value="{Binding RumbleLight,UpdateSourceTrigger=LostFocus}" Minimum="0" Maximum="255" />
+            </StackPanel>
         </DataTemplate>
     </UserControl.Resources>
     <DockPanel Margin="4">
@@ -52,12 +59,12 @@
                 <StackPanel x:Name="extraConPanel">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,30,0,0">
                         <Button x:Name="addRumbleBtn" Content="Add Rumble" Width="124" Click="AddRumbleBtn_Click" />
-                        <Image Source="/DS4WinWPF;component/Resources/left touch.png" Width="43" />
+                        <Image Source="/DS4WinWPF;component/Resources/left touch.png" Width="43" Visibility="Collapsed" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,10">
                         <Button x:Name="changeLightBtn" Content="Change Lightbar Color" Width="124" Click="ChangeLightBtn_Click" />
-                        <Image Source="/DS4WinWPF;component/Resources/left touch.png" Width="43" />
+                        <Image Source="/DS4WinWPF;component/Resources/left touch.png" Width="43" Visibility="Collapsed" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
@@ -68,7 +75,7 @@
                 <Label Content="Use Keyboard/Mouse + Controller 1 to record" DockPanel.Dock="Right" HorizontalAlignment="Right" />
             </DockPanel>
             <ListBox x:Name="macroListBox" ItemsSource="{Binding MacroSteps}" SelectedIndex="{Binding MacroStepIndex}"
-                     ItemTemplate="{StaticResource DisplayTemplate}" MouseDoubleClick="MacroListBox_MouseDoubleClick">
+                     ItemTemplate="{StaticResource DisplayTemplate}" MouseDoubleClick="MacroListBox_MouseDoubleClick" LostFocus="MacroListBox_LostFocus">
             </ListBox>
         </DockPanel>
     </DockPanel>
