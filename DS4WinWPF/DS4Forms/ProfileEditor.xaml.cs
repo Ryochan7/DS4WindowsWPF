@@ -33,6 +33,7 @@ namespace DS4WinWPF.DS4Forms
         private ProfileSettingsViewModel profileSettingsVM;
         private MappingListViewModel mappingListVM;
         private ProfileEntity currentProfile;
+        private SpecialActionsListViewModel specialActionsVM;
 
         public event EventHandler Closed;
         public delegate void CreatedProfileHandler(ProfileEditor sender, string profile);
@@ -93,6 +94,7 @@ namespace DS4WinWPF.DS4Forms
             activeGyroModePanel.Visibility = Visibility.Visible;
 
             mappingListVM = new MappingListViewModel(deviceNum, profileSettingsVM.ContType);
+            specialActionsVM = new SpecialActionsListViewModel(device);
 
             RemoveHoverBtnText();
             PopulateHoverImages();
@@ -429,6 +431,7 @@ namespace DS4WinWPF.DS4Forms
             profileSettingsTabCon.DataContext = null;
             touchpadSettingsPanel.DataContext = null;
             mappingListBox.DataContext = null;
+            specialActionsTab.DataContext = null;
 
             deviceNum = device;
             if (profile != null)
@@ -447,6 +450,7 @@ namespace DS4WinWPF.DS4Forms
                 currentProfile = null;
             }
 
+            specialActionsVM.LoadActions(currentProfile != null);
             mappingListVM.UpdateMappings();
             profileSettingsVM.PopulateTouchDisInver(touchDisInvertBtn.ContextMenu);
             profileSettingsVM.PopulateGyroMouseTrig(gyroMouseTrigBtn.ContextMenu);
@@ -454,6 +458,7 @@ namespace DS4WinWPF.DS4Forms
             profileSettingsTabCon.DataContext = profileSettingsVM;
             touchpadSettingsPanel.DataContext = profileSettingsVM;
             mappingListBox.DataContext = mappingListVM;
+            specialActionsTab.DataContext = specialActionsVM;
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -904,6 +909,47 @@ namespace DS4WinWPF.DS4Forms
             if (index >= 0)
             {
                 mappingListVM.UpdateMappingDevType(profileSettingsVM.TempConType);
+            }
+        }
+
+        private void NewActionBtn_Click(object sender, RoutedEventArgs e)
+        {
+            baseSpeActPanel.Visibility = Visibility.Collapsed;
+            SpecialActionEditor actEditor = new SpecialActionEditor(deviceNum, null);
+            specialActionDockPanel.Children.Add(actEditor);
+            actEditor.Visibility = Visibility.Visible;
+            actEditor.Cancel += (sender2, args) =>
+            {
+                specialActionDockPanel.Children.Remove(actEditor);
+                baseSpeActPanel.Visibility = Visibility.Visible;
+            };
+        }
+
+        private void EditActionBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (specialActionsVM.SpecialActionIndex >= 0)
+            {
+                SpecialActionItem item = specialActionsVM.ActionCol[specialActionsVM.SpecialActionIndex];
+                baseSpeActPanel.Visibility = Visibility.Collapsed;
+                SpecialActionEditor actEditor = new SpecialActionEditor(deviceNum, item.SpecialAction);
+                specialActionDockPanel.Children.Add(actEditor);
+                actEditor.Visibility = Visibility.Visible;
+                actEditor.Cancel += (sender2, args) =>
+                {
+                    specialActionDockPanel.Children.Remove(actEditor);
+                    baseSpeActPanel.Visibility = Visibility.Visible;
+                };
+            }
+        }
+
+        private void RemoveActionBtn_Click(object sender, RoutedEventArgs e)
+        {
+            if (specialActionsVM.SpecialActionIndex >= 0)
+            {
+                SpecialActionItem item = specialActionsVM.ActionCol[specialActionsVM.SpecialActionIndex];
+                DS4Windows.Global.RemoveAction(item.SpecialAction.name);
+                specialActionsVM.ActionCol.RemoveAt(specialActionsVM.SpecialActionIndex);
+                DS4Windows.Global.ProfileActions[deviceNum].Remove(item.SpecialAction.name);
             }
         }
     }

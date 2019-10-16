@@ -186,12 +186,19 @@
     <Compile Include="DS4Forms\SaveWhere.xaml.cs">
       <DependentUpon>SaveWhere.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\SpecialActionEditor.xaml.cs">
+      <DependentUpon>SpecialActionEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Forms\ViewModel\AutoProfilesViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\BindingWindowViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\MappingListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\ProfileSettingsViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\RecordBoxViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\SpecialActEditorViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\SpecialActionsListViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\SpecialActions\DisconnectBTViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\SpecialActions\MacroViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />
     <Compile Include="DS4Forms\WelcomeDialog.xaml.cs">
       <DependentUpon>WelcomeDialog.xaml</DependentUpon>
@@ -263,6 +270,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DS4Forms\SaveWhere.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DS4Forms\SpecialActionEditor.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

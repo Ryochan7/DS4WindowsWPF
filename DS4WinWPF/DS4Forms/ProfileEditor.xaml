@@ -21,7 +21,7 @@
 
             </Button>
         </StackPanel>
-        <TabControl DockPanel.Dock="Left">
+        <TabControl Width="500" DockPanel.Dock="Left">
             <TabItem Header="Controls">
                 <DockPanel Width="500" LastChildFill="False">
                     <DockPanel.Background>
@@ -220,6 +220,33 @@
                             </ListBox.ItemTemplate>
                         </ListBox>
                     </StackPanel>
+                </DockPanel>
+            </TabItem>
+            <TabItem x:Name="specialActionsTab" Header="Special Actions">
+                <DockPanel x:Name="specialActionDockPanel">
+                    <DockPanel x:Name="baseSpeActPanel" DockPanel.Dock="Top">
+                        <UniformGrid Rows="1" Columns="3" DockPanel.Dock="Top">
+                            <Button x:Name="newActionBtn" Content="New Action" Margin="0,0,5,0" Click="NewActionBtn_Click" />
+                            <Button x:Name="editActionBtn" Content="Edit Action" IsEnabled="{Binding ItemSelected}" Margin="5,0" Click="EditActionBtn_Click" />
+                            <Button x:Name="removeActionBtn" Content="Remove Action" IsEnabled="{Binding ItemSelected}" Margin="5,0,0,0" Click="RemoveActionBtn_Click" />
+                        </UniformGrid>
+
+                        <ListView x:Name="specialActionsLV" ItemsSource="{Binding ActionCol}" SelectedIndex="{Binding SpecialActionIndex}" DockPanel.Dock="Bottom" Margin="0,10,0,0">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" Width="150">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Content="{Binding ActionName}" IsChecked="{Binding Active}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Trigger" DisplayMemberBinding="{Binding Controls}" Width="100" />
+                                    <GridViewColumn Header="Action" DisplayMemberBinding="{Binding ActionName}" Width="200" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </DockPanel>
                 </DockPanel>
             </TabItem>
         </TabControl>

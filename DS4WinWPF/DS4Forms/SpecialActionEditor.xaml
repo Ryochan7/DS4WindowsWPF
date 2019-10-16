@@ -1,0 +1,213 @@
+﻿<UserControl x:Class="DS4WinWPF.DS4Forms.SpecialActionEditor"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             mc:Ignorable="d" 
+             d:DesignHeight="350" d:DesignWidth="450">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Label Content="Name:" DockPanel.Dock="Left" />
+            <TextBox Text="" DockPanel.Dock="Right" />
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Bottom">
+            <DockPanel DockPanel.Dock="Left" Width="200">
+                <ListBox>
+                    <ListBoxItem>
+                        <CheckBox Content="Cross" Tag="Cross" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Circle" Tag="Circle" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="squareCk" Content="Square" Tag="Square" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Triangle" Tag="Triangle" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Options" Tag="Options" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Share" Tag="Share" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Up" Tag="Up" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Down" Tag="Down" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Left" Tag="Left" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Right" Tag="Right" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="PS" Tag="PS" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="L1" Tag="L1" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="R1" Tag="R1" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="L2" Tag="L2" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="R2" Tag="R2" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="PS" Tag="PS" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="L3" Tag="L3" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="R3" Tag="R3" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Left Touch" Tag="Left Touch" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Upper Touch" Tag="Upper Touch" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Multitouch" Tag="Multitouch" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Right Touch" Tag="Right Touch" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Left Stick Up" Tag="Left Stick Up" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Left Stick Down" Tag="Left Stick Down" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Left Stick Left" Tag="Left Stick Left" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Left Stick Right" Tag="Left Stick Right" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Right Stick Up" Tag="Right Stick Up" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Right Stick Down" Tag="Right Stick Down" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Right Stick Left" Tag="Right Stick Left" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Right Stick Right" Tag="Right Stick Right" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Swipe Up" Tag="Swipe Up" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Swipe Down" Tag="Swipe Down" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Swipe Left" Tag="Swipe Left" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Swipe Right" Tag="Swipe Right" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Tilt Up" Tag="Tilt Up" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Tilt Down" Tag="Tilt Down" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Tilt Left" Tag="Tilt Left" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox Content="Tilt Right" Tag="Tilt Right" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                </ListBox>
+            </DockPanel>
+            <DockPanel DockPanel.Dock="Left">
+                <StackPanel>
+                    <ComboBox x:Name="actionTypeCombo" SelectedIndex="{Binding ActionTypeIndex,FallbackValue=0}">
+                        <ComboBoxItem Content="-Select an Action-" />
+                        <ComboBoxItem Content="Record a macro" />
+                        <ComboBoxItem Content="Launch a program" />
+                        <ComboBoxItem Content="Load a profile" />
+                        <ComboBoxItem Content="Press/Toggle key" />
+                        <ComboBoxItem Content="Disconnect from Bluetooth" />
+                        <ComboBoxItem Content="Check Battery Life" />
+                        <ComboBoxItem Content="Multi-action Button" />
+                        <ComboBoxItem Content="Calibration of sixaxis wheel calibration" />
+                    </ComboBox>
+
+                    <TabControl x:Name="actionTypeTabControl" SelectedIndex="{Binding ActionTypeIndex}" BorderBrush="{x:Null}">
+                        <TabItem x:Name="blankActTab" Header="">
+                            
+                        </TabItem>
+                        <TabItem x:Name="macroActTab" Header="Macro">
+                            <StackPanel>
+                                <Button Content="Record a macro" />
+                                <CheckBox Content="Scan Code"/>
+                                <CheckBox Content="Run on Trigger Release" />
+                                <CheckBox Content="Synchronized Run" />
+                                <CheckBox Content="Keep key state" />
+                                <CheckBox Content="Repeat while held" />
+                                <TextBlock Text="Macro Recorded" />
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem x:Name="launchProgActTab" Header="Launch Program">
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="Hold for "></Label>
+                                    <xctk:IntegerUpDown Value="0" Width="60" Minimum="0" Maximum="60" />
+                                    <Label Content="secs" />
+                                </StackPanel>
+                                <Button Content="Browse..."/>
+                                <StackPanel>
+                                    <Label Content="Arguments"/>
+                                    <TextBox Text="" />
+                                </StackPanel>
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem x:Name="loadProfileTab" Header="Load Profile">
+                            
+                        </TabItem>
+                        <TabItem x:Name="pressKetActTab" Header="Press Key">
+                            <Button Content="Select a Key" />
+                        </TabItem>
+                        <TabItem x:Name="disconnectBTTab" Header="DisBT">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Hold for "></Label>
+                                <xctk:IntegerUpDown Value="{Binding HoldInterval}" Width="60" Minimum="0" Maximum="60" />
+                                <Label Content="secs" />
+                            </StackPanel>
+                        </TabItem>
+                        <TabItem x:Name="checkBatteryTab" Header="Check Battery">
+                            
+                        </TabItem>
+                        <TabItem x:Name="multiActTab" Header="MultiAct">
+                            
+                        </TabItem>
+                        <TabItem x:Name="sixaxisWheelCalibrateTab" Header="Sixaxis Wheel">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Hold for "></Label>
+                                <xctk:IntegerUpDown Value="0" Width="60" Minimum="0" Maximum="60" />
+                                <Label Content="secs" />
+                            </StackPanel>
+                        </TabItem>
+                    </TabControl>
+                    
+                    <UniformGrid Rows="1">
+                        <Button x:Name="saveBtn" Content="Save" Margin="0,0,5,0" Click="SaveBtn_Click" />
+                        <Button x:Name="cancelBtn" Content="Cancel" Margin="5,0,0,0" Click="CancelBtn_Click" />
+                    </UniformGrid>
+                </StackPanel>
+            </DockPanel>
+        </DockPanel>
+    </DockPanel>
+</UserControl>
