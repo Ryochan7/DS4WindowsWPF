@@ -242,7 +242,7 @@
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                     <GridViewColumn Header="Trigger" DisplayMemberBinding="{Binding Controls}" Width="100" />
-                                    <GridViewColumn Header="Action" DisplayMemberBinding="{Binding ActionName}" Width="200" />
+                                    <GridViewColumn Header="Action" DisplayMemberBinding="{Binding TypeName}" Width="200" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
