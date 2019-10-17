@@ -7,19 +7,19 @@ using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class DisconnectBTViewModel
+    public class SASteeringWheelViewModel
     {
-        private int holdInterval;
-        public int HoldInterval { get => holdInterval; set => holdInterval = value; }
+        private int delay;
+        public int Delay { get => delay; set => delay = value; }
 
         public void LoadAction(SpecialAction action)
         {
-            holdInterval = (int)action.delayTime;
+            delay = (int)action.delayTime;
         }
 
         public void SaveAction(SpecialAction action, bool edit = false)
         {
-            Global.SaveAction(action.name, action.controls, 5, $"{holdInterval}", edit);
+            Global.SaveAction(action.name, action.controls, 7, delay.ToString(), edit);
         }
     }
 }

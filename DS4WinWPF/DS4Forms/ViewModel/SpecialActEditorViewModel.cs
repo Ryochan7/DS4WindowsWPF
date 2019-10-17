@@ -23,6 +23,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         };
 
         private List<string> controlTriggerList = new List<string>();
+        private List<string> controlUnloadTriggerList = new List<string>();
+        private bool editMode;
+
 
         public int DeviceNum { get => deviceNum; }
         public int ActionTypeIndex { get => actionTypeIndex; set => actionTypeIndex = value; }
@@ -30,11 +33,14 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public SpecialAction.ActionTypeId[] TypeAssoc { get => typeAssoc; }
         public SpecialAction SavedAction { get => savedaction; }
         public List<string> ControlTriggerList { get => controlTriggerList; }
+        public List<string> ControlUnloadTriggerList { get => controlUnloadTriggerList; }
+        public bool EditMode { get => editMode; }
 
         public SpecialActEditorViewModel(int deviceNum, SpecialAction action)
         {
             this.deviceNum = deviceNum;
             savedaction = action;
+            editMode = savedaction != null;
         }
 
         public void LoadAction(SpecialAction action)
@@ -42,6 +48,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             foreach (string s in action.controls.Split('/'))
             {
                 controlTriggerList.Add(s);
+            }
+
+            foreach (string s in action.ucontrols.Split('/'))
+            {
+                controlUnloadTriggerList.Add(s);
             }
 
             actionName = action.name;
@@ -59,6 +70,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public void SetAction(SpecialAction action)
         {
             action.name = actionName;
+            action.controls = string.Join("/", controlTriggerList.ToArray());
+            action.ucontrols = string.Join("/", controlUnloadTriggerList.ToArray());
         }
     }
 }

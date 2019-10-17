@@ -450,7 +450,7 @@ namespace DS4WinWPF.DS4Forms
                 currentProfile = null;
             }
 
-            specialActionsVM.LoadActions(currentProfile != null);
+            specialActionsVM.LoadActions(currentProfile == null);
             mappingListVM.UpdateMappings();
             profileSettingsVM.PopulateTouchDisInver(touchDisInvertBtn.ContextMenu);
             profileSettingsVM.PopulateGyroMouseTrig(gyroMouseTrigBtn.ContextMenu);
@@ -626,6 +626,8 @@ namespace DS4WinWPF.DS4Forms
                 else
                 {
                     DS4Windows.Global.SaveProfile(deviceNum, temp);
+                    DS4Windows.Global.calculateProfileActionCount(deviceNum);
+                    DS4Windows.Global.calculateProfileActionDicts(deviceNum);
                     DS4Windows.Global.cacheProfileCustomsFlags(deviceNum);
                     CreatedProfile?.Invoke(this, temp);
                 }
@@ -923,6 +925,13 @@ namespace DS4WinWPF.DS4Forms
                 specialActionDockPanel.Children.Remove(actEditor);
                 baseSpeActPanel.Visibility = Visibility.Visible;
             };
+            actEditor.Saved += (sender2, actionName) =>
+            {
+                DS4Windows.SpecialAction action = DS4Windows.Global.GetAction(actionName);
+                specialActionsVM.ActionCol.Add(new SpecialActionItem(action, action.name));
+                specialActionDockPanel.Children.Remove(actEditor);
+                baseSpeActPanel.Visibility = Visibility.Visible;
+            };
         }
 
         private void EditActionBtn_Click(object sender, RoutedEventArgs e)
@@ -939,6 +948,15 @@ namespace DS4WinWPF.DS4Forms
                     specialActionDockPanel.Children.Remove(actEditor);
                     baseSpeActPanel.Visibility = Visibility.Visible;
                 };
+                actEditor.Saved += (sender2, actionName) =>
+                {
+                    DS4Windows.SpecialAction action = DS4Windows.Global.GetAction(actionName);
+                    SpecialActionItem newitem = specialActionsVM.CreateActionItem(action);
+                    specialActionsVM.ActionCol.RemoveAt(specialActionsVM.SpecialActionIndex);
+                    specialActionsVM.ActionCol.Insert(specialActionsVM.SpecialActionIndex, newitem);
+                    specialActionDockPanel.Children.Remove(actEditor);
+                    baseSpeActPanel.Visibility = Visibility.Visible;
+                };
             }
         }
 
@@ -947,10 +965,13 @@ namespace DS4WinWPF.DS4Forms
             if (specialActionsVM.SpecialActionIndex >= 0)
             {
                 SpecialActionItem item = specialActionsVM.ActionCol[specialActionsVM.SpecialActionIndex];
-                DS4Windows.Global.RemoveAction(item.SpecialAction.name);
-                specialActionsVM.ActionCol.RemoveAt(specialActionsVM.SpecialActionIndex);
-                DS4Windows.Global.ProfileActions[deviceNum].Remove(item.SpecialAction.name);
+                specialActionsVM.RemoveAction(item);
             }
+        }
+
+        private void SpecialActionCheckBox_Click(object sender, RoutedEventArgs e)
+        {
+            specialActionsVM.ExportEnabledActions();
         }
     }
 }

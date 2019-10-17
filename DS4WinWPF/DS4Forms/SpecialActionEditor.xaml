@@ -13,121 +13,232 @@
             <TextBox Text="" DockPanel.Dock="Right" />
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom">
-            <DockPanel DockPanel.Dock="Left" Width="200">
-                <ListBox>
+            <DockPanel DockPanel.Dock="Left">
+                <ListBox x:Name="triggersListBox" Width="200">
                     <ListBoxItem>
-                        <CheckBox Content="Cross" Tag="Cross" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="crossTrigCk" Content="Cross" Tag="Cross" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Circle" Tag="Circle" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="circleTrigCk" Content="Circle" Tag="Circle" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox x:Name="squareCk" Content="Square" Tag="Square" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="squareTrigCk" Content="Square" Tag="Square" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Triangle" Tag="Triangle" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="triangleTrigCk" Content="Triangle" Tag="Triangle" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Options" Tag="Options" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="optionsTrigCk" Content="Options" Tag="Options" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Share" Tag="Share" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="shareTrigCk" Content="Share" Tag="Share" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Up" Tag="Up" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="upTrigCk" Content="Up" Tag="Up" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Down" Tag="Down" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="downTrigCk" Content="Down" Tag="Down" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Left" Tag="Left" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="leftTrigCk" Content="Left" Tag="Left" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Right" Tag="Right" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="rightTrigCk" Content="Right" Tag="Right" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="PS" Tag="PS" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="psTrigCk" Content="PS" Tag="PS" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="L1" Tag="L1" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="l1TrigCk" Content="L1" Tag="L1" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="R1" Tag="R1" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="r1TrigCk" Content="R1" Tag="R1" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="L2" Tag="L2" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="l2TrigCk" Content="L2" Tag="L2" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="R2" Tag="R2" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="r2TrigCk" Content="R2" Tag="R2" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="PS" Tag="PS" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="l3TrigCk" Content="L3" Tag="L3" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="L3" Tag="L3" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="r3TrigCk" Content="R3" Tag="R3" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="R3" Tag="R3" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="leftTouchTrigCk" Content="Left Touch" Tag="Left Touch" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Left Touch" Tag="Left Touch" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="upperTouchTrigCk" Content="Upper Touch" Tag="Upper Touch" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Upper Touch" Tag="Upper Touch" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="multitouchTrigCk" Content="Multitouch" Tag="Multitouch" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Multitouch" Tag="Multitouch" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="rightTouchTrigCk" Content="Right Touch" Tag="Right Touch" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Right Touch" Tag="Right Touch" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="lsuTrigCk" Content="Left Stick Up" Tag="Left Stick Up" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Left Stick Up" Tag="Left Stick Up" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="lsdTrigCk" Content="Left Stick Down" Tag="Left Stick Down" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Left Stick Down" Tag="Left Stick Down" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="lslTrigCk" Content="Left Stick Left" Tag="Left Stick Left" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Left Stick Left" Tag="Left Stick Left" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="lsrTrigCk" Content="Left Stick Right" Tag="Left Stick Right" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Left Stick Right" Tag="Left Stick Right" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="rsuTrigCk" Content="Right Stick Up" Tag="Right Stick Up" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Right Stick Up" Tag="Right Stick Up" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="rsdTrigCk" Content="Right Stick Down" Tag="Right Stick Down" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Right Stick Down" Tag="Right Stick Down" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="rslTrigCk" Content="Right Stick Left" Tag="Right Stick Left" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Right Stick Left" Tag="Right Stick Left" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="rsrTrigCk" Content="Right Stick Right" Tag="Right Stick Right" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Right Stick Right" Tag="Right Stick Right" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="swipeUpTrigCk" Content="Swipe Up" Tag="Swipe Up" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Swipe Up" Tag="Swipe Up" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="swipeDownTrigCk" Content="Swipe Down" Tag="Swipe Down" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Swipe Down" Tag="Swipe Down" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="swipeLeftTrigCk" Content="Swipe Left" Tag="Swipe Left" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Swipe Left" Tag="Swipe Left" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="swipeRightTrigCk" Content="Swipe Right" Tag="Swipe Right" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Swipe Right" Tag="Swipe Right" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="tiltUpTrigCk" Content="Tilt Up" Tag="Tilt Up" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Tilt Up" Tag="Tilt Up" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="tiltDownTrigCk" Content="Tilt Down" Tag="Tilt Down" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Tilt Down" Tag="Tilt Down" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="tiltLeftTrigCk" Content="Tilt Left" Tag="Tilt Left" Click="ControlTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Tilt Left" Tag="Tilt Left" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="tiltRightTrigCk" Content="Tilt Right" Tag="Tilt Right" Click="ControlTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                </ListBox>
+
+                <ListBox x:Name="unloadTriggersListBox" Width="200" Visibility="Collapsed">
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadCrossTrigCk" Content="Cross" Tag="Cross" Click="ControlUnloadTriggerCheckBox_Click" />
                     </ListBoxItem>
                     <ListBoxItem>
-                        <CheckBox Content="Tilt Right" Tag="Tilt Right" Click="ControlTriggerCheckBox_Click" />
+                        <CheckBox x:Name="unloadCircleTrigCk" Content="Circle" Tag="Circle" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadSquareTrigCk" Content="Square" Tag="Square" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadTriangleTrigCk" Content="Triangle" Tag="Triangle" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadOptionsTrigCk" Content="Options" Tag="Options" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadShareTrigCk" Content="Share" Tag="Share" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadUpTrigCk" Content="Up" Tag="Up" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadDownTrigCk" Content="Down" Tag="Down" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadLeftTrigCk" Content="Left" Tag="Left" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadRightTrigCk" Content="Right" Tag="Right" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadPsTrigCk" Content="PS" Tag="PS" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadL1TrigCk" Content="L1" Tag="L1" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadR1TrigCk" Content="R1" Tag="R1" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadL2TrigCk" Content="L2" Tag="L2" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadR2TrigCk" Content="R2" Tag="R2" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadL3TrigCk" Content="L3" Tag="L3" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadR3TrigCk" Content="R3" Tag="R3" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadLeftTouchTrigCk" Content="Left Touch" Tag="Left Touch" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadUpperTouchTrigCk" Content="Upper Touch" Tag="Upper Touch" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadMultitouchTrigCk" Content="Multitouch" Tag="Multitouch" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadRightTouchTrigCk" Content="Right Touch" Tag="Right Touch" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadLsuTrigCk" Content="Left Stick Up" Tag="Left Stick Up" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadLsdTrigCk" Content="Left Stick Down" Tag="Left Stick Down" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadLslTrigCk" Content="Left Stick Left" Tag="Left Stick Left" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadLsrTrigCk" Content="Left Stick Right" Tag="Left Stick Right" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadRsuTrigCk" Content="Right Stick Up" Tag="Right Stick Up" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadRsdTrigCk" Content="Right Stick Down" Tag="Right Stick Down" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadRslTrigCk" Content="Right Stick Left" Tag="Right Stick Left" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadRsrTrigCk" Content="Right Stick Right" Tag="Right Stick Right" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadSwipeUpTrigCk" Content="Swipe Up" Tag="Swipe Up" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadSwipeDownTrigCk" Content="Swipe Down" Tag="Swipe Down" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadSwipeLeftTrigCk" Content="Swipe Left" Tag="Swipe Left" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadSwipeRightTrigCk" Content="Swipe Right" Tag="Swipe Right" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadTiltUpTrigCk" Content="Tilt Up" Tag="Tilt Up" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadTiltDownTrigCk" Content="Tilt Down" Tag="Tilt Down" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadTiltLeftTrigCk" Content="Tilt Left" Tag="Tilt Left" Click="ControlUnloadTriggerCheckBox_Click" />
+                    </ListBoxItem>
+                    <ListBoxItem>
+                        <CheckBox x:Name="unloadTiltRightTrigCk" Content="Tilt Right" Tag="Tilt Right" Click="ControlUnloadTriggerCheckBox_Click" />
                     </ListBoxItem>
                 </ListBox>
             </DockPanel>
@@ -151,7 +262,8 @@
                         </TabItem>
                         <TabItem x:Name="macroActTab" Header="Macro">
                             <StackPanel>
-                                <Button Content="Record a macro" />
+                                <Button x:Name="recordMacroBtn" Content="Record a macro"
+                                        Click="RecordMacroBtn_Click" />
                                 <CheckBox Content="Scan Code"/>
                                 <CheckBox Content="Run on Trigger Release" />
                                 <CheckBox Content="Synchronized Run" />
@@ -175,10 +287,27 @@
                             </StackPanel>
                         </TabItem>
                         <TabItem x:Name="loadProfileTab" Header="Load Profile">
-                            
+                            <StackPanel>
+                                <ComboBox SelectedIndex="0">
+
+                                </ComboBox>
+                                <Button x:Name="loadProfUnloadBtn" Content="Set Unload Trigger" Click="LoadProfUnloadBtn_Click" />
+                                <CheckBox Content="Unload on trigger release" />
+                            </StackPanel>
                         </TabItem>
                         <TabItem x:Name="pressKetActTab" Header="Press Key">
-                            <Button Content="Select a Key" />
+                            <StackPanel>
+                                <Button Content="{Binding DescribeText,FallbackValue='Select a Key'}" />
+                                <Button x:Name="pressKeyToggleTriggerBtn" Content="Set Unload Trigger" Click="PressKeyToggleTriggerBtn_Click" />
+
+                                <StackPanel>
+                                    <Label Content="Untoggle key by" />
+                                    <ComboBox x:Name="pressReleaseKeyCombo" SelectedIndex="{Binding PressReleaseIndex}">
+                                        <ComboBoxItem Content="pressing unload trigger" />
+                                        <ComboBoxItem Content="releasing unload trigger" />
+                                    </ComboBox>
+                                </StackPanel>
+                            </StackPanel>
                         </TabItem>
                         <TabItem x:Name="disconnectBTTab" Header="DisBT">
                             <StackPanel Orientation="Horizontal">
@@ -196,7 +325,7 @@
                         <TabItem x:Name="sixaxisWheelCalibrateTab" Header="Sixaxis Wheel">
                             <StackPanel Orientation="Horizontal">
                                 <Label Content="Hold for "></Label>
-                                <xctk:IntegerUpDown Value="0" Width="60" Minimum="0" Maximum="60" />
+                                <xctk:IntegerUpDown Value="{Binding Delay}" Width="60" Minimum="0" Maximum="60" />
                                 <Label Content="secs" />
                             </StackPanel>
                         </TabItem>

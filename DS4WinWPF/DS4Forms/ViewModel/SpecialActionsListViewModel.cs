@@ -48,42 +48,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             List<string> pactions = Global.ProfileActions[deviceNum];
             foreach (SpecialAction action in Global.GetActions())
             {
-                string displayName = string.Empty;
-                switch (action.typeID)
-                {
-                    case SpecialAction.ActionTypeId.DisconnectBT:
-                        displayName = Properties.Resources.DisconnectBT; break;
-                    case SpecialAction.ActionTypeId.Macro:
-                        displayName = Properties.Resources.Macro + (action.keyType.HasFlag(DS4KeyType.ScanCode) ? " (" + Properties.Resources.ScanCode + ")" : "");
-                        break;
-                    case SpecialAction.ActionTypeId.Program:
-                        displayName = Properties.Resources.LaunchProgram.Replace("*program*", Path.GetFileNameWithoutExtension(action.details));
-                        break;
-                    case SpecialAction.ActionTypeId.Profile:
-                        displayName = Properties.Resources.LoadProfile.Replace("*profile*", action.details);
-                        break;
-                    case SpecialAction.ActionTypeId.Key:
-                        displayName = KeyInterop.KeyFromVirtualKey(int.Parse(action.details)).ToString() +
-                             (action.uTrigger.Count > 0 ? " (Toggle)" : "");
-                        break;
-                    case SpecialAction.ActionTypeId.BatteryCheck:
-                        displayName = Properties.Resources.CheckBattery;
-                        break;
-                    case SpecialAction.ActionTypeId.XboxGameDVR:
-                        displayName = "Xbox Game DVR";
-                        break;
-                    case SpecialAction.ActionTypeId.MultiAction:
-                        displayName = Properties.Resources.MultiAction;
-                        break;
-                    case SpecialAction.ActionTypeId.SASteeringWheelEmulationCalibrate:
-                        displayName = Properties.Resources.SASteeringWheelEmulationCalibrate;
-                        break;
-                    default: break;
-                }
-
+                string displayName = GetActionDisplayName(action);
                 SpecialActionItem item = new SpecialActionItem(action, displayName);
 
-                if (pactions.Contains(action.type))
+                if (pactions.Contains(action.name))
                 {
                     item.Active = true;
                 }
@@ -94,6 +62,78 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
                 actionCol.Add(item);
             }
+        }
+
+        public SpecialActionItem CreateActionItem(SpecialAction action)
+        {
+            string displayName = GetActionDisplayName(action);
+            SpecialActionItem item = new SpecialActionItem(action, displayName);
+            return item;
+        }
+
+        public string GetActionDisplayName(SpecialAction action)
+        {
+            string displayName = string.Empty;
+            switch (action.typeID)
+            {
+                case SpecialAction.ActionTypeId.DisconnectBT:
+                    displayName = Properties.Resources.DisconnectBT; break;
+                case SpecialAction.ActionTypeId.Macro:
+                    displayName = Properties.Resources.Macro + (action.keyType.HasFlag(DS4KeyType.ScanCode) ? " (" + Properties.Resources.ScanCode + ")" : "");
+                    break;
+                case SpecialAction.ActionTypeId.Program:
+                    displayName = Properties.Resources.LaunchProgram.Replace("*program*", Path.GetFileNameWithoutExtension(action.details));
+                    break;
+                case SpecialAction.ActionTypeId.Profile:
+                    displayName = Properties.Resources.LoadProfile.Replace("*profile*", action.details);
+                    break;
+                case SpecialAction.ActionTypeId.Key:
+                    displayName = KeyInterop.KeyFromVirtualKey(int.Parse(action.details)).ToString() +
+                         (action.uTrigger.Count > 0 ? " (Toggle)" : "");
+                    break;
+                case SpecialAction.ActionTypeId.BatteryCheck:
+                    displayName = Properties.Resources.CheckBattery;
+                    break;
+                case SpecialAction.ActionTypeId.XboxGameDVR:
+                    displayName = "Xbox Game DVR";
+                    break;
+                case SpecialAction.ActionTypeId.MultiAction:
+                    displayName = Properties.Resources.MultiAction;
+                    break;
+                case SpecialAction.ActionTypeId.SASteeringWheelEmulationCalibrate:
+                    displayName = Properties.Resources.SASteeringWheelEmulationCalibrate;
+                    break;
+                default: break;
+            }
+
+            return displayName;
+        }
+
+        public void ExportEnabledActions()
+        {
+            List<string> pactions = new List<string>();
+            foreach(SpecialActionItem item in actionCol)
+            {
+                if (item.Active)
+                {
+                    pactions.Add(item.ActionName);
+                }
+            }
+
+            Global.ProfileActions[deviceNum] = pactions;
+            Global.calculateProfileActionCount(deviceNum);
+            Global.calculateProfileActionDicts(deviceNum);
+            Global.cacheProfileCustomsFlags(deviceNum);
+        }
+
+        public void RemoveAction(SpecialActionItem item)
+        {
+            Global.RemoveAction(item.SpecialAction.name);
+            actionCol.RemoveAt(specialActionIndex);
+            Global.ProfileActions[deviceNum].Remove(item.SpecialAction.name);
+            Global.calculateProfileActionCount(deviceNum);
+            Global.calculateProfileActionDicts(deviceNum);
+            Global.cacheProfileCustomsFlags(deviceNum);
         }
     }
 
@@ -119,7 +159,17 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler ActionNameChanged;
 
-        public bool Active { get => active; set => active = value; }
+        public bool Active
+        {
+            get => active;
+            set
+            {
+                if (active == value) return;
+                active = value;
+                ActiveChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler ActiveChanged;
         public string Controls { get => specialAction.controls.Replace("/", ", "); }
 
         public event EventHandler ControlsChanged;

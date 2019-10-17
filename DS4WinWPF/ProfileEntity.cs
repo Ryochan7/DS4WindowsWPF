@@ -41,6 +41,8 @@ namespace DS4WinWPF
             if (!string.IsNullOrWhiteSpace(name))
             {
                 DS4Windows.Global.SaveProfile(deviceNum, name);
+                DS4Windows.Global.calculateProfileActionCount(deviceNum);
+                DS4Windows.Global.calculateProfileActionDicts(deviceNum);
                 DS4Windows.Global.cacheProfileCustomsFlags(deviceNum);
             }
         }
