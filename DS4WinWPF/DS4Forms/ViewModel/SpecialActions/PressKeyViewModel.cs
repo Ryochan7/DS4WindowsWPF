@@ -21,7 +21,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
             get
             {
                 string result = "Select a Key";
-                if (string.IsNullOrEmpty(describeText))
+                if (!string.IsNullOrEmpty(describeText))
                 {
                     result = describeText;
                 };

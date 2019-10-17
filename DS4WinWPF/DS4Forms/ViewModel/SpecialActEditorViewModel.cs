@@ -50,9 +50,12 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 controlTriggerList.Add(s);
             }
 
-            foreach (string s in action.ucontrols.Split('/'))
+            if (action.ucontrols != null)
             {
-                controlUnloadTriggerList.Add(s);
+                foreach (string s in action.ucontrols.Split('/'))
+                {
+                    controlUnloadTriggerList.Add(s);
+                }
             }
 
             actionName = action.name;
@@ -71,7 +74,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             action.name = actionName;
             action.controls = string.Join("/", controlTriggerList.ToArray());
-            action.ucontrols = string.Join("/", controlUnloadTriggerList.ToArray());
+            if (controlUnloadTriggerList.Count > 0)
+            {
+                action.ucontrols = string.Join("/", controlUnloadTriggerList.ToArray());
+            }
         }
     }
 }

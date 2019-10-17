@@ -61,7 +61,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
                 return result;
             }
         }
-        public event EventHandler DoubleMacroTextChanged;
+        public event EventHandler DoubleTapMacroTextChanged;
 
         public MultiActButtonViewModel()
         {
@@ -94,7 +94,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 
         public void UpdateDoubleTapDisplayText()
         {
-            DoubleMacroTextChanged?.Invoke(this, EventArgs.Empty);
+            DoubleTapMacroTextChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public DS4ControlSettings PrepareTapSettings()

@@ -99,6 +99,7 @@ namespace DS4WinWPF.DS4Forms
 
             actionTypeTabControl.DataContext = specialActVM;
             actionTypeCombo.DataContext = specialActVM;
+            actionNameTxt.DataContext = specialActVM;
 
             macroActTab.DataContext = macroActVM;
             launchProgActTab.DataContext = launchProgVM;

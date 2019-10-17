@@ -29,11 +29,18 @@ namespace DS4WinWPF.DS4Forms
             mainPanel.Children.Add(box);
 
             box.Save += RecordBox_Save;
+            box.Cancel += Box_Cancel;
+        }
+
+        private void Box_Cancel(object sender, EventArgs e)
+        {
+            Close();
         }
 
         private void RecordBox_Save(object sender, EventArgs e)
         {
             Saved?.Invoke(this, EventArgs.Empty);
+            Close();
         }
     }
 }
