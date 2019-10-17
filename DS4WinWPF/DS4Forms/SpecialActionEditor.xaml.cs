@@ -31,6 +31,8 @@ namespace DS4WinWPF.DS4Forms
         private LoadProfileViewModel loadProfileVM;
         private PressKeyViewModel pressKeyVM;
         private DisconnectBTViewModel disconnectBtVM;
+        private CheckBatteryViewModel checkBatteryVM;
+        private MultiActButtonViewModel multiActButtonVM;
         private SASteeringWheelViewModel saSteeringWheelVM;
 
         public event EventHandler Cancel;
@@ -75,6 +77,8 @@ namespace DS4WinWPF.DS4Forms
             loadProfileVM = new LoadProfileViewModel();
             pressKeyVM = new PressKeyViewModel();
             disconnectBtVM = new DisconnectBTViewModel();
+            checkBatteryVM = new CheckBatteryViewModel();
+            multiActButtonVM = new MultiActButtonViewModel();
             saSteeringWheelVM = new SASteeringWheelViewModel();
 
             // Hide tab headers. Tab content will still be visible
@@ -95,11 +99,14 @@ namespace DS4WinWPF.DS4Forms
 
             actionTypeTabControl.DataContext = specialActVM;
             actionTypeCombo.DataContext = specialActVM;
+
             macroActTab.DataContext = macroActVM;
             launchProgActTab.DataContext = launchProgVM;
             //loadProfileTab.DataContext = loadProfileVM;
             pressKetActTab.DataContext = pressKeyVM;
             disconnectBTTab.DataContext = disconnectBtVM;
+            checkBatteryTab.DataContext = checkBatteryVM;
+            multiActTab.DataContext = multiActButtonVM;
             sixaxisWheelCalibrateTab.DataContext = saSteeringWheelVM;
 
             SetupLateEvents();
@@ -151,6 +158,12 @@ namespace DS4WinWPF.DS4Forms
                 case DS4Windows.SpecialAction.ActionTypeId.DisconnectBT:
                     disconnectBtVM.LoadAction(specialAction);
                     break;
+                case DS4Windows.SpecialAction.ActionTypeId.BatteryCheck:
+                    checkBatteryVM.LoadAction(specialAction);
+                    break;
+                case DS4Windows.SpecialAction.ActionTypeId.MultiAction:
+                    multiActButtonVM.LoadAction(specialAction);
+                    break;
                 case DS4Windows.SpecialAction.ActionTypeId.SASteeringWheelEmulationCalibrate:
                     saSteeringWheelVM.LoadAction(specialAction);
                     break;
@@ -198,6 +211,12 @@ namespace DS4WinWPF.DS4Forms
                     break;
                 case DS4Windows.SpecialAction.ActionTypeId.DisconnectBT:
                     disconnectBtVM.SaveAction(tempAct, editMode);
+                    break;
+                case DS4Windows.SpecialAction.ActionTypeId.BatteryCheck:
+                    checkBatteryVM.SaveAction(tempAct, editMode);
+                    break;
+                case DS4Windows.SpecialAction.ActionTypeId.MultiAction:
+                    multiActButtonVM.SaveAction(tempAct, editMode);
                     break;
                 case DS4Windows.SpecialAction.ActionTypeId.SASteeringWheelEmulationCalibrate:
                     saSteeringWheelVM.SaveAction(tempAct, editMode);
@@ -270,6 +289,80 @@ namespace DS4WinWPF.DS4Forms
         {
             triggersListBox.Visibility = Visibility.Collapsed;
             unloadTriggersListBox.Visibility = Visibility.Visible;
+        }
+
+        private void BatteryEmptyColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPickerWindow dialog = new ColorPickerWindow();
+            dialog.Owner = Application.Current.MainWindow;
+            Color tempcolor = checkBatteryVM.EmptyColor;
+            dialog.colorPicker.SelectedColor = tempcolor;
+            checkBatteryVM.StartForcedColor(tempcolor, specialActVM.DeviceNum);
+            dialog.ColorChanged += (sender2, color) =>
+            {
+                checkBatteryVM.UpdateForcedColor(color, specialActVM.DeviceNum);
+            };
+            dialog.ShowDialog();
+            checkBatteryVM.EndForcedColor(specialActVM.DeviceNum);
+            checkBatteryVM.EmptyColor = dialog.colorPicker.SelectedColor.GetValueOrDefault();
+        }
+
+        private void BatteryFullColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPickerWindow dialog = new ColorPickerWindow();
+            dialog.Owner = Application.Current.MainWindow;
+            Color tempcolor = checkBatteryVM.FullColor;
+            dialog.colorPicker.SelectedColor = tempcolor;
+            checkBatteryVM.StartForcedColor(tempcolor, specialActVM.DeviceNum);
+            dialog.ColorChanged += (sender2, color) =>
+            {
+                checkBatteryVM.UpdateForcedColor(color, specialActVM.DeviceNum);
+            };
+            dialog.ShowDialog();
+            checkBatteryVM.EndForcedColor(specialActVM.DeviceNum);
+            checkBatteryVM.FullColor = dialog.colorPicker.SelectedColor.GetValueOrDefault();
+        }
+
+        private void MultiTapTrigBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DS4Windows.DS4ControlSettings settings = multiActButtonVM.PrepareTapSettings();
+            RecordBoxWindow recordWin = new RecordBoxWindow(specialActVM.DeviceNum, settings);
+            recordWin.Saved += (sender2, args) =>
+            {
+                multiActButtonVM.TapMacro.Clear();
+                multiActButtonVM.TapMacro.AddRange((int[])settings.action);
+                multiActButtonVM.UpdateTapDisplayText();
+            };
+
+            recordWin.ShowDialog();
+        }
+
+        private void MultiHoldTapTrigBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DS4Windows.DS4ControlSettings settings = multiActButtonVM.PrepareHoldSettings();
+            RecordBoxWindow recordWin = new RecordBoxWindow(specialActVM.DeviceNum, settings);
+            recordWin.Saved += (sender2, args) =>
+            {
+                multiActButtonVM.HoldMacro.Clear();
+                multiActButtonVM.HoldMacro.AddRange((int[])settings.action);
+                multiActButtonVM.UpdateHoldDisplayText();
+            };
+
+            recordWin.ShowDialog();
+        }
+
+        private void MultiDoubleTapTrigBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DS4Windows.DS4ControlSettings settings = multiActButtonVM.PrepareDoubleTapSettings();
+            RecordBoxWindow recordWin = new RecordBoxWindow(specialActVM.DeviceNum, settings);
+            recordWin.Saved += (sender2, args) =>
+            {
+                multiActButtonVM.DoubleTapMacro.Clear();
+                multiActButtonVM.DoubleTapMacro.AddRange((int[])settings.action);
+                multiActButtonVM.UpdateDoubleTapDisplayText();
+            };
+
+            recordWin.ShowDialog();
         }
     }
 }

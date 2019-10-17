@@ -258,7 +258,7 @@
 
                     <TabControl x:Name="actionTypeTabControl" SelectedIndex="{Binding ActionTypeIndex}" BorderBrush="{x:Null}">
                         <TabItem x:Name="blankActTab" Header="">
-                            
+
                         </TabItem>
                         <TabItem x:Name="macroActTab" Header="Macro">
                             <StackPanel>
@@ -317,10 +317,52 @@
                             </StackPanel>
                         </TabItem>
                         <TabItem x:Name="checkBatteryTab" Header="Check Battery">
-                            
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <Label Content="Hold for "></Label>
+                                    <xctk:IntegerUpDown Value="{Binding Delay}" Width="60" Minimum="0" Maximum="60" />
+                                    <Label Content="secs" />
+                                </StackPanel>
+                                <CheckBox Content="via notification" IsChecked="{Binding Notification}" Margin="0,8,0,0" />
+                                <CheckBox Content="via lightbar" IsChecked="{Binding Lightbar}" Margin="0,8,0,0" />
+                                <StackPanel Orientation="Horizontal" Margin="4,8,4,0">
+                                    <StackPanel HorizontalAlignment="Left">
+                                        <Button x:Name="batteryLowColorBtn" Width="20" Height="20" Click="BatteryEmptyColorBtn_Click">
+                                            <Button.Background>
+                                                <SolidColorBrush Color="{Binding EmptyColor,FallbackValue=#FFFF0000}"/>
+                                            </Button.Background>
+                                        </Button>
+                                        <Label Content="0%" />
+                                    </StackPanel>
+                                    <Button Width="160" Height="20" VerticalAlignment="Top" Focusable="False" Margin="10,0,0,0">
+                                        <Button.Background>
+                                            <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                <GradientStop Color="{Binding EmptyColor,FallbackValue=#FFFF0000}"/>
+                                                <GradientStop Color="{Binding FullColor,FallbackValue=#FF00FF00}" Offset="1"/>
+                                            </LinearGradientBrush>
+                                        </Button.Background>
+                                    </Button>
+                                    <StackPanel Width="50">
+                                        <Button x:Name="batteryFullColorBtn" Width="20" Height="20"
+                                                HorizontalAlignment="Center" Click="BatteryFullColorBtn_Click">
+                                            <Button.Background>
+                                                <SolidColorBrush Color="{Binding FullColor,FallbackValue=#FF00FF00}"/>
+                                            </Button.Background>
+                                        </Button>
+                                        <Label Content="100%" Padding="0,5" HorizontalAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
                         </TabItem>
                         <TabItem x:Name="multiActTab" Header="MultiAct">
-                            
+                            <StackPanel>
+                                <Label Content="Tap Trigger" />
+                                <Button x:Name="multiTapTrigBtn" Content="{Binding TapMacroText,FallbackValue='Select a macro'}" Click="MultiTapTrigBtn_Click" />
+                                <Label Content="Hold Trigger" />
+                                <Button x:Name="multiHoldTapTrigBtn" Content="{Binding HoldMacroText,FallbackValue='Select a macro'}" Click="MultiHoldTapTrigBtn_Click" />
+                                <Label Content="Double Tap Trigger" />
+                                <Button x:Name="multiDoubleTapTrigBtn" Content="{Binding DoubleTapMacroText,FallbackValue='Select a macro'}" Click="MultiDoubleTapTrigBtn_Click" />
+                            </StackPanel>
                         </TabItem>
                         <TabItem x:Name="sixaxisWheelCalibrateTab" Header="Sixaxis Wheel">
                             <StackPanel Orientation="Horizontal">
@@ -330,7 +372,7 @@
                             </StackPanel>
                         </TabItem>
                     </TabControl>
-                    
+
                     <UniformGrid Rows="1">
                         <Button x:Name="saveBtn" Content="Save" Margin="0,0,5,0" Click="SaveBtn_Click" />
                         <Button x:Name="cancelBtn" Content="Cancel" Margin="5,0,0,0" Click="CancelBtn_Click" />

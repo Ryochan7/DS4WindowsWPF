@@ -200,10 +200,12 @@
     <Compile Include="DS4Forms\ViewModel\RecordBoxViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActEditorViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActionsListViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\SpecialActions\CheckBatteryViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActions\DisconnectBTViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActions\LaunchProgramViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActions\LoadProfileViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActions\MacroViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\SpecialActions\MultiActButtonViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActions\PressKeyViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActions\SASteeringWheelViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />

@@ -58,6 +58,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
             describeText = KeyInterop.KeyFromVirtualKey(value).ToString() +
                 (keyType.HasFlag(DS4KeyType.ScanCode) ? "(SC)" : "") +
                 (keyType.HasFlag(DS4KeyType.Toggle) ? "(Toggle)" : "");
+
+            DescribeTextChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public DS4ControlSettings PrepareSettings()
