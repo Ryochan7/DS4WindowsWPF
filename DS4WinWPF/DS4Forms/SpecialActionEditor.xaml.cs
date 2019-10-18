@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DS4WinWPF.DS4Forms.ViewModel;
 using DS4WinWPF.DS4Forms.ViewModel.SpecialActions;
+using Microsoft.Win32;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -156,6 +157,9 @@ namespace DS4WinWPF.DS4Forms
                 case DS4Windows.SpecialAction.ActionTypeId.Profile:
                     loadProfileVM.LoadAction(specialAction);
                     break;
+                case DS4Windows.SpecialAction.ActionTypeId.Key:
+                    pressKeyVM.LoadAction(specialAction);
+                    break;
                 case DS4Windows.SpecialAction.ActionTypeId.DisconnectBT:
                     disconnectBtVM.LoadAction(specialAction);
                     break;
@@ -209,6 +213,9 @@ namespace DS4WinWPF.DS4Forms
                     break;
                 case DS4Windows.SpecialAction.ActionTypeId.Profile:
                     loadProfileVM.SaveAction(tempAct, editMode);
+                    break;
+                case DS4Windows.SpecialAction.ActionTypeId.Key:
+                    pressKeyVM.SaveAction(tempAct, editMode);
                     break;
                 case DS4Windows.SpecialAction.ActionTypeId.DisconnectBT:
                     disconnectBtVM.SaveAction(tempAct, editMode);
@@ -271,7 +278,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void PressKeyToggleTriggerBtn_Click(object sender, RoutedEventArgs e)
         {
-            bool normalTrigger = !pressKeyVM.NormalTrigger;
+            bool normalTrigger = pressKeyVM.NormalTrigger = !pressKeyVM.NormalTrigger;
             if (normalTrigger)
             {
                 pressKeyToggleTriggerBtn.Content = "Set Unload Trigger";
@@ -364,6 +371,33 @@ namespace DS4WinWPF.DS4Forms
             };
 
             recordWin.ShowDialog();
+        }
+
+        private void LaunchProgBrowseBtn_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".exe";
+            dialog.Filter = "Exe (*.exe)|*.exe";
+            dialog.Title = "Select Program";
+
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+            if (dialog.ShowDialog() == true)
+            {
+                launchProgVM.Filepath = dialog.FileName;
+            }
+        }
+
+        private void PressKeySelectBtn_Click(object sender, RoutedEventArgs e)
+        {
+            DS4Windows.DS4ControlSettings settings = pressKeyVM.PrepareSettings();
+            BindingWindow window = new BindingWindow(specialActVM.DeviceNum, settings,
+                BindingWindow.ExposeMode.Keyboard);
+            window.Owner = App.Current.MainWindow;
+            window.ShowDialog();
+            pressKeyVM.ReadSettings(settings);
+            pressKeyVM.UpdateDescribeText();
         }
     }
 }

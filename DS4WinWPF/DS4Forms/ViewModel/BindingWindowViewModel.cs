@@ -13,7 +13,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
     {
         private int deviceNum;
         private bool use360Mode;
-        private MappedControl mappedControl;
+        private DS4ControlSettings settings;
         private OutBinding currentOutBind;
         private OutBinding shiftOutBind;
         private OutBinding actionBinding;
@@ -25,7 +25,6 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             get => use360Mode;
         }
         public int DeviceNum { get => deviceNum; }
-        public MappedControl MappedControl { get => mappedControl; }
         public OutBinding CurrentOutBind { get => currentOutBind; }
         public OutBinding ShiftOutBind { get => shiftOutBind; }
         public OutBinding ActionBinding
@@ -39,12 +38,13 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public bool ShowShift { get => showShift; set => showShift = value; }
         public bool RumbleActive { get => rumbleActive; set => rumbleActive = value; }
+        public DS4ControlSettings Settings { get => settings; }
 
-        public BindingWindowViewModel(int deviceNum, MappedControl mappedControl)
+        public BindingWindowViewModel(int deviceNum, DS4ControlSettings settings)
         {
             this.deviceNum = deviceNum;
             use360Mode = Global.outDevTypeTemp[deviceNum] == OutContType.X360;
-            this.mappedControl = mappedControl;
+            this.settings = settings;
             currentOutBind = new OutBinding();
             shiftOutBind = new OutBinding();
             shiftOutBind.shiftBind = true;
@@ -53,7 +53,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         private void PopulateCurrentBinds()
         {
-            DS4ControlSettings setting = mappedControl.Setting;
+            DS4ControlSettings setting = settings;
             bool sc = setting.keyType.HasFlag(DS4KeyType.ScanCode);
             bool toggle = setting.keyType.HasFlag(DS4KeyType.Toggle);
             currentOutBind.input = setting.control;
@@ -126,8 +126,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public void WriteBinds()
         {
-            currentOutBind.WriteBind(mappedControl.Setting);
-            shiftOutBind.WriteBind(mappedControl.Setting);
+            currentOutBind.WriteBind(settings);
+            shiftOutBind.WriteBind(settings);
         }
 
         public void StartForcedColor(Color color)

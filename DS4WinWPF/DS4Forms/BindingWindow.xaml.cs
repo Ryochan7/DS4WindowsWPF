@@ -29,19 +29,40 @@ namespace DS4WinWPF.DS4Forms
             new Dictionary<DS4Windows.X360Controls, Button>();
         private BindingWindowViewModel bindingVM;
         private Button highlightBtn;
+        private ExposeMode expose;
 
-        public BindingWindow(int deviceNum, MappedControl mappedControl)
+        public enum ExposeMode : uint
+        {
+            Full,
+            Keyboard,
+        }
+
+        public BindingWindow(int deviceNum, DS4Windows.DS4ControlSettings settings,
+            ExposeMode expose = ExposeMode.Full)
         {
             InitializeComponent();
 
-            bindingVM = new BindingWindowViewModel(deviceNum, mappedControl);
+            this.expose = expose;
+            bindingVM = new BindingWindowViewModel(deviceNum, settings);
 
-            Title = $"Select action for {DS4Windows.Global.ds4inputNames[mappedControl.Control]}";
+            if (settings.control != DS4Windows.DS4Controls.None)
+            {
+                Title = $"Select action for {DS4Windows.Global.ds4inputNames[settings.control]}";
+            }
+            else
+            {
+                Title = "Select action";
+            }
+
             guideBtn.Content = "";
             highlightImg.Visibility = Visibility.Hidden;
             highlightLb.Visibility = Visibility.Hidden;
 
-            InitButtonBindings();
+            if (expose == ExposeMode.Full)
+            {
+                InitButtonBindings();
+            }
+
             InitKeyBindings();
             InitInfoMaps();
 
@@ -50,9 +71,27 @@ namespace DS4WinWPF.DS4Forms
                 InitDS4Canvas();
             }
 
-            regBindRadio.IsChecked = !bindingVM.ShowShift;
-            shiftBindRadio.IsChecked = bindingVM.ShowShift;
             bindingVM.ActionBinding = bindingVM.CurrentOutBind;
+            if (expose == ExposeMode.Full)
+            {
+                regBindRadio.IsChecked = !bindingVM.ShowShift;
+                shiftBindRadio.IsChecked = bindingVM.ShowShift;
+            }
+            else
+            {
+                //topGrid.Visibility = Visibility.Collapsed;
+                topGrid.ColumnDefinitions.RemoveAt(3);
+                keyMouseTopTxt.Visibility = Visibility.Collapsed;
+                macroOnLb.Visibility = Visibility.Collapsed;
+                recordMacroBtn.Visibility = Visibility.Collapsed;
+                mouseCanvas.Visibility = Visibility.Collapsed;
+                bottomPanel.Visibility = Visibility.Collapsed;
+                extrasSidePanel.Visibility = Visibility.Collapsed;
+                otherKeysMouseGrid.Columns = 2;
+                Width = 950;
+                Height = 300;
+            }
+
             ChangeForCurrentAction();
         }
 
@@ -110,7 +149,6 @@ namespace DS4WinWPF.DS4Forms
                 binding.outkey = bind.outkey;
             }
 
-            bindingVM.WriteBinds();
             Close();
         }
 
@@ -132,18 +170,21 @@ namespace DS4WinWPF.DS4Forms
                 }
             }
 
-            bindingVM.WriteBinds();
             Close();
         }
 
         private void ChangeForCurrentAction()
         {
             OutBinding bind = bindingVM.ActionBinding;
-            extrasGB.DataContext = bind;
-            modePanel.DataContext = bind;
             topOptsPanel.DataContext = bind;
-            shiftTriggerCombo.Visibility = bind.IsShift() ? Visibility.Visible : Visibility.Hidden;
-            macroOnLb.DataContext = bind;
+
+            if (expose == ExposeMode.Full)
+            {
+                extrasGB.DataContext = bind;
+                modePanel.DataContext = bind;
+                shiftTriggerCombo.Visibility = bind.IsShift() ? Visibility.Visible : Visibility.Hidden;
+                macroOnLb.DataContext = bind;
+            }
 
             FindCurrentHighlightButton();
         }
@@ -228,7 +269,6 @@ namespace DS4WinWPF.DS4Forms
                     {
                         keyBtnMap.Add(binding.outkey, button);
                     }
-                    
                 }
             }
         }
@@ -797,7 +837,6 @@ namespace DS4WinWPF.DS4Forms
                 actBind.outputType = OutBinding.OutType.Default;
             }
 
-            bindingVM.WriteBinds();
             Close();
         }
 
@@ -806,13 +845,12 @@ namespace DS4WinWPF.DS4Forms
             OutBinding actBind = bindingVM.ActionBinding;
             actBind.outputType = OutBinding.OutType.Button;
             actBind.control = DS4Windows.X360Controls.Unbound;
-            bindingVM.WriteBinds();
             Close();
         }
 
         private void RecordMacroBtn_Click(object sender, RoutedEventArgs e)
         {
-            RecordBox box = new RecordBox(bindingVM.DeviceNum, bindingVM.MappedControl.Setting,
+            RecordBox box = new RecordBox(bindingVM.DeviceNum, bindingVM.Settings,
                 bindingVM.ActionBinding.IsShift());
             box.Visibility = Visibility.Visible;
             mapBindingPanel.Visibility = Visibility.Collapsed;
@@ -835,6 +873,11 @@ namespace DS4WinWPF.DS4Forms
                 //mapBindingPanel.Visibility = Visibility.Visible;
                 Close();
             };
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            bindingVM.WriteBinds();
         }
     }
 }

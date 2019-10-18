@@ -475,7 +475,7 @@ namespace DS4WinWPF.DS4Forms
         private void HoverConBtn_Click(object sender, RoutedEventArgs e)
         {
             MappedControl mpControl = mappingListVM.Mappings[mappingListVM.SelectedIndex];
-            BindingWindow window = new BindingWindow(deviceNum, mpControl);
+            BindingWindow window = new BindingWindow(deviceNum, mpControl.Setting);
             window.Owner = App.Current.MainWindow;
             window.ShowDialog();
             mpControl.UpdateMappingName();
@@ -938,6 +938,7 @@ namespace DS4WinWPF.DS4Forms
         {
             if (specialActionsVM.SpecialActionIndex >= 0)
             {
+                int currentIndex = specialActionsVM.SpecialActionIndex;
                 SpecialActionItem item = specialActionsVM.ActionCol[specialActionsVM.SpecialActionIndex];
                 baseSpeActPanel.Visibility = Visibility.Collapsed;
                 SpecialActionEditor actEditor = new SpecialActionEditor(deviceNum, item.SpecialAction);
@@ -952,8 +953,8 @@ namespace DS4WinWPF.DS4Forms
                 {
                     DS4Windows.SpecialAction action = DS4Windows.Global.GetAction(actionName);
                     SpecialActionItem newitem = specialActionsVM.CreateActionItem(action);
-                    specialActionsVM.ActionCol.RemoveAt(specialActionsVM.SpecialActionIndex);
-                    specialActionsVM.ActionCol.Insert(specialActionsVM.SpecialActionIndex, newitem);
+                    specialActionsVM.ActionCol.RemoveAt(currentIndex);
+                    specialActionsVM.ActionCol.Insert(currentIndex, newitem);
                     specialActionDockPanel.Children.Remove(actEditor);
                     baseSpeActPanel.Visibility = Visibility.Visible;
                 };

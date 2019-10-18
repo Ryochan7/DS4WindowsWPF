@@ -265,22 +265,26 @@
                             <StackPanel>
                                 <Button x:Name="recordMacroBtn" Content="Record a macro"
                                         Click="RecordMacroBtn_Click" />
-                                <CheckBox Content="Scan Code"/>
-                                <CheckBox Content="Run on Trigger Release" />
-                                <CheckBox Content="Synchronized Run" />
-                                <CheckBox Content="Keep key state" />
-                                <CheckBox Content="Repeat while held" />
-                                <TextBlock Text="Macro Recorded" />
+                                <CheckBox Content="Scan Code" IsChecked="{Binding UseScanCode}" />
+                                <CheckBox Content="Run on Trigger Release" IsChecked="{Binding RunTriggerRelease}" />
+                                <CheckBox Content="Synchronized Run" IsChecked="{Binding SyncRun}" />
+                                <CheckBox Content="Keep key state" IsChecked="{Binding KeepKeyState}" />
+                                <CheckBox Content="Repeat while held" IsChecked="{Binding RepeatHeld}" />
+                                <TextBlock Text="{Binding Macrostring,FallbackValue='Macro Recorded'}" />
                             </StackPanel>
                         </TabItem>
                         <TabItem x:Name="launchProgActTab" Header="Launch Program">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="Hold for "></Label>
-                                    <xctk:IntegerUpDown Value="0" Width="60" Minimum="0" Maximum="60" />
+                                    <xctk:IntegerUpDown Value="{Binding Delay}" Width="60" Minimum="0" Maximum="60" />
                                     <Label Content="secs" />
                                 </StackPanel>
-                                <Button Content="Browse..."/>
+                                <Button x:Name="launchProgBrowseBtn" Content="Browse..." Click="LaunchProgBrowseBtn_Click" />
+                                <StackPanel Orientation="Horizontal">
+                                    <Label Content="{Binding Filepath}" Width="200" />
+                                    <Image Source="{Binding ProgramIcon}" Width="32" Height="32" Margin="10,0,0,0" />
+                                </StackPanel>
                                 <StackPanel>
                                     <Label Content="Arguments"/>
                                     <TextBox Text="" />
@@ -298,7 +302,7 @@
                         </TabItem>
                         <TabItem x:Name="pressKetActTab" Header="Press Key">
                             <StackPanel>
-                                <Button Content="{Binding DescribeText,FallbackValue='Select a Key'}" />
+                                <Button x:Name="pressKeySelectBtn" Content="{Binding DescribeText,FallbackValue='Select a Key'}" Click="PressKeySelectBtn_Click" />
                                 <Button x:Name="pressKeyToggleTriggerBtn" Content="Set Unload Trigger" Click="PressKeyToggleTriggerBtn_Click" />
 
                                 <StackPanel>

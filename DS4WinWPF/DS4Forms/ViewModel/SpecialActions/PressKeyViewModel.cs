@@ -65,7 +65,16 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         public DS4ControlSettings PrepareSettings()
         {
             DS4ControlSettings settings = new DS4ControlSettings(DS4Controls.None);
+            settings.action = value;
+            settings.keyType = keyType;
+            settings.actionType = DS4ControlSettings.ActionType.Key;
             return settings;
+        }
+
+        public void ReadSettings(DS4ControlSettings settings)
+        {
+            value = (int)settings.action;
+            keyType = settings.keyType;
         }
 
         public void SaveAction(SpecialAction action, bool edit = false)
@@ -81,7 +90,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
             }
 
             Global.SaveAction(action.name, action.controls, 4,
-                $"{value}{(keyType.HasFlag(DS4KeyType.ScanCode) ? "Scan Code" : "")}", edit,
+                $"{value}{(keyType.HasFlag(DS4KeyType.ScanCode) ? " Scan Code" : "")}", edit,
                 !string.IsNullOrEmpty(uaction) ? $"{uaction}\n{action.ucontrols}" : "");
         }
     }
