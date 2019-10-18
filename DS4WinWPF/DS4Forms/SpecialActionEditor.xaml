@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:entity="clr-namespace:DS4WinWPF"
              mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="450">
     <DockPanel>
@@ -293,11 +294,26 @@
                         </TabItem>
                         <TabItem x:Name="loadProfileTab" Header="Load Profile">
                             <StackPanel>
-                                <ComboBox SelectedIndex="0">
+                                <ComboBox SelectedIndex="{Binding ProfileIndex,FallbackValue=0}">
+                                    <ComboBox.Resources>
+                                        <DataTemplate DataType="{x:Type ComboBoxItem}">
+                                            <TextBlock Text="{Binding Content}" />
+                                        </DataTemplate>
 
+                                        <DataTemplate DataType="{x:Type entity:ProfileEntity}">
+                                            <TextBlock Text="{Binding Name}" />
+                                        </DataTemplate>
+                                        <CollectionViewSource x:Key="profileListViewSource" Source="{Binding ProfileList.ProfileListCol,Mode=OneWay}" />
+                                    </ComboBox.Resources>
+                                    <ComboBox.ItemsSource>
+                                        <CompositeCollection>
+                                            <ComboBoxItem Content="*none*"/>
+                                            <CollectionContainer x:Name="profileCollection" Collection="{Binding Source={StaticResource profileListViewSource}}" />
+                                        </CompositeCollection>
+                                    </ComboBox.ItemsSource>
                                 </ComboBox>
-                                <Button x:Name="loadProfUnloadBtn" Content="Set Unload Trigger" Click="LoadProfUnloadBtn_Click" />
-                                <CheckBox Content="Unload on trigger release" />
+                                <Button x:Name="loadProfUnloadBtn" Content="Set Unload Trigger" IsEnabled="{Binding UnloadEnabled}" Click="LoadProfUnloadBtn_Click" />
+                                <CheckBox Content="Unload on trigger release" IsChecked="{Binding AutoUntrigger}" />
                             </StackPanel>
                         </TabItem>
                         <TabItem x:Name="pressKetActTab" Header="Press Key">

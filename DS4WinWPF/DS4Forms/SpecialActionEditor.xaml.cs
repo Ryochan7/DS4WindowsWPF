@@ -40,7 +40,8 @@ namespace DS4WinWPF.DS4Forms
         public delegate void SaveHandler(object sender, string actionName);
         public event SaveHandler Saved;
 
-        public SpecialActionEditor(int deviceNum, DS4Windows.SpecialAction specialAction = null)
+        public SpecialActionEditor(int deviceNum, ProfileList profileList,
+            DS4Windows.SpecialAction specialAction = null)
         {
             InitializeComponent();
 
@@ -75,7 +76,7 @@ namespace DS4WinWPF.DS4Forms
             specialActVM = new SpecialActEditorViewModel(deviceNum, specialAction);
             macroActVM = new MacroViewModel();
             launchProgVM = new LaunchProgramViewModel();
-            loadProfileVM = new LoadProfileViewModel();
+            loadProfileVM = new LoadProfileViewModel(profileList);
             pressKeyVM = new PressKeyViewModel();
             disconnectBtVM = new DisconnectBTViewModel();
             checkBatteryVM = new CheckBatteryViewModel();
@@ -104,7 +105,7 @@ namespace DS4WinWPF.DS4Forms
 
             macroActTab.DataContext = macroActVM;
             launchProgActTab.DataContext = launchProgVM;
-            //loadProfileTab.DataContext = loadProfileVM;
+            loadProfileTab.DataContext = loadProfileVM;
             pressKetActTab.DataContext = pressKeyVM;
             disconnectBTTab.DataContext = disconnectBtVM;
             checkBatteryTab.DataContext = checkBatteryVM;

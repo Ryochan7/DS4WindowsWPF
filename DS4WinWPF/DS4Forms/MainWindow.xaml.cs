@@ -50,6 +50,8 @@ namespace DS4WinWPF.DS4Forms
         private bool preserveSize = true;
         private Size oldSize;
 
+        public ProfileList ProfileListHolder { get => profileListHolder; }
+
         public MainWindow(ArgumentParser parser)
         {
             InitializeComponent();
@@ -705,6 +707,7 @@ namespace DS4WinWPF.DS4Forms
         private const int DBT_DEVNODES_CHANGED = 0x0007;
         private const int DBT_DEVICEARRIVAL = 0x8000;
         private const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
+
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam,
             IntPtr lParam, ref bool handled)
         {

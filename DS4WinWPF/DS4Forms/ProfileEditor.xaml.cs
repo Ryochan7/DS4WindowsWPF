@@ -917,7 +917,8 @@ namespace DS4WinWPF.DS4Forms
         private void NewActionBtn_Click(object sender, RoutedEventArgs e)
         {
             baseSpeActPanel.Visibility = Visibility.Collapsed;
-            SpecialActionEditor actEditor = new SpecialActionEditor(deviceNum, null);
+            ProfileList profList = (Application.Current.MainWindow as MainWindow).ProfileListHolder;
+            SpecialActionEditor actEditor = new SpecialActionEditor(deviceNum, profList, null);
             specialActionDockPanel.Children.Add(actEditor);
             actEditor.Visibility = Visibility.Visible;
             actEditor.Cancel += (sender2, args) =>
@@ -941,7 +942,8 @@ namespace DS4WinWPF.DS4Forms
                 int currentIndex = specialActionsVM.SpecialActionIndex;
                 SpecialActionItem item = specialActionsVM.ActionCol[specialActionsVM.SpecialActionIndex];
                 baseSpeActPanel.Visibility = Visibility.Collapsed;
-                SpecialActionEditor actEditor = new SpecialActionEditor(deviceNum, item.SpecialAction);
+                ProfileList profList = (Application.Current.MainWindow as MainWindow).ProfileListHolder;
+                SpecialActionEditor actEditor = new SpecialActionEditor(deviceNum, profList, item.SpecialAction);
                 specialActionDockPanel.Children.Add(actEditor);
                 actEditor.Visibility = Visibility.Visible;
                 actEditor.Cancel += (sender2, args) =>
