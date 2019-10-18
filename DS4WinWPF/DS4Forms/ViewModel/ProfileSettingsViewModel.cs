@@ -295,6 +295,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         }
         public event EventHandler LightRumbleActiveChanged;
 
+        public bool UseControllerReadout
+        {
+            get => Global.DS4Mapping;
+        }
+
         public bool MouseAcceleration
         {
             get => Global.MouseAccel[device];

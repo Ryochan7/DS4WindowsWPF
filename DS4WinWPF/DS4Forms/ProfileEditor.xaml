@@ -820,6 +820,13 @@
                             <Button x:Name="lightRumbleTestBtn" Content="Test Light" Margin="10,0,0,0" Click="LightRumbleTestBtn_Click" />
                         </UniformGrid>
                     </GroupBox>
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Use Controller" />
+                        <xctk:IntegerUpDown x:Name="useControllerUD" d:IsHidden="True" Width="40" Value="0"
+                                            Minimum="0" Maximum="4" IsEnabled="False" />
+                        <CheckBox x:Name="useControllerReadoutCk" FlowDirection="RightToLeft" Content="for readout" VerticalAlignment="Center"
+                                  IsChecked="{Binding UseControllerReadout}"></CheckBox>
+                    </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="40" Margin="0,4,0,0">
                         <Label Content="Mouse Sensitivity" VerticalAlignment="Center" />
                         <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Height="20" Value="25" Margin="10,0,0,0" />

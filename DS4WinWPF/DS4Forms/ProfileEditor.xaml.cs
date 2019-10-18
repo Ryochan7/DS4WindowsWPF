@@ -450,6 +450,11 @@ namespace DS4WinWPF.DS4Forms
                 currentProfile = null;
             }
 
+            if (device < 4)
+            {
+                useControllerUD.Value = device + 1;
+            }
+
             specialActionsVM.LoadActions(currentProfile == null);
             mappingListVM.UpdateMappings();
             profileSettingsVM.PopulateTouchDisInver(touchDisInvertBtn.ContextMenu);
