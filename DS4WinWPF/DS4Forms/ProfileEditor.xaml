@@ -237,7 +237,10 @@
                                     <GridViewColumn Header="Name" Width="150">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding ActionName}" IsChecked="{Binding Active}" Click="SpecialActionCheckBox_Click" />
+                                                <StackPanel Orientation="Horizontal">
+                                                    <CheckBox IsChecked="{Binding Active}" Click="SpecialActionCheckBox_Click" />
+                                                    <TextBlock Text="{Binding ActionName}" Margin="4,0,0,0" />
+                                                </StackPanel>
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>

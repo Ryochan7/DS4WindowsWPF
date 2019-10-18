@@ -183,8 +183,8 @@ namespace DS4WinWPF.DS4Forms
                 saveBtn.IsEnabled = false;
             }
 
-            triggersListBox.Visibility = Visibility.Visible;
-            unloadTriggersListBox.Visibility = Visibility.Collapsed;
+            triggersListView.Visibility = Visibility.Visible;
+            unloadTriggersListView.Visibility = Visibility.Collapsed;
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -283,21 +283,32 @@ namespace DS4WinWPF.DS4Forms
             if (normalTrigger)
             {
                 pressKeyToggleTriggerBtn.Content = "Set Unload Trigger";
-                triggersListBox.Visibility = Visibility.Visible;
-                unloadTriggersListBox.Visibility = Visibility.Collapsed;
+                triggersListView.Visibility = Visibility.Visible;
+                unloadTriggersListView.Visibility = Visibility.Collapsed;
             }
             else
             {
                 pressKeyToggleTriggerBtn.Content = "Set Regular Trigger";
-                triggersListBox.Visibility = Visibility.Collapsed;
-                unloadTriggersListBox.Visibility = Visibility.Visible;
+                triggersListView.Visibility = Visibility.Collapsed;
+                unloadTriggersListView.Visibility = Visibility.Visible;
             }
         }
 
         private void LoadProfUnloadBtn_Click(object sender, RoutedEventArgs e)
         {
-            triggersListBox.Visibility = Visibility.Collapsed;
-            unloadTriggersListBox.Visibility = Visibility.Visible;
+            bool normalTrigger = loadProfileVM.NormalTrigger = !loadProfileVM.NormalTrigger;
+            if (normalTrigger)
+            {
+                loadProfUnloadBtn.Content = "Set Unload Trigger";
+                triggersListView.Visibility = Visibility.Visible;
+                unloadTriggersListView.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                loadProfUnloadBtn.Content = "Set Regular Trigger";
+                triggersListView.Visibility = Visibility.Collapsed;
+                unloadTriggersListView.Visibility = Visibility.Visible;
+            }
         }
 
         private void BatteryEmptyColorBtn_Click(object sender, RoutedEventArgs e)

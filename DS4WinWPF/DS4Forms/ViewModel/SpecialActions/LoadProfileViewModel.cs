@@ -13,6 +13,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         private bool autoUntrigger;
         private ProfileList profileList;
         private int profileIndex;
+        private bool normalTrigger = true;
 
         public bool AutoUntrigger { get => autoUntrigger; set => autoUntrigger = value; }
         public int ProfileIndex
@@ -31,6 +32,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         public event EventHandler UnloadEnabledChanged;
 
         public ProfileList ProfileList { get => profileList; }
+        public bool NormalTrigger { get => normalTrigger; set => normalTrigger = value; }
 
         public LoadProfileViewModel(ProfileList profileList)
         {
