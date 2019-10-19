@@ -432,6 +432,7 @@ namespace DS4WinWPF.DS4Forms
             touchpadSettingsPanel.DataContext = null;
             mappingListBox.DataContext = null;
             specialActionsTab.DataContext = null;
+            lightbarRect.DataContext = null;
 
             deviceNum = device;
             if (profile != null)
@@ -464,6 +465,7 @@ namespace DS4WinWPF.DS4Forms
             touchpadSettingsPanel.DataContext = profileSettingsVM;
             mappingListBox.DataContext = mappingListVM;
             specialActionsTab.DataContext = specialActionsVM;
+            lightbarRect.DataContext = profileSettingsVM;
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -980,6 +982,32 @@ namespace DS4WinWPF.DS4Forms
         private void SpecialActionCheckBox_Click(object sender, RoutedEventArgs e)
         {
             specialActionsVM.ExportEnabledActions();
+        }
+
+        private void Ds4LightbarColorBtn_MouseEnter(object sender, MouseEventArgs e)
+        {
+            highlightControlDisplayLb.Content = "Click the lightbar for color picker";
+        }
+
+        private void Ds4LightbarColorBtn_MouseLeave(object sender, MouseEventArgs e)
+        {
+            highlightControlDisplayLb.Content = "";
+        }
+
+        private void Ds4LightbarColorBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ColorPickerWindow dialog = new ColorPickerWindow();
+            dialog.Owner = Application.Current.MainWindow;
+            Color tempcolor = profileSettingsVM.MainColor;
+            dialog.colorPicker.SelectedColor = tempcolor;
+            profileSettingsVM.StartForcedColor(tempcolor);
+            dialog.ColorChanged += (sender2, color) =>
+            {
+                profileSettingsVM.UpdateForcedColor(color);
+            };
+            dialog.ShowDialog();
+            profileSettingsVM.EndForcedColor();
+            profileSettingsVM.UpdateMainColor(dialog.colorPicker.SelectedColor.GetValueOrDefault());
         }
     }
 }

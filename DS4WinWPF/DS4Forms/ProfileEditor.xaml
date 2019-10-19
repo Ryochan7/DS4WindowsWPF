@@ -90,6 +90,33 @@
                                 <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.ControlColorKey}}"/>
                             </Label.Foreground>
                         </Label>
+
+                        <Button x:Name="ds4LightbarColorBtn" Width="138" Height="13" Canvas.Left="181" Canvas.Top="30"
+                                Background="{x:Null}" BorderBrush="{x:Null}" MouseEnter="Ds4LightbarColorBtn_MouseEnter" MouseLeave="Ds4LightbarColorBtn_MouseLeave" Click="Ds4LightbarColorBtn_Click">
+                            <Button.Style>
+                                <Style TargetType="{x:Type Button}">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="{x:Type Button}">
+                                                <Border Background="{TemplateBinding Background}">
+                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                </Border>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{x:Null}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <Rectangle x:Name="lightbarRect" Fill="{Binding MainColorString,FallbackValue=Green}" Width="138" Height="13">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/DS4WinWPF;component/Resources/DS4 lightbar.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                        </Button>
                     </Canvas>
 
                     <StackPanel Orientation="Horizontal" Height="210" DockPanel.Dock="Bottom" Margin="10">

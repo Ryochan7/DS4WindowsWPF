@@ -16,15 +16,50 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private int device;
         public int Device { get => device; }
 
+        public System.Windows.Media.Color MainColor
+        {
+            get
+            {
+                ref DS4Color color = ref Global.MainColor[device];
+                return new System.Windows.Media.Color()
+                {
+                    A = 255,
+                    R = color.red,
+                    G = color.green,
+                    B = color.blue
+                };
+            }
+        }
+        public event EventHandler MainColorChanged;
+
+        public string MainColorString
+        {
+            get
+            {
+                ref DS4Color color = ref Global.MainColor[device];
+                return $"#FF{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
+                /*return new System.Windows.Media.Color()
+                {
+                    A = 255,
+                    R = color.red,
+                    G = color.green,
+                    B = color.blue
+                }.ToString();
+                */
+            }
+        }
+        public event EventHandler MainColorStringChanged;
+
         public int MainColorR
         {
             get => Global.MainColor[device].red;
             set
             {
                 Global.MainColor[device].red = (byte)value;
-                MainColorRStringChanged?.Invoke(this, EventArgs.Empty);
+                MainColorRChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public event EventHandler MainColorRChanged;
 
         public string MainColorRString
         {
@@ -38,9 +73,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set
             {
                 Global.MainColor[device].green = (byte)value;
-                MainColorGStringChanged?.Invoke(this, EventArgs.Empty);
+                MainColorGChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public event EventHandler MainColorGChanged;
 
         public string MainColorGString
         {
@@ -54,9 +90,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             set
             {
                 Global.MainColor[device].blue = (byte)value;
-                MainColorBStringChanged?.Invoke(this, EventArgs.Empty);
+                MainColorBChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+        public event EventHandler MainColorBChanged;
 
         public string MainColorBString
         {
@@ -298,6 +335,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public bool UseControllerReadout
         {
             get => Global.DS4Mapping;
+            set => Global.DS4Mapping = value;
         }
 
         public bool MouseAcceleration
@@ -1286,12 +1324,43 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             tempControllerIndex = ControllerTypeIndex;
             tempBtPollRate = Global.BTPollRate[device];
             Global.outDevTypeTemp[device] = OutContType.X360;
+
+            MainColorChanged += ProfileSettingsViewModel_MainColorChanged;
+            MainColorRChanged += (sender, args) =>
+            {
+                MainColorRStringChanged?.Invoke(this, EventArgs.Empty);
+                MainColorStringChanged?.Invoke(this, EventArgs.Empty);
+            };
+            MainColorGChanged += (sender, args) =>
+            {
+                MainColorGStringChanged?.Invoke(this, EventArgs.Empty);
+                MainColorStringChanged?.Invoke(this, EventArgs.Empty);
+            };
+            MainColorBChanged += (sender, args) =>
+            {
+                MainColorBStringChanged?.Invoke(this, EventArgs.Empty);
+                MainColorStringChanged?.Invoke(this, EventArgs.Empty);
+            };
+        }
+
+        private void ProfileSettingsViewModel_MainColorChanged(object sender, EventArgs e)
+        {
+            MainColorStringChanged?.Invoke(this, EventArgs.Empty);
+            MainColorRChanged?.Invoke(this, EventArgs.Empty);
+            MainColorGChanged?.Invoke(this, EventArgs.Empty);
+            MainColorBChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateFlashColor(System.Windows.Media.Color color)
         {
             Global.FlashColor[device] = new DS4Color() { red = color.R, green = color.G, blue = color.B };
             FlashColorChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateMainColor(System.Windows.Media.Color color)
+        {
+            Global.MainColor[device] = new DS4Color() { red = color.R, green = color.G, blue = color.B };
+            MainColorChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void UpdateLowColor(System.Windows.Media.Color color)
@@ -1572,6 +1641,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
 
             GyroMouseStickTrigDisplay = string.Join(", ", triggerName.ToArray());
+        }
+
+        public void ButteredToast()
+        {
+
         }
     }
 }
