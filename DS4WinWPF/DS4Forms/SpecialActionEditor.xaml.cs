@@ -271,7 +271,7 @@ namespace DS4WinWPF.DS4Forms
             {
                 macroActVM.Macro.Clear();
                 macroActVM.Macro.AddRange((int[])settings.action);
-                macroActVM.Macrostring = string.Join(", ", macroActVM.Macro);
+                macroActVM.UpdateMacroString();
             };
 
             recordWin.ShowDialog();

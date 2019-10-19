@@ -14,7 +14,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         private bool syncRun;
         private bool keepKeyState;
         private bool repeatHeld;
-        private List<int> macro;
+        private List<int> macro = new List<int>(1);
         private string macrostring;
 
         public bool UseScanCode { get => useScanCode; set => useScanCode = value; }
@@ -35,7 +35,13 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         public void LoadAction(SpecialAction action)
         {
             macro = action.macro;
-            macrostring = string.Join(", ", action.macro.ToString());
+            if (action.macro.Count > 0)
+            {
+                MacroParser macroParser = new MacroParser(action.macro.ToArray());
+                macroParser.LoadMacro();
+                macrostring = string.Join(", ", macroParser.GetMacroStrings());
+            }
+
             useScanCode = action.keyType.HasFlag(DS4KeyType.ScanCode);
             runTriggerRelease = action.pressRelease;
             syncRun = action.synchronized;
@@ -46,7 +52,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         public DS4ControlSettings PrepareSettings()
         {
             DS4ControlSettings settings = new DS4ControlSettings(DS4Controls.None);
-            settings.action = macro;
+            settings.action = macro.ToArray();
             settings.actionType = DS4ControlSettings.ActionType.Macro;
             settings.keyType = DS4KeyType.Macro;
             if (repeatHeld)
@@ -67,6 +73,19 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
             extrasList.Add(repeatHeld ? "Repeat" : null);
             Global.SaveAction(action.name, action.controls, 1, string.Join("/", macro), edit,
                 string.Join("/", extrasList));
+        }
+
+        public void UpdateMacroString()
+        {
+            string temp = "";
+            if (macro.Count > 0)
+            {
+                MacroParser macroParser = new MacroParser(macro.ToArray());
+                macroParser.LoadMacro();
+                temp = string.Join(", ", macroParser.GetMacroStrings());
+            }
+
+            Macrostring = temp;
         }
     }
 }
