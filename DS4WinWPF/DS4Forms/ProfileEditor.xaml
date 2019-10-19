@@ -424,12 +424,12 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding LSCustomCurveSelected}">
-                                    <Button x:Name="lsCustomEditorBtn" Content="..." Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding LSCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="lsCustomEditorBtn" Content="..." Tag="LS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
+                                    <TextBox MinWidth="100" Text="{Binding LSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2" IsEnabled="{Binding RSCustomCurveSelected}">
-                                    <Button x:Name="rsCustomEditorBtn" Content="..." Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding RSCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="rsCustomEditorBtn" Content="..." Tag="RS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
+                                    <TextBox MinWidth="100" Text="{Binding RSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
                                 </DockPanel>
 
                                 <Label Content="Square Stick:" Grid.Row="7" Grid.Column="0" />
@@ -520,11 +520,11 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding L2CustomCurveSelected}">
-                                    <Button x:Name="l2CustomEditorBtn" Content="..." Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
+                                    <Button x:Name="l2CustomEditorBtn" Content="..." Tag="L2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
                                     <TextBox MinWidth="100" Text="{Binding L2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2"  IsEnabled="{Binding R2CustomCurveSelected}">
-                                    <Button x:Name="r2CustomEditorBtn" Content="..." Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
+                                    <Button x:Name="r2CustomEditorBtn" Content="..." Tag="R2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
                                     <TextBox MinWidth="100" Text="{Binding R2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
                                 </DockPanel>
                             </Grid>
@@ -588,11 +588,11 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding SXCustomCurveSelected}">
-                                    <Button x:Name="sxCustomEditorBtn" Content="..." Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
+                                    <Button x:Name="sxCustomEditorBtn" Content="..." Tag="SX" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
                                     <TextBox MinWidth="100" Text="{Binding SXCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2" IsEnabled="{Binding SZCustomCurveSelected}">
-                                    <Button x:Name="szCustomEditorBtn" Content="..." Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
+                                    <Button x:Name="szCustomEditorBtn" Content="..." Tag="SZ" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
                                     <TextBox MinWidth="100" Text="{Binding SZCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
                                 </DockPanel>
                             </Grid>

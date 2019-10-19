@@ -1,4 +1,5 @@
 ﻿using DS4Windows;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -1643,9 +1644,56 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             GyroMouseStickTrigDisplay = string.Join(", ", triggerName.ToArray());
         }
 
-        public void ButteredToast()
+        public void LaunchCurveEditor(string customDefinition)
         {
+            // Custom curve editor web link clicked. Open the bezier curve editor web app usign the default browser app and pass on current custom definition as a query string parameter.
+            // The Process.Start command using HTML page doesn't support query parameters, so if there is a custom curve definition then lookup the default browser executable name from a sysreg.
+            string defaultBrowserCmd = String.Empty;
+            try
+            {
+                if (!String.IsNullOrEmpty(customDefinition))
+                {
+                    string progId = String.Empty;
+                    using (RegistryKey userChoiceKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\Shell\\Associations\\UrlAssociations\\http\\UserChoice"))
+                    {
+                        progId = userChoiceKey?.GetValue("Progid")?.ToString();
+                    }
 
+                    if (!String.IsNullOrEmpty(progId))
+                    {
+                        using (RegistryKey browserPathCmdKey = Registry.ClassesRoot.OpenSubKey($"{progId}\\shell\\open\\command"))
+                        {
+                            defaultBrowserCmd = browserPathCmdKey?.GetValue(null).ToString();
+                        }
+
+                        if (!String.IsNullOrEmpty(defaultBrowserCmd))
+                        {
+                            int iStartPos = (defaultBrowserCmd[0] == '"' ? 1 : 0);
+                            defaultBrowserCmd = defaultBrowserCmd.Substring(iStartPos, defaultBrowserCmd.LastIndexOf(".exe") + 4 - iStartPos);
+                            if (Path.GetFileName(defaultBrowserCmd).ToLower() == "launchwinapp.exe")
+                                defaultBrowserCmd = String.Empty;
+                        }
+
+                        // Fallback to IE executable if the default browser HTML shell association is for some reason missing or is not set
+                        if (String.IsNullOrEmpty(defaultBrowserCmd))
+                            defaultBrowserCmd = "C:\\Program Files\\Internet Explorer\\iexplore.exe";
+
+                        if (!File.Exists(defaultBrowserCmd))
+                            defaultBrowserCmd = String.Empty;
+                    }
+                }
+
+                // Launch custom bezier editor webapp using a default browser executable command or via a default shell command. The default shell exeution doesn't support query parameters.
+                if (!String.IsNullOrEmpty(defaultBrowserCmd))
+                    System.Diagnostics.Process.Start(defaultBrowserCmd, $"\"file:///{Global.exepath}\\BezierCurveEditor\\index.html?curve={customDefinition.Replace(" ", "")}\"");
+                else
+                    System.Diagnostics.Process.Start($"{Global.exepath}\\BezierCurveEditor\\index.html");
+
+            }
+            catch (Exception ex)
+            {
+                AppLogger.LogToGui($"ERROR. Failed to open {Global.exepath}\\BezierCurveEditor\\index.html web app. Check that the web file exits or launch it outside of DS4Windows application. {ex.Message}", true);
+            }
         }
     }
 }

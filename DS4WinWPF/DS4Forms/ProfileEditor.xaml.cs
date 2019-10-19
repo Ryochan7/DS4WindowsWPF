@@ -769,7 +769,19 @@ namespace DS4WinWPF.DS4Forms
 
         private void CustomEditorBtn_Click(object sender, RoutedEventArgs e)
         {
+            Button btn = sender as Button;
+            string tag = btn.Tag.ToString();
+            if (tag == "LS") LaunchCurveEditor(profileSettingsVM.LSCustomCurve);
+            else if (tag == "RS") LaunchCurveEditor(profileSettingsVM.RSCustomCurve);
+            else if (tag == "L2") LaunchCurveEditor(profileSettingsVM.L2CustomCurve);
+            else if (tag == "R2") LaunchCurveEditor(profileSettingsVM.R2CustomCurve);
+            else if (tag == "SX") LaunchCurveEditor(profileSettingsVM.SXCustomCurve);
+            else if (tag == "SZ") LaunchCurveEditor(profileSettingsVM.SZCustomCurve);
+        }
 
+        private void LaunchCurveEditor(string customDefinition)
+        {
+            profileSettingsVM.LaunchCurveEditor(customDefinition);
         }
 
         private void LaunchProgBrowseBtn_Click(object sender, RoutedEventArgs e)
