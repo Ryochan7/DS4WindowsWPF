@@ -102,6 +102,7 @@ namespace DS4WinWPF.DS4Forms
             actionTypeTabControl.DataContext = specialActVM;
             actionTypeCombo.DataContext = specialActVM;
             actionNameTxt.DataContext = specialActVM;
+            triggersListView.DataContext = specialActVM;
 
             macroActTab.DataContext = macroActVM;
             launchProgActTab.DataContext = launchProgVM;
@@ -182,6 +183,10 @@ namespace DS4WinWPF.DS4Forms
             {
                 saveBtn.IsEnabled = false;
             }
+            else
+            {
+                saveBtn.IsEnabled = true;
+            }
 
             triggersListView.Visibility = Visibility.Visible;
             unloadTriggersListView.Visibility = Visibility.Collapsed;
@@ -194,6 +199,17 @@ namespace DS4WinWPF.DS4Forms
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            bool valid = specialActVM.IsValid();
+            if (!valid)
+            {
+                /*if (specialActVM.GetErrors("TriggerError") != null)
+                {
+                    triggersListView.BorderBrush = new SolidColorBrush(Colors.Red);
+                }
+                */
+                return;
+            }
+
             DS4Windows.SpecialAction.ActionTypeId typeId = specialActVM.TypeAssoc[specialActVM.ActionTypeIndex];
             DS4Windows.SpecialAction tempAct = new DS4Windows.SpecialAction("null", "null", "null", "null");
             bool editMode = specialActVM.EditMode;

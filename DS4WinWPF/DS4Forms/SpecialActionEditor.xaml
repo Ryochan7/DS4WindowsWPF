@@ -11,12 +11,12 @@
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Label Content="Name:" DockPanel.Dock="Left" />
-            <TextBox x:Name="actionNameTxt" Text="{Binding ActionName,FallbackValue=Name}" DockPanel.Dock="Right"
+            <TextBox x:Name="actionNameTxt" Text="{Binding ActionName,FallbackValue=Name,ValidatesOnNotifyDataErrors=True}" DockPanel.Dock="Right"
                      VerticalContentAlignment="Center" />
         </DockPanel>
         <DockPanel DockPanel.Dock="Bottom">
             <DockPanel DockPanel.Dock="Left">
-                <ListView x:Name="triggersListView" Width="200">
+                <ListView x:Name="triggersListView" Tag="{Binding TriggerError, ValidatesOnNotifyDataErrors=True}" Width="200">
                     <ListView.View>
                         <GridView>
                             <GridView.Columns>

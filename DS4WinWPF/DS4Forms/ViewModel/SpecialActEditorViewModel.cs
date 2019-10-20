@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -7,7 +9,7 @@ using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
 {
-    public class SpecialActEditorViewModel
+    public class SpecialActEditorViewModel : INotifyDataErrorInfo
     {
         private int deviceNum;
         private int actionTypeIndex = 0;
@@ -26,6 +28,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private List<string> controlUnloadTriggerList = new List<string>();
         private bool editMode;
 
+        private Dictionary<string, List<string>> errors =
+            new Dictionary<string, List<string>>();
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
 
         public int DeviceNum { get => deviceNum; }
         public int ActionTypeIndex { get => actionTypeIndex; set => actionTypeIndex = value; }
@@ -35,6 +41,16 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         public List<string> ControlTriggerList { get => controlTriggerList; }
         public List<string> ControlUnloadTriggerList { get => controlUnloadTriggerList; }
         public bool EditMode { get => editMode; }
+
+        public bool TriggerError
+        {
+            get
+            {
+                return errors.TryGetValue("TriggerError", out List<string> temp);
+            }
+        }
+
+        public bool HasErrors => errors.Count > 0;
 
         public SpecialActEditorViewModel(int deviceNum, SpecialAction action)
         {
@@ -78,6 +94,66 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 action.ucontrols = string.Join("/", controlUnloadTriggerList.ToArray());
             }
+        }
+
+        public bool IsValid()
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> actionNameErrors = new List<string>();
+            List<string> triggerErrors = new List<string>();
+            List<string> typeErrors = new List<string>();
+
+            if (string.IsNullOrWhiteSpace(actionName))
+            {
+                valid = false;
+                actionNameErrors.Add("No name provided");
+            }
+
+            if (controlTriggerList.Count == 0)
+            {
+                valid = false;
+                triggerErrors.Add("No triggers provided");
+            }
+
+            if (ActionTypeIndex == 0)
+            {
+                valid = false;
+                typeErrors.Add("Specify an action type");
+            }
+
+            if (actionNameErrors.Count > 0)
+            {
+                errors["ActionName"] = actionNameErrors;
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionName"));
+            }
+            if (triggerErrors.Count > 0)
+            {
+                errors["TriggerError"] = triggerErrors;
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("TriggerError"));
+            }
+            if (typeErrors.Count > 0)
+            {
+                errors["ActionTypeIndex"] = typeErrors;
+                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionTypeIndex"));
+            }
+
+            return valid;
+        }
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            errors.TryGetValue(propertyName, out List<string> errorsForName);
+            return errorsForName;
+        }
+
+        private void ClearOldErrors()
+        {
+            errors.Clear();
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionName"));
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("TriggerError"));
+            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionTypeIndex"));
         }
     }
 }
