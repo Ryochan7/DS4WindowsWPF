@@ -291,7 +291,7 @@
                         <TabItem x:Name="macroActTab" Header="Macro">
                             <StackPanel>
                                 <Button x:Name="recordMacroBtn" Content="Record a macro"
-                                        Click="RecordMacroBtn_Click" />
+                                        Tag="{Binding Macro,Mode=OneWay,ValidatesOnNotifyDataErrors=True}" Click="RecordMacroBtn_Click" />
                                 <CheckBox Content="Scan Code" IsChecked="{Binding UseScanCode}" />
                                 <CheckBox Content="Run on Trigger Release" IsChecked="{Binding RunTriggerRelease}" />
                                 <CheckBox Content="Synchronized Run" IsChecked="{Binding SyncRun}" />
@@ -346,7 +346,9 @@
                         <TabItem x:Name="pressKetActTab" Header="Press Key">
                             <StackPanel>
                                 <Button x:Name="pressKeySelectBtn" Content="{Binding DescribeText,FallbackValue='Select a Key'}" Click="PressKeySelectBtn_Click" />
-                                <Button x:Name="pressKeyToggleTriggerBtn" Content="Set Unload Trigger" Click="PressKeyToggleTriggerBtn_Click" />
+                                <Button x:Name="pressKeyToggleTriggerBtn" Content="Set Unload Trigger"
+                                        Tag="{Binding UnloadError,ValidatesOnNotifyDataErrors=True}"
+                                        Click="PressKeyToggleTriggerBtn_Click" />
 
                                 <StackPanel>
                                     <Label Content="Untoggle key by" />

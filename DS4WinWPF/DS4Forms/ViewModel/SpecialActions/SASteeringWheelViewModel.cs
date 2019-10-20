@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class SASteeringWheelViewModel
+    public class SASteeringWheelViewModel : NotifyDataErrorBase
     {
         private int delay;
         public int Delay { get => delay; set => delay = value; }
@@ -20,6 +21,32 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         public void SaveAction(SpecialAction action, bool edit = false)
         {
             Global.SaveAction(action.name, action.controls, 7, delay.ToString(), edit);
+        }
+
+        public override bool IsValid(SpecialAction action)
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> delayErrors = new List<string>();
+
+            if (delay < 0 || delay > 60)
+            {
+                delayErrors.Add("Delay out of range");
+                errors["Delay"] = delayErrors;
+                RaiseErrorsChanged("Delay");
+            }
+
+            return valid;
+        }
+
+        public override void ClearOldErrors()
+        {
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("Delay");
+            }
         }
     }
 }

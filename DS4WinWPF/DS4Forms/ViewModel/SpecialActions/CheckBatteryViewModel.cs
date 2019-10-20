@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class CheckBatteryViewModel
+    public class CheckBatteryViewModel : NotifyDataErrorBase
     {
         private int delay;
         private bool notification;
@@ -92,6 +93,51 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
                 $"{fullColor.R}|{fullColor.G}|{fullColor.B}";
 
             Global.SaveAction(action.name, action.controls, 6, details, edit);
+        }
+
+        public override bool IsValid(SpecialAction action)
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> notificationErrors = new List<string>();
+            List<string> lightbarErrors = new List<string>();
+
+            if (!notification && !lightbar)
+            {
+                notificationErrors.Add("Need status option");
+                lightbarErrors.Add("Need status option");
+            }
+            else if (lightbar)
+            {
+                if (emptyColor == fullColor)
+                {
+                    lightbarErrors.Add("Need to set two different colors");
+                }
+            }
+
+            if (notificationErrors.Count > 0)
+            {
+                errors["Notification"] = notificationErrors;
+                RaiseErrorsChanged("Notification");
+            }
+            if (lightbarErrors.Count > 0)
+            {
+                errors["Lightbar"] = lightbarErrors;
+                RaiseErrorsChanged("Lightbar");
+            }
+
+            return valid;
+        }
+
+        public override void ClearOldErrors()
+        {
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("Notification");
+                RaiseErrorsChanged("Lightbar");
+            }
         }
     }
 }

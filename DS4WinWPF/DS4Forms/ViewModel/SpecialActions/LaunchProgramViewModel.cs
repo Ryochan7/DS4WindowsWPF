@@ -10,10 +10,11 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class LaunchProgramViewModel
+    public class LaunchProgramViewModel : NotifyDataErrorBase
     {
         private string filepath;
         private int delay;
@@ -74,6 +75,40 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         public void SaveAction(SpecialAction action, bool edit = false)
         {
             Global.SaveAction(action.name, action.controls, 2, $"{filepath}?{delay}", edit, arguments);
+        }
+
+        public override bool IsValid(SpecialAction action)
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> filepathErrors = new List<string>();
+
+            if (filepath.Length == 0)
+            {
+                filepathErrors.Add("Filepath empty");
+            }
+            else if (!File.Exists(filepath))
+            {
+                filepathErrors.Add("File at path does not exist");
+            }
+
+            if (filepathErrors.Count > 0)
+            {
+                errors["Filepath"] = filepathErrors;
+                RaiseErrorsChanged("Filepath");
+            }
+
+            return valid;
+        }
+
+        public override void ClearOldErrors()
+        {
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("Filepath");
+            }
         }
     }
 }

@@ -5,10 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class PressKeyViewModel
+    public class PressKeyViewModel : NotifyDataErrorBase
     {
         private string describeText;
         private DS4KeyType keyType;
@@ -34,6 +35,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
         public int Value { get => value; set => this.value = value; }
         public int PressReleaseIndex { get => pressReleaseIndex; set => pressReleaseIndex = value; }
         public bool NormalTrigger { get => normalTrigger; set => normalTrigger = value; }
+        public bool UnloadError
+        {
+            get => errors.TryGetValue("UnloadError", out _);
+        }
 
         public void LoadAction(SpecialAction action)
         {
@@ -92,6 +97,40 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
             Global.SaveAction(action.name, action.controls, 4,
                 $"{value}{(keyType.HasFlag(DS4KeyType.ScanCode) ? " Scan Code" : "")}", edit,
                 !string.IsNullOrEmpty(uaction) ? $"{uaction}\n{action.ucontrols}" : "");
+        }
+
+        public override bool IsValid(SpecialAction action)
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> valueErrors = new List<string>();
+            List<string> toggleErrors = new List<string>();
+
+            if (value == 0)
+            {
+                valueErrors.Add("No key defined");
+                errors["Value"] = valueErrors;
+                RaiseErrorsChanged("Value");
+            }
+            if (keyType.HasFlag(DS4KeyType.Toggle) && string.IsNullOrEmpty(action.ucontrols))
+            {
+                toggleErrors.Add("No unload triggers specified");
+                errors["UnloadError"] = toggleErrors;
+                RaiseErrorsChanged("UnloadError");
+            }
+
+            return valid;
+        }
+
+        public override void ClearOldErrors()
+        {
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("Value");
+                RaiseErrorsChanged("UnloadError");
+            }
         }
     }
 }

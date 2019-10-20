@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class MacroViewModel
+    public class MacroViewModel : NotifyDataErrorBase
     {
         private bool useScanCode;
         private bool runTriggerRelease;
@@ -30,6 +33,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
                 MacrostringChanged?.Invoke(this, EventArgs.Empty);
             }
         }
+
         public event EventHandler MacrostringChanged;
 
         public void LoadAction(SpecialAction action)
@@ -72,7 +76,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
             extrasList.Add(keepKeyState ? "KeepKeyState" : null);
             extrasList.Add(repeatHeld ? "Repeat" : null);
             Global.SaveAction(action.name, action.controls, 1, string.Join("/", macro), edit,
-                string.Join("/", extrasList));
+                string.Join("/", extrasList.Where(s => !string.IsNullOrEmpty(s))));
         }
 
         public void UpdateMacroString()
@@ -86,6 +90,33 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
             }
 
             Macrostring = temp;
+        }
+
+        public override bool IsValid(SpecialAction action)
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> macroErrors = new List<string>();
+
+            if (macro.Count == 0)
+            {
+                valid = false;
+                macroErrors.Add("No macro defined");
+                errors["Macro"] = macroErrors;
+                RaiseErrorsChanged("Macro");
+            }
+
+            return valid;
+        }
+
+        public override void ClearOldErrors()
+        {
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("Macro");
+            }
         }
     }
 }

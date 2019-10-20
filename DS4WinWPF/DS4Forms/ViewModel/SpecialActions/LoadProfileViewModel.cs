@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class LoadProfileViewModel
+    public class LoadProfileViewModel : NotifyDataErrorBase
     {
         private bool autoUntrigger;
         private ProfileList profileList;
@@ -65,6 +66,32 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
                 Global.SaveAction(action.name, action.controls, 3, profilename, edit,
                     action.ucontrols +
                     (autoUntrigger ? (action.ucontrols.Length > 0 ? "/" : "") + "AutomaticUntrigger" : ""));
+            }
+        }
+
+        public override bool IsValid(SpecialAction action)
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> profileIndexErrors = new List<string>();
+
+            if (profileIndex == 0)
+            {
+                profileIndexErrors.Add("No profile given");
+                errors["ProfileIndex"] = profileIndexErrors;
+                RaiseErrorsChanged("ProfileIndex");
+            }
+
+            return valid;
+        }
+
+        public override void ClearOldErrors()
+        {
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("ProfileIndex");
             }
         }
     }

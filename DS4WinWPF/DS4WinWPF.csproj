@@ -209,6 +209,7 @@
     <Compile Include="DS4Forms\ViewModel\SpecialActions\PressKeyViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\SpecialActions\SASteeringWheelViewModel.cs" />
     <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModel\Util\NotifyDataErrorBase.cs" />
     <Compile Include="DS4Forms\WelcomeDialog.xaml.cs">
       <DependentUpon>WelcomeDialog.xaml</DependentUpon>
     </Compile>

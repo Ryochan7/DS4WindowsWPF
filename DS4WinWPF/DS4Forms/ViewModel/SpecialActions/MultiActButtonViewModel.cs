@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
 {
-    public class MultiActButtonViewModel
+    public class MultiActButtonViewModel : NotifyDataErrorBase
     {
         private List<int> tapMacro = new List<int>();
         private List<int> holdMacro = new List<int>();
@@ -130,6 +131,48 @@ namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
                 string.Join("/", holdMacro) + "," +
                 string.Join("/", doubleTapMacro);
             Global.SaveAction(action.name, action.controls, 7, details, edit);
+        }
+
+        public override bool IsValid(SpecialAction action)
+        {
+            ClearOldErrors();
+
+            bool valid = true;
+            List<string> tapMacroErrors = new List<string>();
+            List<string> holdMacroErrors = new List<string>();
+            List<string> doubleTapMacroErrors = new List<string>();
+
+            if (tapMacro.Count == 0)
+            {
+                tapMacroErrors.Add("No tap macro defined");
+                errors["TapMacro"] = tapMacroErrors;
+                RaiseErrorsChanged("TapMacro");
+            }
+            if (holdMacro.Count == 0)
+            {
+                holdMacroErrors.Add("No hold macro defined");
+                errors["HoldMacro"] = holdMacroErrors;
+                RaiseErrorsChanged("HoldMacro");
+            }
+            if (doubleTapMacro.Count == 0)
+            {
+                doubleTapMacroErrors.Add("No double tap macro defined");
+                errors["DoubleTapMacro"] = doubleTapMacroErrors;
+                RaiseErrorsChanged("DoubleTapMacro");
+            }
+
+            return valid;
+        }
+
+        public override void ClearOldErrors()
+        {
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("TapMacro");
+                RaiseErrorsChanged("HoldMacro");
+                RaiseErrorsChanged("DoubleTapMacro");
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 
 * ~~Add HidGuardian helper program~~
 * ~~Find way to hide TabControl tab headers again~~
-* Work on Special Actions list and controls
+* ~~Work on Special Actions list and controls~~
 * Evaluate explicit garbage collection calls
 * Enabled shared memory flags
 * ~~Add lightbar top image to controls display~~

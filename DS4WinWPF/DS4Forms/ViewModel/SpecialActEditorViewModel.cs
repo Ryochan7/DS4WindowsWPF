@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS4Windows;
+using DS4WinWPF.DS4Forms.ViewModel.Util;
 
 namespace DS4WinWPF.DS4Forms.ViewModel
 {
-    public class SpecialActEditorViewModel : INotifyDataErrorInfo
+    public class SpecialActEditorViewModel : NotifyDataErrorBase
     {
         private int deviceNum;
         private int actionTypeIndex = 0;
@@ -28,11 +29,6 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         private List<string> controlUnloadTriggerList = new List<string>();
         private bool editMode;
 
-        private Dictionary<string, List<string>> errors =
-            new Dictionary<string, List<string>>();
-
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
         public int DeviceNum { get => deviceNum; }
         public int ActionTypeIndex { get => actionTypeIndex; set => actionTypeIndex = value; }
         public string ActionName { get => actionName; set => actionName = value; }
@@ -46,11 +42,9 @@ namespace DS4WinWPF.DS4Forms.ViewModel
         {
             get
             {
-                return errors.TryGetValue("TriggerError", out List<string> temp);
+                return errors.TryGetValue("TriggerError", out List<string> _);
             }
         }
-
-        public bool HasErrors => errors.Count > 0;
 
         public SpecialActEditorViewModel(int deviceNum, SpecialAction action)
         {
@@ -94,9 +88,10 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             {
                 action.ucontrols = string.Join("/", controlUnloadTriggerList.ToArray());
             }
+            action.typeID = typeAssoc[actionTypeIndex];
         }
 
-        public bool IsValid()
+        public override bool IsValid(SpecialAction action)
         {
             ClearOldErrors();
 
@@ -126,34 +121,31 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             if (actionNameErrors.Count > 0)
             {
                 errors["ActionName"] = actionNameErrors;
-                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionName"));
+                RaiseErrorsChanged("ActionName");
             }
             if (triggerErrors.Count > 0)
             {
                 errors["TriggerError"] = triggerErrors;
-                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("TriggerError"));
+                RaiseErrorsChanged("TriggerError");
             }
             if (typeErrors.Count > 0)
             {
                 errors["ActionTypeIndex"] = typeErrors;
-                ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionTypeIndex"));
+                RaiseErrorsChanged("ActionTypeIndex");
             }
 
             return valid;
         }
 
-        public IEnumerable GetErrors(string propertyName)
+        public override void ClearOldErrors()
         {
-            errors.TryGetValue(propertyName, out List<string> errorsForName);
-            return errorsForName;
-        }
-
-        private void ClearOldErrors()
-        {
-            errors.Clear();
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionName"));
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("TriggerError"));
-            ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs("ActionTypeIndex"));
+            if (errors.Count > 0)
+            {
+                errors.Clear();
+                RaiseErrorsChanged("ActionName");
+                RaiseErrorsChanged("TriggerError");
+                RaiseErrorsChanged("ActionTypeIndex");
+            }
         }
     }
 }
