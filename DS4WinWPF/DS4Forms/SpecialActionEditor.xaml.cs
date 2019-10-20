@@ -207,6 +207,10 @@ namespace DS4WinWPF.DS4Forms
                 specialActVM.SetAction(tempAct);
                 valid = CheckActionValid(tempAct, typeId);
             }
+            else if (specialActVM.ExistingName)
+            {
+                MessageBox.Show(Properties.Resources.ActionExists);
+            }
 
             if (valid)
             {

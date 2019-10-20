@@ -46,6 +46,11 @@ namespace DS4WinWPF.DS4Forms.ViewModel
             }
         }
 
+        public bool ExistingName { get => existingName; }
+
+        private bool existingName;
+
+
         public SpecialActEditorViewModel(int deviceNum, SpecialAction action)
         {
             this.deviceNum = deviceNum;
@@ -105,6 +110,19 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                 valid = false;
                 actionNameErrors.Add("No name provided");
             }
+            else
+            {
+                foreach (SpecialAction sA in Global.GetActions())
+                {
+                    if (sA.name == actionName)
+                    {
+                        valid = false;
+                        actionNameErrors.Add("Existing action with name already exists");
+                        existingName = true;
+                        break;
+                    }
+                }
+            }
 
             if (controlTriggerList.Count == 0)
             {
@@ -139,6 +157,8 @@ namespace DS4WinWPF.DS4Forms.ViewModel
 
         public override void ClearOldErrors()
         {
+            existingName = false;
+
             if (errors.Count > 0)
             {
                 errors.Clear();
