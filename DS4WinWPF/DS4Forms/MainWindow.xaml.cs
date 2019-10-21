@@ -14,15 +14,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DS4WinWPF.DS4Forms.ViewModel;
-using DS4WinWPF;
-using DS4Windows;
 using Microsoft.Win32;
 using System.Windows.Interop;
 using System.Diagnostics;
 using System.IO;
 using System.Management;
 using NonFormTimer = System.Timers.Timer;
+using System.Runtime.InteropServices;
+using DS4WinWPF.DS4Forms.ViewModel;
+using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -512,7 +512,12 @@ namespace DS4WinWPF.DS4Forms
             aboutWin.ShowDialog();
         }
 
-        private async void StartStopBtn_Click(object sender, RoutedEventArgs e)
+        private void StartStopBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeService();
+        }
+
+        private async void ChangeService()
         {
             StartStopBtn.IsEnabled = false;
             App root = Application.Current as App;
@@ -707,6 +712,7 @@ namespace DS4WinWPF.DS4Forms
         private const int DBT_DEVNODES_CHANGED = 0x0007;
         private const int DBT_DEVICEARRIVAL = 0x8000;
         private const int DBT_DEVICEREMOVECOMPLETE = 0x8004;
+        public const int WM_COPYDATA = 0x004A;
 
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam,
             IntPtr lParam, ref bool handled)
@@ -731,6 +737,65 @@ namespace DS4WinWPF.DS4Forms
                             {
                                 inHotPlug = true;
                                 Task.Run(() => { InnerHotplug2(); });
+                            }
+                        }
+                    }
+                    break;
+                }
+                case WM_COPYDATA:
+                {
+                    // Received InterProcessCommunication (IPC) message. DS4Win command is embedded as a string value in lpData buffer
+                    App.COPYDATASTRUCT cds = (App.COPYDATASTRUCT)Marshal.PtrToStructure(lParam, typeof(App.COPYDATASTRUCT));
+                    if (cds.cbData >= 4 && cds.cbData <= 256)
+                    {
+                        int tdevice = -1;
+
+                        byte[] buffer = new byte[cds.cbData];
+                        Marshal.Copy(cds.lpData, buffer, 0, cds.cbData);
+                        string[] strData = Encoding.ASCII.GetString(buffer).Split('.');
+
+                        if (strData.Length >= 1)
+                        {
+                            strData[0] = strData[0].ToLower();
+
+                            if (strData[0] == "start")
+                                ChangeService();
+                            else if (strData[0] == "stop")
+                                ChangeService();
+                            else if (strData[0] == "shutdown")
+                                MainDS4Window_Closing(this, new System.ComponentModel.CancelEventArgs());
+                            else if ((strData[0] == "loadprofile" || strData[0] == "loadtempprofile") && strData.Length >= 3)
+                            {
+                                // Command syntax: LoadProfile.device#.profileName (fex LoadProfile.1.GameSnake or LoadTempProfile.1.WebBrowserSet)
+                                if (int.TryParse(strData[1], out tdevice)) tdevice--;
+
+                                if (tdevice >= 0 && tdevice < ControlService.DS4_CONTROLLER_COUNT &&
+                                        File.Exists(Global.appdatapath + "\\Profiles\\" + strData[2] + ".xml"))
+                                {
+                                    if (strData[0] == "loadprofile")
+                                    {
+                                        int idx = profileListHolder.ProfileListCol.Select((item, index) => new { item, index }).
+                                                Where(x => x.item.Name == strData[2]).Select(x => x.index).DefaultIfEmpty(-1).First();
+
+                                        if (idx >= 0 && tdevice < conLvViewModel.ControllerCol.Count)
+                                        {
+                                            conLvViewModel.ControllerCol[tdevice].ChangeSelectedProfile(strData[2]);
+                                        }
+                                        else
+                                        {
+                                            // Preset profile name for later loading
+                                            Global.ProfilePath[tdevice] = strData[2];
+                                            //Global.LoadProfile(tdevice, true, Program.rootHub);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Global.LoadTempProfile(tdevice, strData[2], true, Program.rootHub);
+                                    }
+
+                                    Program.rootHub.LogDebug(Properties.Resources.UsingProfile.
+                                        Replace("*number*", (tdevice + 1).ToString()).Replace("*Profile name*", strData[2]));
+                                }
                             }
                         }
                     }

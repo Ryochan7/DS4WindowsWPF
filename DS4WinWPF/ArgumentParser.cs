@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 namespace DS4WinWPF
 {
     public class ArgumentParser
@@ -10,6 +12,10 @@ namespace DS4WinWPF
         private string deviceInstanceId;
         private bool runtask;
         private bool command;
+        private string commandArgs;
+
+        private Dictionary<string, string> errors =
+            new Dictionary<string, string>();
 
         public bool Mini { get => mini; }
         public bool Stop { get => stop; }
@@ -18,9 +24,14 @@ namespace DS4WinWPF
         public bool Runtask { get => runtask; }
         public bool Command { get => command; }
         public string DeviceInstanceId { get => deviceInstanceId; }
+        public string CommandArgs { get => commandArgs; }
+        public Dictionary<string, string> Errors { get => errors; }
+
+        public bool HasErrors => errors.Count > 0;
 
         public void Parse(string[] args)
         {
+            errors.Clear();
             //foreach (string arg in args)
             for (int i = 0; i < args.Length; i++)
             {
@@ -37,7 +48,7 @@ namespace DS4WinWPF
                         reenableDevice = true;
                         if (i + 1 < args.Length)
                         {
-                            deviceInstanceId = args[i++];
+                            deviceInstanceId = args[++i];
                         }
 
                         break;
@@ -58,6 +69,24 @@ namespace DS4WinWPF
                     case "command":
                     case "-command":
                         command = true;
+                        if (i + 1 < args.Length)
+                        {
+                            i++;
+                            string temp = args[i];
+                            if (temp.Length > 0 && temp.Length <= 256)
+                            {
+                                commandArgs = temp;
+                            }
+                            else
+                            {
+                                command = false;
+                                errors["Command"] = "Command length is invalid";
+                            }
+                        }
+                        else
+                        {
+                            errors["Command"] = "Command string not given";
+                        }
                         break;
 
                     default: break;

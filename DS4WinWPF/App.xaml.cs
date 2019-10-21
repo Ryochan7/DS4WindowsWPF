@@ -4,11 +4,15 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.IO.MemoryMappedFiles;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 
 namespace DS4WinWPF
 {
@@ -17,6 +21,23 @@ namespace DS4WinWPF
     /// </summary>
     public partial class App : Application
     {
+        [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern int GetClassName(IntPtr hWnd, StringBuilder lpClassName, int nMaxCount);
+
+        [DllImport("user32.dll", EntryPoint = "FindWindow")]
+        private static extern IntPtr FindWindow(string sClass, string sWindow);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = false)]
+        private static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, ref COPYDATASTRUCT lParam);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct COPYDATASTRUCT
+        {
+            public IntPtr dwData;
+            public int cbData;
+            public IntPtr lpData;
+        }
+
         private Thread controlThread;
         public Tester rootHubtest;
         public static DS4Windows.ControlService rootHub;
@@ -27,6 +48,9 @@ namespace DS4WinWPF
         private bool exitComThread = false;
         private const string SingleAppComEventName = "{a52b5b20-d9ee-4f32-8518-307fa14aa0c6}";
         private EventWaitHandle threadComEvent = null;
+
+        private MemoryMappedFile ipcClassNameMMF = null; // MemoryMappedFile for inter-process communication used to hold className of DS4Form window
+        private MemoryMappedViewAccessor ipcClassNameMMA = null;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -59,7 +83,7 @@ namespace DS4WinWPF
 
             try
             {
-                // another instance is already running if OpenExsting succeeds.
+                // another instance is already running if OpenExisting succeeds.
                 threadComEvent = EventWaitHandle.OpenExisting(SingleAppComEventName,
                     System.Security.AccessControl.EventWaitHandleRights.Synchronize |
                     System.Security.AccessControl.EventWaitHandleRights.Modify);
@@ -112,6 +136,8 @@ namespace DS4WinWPF
             DS4Forms.MainWindow window = new DS4Forms.MainWindow(parser);
             MainWindow = window;
             window.Show();
+            HwndSource source = PresentationSource.FromVisual(window) as HwndSource;
+            CreateIPCClassNameMMF(source.Handle);
         }
 
         private void AttemptSave()
@@ -153,7 +179,11 @@ namespace DS4WinWPF
 
         private void CheckOptions(ArgumentParser parser)
         {
-            if (parser.Driverinstall)
+            if (parser.HasErrors)
+            {
+                Current.Shutdown(1);
+            }
+            else if (parser.Driverinstall)
             {
                 DS4Forms.WelcomeDialog dialog = new DS4Forms.WelcomeDialog(true);
                 dialog.ShowDialog();
@@ -167,6 +197,31 @@ namespace DS4WinWPF
             else if (parser.Runtask)
             {
                 StartupMethods.LaunchOldTask();
+                Current.Shutdown();
+            }
+            else if (parser.Command)
+            {
+                IntPtr hWndDS4WindowsForm = IntPtr.Zero;
+                hWndDS4WindowsForm = FindWindow(ReadIPCClassNameMMF(), "DS4Windows");
+                if (hWndDS4WindowsForm != IntPtr.Zero)
+                {
+                    COPYDATASTRUCT cds;
+                    cds.lpData = IntPtr.Zero;
+
+                    try
+                    {
+                        cds.dwData = IntPtr.Zero;
+                        cds.cbData = parser.CommandArgs.Length;
+                        cds.lpData = Marshal.StringToHGlobalAnsi(parser.CommandArgs);
+                        SendMessage(hWndDS4WindowsForm, DS4Forms.MainWindow.WM_COPYDATA, IntPtr.Zero, ref cds);
+                    }
+                    finally
+                    {
+                        if (cds.lpData != IntPtr.Zero)
+                            Marshal.FreeHGlobal(cds.lpData);
+                    }
+                }
+
                 Current.Shutdown();
             }
         }
@@ -217,6 +272,55 @@ namespace DS4WinWPF
             }
         }
 
+        public void CreateIPCClassNameMMF(IntPtr hWnd)
+        {
+            if (ipcClassNameMMA != null) return; // Already holding a handle to MMF file. No need to re-write the data
+
+            try
+            {
+                StringBuilder wndClassNameStr = new StringBuilder(128);
+                if (GetClassName(hWnd, wndClassNameStr, wndClassNameStr.Capacity) != 0 && wndClassNameStr.Length > 0)
+                {
+                    byte[] buffer = ASCIIEncoding.ASCII.GetBytes(wndClassNameStr.ToString());
+
+                    ipcClassNameMMF = MemoryMappedFile.CreateNew("DS4Windows_IPCClassName.dat", 128);
+                    ipcClassNameMMA = ipcClassNameMMF.CreateViewAccessor(0, buffer.Length);
+                    ipcClassNameMMA.WriteArray(0, buffer, 0, buffer.Length);
+                    // The MMF file is alive as long this process holds the file handle open
+                }
+            }
+            catch (Exception)
+            {
+                /* Eat all exceptions because errors here are not fatal for DS4Win */
+            }
+        }
+
+        private string ReadIPCClassNameMMF()
+        {
+            MemoryMappedFile mmf = null;
+            MemoryMappedViewAccessor mma = null;
+
+            try
+            {
+                byte[] buffer = new byte[128];
+                mmf = MemoryMappedFile.OpenExisting("DS4Windows_IPCClassName.dat");
+                mma = mmf.CreateViewAccessor(0, 128);
+                mma.ReadArray(0, buffer, 0, buffer.Length);
+                return ASCIIEncoding.ASCII.GetString(buffer);
+            }
+            catch (Exception)
+            {
+                // Eat all exceptions
+            }
+            finally
+            {
+                if (mma != null) mma.Dispose();
+                if (mmf != null) mmf.Dispose();
+            }
+
+            return null;
+        }
+
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             if (runShutdown)
@@ -237,6 +341,9 @@ namespace DS4WinWPF
                 while (testThread.IsAlive)
                     Thread.SpinWait(500);
                 threadComEvent.Close();
+
+                if (ipcClassNameMMA != null) ipcClassNameMMA.Dispose();
+                if (ipcClassNameMMF != null) ipcClassNameMMF.Dispose();
             }
         }
     }
