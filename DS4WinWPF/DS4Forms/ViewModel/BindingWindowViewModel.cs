@@ -71,7 +71,7 @@ namespace DS4WinWPF.DS4Forms.ViewModel
                         break;
                     case DS4ControlSettings.ActionType.Key:
                         currentOutBind.outputType = OutBinding.OutType.Key;
-                        currentOutBind.outkey = (int)setting.action;
+                        currentOutBind.outkey = Convert.ToInt32(setting.action);
                         currentOutBind.hasScanCode = sc;
                         currentOutBind.toggle = toggle;
                         break;

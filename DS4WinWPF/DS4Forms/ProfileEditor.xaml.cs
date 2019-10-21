@@ -1,6 +1,4 @@
-﻿using DS4WinWPF.DS4Forms.ViewModel;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -15,6 +13,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using NonFormTimer = System.Timers.Timer;
+using DS4WinWPF.DS4Forms.ViewModel;
+using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -49,6 +51,8 @@ namespace DS4WinWPF.DS4Forms
         private StackPanel activeGyroModePanel;
         private bool keepsize;
         public bool Keepsize { get => keepsize; }
+
+        private NonFormTimer inputTimer;
 
         public ProfileEditor(int device)
         {
@@ -105,6 +109,9 @@ namespace DS4WinWPF.DS4Forms
             ColorByBatteryPerCheck();
             AssignTiltAssociation();
             AssignSwipeAssociation();
+
+            inputTimer = new NonFormTimer(100);
+            inputTimer.Elapsed += InputDS4;
             SetupEvents();
         }
 
@@ -113,6 +120,7 @@ namespace DS4WinWPF.DS4Forms
             gyroOutModeCombo.SelectionChanged += GyroOutModeCombo_SelectionChanged;
             outConTypeCombo.SelectionChanged += OutConTypeCombo_SelectionChanged;
             mappingListBox.SelectionChanged += MappingListBox_SelectionChanged;
+            Closed += ProfileEditor_Closed;
         }
 
         private void AssignTiltAssociation()
@@ -440,10 +448,10 @@ namespace DS4WinWPF.DS4Forms
                 currentProfile = profile;
                 if (device == 4)
                 {
-                    DS4Windows.Global.ProfilePath[4] = profile.Name;
+                    Global.ProfilePath[4] = profile.Name;
                 }
 
-                DS4Windows.Global.LoadProfile(device, false, App.rootHub);
+                Global.LoadProfile(device, false, App.rootHub);
                 profileNameTxt.Text = profile.Name;
             }
             else
@@ -466,6 +474,11 @@ namespace DS4WinWPF.DS4Forms
             mappingListBox.DataContext = mappingListVM;
             specialActionsTab.DataContext = specialActionsVM;
             lightbarRect.DataContext = profileSettingsVM;
+
+            if (profileSettingsVM.UseControllerReadout)
+            {
+                inputTimer.Start();
+            }
         }
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
@@ -1021,6 +1034,106 @@ namespace DS4WinWPF.DS4Forms
             dialog.ShowDialog();
             profileSettingsVM.EndForcedColor();
             profileSettingsVM.UpdateMainColor(dialog.colorPicker.SelectedColor.GetValueOrDefault());
+        }
+
+        private void InputDS4(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            inputTimer.Stop();
+
+            bool activeWin = false;
+            int tempDeviceNum = 0;
+            Dispatcher.Invoke(() =>
+            {
+                activeWin = Application.Current.MainWindow.IsActive;
+                tempDeviceNum = profileSettingsVM.Device;
+            });
+
+            if (activeWin && profileSettingsVM.UseControllerReadout)
+            {
+                int index = -1;
+                switch(Program.rootHub.GetActiveInputControl(tempDeviceNum))
+                {
+                    case DS4Controls.None: break;
+                    case DS4Controls.Cross: index = 0; break;
+                    case DS4Controls.Circle: index = 1; break;
+                    case DS4Controls.Square: index = 2; break;
+                    case DS4Controls.Triangle: index = 3; break;
+                    case DS4Controls.Options: index = 4; break;
+                    case DS4Controls.Share: index = 5; break;
+                    case DS4Controls.DpadUp: index = 6; break;
+                    case DS4Controls.DpadDown: index = 7; break;
+                    case DS4Controls.DpadLeft: index = 8; break;
+                    case DS4Controls.DpadRight: index = 9; break;
+                    case DS4Controls.PS: index = 10; break;
+                    case DS4Controls.L1: index = 11; break;
+                    case DS4Controls.R1: index = 12; break;
+                    case DS4Controls.L2: index = 13; break;
+                    case DS4Controls.R2: index = 14; break;
+                    case DS4Controls.L3: index = 15; break;
+                    case DS4Controls.R3: index = 16; break;
+                    case DS4Controls.TouchLeft: index = 17; break;
+                    case DS4Controls.TouchRight: index = 18; break;
+                    case DS4Controls.TouchMulti: index = 19; break;
+                    case DS4Controls.TouchUpper: index = 20; break;
+                    case DS4Controls.LYNeg: index = 21; break;
+                    case DS4Controls.LYPos: index = 22; break;
+                    case DS4Controls.LXNeg: index = 23; break;
+                    case DS4Controls.LXPos: index = 24; break;
+                    case DS4Controls.RYNeg: index = 25; break;
+                    case DS4Controls.RYPos: index = 26; break;
+                    case DS4Controls.RXNeg: index = 27; break;
+                    case DS4Controls.RXPos: index = 28; break;
+                    default: break;
+                }
+
+                if (index >= 0)
+                {
+                    Dispatcher.BeginInvoke((Action)(() =>
+                    {
+                        mappingListVM.SelectedIndex = index;
+                        ShowControlBindingWindow();
+                    }));
+                }
+            }
+
+            if (profileSettingsVM.UseControllerReadout)
+            {
+                inputTimer.Start();
+            }
+        }
+        private void ProfileEditor_Closed(object sender, EventArgs e)
+        {
+            inputTimer.Stop();
+        }
+
+        private void UseControllerReadoutCk_Click(object sender, RoutedEventArgs e)
+        {
+            if (profileSettingsVM.UseControllerReadout && profileSettingsVM.Device < 4)
+            {
+                inputTimer.Start();
+            }
+            else
+            {
+                inputTimer.Stop();
+            }
+        }
+
+        private void ShowControlBindingWindow()
+        {
+            MappedControl mpControl = mappingListVM.Mappings[mappingListVM.SelectedIndex];
+            BindingWindow window = new BindingWindow(deviceNum, mpControl.Setting);
+            window.Owner = App.Current.MainWindow;
+            window.ShowDialog();
+            mpControl.UpdateMappingName();
+            UpdateHighlightLabel(mpControl);
+        }
+
+        private void MappingListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (mappingListVM.SelectedIndex >= 0)
+            {
+                ShowControlBindingWindow();
+            }
         }
     }
 }

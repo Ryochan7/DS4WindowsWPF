@@ -236,7 +236,8 @@
                         </StackPanel>
 
                         <ListBox x:Name="mappingListBox" ItemsSource="{Binding Mappings}"
-                                 SelectedIndex="{Binding SelectedIndex}" Width="200" Margin="30,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                                 SelectedIndex="{Binding SelectedIndex}" Width="200" Margin="30,0,0,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                                 MouseDoubleClick="MappingListBox_MouseDoubleClick">
                             <ListBox.ItemTemplate>
                                 <DataTemplate>
                                     <StackPanel Orientation="Horizontal">
@@ -852,7 +853,13 @@
                         <xctk:IntegerUpDown x:Name="useControllerUD" d:IsHidden="True" Width="40" Value="0"
                                             Minimum="0" Maximum="4" IsEnabled="False" />
                         <CheckBox x:Name="useControllerReadoutCk" FlowDirection="RightToLeft" Content="for readout" VerticalAlignment="Center"
-                                  IsChecked="{Binding UseControllerReadout}"></CheckBox>
+                                  IsChecked="{Binding UseControllerReadout}" Click="UseControllerReadoutCk_Click">
+                            <CheckBox.Resources>
+                                <Style TargetType="{x:Type Path}">
+                                    <Setter Property="FlowDirection" Value="LeftToRight"/>
+                                </Style>
+                            </CheckBox.Resources>
+                        </CheckBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="40" Margin="0,4,0,0">
                         <Label Content="Mouse Sensitivity" VerticalAlignment="Center" />
