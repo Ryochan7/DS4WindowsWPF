@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="380" d:DesignWidth="800">
     <DockPanel>
-        <StackPanel x:Name="editControlsPanel" DockPanel.Dock="Right" Width="200" Margin="8" IsEnabled="False">
+        <StackPanel x:Name="editControlsPanel" DockPanel.Dock="Right" Width="240" Margin="8" IsEnabled="False">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Height="30">
                 <Button x:Name="removeAutoBtn" Content="Remove" Height="20" Padding="1" Width="80" Click="RemoveAutoBtn_Click" />
                 <Button x:Name="saveAutoBtn" Content="Save" Margin="20,0,0,0" Height="20" Width="80" Click="SaveAutoBtn_Click" />
