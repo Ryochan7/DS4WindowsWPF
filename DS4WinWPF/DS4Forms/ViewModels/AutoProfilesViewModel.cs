@@ -47,9 +47,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public event CurrentItemChangeHandler CurrentItemChange;
 
         public event EventHandler SearchFinished;
-        //public delegate void AutoProfileHandler(AutoProfilesViewModel sender,
-        //    ProgramItem item, bool state);
-        //public event AutoProfileHandler AutoProfileUpdated;
         public delegate void AutoProfileStateHandler(AutoProfilesViewModel sender, bool state);
         public event AutoProfileStateHandler AutoProfileSystemChange;
 
@@ -70,8 +67,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 ProgramItem item = new ProgramItem(entry.Path, entry);
 
-                //item.AutoProfileAction += ProgramItem_AutoProfileAction;
-                //item.SelectProfChange += ProgramItem_SelectProfChange;
                 programColl.Add(item);
                 existingapps.Add(entry.Path);
             }
@@ -134,8 +129,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                         item.MatchedAutoProfile = autoEntity;
                     }
 
-                    //item.AutoProfileAction += ProgramItem_AutoProfileAction;
-                    //item.SelectProfChange += ProgramItem_SelectProfChange;
                     programColl.Add(item);
                     existingapps.Add(target);
                 }
@@ -201,41 +194,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             autoProfileHolder.AutoProfileColl.Remove(item.MatchedAutoProfile);
             item.MatchedAutoProfile = null;
         }
-
-        /*private void ProgramItem_SelectProfChange(ProgramItem sender, int devindex, int profindex)
-        {
-            if (profindex <= 0)
-            {
-                sender.MatchedAutoProfile.ProfileNames[devindex] = string.Empty;
-            }
-            else
-            {
-                sender.MatchedAutoProfile.ProfileNames[devindex] = profileList.ProfileListCol[profindex - 1].Name;
-            }
-        }
-
-        private void ProgramItem_AutoProfileAction(ProgramItem sender, bool added)
-        {
-            if (added)
-            {
-                sender.MatchedAutoProfile = new AutoProfileEntity()
-                {
-                    Path = sender.Path,
-                    Title = sender.Title,
-                };
-
-                autoProfileHolder.AutoProfileColl.Add(sender.MatchedAutoProfile);
-                autoProfileHolder.AutoProfileDict.Add(sender.Path, sender.MatchedAutoProfile);
-            }
-            else
-            {
-                autoProfileHolder.AutoProfileColl.Remove(sender.MatchedAutoProfile);
-                autoProfileHolder.AutoProfileDict.Remove(sender.Path);
-            }
-
-            AutoProfileUpdated?.Invoke(this, sender, added);
-        }
-        */
 
         private string GetTargetPath(string filePath)
         {
@@ -396,22 +354,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public bool Exists
         {
             get => matchedAutoProfile != null;
-            /*set
-            {
-                if (matchedAutoProfile != null && !value)
-                {
-                    matchedAutoProfile = null;
-                    AutoProfileAction?.Invoke(this, false);
-                }
-                else if (matchedAutoProfile == null && value)
-                {
-                    AutoProfileAction?.Invoke(this, true);
-                }
-
-                MatchedAutoProfileChanged?.Invoke(this, EventArgs.Empty);
-                ExistsChanged?.Invoke(this, EventArgs.Empty);
-            }
-            */
         }
         public event EventHandler ExistsChanged;
 
@@ -427,7 +369,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon1 == value) return;
                 selectedIndexCon1 = value;
-                //SelectProfChange?.Invoke(this, 0, value);
             }
         }
 
@@ -438,7 +379,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon2 == value) return;
                 selectedIndexCon2 = value;
-                //SelectProfChange?.Invoke(this, 1, value);
             }
         }
         public int SelectedIndexCon3
@@ -448,7 +388,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon3 == value) return;
                 selectedIndexCon3 = value;
-                //SelectProfChange?.Invoke(this, 2, value);
             }
         }
         public int SelectedIndexCon4
@@ -458,12 +397,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon4 == value) return;
                 selectedIndexCon4 = value;
-                //SelectProfChange?.Invoke(this, 3, value);
             }
         }
-
-        //public delegate void SelectedProfChangeHandler(ProgramItem sender, int devindex, int profindex);
-        //public event SelectedProfChangeHandler SelectProfChange;
 
         public ProgramItem(string path, AutoProfileEntity autoProfileEntity = null)
         {

@@ -57,8 +57,6 @@ namespace DS4WinWPF.DS4Forms
                 addProgramsBtn.ContextMenu.Items.Remove(steamMenuItem);
 
             autoProfileHolder = new AutoProfileHolder();
-            //autoProfVM = new AutoProfilesViewModel(autoProfileHolder);
-            //DataContext = autoProfVM;
         }
 
         public void SetupDataContext(ProfileList profileList)
@@ -68,7 +66,6 @@ namespace DS4WinWPF.DS4Forms
             programListLV.ItemsSource = autoProfVM.ProgramColl;
 
             autoProfVM.SearchFinished += AutoProfVM_SearchFinished;
-            //autoProfVM.AutoProfileUpdated += AutoProfVM_AutoProfileUpdated;
             autoProfVM.CurrentItemChange += AutoProfVM_CurrentItemChange;
 
             this.profileList = profileList;
@@ -88,33 +85,28 @@ namespace DS4WinWPF.DS4Forms
                     if (tempProf != null)
                     {
                         item.SelectedIndexCon1 = profileList.ProfileListCol.IndexOf(tempProf) + 1;
-                        //cont1AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
                     }
 
                     tempProf = profileList.ProfileListCol.SingleOrDefault(x => x.Name == item.MatchedAutoProfile.ProfileNames[1]);
                     if (tempProf != null)
                     {
                         item.SelectedIndexCon2 = profileList.ProfileListCol.IndexOf(tempProf) + 1;
-                        //cont2AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
                     }
 
                     tempProf = profileList.ProfileListCol.SingleOrDefault(x => x.Name == item.MatchedAutoProfile.ProfileNames[2]);
                     if (tempProf != null)
                     {
                         item.SelectedIndexCon3 = profileList.ProfileListCol.IndexOf(tempProf) + 1;
-                        //cont3AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
                     }
 
                     tempProf = profileList.ProfileListCol.SingleOrDefault(x => x.Name == item.MatchedAutoProfile.ProfileNames[3]);
                     if (tempProf != null)
                     {
                         item.SelectedIndexCon4 = profileList.ProfileListCol.IndexOf(tempProf) + 1;
-                        //cont4AutoProf.SelectedIndex = profileList.ProfileListCol.IndexOf(tempProf) + 1;
                     }
                 }
 
                 editControlsPanel.DataContext = item;
-                //editControlsPanel.IsEnabled = item.MatchedAutoProfile != null;
                 editControlsPanel.IsEnabled = true;
             }
             else
@@ -128,22 +120,6 @@ namespace DS4WinWPF.DS4Forms
                 cont4AutoProf.SelectedIndex = 0;
             }
         }
-
-        /*private void AutoProfVM_AutoProfileUpdated(AutoProfilesViewModel sender,
-            ProgramItem item, bool state)
-        {
-            if (state && item.MatchedAutoProfile != null)
-            {
-                editControlsPanel.DataContext = item;
-                editControlsPanel.IsEnabled = true;
-            }
-            else
-            {
-                editControlsPanel.DataContext = null;
-                editControlsPanel.IsEnabled = false;
-            }
-        }
-        */
 
         private void AutoProfVM_SearchFinished(object sender, EventArgs e)
         {
@@ -204,12 +180,8 @@ namespace DS4WinWPF.DS4Forms
             {
                 editControlsPanel.DataContext = null;
                 autoProfVM.RemoveAutoProfileEntry(autoProfVM.SelectedItem);
-                //autoProfVM.AutoProfileHolder.Remove(autoProfVM.SelectedItem.MatchedAutoProfile);
-                //autoProfVM.SelectedItem.MatchedAutoProfile = null;
                 autoProfVM.AutoProfileHolder.Save(DS4Windows.Global.appdatapath + @"\Auto Profiles.xml");
-                //autoProfVM.SelectedItem.Exists = false;
                 autoProfVM.SelectedItem = null;
-                //editControlsPanel.DataContext = null;
             }
         }
 
