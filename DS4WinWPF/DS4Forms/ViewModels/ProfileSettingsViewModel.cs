@@ -10,7 +10,7 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
-namespace DS4WinWPF.DS4Forms.ViewModel
+namespace DS4WinWPF.DS4Forms.ViewModels
 {
     public class ProfileSettingsViewModel
     {

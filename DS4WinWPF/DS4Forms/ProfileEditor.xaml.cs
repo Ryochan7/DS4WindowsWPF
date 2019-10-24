@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Microsoft.Win32;
 using NonFormTimer = System.Timers.Timer;
-using DS4WinWPF.DS4Forms.ViewModel;
+using DS4WinWPF.DS4Forms.ViewModels;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms

@@ -10,9 +10,9 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using DS4Windows;
-using DS4WinWPF.DS4Forms.ViewModel.Util;
+using DS4WinWPF.DS4Forms.ViewModels.Util;
 
-namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
+namespace DS4WinWPF.DS4Forms.ViewModels.SpecialActions
 {
     public class LaunchProgramViewModel : NotifyDataErrorBase
     {

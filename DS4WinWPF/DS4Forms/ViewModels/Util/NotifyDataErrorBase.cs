@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace DS4WinWPF.DS4Forms.ViewModel.Util
+namespace DS4WinWPF.DS4Forms.ViewModels.Util
 {
     public abstract class NotifyDataErrorBase : INotifyDataErrorInfo
     {

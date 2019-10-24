@@ -192,24 +192,24 @@
     <Compile Include="DS4Forms\SpecialActionEditor.xaml.cs">
       <DependentUpon>SpecialActionEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DS4Forms\ViewModel\AutoProfilesViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\BindingWindowViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\ControllerListViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\MappingListViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\ProfileSettingsViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\RecordBoxViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActEditorViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActionsListViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\CheckBatteryViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\DisconnectBTViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\LaunchProgramViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\LoadProfileViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\MacroViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\MultiActButtonViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\PressKeyViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\SpecialActions\SASteeringWheelViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\TrayIconViewModel.cs" />
-    <Compile Include="DS4Forms\ViewModel\Util\NotifyDataErrorBase.cs" />
+    <Compile Include="DS4Forms\ViewModels\AutoProfilesViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\BindingWindowViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\ControllerListViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\MappingListViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\ProfileSettingsViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\RecordBoxViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActEditorViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActionsListViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\CheckBatteryViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\DisconnectBTViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\LaunchProgramViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\LoadProfileViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\MacroViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\MultiActButtonViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\PressKeyViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SpecialActions\SASteeringWheelViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\TrayIconViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\Util\NotifyDataErrorBase.cs" />
     <Compile Include="DS4Forms\WelcomeDialog.xaml.cs">
       <DependentUpon>WelcomeDialog.xaml</DependentUpon>
     </Compile>
@@ -231,7 +231,7 @@
     <Compile Include="DS4Control\MacroParser.cs" />
     <Compile Include="ProfileEntity.cs" />
     <Compile Include="ProfileList.cs" />
-    <Compile Include="DS4Forms\ViewModel\SettingsViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\SettingsViewModel.cs" />
     <Compile Include="StartupMethods.cs" />
     <Compile Include="StatusLogMsg.cs" />
     <Compile Include="Tester.cs" />
@@ -266,7 +266,7 @@
     </Compile>
     <Compile Include="AppLogger.cs" />
     <Compile Include="LogItem.cs" />
-    <Compile Include="DS4Forms\ViewModel\LogViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\LogViewModel.cs" />
     <Compile Include="DS4Forms\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

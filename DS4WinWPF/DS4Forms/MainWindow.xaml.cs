@@ -21,7 +21,7 @@ using System.IO;
 using System.Management;
 using NonFormTimer = System.Timers.Timer;
 using System.Runtime.InteropServices;
-using DS4WinWPF.DS4Forms.ViewModel;
+using DS4WinWPF.DS4Forms.ViewModels;
 using DS4Windows;
 
 namespace DS4WinWPF.DS4Forms

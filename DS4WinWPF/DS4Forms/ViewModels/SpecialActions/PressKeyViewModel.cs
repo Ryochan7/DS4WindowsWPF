@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using DS4Windows;
-using DS4WinWPF.DS4Forms.ViewModel.Util;
+using DS4WinWPF.DS4Forms.ViewModels.Util;
 
-namespace DS4WinWPF.DS4Forms.ViewModel.SpecialActions
+namespace DS4WinWPF.DS4Forms.ViewModels.SpecialActions
 {
     public class PressKeyViewModel : NotifyDataErrorBase
     {

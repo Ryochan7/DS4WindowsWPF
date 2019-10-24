@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 
-namespace DS4WinWPF.DS4Forms.ViewModel
+namespace DS4WinWPF.DS4Forms.ViewModels
 {
     public class LogViewModel
     {

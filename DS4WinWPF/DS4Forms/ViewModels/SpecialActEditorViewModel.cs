@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DS4Windows;
-using DS4WinWPF.DS4Forms.ViewModel.Util;
+using DS4WinWPF.DS4Forms.ViewModels.Util;
 
-namespace DS4WinWPF.DS4Forms.ViewModel
+namespace DS4WinWPF.DS4Forms.ViewModels
 {
     public class SpecialActEditorViewModel : NotifyDataErrorBase
     {

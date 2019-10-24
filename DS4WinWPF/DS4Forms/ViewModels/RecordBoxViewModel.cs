@@ -11,7 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using DS4Windows;
 
-namespace DS4WinWPF.DS4Forms.ViewModel
+namespace DS4WinWPF.DS4Forms.ViewModels
 {
     public class RecordBoxViewModel
     {
