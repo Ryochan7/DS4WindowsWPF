@@ -1323,8 +1323,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             this.device = device;
             tempControllerIndex = ControllerTypeIndex;
-            tempBtPollRate = Global.BTPollRate[device];
             Global.outDevTypeTemp[device] = OutContType.X360;
+            tempBtPollRate = Global.BTPollRate[device];
 
             MainColorChanged += ProfileSettingsViewModel_MainColorChanged;
             MainColorRChanged += (sender, args) =>
@@ -1694,6 +1694,13 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 AppLogger.LogToGui($"ERROR. Failed to open {Global.exepath}\\BezierCurveEditor\\index.html web app. Check that the web file exits or launch it outside of DS4Windows application. {ex.Message}", true);
             }
+        }
+
+        public void UpdateLateProperties()
+        {
+            tempControllerIndex = ControllerTypeIndex;
+            Global.outDevTypeTemp[device] = Global.OutContType[device];
+            tempBtPollRate = Global.BTPollRate[device];
         }
     }
 }

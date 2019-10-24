@@ -466,6 +466,7 @@ namespace DS4WinWPF.DS4Forms
 
             specialActionsVM.LoadActions(currentProfile == null);
             mappingListVM.UpdateMappings();
+            profileSettingsVM.UpdateLateProperties();
             profileSettingsVM.PopulateTouchDisInver(touchDisInvertBtn.ContextMenu);
             profileSettingsVM.PopulateGyroMouseTrig(gyroMouseTrigBtn.ContextMenu);
             profileSettingsVM.PopulateGyroMouseStickTrig(gyroMouseStickTrigBtn.ContextMenu);
