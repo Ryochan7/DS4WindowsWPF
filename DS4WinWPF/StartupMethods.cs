@@ -75,9 +75,11 @@ namespace DS4WinWPF
             DeleteTaskEntry();
             TaskService ts = new TaskService();
             TaskDefinition td = ts.NewTask();
-            td.Actions.Add(new ExecAction(Process.GetCurrentProcess().MainModule.FileName,
-                "-m",
-                new FileInfo(Process.GetCurrentProcess().MainModule.FileName).DirectoryName));
+            td.Triggers.Add(new LogonTrigger());
+            string dir = new FileInfo(Process.GetCurrentProcess().MainModule.FileName).DirectoryName;
+            td.Actions.Add(new ExecAction($@"{dir}\task.bat",
+                "",
+                dir));
 
             td.Principal.RunLevel = TaskRunLevel.Highest;
             ts.RootFolder.RegisterTaskDefinition("RunDS4Windows", td);
