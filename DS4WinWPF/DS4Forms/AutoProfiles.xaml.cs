@@ -128,12 +128,20 @@ namespace DS4WinWPF.DS4Forms
 
         private void SteamMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            this.IsEnabled = false;
+            steamMenuItem.Visibility = Visibility.Collapsed;
+            programListLV.ItemsSource = null;
+            autoProfVM.AddProgramsFromSteam(steamgamesdir);
+            autoProfVM.SearchFinished += AppsSearchFinished;
         }
 
         private void BrowseProgsMenuItem_Click(object sender, RoutedEventArgs e)
         {
-
+            this.IsEnabled = false;
+            browseProgsMenuItem.Visibility = Visibility.Collapsed;
+            programListLV.ItemsSource = null;
+            autoProfVM.AddProgramsFromDir(steamgamesdir);
+            autoProfVM.SearchFinished += AppsSearchFinished;
         }
 
         private void StartMenuItem_Click(object sender, RoutedEventArgs e)
@@ -142,12 +150,12 @@ namespace DS4WinWPF.DS4Forms
             startMenuItem.Visibility = Visibility.Collapsed;
             programListLV.ItemsSource = null;
             autoProfVM.AddProgramsFromStartMenu();
-            autoProfVM.SearchFinished += StartMenuSearchFinished;
+            autoProfVM.SearchFinished += AppsSearchFinished;
         }
 
-        private void StartMenuSearchFinished(object sender, EventArgs e)
+        private void AppsSearchFinished(object sender, EventArgs e)
         {
-            autoProfVM.SearchFinished -= StartMenuSearchFinished;
+            autoProfVM.SearchFinished -= AppsSearchFinished;
             programListLV.ItemsSource = autoProfVM.ProgramColl;
         }
 

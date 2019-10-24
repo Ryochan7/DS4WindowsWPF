@@ -101,22 +101,63 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             AutoProfileSystemChange?.Invoke(this, false);
             await Task.Run(() =>
             {
-                AddFromShortcuts(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) + "\\Programs");
+                AddFromStartMenu(Environment.GetFolderPath(Environment.SpecialFolder.StartMenu) + "\\Programs");
             });
 
             SearchFinished?.Invoke(this, EventArgs.Empty);
             AutoProfileSystemChange?.Invoke(this, true);
         }
 
-        private void AddFromShortcuts(string path)
+        public async void AddProgramsFromSteam(string location)
+        {
+            AutoProfileSystemChange?.Invoke(this, false);
+            await Task.Run(() =>
+            {
+                AddAppsFromLocation(location);
+            });
+
+            SearchFinished?.Invoke(this, EventArgs.Empty);
+            AutoProfileSystemChange?.Invoke(this, true);
+        }
+
+        public async void AddProgramsFromDir(string location)
+        {
+            AutoProfileSystemChange?.Invoke(this, false);
+            await Task.Run(() =>
+            {
+                AddAppsFromLocation(location);
+            });
+
+            SearchFinished?.Invoke(this, EventArgs.Empty);
+            AutoProfileSystemChange?.Invoke(this, true);
+        }
+
+        private void AddFromStartMenu(string path)
         {
             List<string> lnkpaths = new List<string>();
             lnkpaths.AddRange(Directory.GetFiles(path, "*.lnk", SearchOption.AllDirectories));
             lnkpaths.AddRange(Directory.GetFiles(Environment.GetFolderPath(Environment.SpecialFolder.CommonStartMenu) + "\\Programs", "*.lnk", SearchOption.AllDirectories));
-
+            List<string> exepaths = new List<string>();
             foreach(string link in lnkpaths)
             {
                 string target = GetTargetPath(link);
+                exepaths.Add(target);
+            }
+
+            ScanApps(exepaths);
+        }
+
+        private void AddAppsFromLocation(string path)
+        {
+            List<string> exepaths = new List<string>();
+            exepaths.AddRange(Directory.GetFiles(path, "*.exe", SearchOption.AllDirectories));
+            ScanApps(exepaths);
+        }
+
+        private void ScanApps(List<string> exepaths)
+        {
+            foreach (string target in exepaths)
+            {
                 bool skip = !File.Exists(target) || Path.GetExtension(target) != ".exe";
                 skip = skip || target.Contains("etup") || target.Contains("dotnet") || target.Contains("SETUP")
                     || target.Contains("edist") || target.Contains("nstall") || String.IsNullOrEmpty(target);
