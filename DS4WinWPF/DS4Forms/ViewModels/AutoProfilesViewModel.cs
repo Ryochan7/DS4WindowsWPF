@@ -47,9 +47,9 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public event CurrentItemChangeHandler CurrentItemChange;
 
         public event EventHandler SearchFinished;
-        public delegate void AutoProfileHandler(AutoProfilesViewModel sender,
-            ProgramItem item, bool state);
-        public event AutoProfileHandler AutoProfileUpdated;
+        //public delegate void AutoProfileHandler(AutoProfilesViewModel sender,
+        //    ProgramItem item, bool state);
+        //public event AutoProfileHandler AutoProfileUpdated;
         public delegate void AutoProfileStateHandler(AutoProfilesViewModel sender, bool state);
         public event AutoProfileStateHandler AutoProfileSystemChange;
 
@@ -70,8 +70,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 ProgramItem item = new ProgramItem(entry.Path, entry);
 
-                item.AutoProfileAction += ProgramItem_AutoProfileAction;
-                item.SelectProfChange += ProgramItem_SelectProfChange;
+                //item.AutoProfileAction += ProgramItem_AutoProfileAction;
+                //item.SelectProfChange += ProgramItem_SelectProfChange;
                 programColl.Add(item);
                 existingapps.Add(entry.Path);
             }
@@ -134,15 +134,75 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                         item.MatchedAutoProfile = autoEntity;
                     }
 
-                    item.AutoProfileAction += ProgramItem_AutoProfileAction;
-                    item.SelectProfChange += ProgramItem_SelectProfChange;
+                    //item.AutoProfileAction += ProgramItem_AutoProfileAction;
+                    //item.SelectProfChange += ProgramItem_SelectProfChange;
                     programColl.Add(item);
                     existingapps.Add(target);
                 }
             }
         }
 
-        private void ProgramItem_SelectProfChange(ProgramItem sender, int devindex, int profindex)
+        public void CreateAutoProfileEntry(ProgramItem item)
+        {
+            if (item.MatchedAutoProfile == null)
+            {
+                AutoProfileEntity tempEntry = new AutoProfileEntity()
+                {
+                    Path = item.Path,
+                    Title = item.Title,
+                };
+
+                int tempindex = item.SelectedIndexCon1;
+                tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+
+                tempindex = item.SelectedIndexCon2;
+                tempEntry.ProfileNames[1] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+
+                tempindex = item.SelectedIndexCon3;
+                tempEntry.ProfileNames[2] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+
+                tempindex = item.SelectedIndexCon4;
+                tempEntry.ProfileNames[3] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+
+                item.MatchedAutoProfile = tempEntry;
+                autoProfileHolder.AutoProfileColl.Add(item.MatchedAutoProfile);
+            }
+        }
+
+        public void PersistAutoProfileEntry(ProgramItem item)
+        {
+            if (item.MatchedAutoProfile != null)
+            {
+                AutoProfileEntity tempEntry = item.MatchedAutoProfile;
+                int tempindex = item.SelectedIndexCon1;
+                tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+
+                tempindex = item.SelectedIndexCon2;
+                tempEntry.ProfileNames[1] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+
+                tempindex = item.SelectedIndexCon3;
+                tempEntry.ProfileNames[2] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+
+                tempindex = item.SelectedIndexCon4;
+                tempEntry.ProfileNames[3] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
+                    string.Empty;
+            }
+        }
+
+        public void RemoveAutoProfileEntry(ProgramItem item)
+        {
+            autoProfileHolder.AutoProfileColl.Remove(item.MatchedAutoProfile);
+            item.MatchedAutoProfile = null;
+        }
+
+        /*private void ProgramItem_SelectProfChange(ProgramItem sender, int devindex, int profindex)
         {
             if (profindex <= 0)
             {
@@ -175,6 +235,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 
             AutoProfileUpdated?.Invoke(this, sender, added);
         }
+        */
 
         private string GetTargetPath(string filePath)
         {
@@ -269,6 +330,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         private string title_lowercase;
         private AutoProfileEntity matchedAutoProfile;
         private ImageSource exeicon;
+        private bool turnoff;
 
         public string Path { get => path; }
         public string Title { get => title;
@@ -296,6 +358,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                     title = matchedAutoProfile.Title ?? string.Empty;
                     title_lowercase = title.ToLower();
                 }
+
+                MatchedAutoProfileChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public event EventHandler MatchedAutoProfileChanged;
@@ -308,7 +372,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             get
             {
-                bool result = false;
+                bool result = turnoff;
                 if (matchedAutoProfile != null)
                 {
                     result = matchedAutoProfile.Turnoff;
@@ -318,11 +382,13 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             }
             set
             {
+                turnoff = value;
                 if (matchedAutoProfile != null)
                 {
                     matchedAutoProfile.Turnoff = value;
-                    TurnoffChanged?.Invoke(this, EventArgs.Empty);
                 }
+
+                TurnoffChanged?.Invoke(this, EventArgs.Empty);
             }
         }
         public event EventHandler TurnoffChanged;
@@ -330,7 +396,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public bool Exists
         {
             get => matchedAutoProfile != null;
-            set
+            /*set
             {
                 if (matchedAutoProfile != null && !value)
                 {
@@ -345,6 +411,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 MatchedAutoProfileChanged?.Invoke(this, EventArgs.Empty);
                 ExistsChanged?.Invoke(this, EventArgs.Empty);
             }
+            */
         }
         public event EventHandler ExistsChanged;
 
@@ -360,7 +427,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon1 == value) return;
                 selectedIndexCon1 = value;
-                SelectProfChange?.Invoke(this, 0, value);
+                //SelectProfChange?.Invoke(this, 0, value);
             }
         }
 
@@ -371,7 +438,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon2 == value) return;
                 selectedIndexCon2 = value;
-                SelectProfChange?.Invoke(this, 1, value);
+                //SelectProfChange?.Invoke(this, 1, value);
             }
         }
         public int SelectedIndexCon3
@@ -381,7 +448,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon3 == value) return;
                 selectedIndexCon3 = value;
-                SelectProfChange?.Invoke(this, 2, value);
+                //SelectProfChange?.Invoke(this, 2, value);
             }
         }
         public int SelectedIndexCon4
@@ -391,12 +458,12 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 if (selectedIndexCon4 == value) return;
                 selectedIndexCon4 = value;
-                SelectProfChange?.Invoke(this, 3, value);
+                //SelectProfChange?.Invoke(this, 3, value);
             }
         }
 
-        public delegate void SelectedProfChangeHandler(ProgramItem sender, int devindex, int profindex);
-        public event SelectedProfChangeHandler SelectProfChange;
+        //public delegate void SelectedProfChangeHandler(ProgramItem sender, int devindex, int profindex);
+        //public event SelectedProfChangeHandler SelectProfChange;
 
         public ProgramItem(string path, AutoProfileEntity autoProfileEntity = null)
         {
@@ -408,6 +475,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             {
                 title = autoProfileEntity.Title;
                 title_lowercase = title.ToLower();
+                turnoff = autoProfileEntity.Turnoff;
             }
 
             using (Icon ico = Icon.ExtractAssociatedIcon(path))
@@ -416,6 +484,21 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                     BitmapSizeOptions.FromEmptyOptions());
                 exeicon.Freeze();
             }
+
+            MatchedAutoProfileChanged += ProgramItem_MatchedAutoProfileChanged;
+        }
+
+        private void ProgramItem_MatchedAutoProfileChanged(object sender, EventArgs e)
+        {
+            if (matchedAutoProfile == null)
+            {
+                selectedIndexCon1 = 0;
+                selectedIndexCon2 = 0;
+                selectedIndexCon3 = 0;
+                selectedIndexCon4 = 0;
+            }
+
+            ExistsChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 
