@@ -180,11 +180,12 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             if (item.MatchedAutoProfile == null)
             {
-                AutoProfileEntity tempEntry = new AutoProfileEntity()
-                {
+                AutoProfileEntity tempEntry = new AutoProfileEntity(item.Path, item.Title);
+                /*{
                     Path = item.Path,
                     Title = item.Title,
                 };
+                */
 
                 int tempindex = item.SelectedIndexCon1;
                 tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :

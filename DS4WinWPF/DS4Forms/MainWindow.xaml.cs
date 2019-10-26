@@ -103,9 +103,23 @@ namespace DS4WinWPF.DS4Forms
             autoProfileHolder = autoProfControl.AutoProfileHolder;
             autoProfControl.SetupDataContext(profileListHolder);
 
-            //autoprofileChecker = new AutoProfileChecker(autoProfileHolder);
+            autoprofileChecker = new AutoProfileChecker(autoProfileHolder);
 
             SetupEvents();
+
+            Thread timerThread = new Thread(() =>
+            {
+                hotkeysTimer = new NonFormTimer();
+                hotkeysTimer.AutoReset = false;
+
+                autoProfilesTimer = new NonFormTimer();
+                autoProfilesTimer.Interval = 1000;
+                autoProfilesTimer.AutoReset = false;
+            });
+            timerThread.IsBackground = true;
+            timerThread.Priority = ThreadPriority.Lowest;
+            timerThread.Start();
+            timerThread.Join();
 
             Task.Run(() =>
             {
@@ -118,25 +132,6 @@ namespace DS4WinWPF.DS4Forms
 
                 UpdateTheUpdater();
             });
-
-            Thread timerThread = new Thread(() =>
-            {
-                hotkeysTimer = new NonFormTimer();
-                hotkeysTimer.AutoReset = false;
-                if (Global.SwipeProfiles)
-                {
-                    ChangeHotkeysStatus(true);
-                }
-
-                /*autoProfilesTimer = new NonFormTimer();
-                autoProfilesTimer.Interval = 1000;
-                autoProfilesTimer.AutoReset = false;
-                CheckAutoProfileStatus();
-                */
-            });
-            timerThread.IsBackground = true;
-            timerThread.Priority = ThreadPriority.Lowest;
-            timerThread.Start();
         }
 
         private void TrayIconVM_RequestMinimize(object sender, EventArgs e)
@@ -173,6 +168,7 @@ namespace DS4WinWPF.DS4Forms
         private void SetupEvents()
         {
             App root = Application.Current as App;
+            App.rootHub.ServiceStarted += ControlServiceStarted;
             App.rootHub.RunningChanged += ControlServiceChanged;
             App.rootHub.PreServiceStop += PrepareForServiceStop;
             //root.rootHubtest.RunningChanged += ControlServiceChanged;
@@ -185,7 +181,8 @@ namespace DS4WinWPF.DS4Forms
             trayIconVM.RequestMinimize += TrayIconVM_RequestMinimize;
             trayIconVM.RequestOpen += TrayIconVM_RequestOpen;
             autoProfControl.AutoDebugChanged += AutoProfControl_AutoDebugChanged;
-            //autoProfileHolder.AutoProfileColl.CollectionChanged += AutoProfileColl_CollectionChanged;
+            autoprofileChecker.RequestServiceChange += AutoprofileChecker_RequestServiceChange;
+            autoProfileHolder.AutoProfileColl.CollectionChanged += AutoProfileColl_CollectionChanged;
             //autoProfControl.AutoProfVM.AutoProfileSystemChange += AutoProfVM_AutoProfileSystemChange;
 
             WqlEventQuery q = new WqlEventQuery();
@@ -194,6 +191,21 @@ namespace DS4WinWPF.DS4Forms
             managementEvWatcher = new ManagementEventWatcher(scope, q);
             managementEvWatcher.EventArrived += PowerEventArrive;
             managementEvWatcher.Start();
+        }
+
+        private void ControlServiceStarted(object sender, EventArgs e)
+        {
+            if (Global.SwipeProfiles)
+            {
+                ChangeHotkeysStatus(true);
+            }
+
+            CheckAutoProfileStatus();
+        }
+
+        private void AutoprofileChecker_RequestServiceChange(AutoProfileChecker sender, bool state)
+        {
+            ChangeService();
         }
 
         private void AutoProfVM_AutoProfileSystemChange(AutoProfilesViewModel sender, bool state)
@@ -369,6 +381,8 @@ namespace DS4WinWPF.DS4Forms
             {
                 trayIconVM.ClearContextMenu();
             }));
+
+            ChangeHotkeysStatus(false);
         }
 
         private void TrayIconVM_RequestOpen(object sender, EventArgs e)
@@ -412,18 +426,20 @@ namespace DS4WinWPF.DS4Forms
             {
                 autoProfilesTimer.Elapsed += AutoProfilesTimer_Elapsed;
                 autoProfilesTimer.Start();
+                autoprofileChecker.Running = true;
             }
             else
             {
                 autoProfilesTimer.Stop();
                 autoProfilesTimer.Elapsed -= AutoProfilesTimer_Elapsed;
+                autoprofileChecker.Running = false;
             }
         }
 
         private void CheckAutoProfileStatus()
         {
             int pathCount = autoProfileHolder.AutoProfileColl.Count;
-            bool timerEnabled = autoProfilesTimer.Enabled;
+            bool timerEnabled = autoprofileChecker.Running;
             if (pathCount > 0 && !timerEnabled)
             {
                 ChangeAutoProfilesStatus(true);
@@ -437,8 +453,13 @@ namespace DS4WinWPF.DS4Forms
         private void AutoProfilesTimer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
             autoProfilesTimer.Stop();
-            Console.WriteLine("Event triggered");
-            autoProfilesTimer.Start();
+            //Console.WriteLine("Event triggered");
+            autoprofileChecker.Process();
+
+            if (autoprofileChecker.Running)
+            {
+                autoProfilesTimer.Start();
+            }
         }
 
         private void ControllerCol_CollectionChanged(object sender,
@@ -692,6 +713,7 @@ namespace DS4WinWPF.DS4Forms
             }
 
             hotkeysTimer.Stop();
+            autoProfilesTimer.Stop();
             //autoProfileHolder.Save();
             Util.UnregisterNotify(regHandle);
             Application.Current.Shutdown();

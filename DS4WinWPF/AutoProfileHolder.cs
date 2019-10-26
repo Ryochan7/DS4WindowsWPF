@@ -42,10 +42,8 @@ namespace DS4WinWPF
                 foreach (XmlNode x in programslist)
                 {
                     string path = x.Attributes["path"]?.Value ?? string.Empty;
-                    AutoProfileEntity autoprof = new AutoProfileEntity()
-                    { Path = path,
-                      Title = x.Attributes["title"]?.Value ?? string.Empty
-                    };
+                    string title = x.Attributes["title"]?.Value ?? string.Empty;
+                    AutoProfileEntity autoprof = new AutoProfileEntity(path, title);
 
                     XmlNode item;
                     for (int i = 0; i < 4; i++)
@@ -121,8 +119,10 @@ namespace DS4WinWPF
 
     public class AutoProfileEntity
     {
-        private string path = string.Empty;
-        private string title = string.Empty;
+        public string path = string.Empty;
+        public string title = string.Empty;
+        private string path_lowercase;
+        private string title_lowercase;
         private bool turnoff;
         private string[] profileNames = new string[4] { string.Empty, string.Empty,
             string.Empty, string.Empty };
@@ -131,5 +131,65 @@ namespace DS4WinWPF
         public string Title { get => title; set => title = value; }
         public bool Turnoff { get => turnoff; set => turnoff = value; }
         public string[] ProfileNames { get => profileNames; set => profileNames = value; }
+
+        public AutoProfileEntity(string pathStr, string titleStr)
+        {
+            // Initialize autoprofile search keywords(xxx_tolower).To improve performance the search keyword is pre - calculated in xxx_tolower variables,
+            // so autoprofile timer thread doesn't have to create substrings/replace/tolower string instances every second over and over again.
+            if (!string.IsNullOrEmpty(pathStr))
+            {
+                path = pathStr;
+                path_lowercase = path.ToLower().Replace('/', '\\');
+
+                if (path.Length >= 2)
+                {
+                    if (path[0] == '^') path_lowercase = path_lowercase.Substring(1);
+                    else if (path[path.Length - 1] == '$') path_lowercase = path_lowercase.Substring(0, path_lowercase.Length - 1);
+                    else if (path[0] == '*') path_lowercase = path_lowercase.Substring(1);
+                }
+            }
+            else path = path_lowercase = string.Empty;
+
+            if (!string.IsNullOrEmpty(titleStr))
+            {
+                title = titleStr;
+                title_lowercase = title.ToLower();
+
+                if (title.Length >= 2)
+                {
+                    if (title[0] == '^') title_lowercase = title_lowercase.Substring(1);
+                    else if (title[title.Length - 1] == '$') title_lowercase = title_lowercase.Substring(0, title_lowercase.Length - 1);
+                    else if (title[0] == '*') title_lowercase = title_lowercase.Substring(1);
+                }
+            }
+            else title = title_lowercase = string.Empty;
+        }
+
+        public bool IsMatch(string searchPath, string searchTitle)
+        {
+            bool bPathMatched = true;
+            bool bTitleMwatched = true;
+
+            if (!string.IsNullOrEmpty(path_lowercase))
+            {
+                bPathMatched = (path_lowercase == searchPath
+                    || (path[0] == '^' && searchPath.StartsWith(path_lowercase))
+                    || (path[path.Length - 1] == '$' && searchPath.EndsWith(path_lowercase))
+                    || (path[0] == '*' && searchPath.Contains(path_lowercase))
+                   );
+            }
+
+            if (bPathMatched && !string.IsNullOrEmpty(title_lowercase))
+            {
+                bTitleMwatched = (title_lowercase == searchTitle
+                    || (title[0] == '^' && searchTitle.StartsWith(title_lowercase))
+                    || (title[title.Length - 1] == '$' && searchTitle.EndsWith(title_lowercase))
+                    || (title[0] == '*' && searchTitle.Contains(title_lowercase))
+                   );
+            }
+
+            // If both path and title defined in autoprofile entry then do AND condition (ie. both path and title should match)
+            return bPathMatched && bTitleMwatched;
+        }
     }
 }
