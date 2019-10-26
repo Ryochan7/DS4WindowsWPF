@@ -39,7 +39,7 @@
                     </ComboBox.Resources>
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
-                            <ComboBoxItem Content="*none*"/>
+                            <ComboBoxItem Content="(none)"/>
                             <CollectionContainer x:Name="cont1AutoProfCol" />
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
@@ -58,7 +58,7 @@
                     </ComboBox.Resources>
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
-                            <ComboBoxItem Content="*none*"/>
+                            <ComboBoxItem Content="(none)"/>
                             <CollectionContainer x:Name="cont2AutoProfCol" />
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
@@ -77,7 +77,7 @@
                     </ComboBox.Resources>
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
-                            <ComboBoxItem Content="*none*"/>
+                            <ComboBoxItem Content="(none)"/>
                             <CollectionContainer x:Name="cont3AutoProfCol" />
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
@@ -96,7 +96,7 @@
                     </ComboBox.Resources>
                     <ComboBox.ItemsSource>
                         <CompositeCollection>
-                            <ComboBoxItem Content="*none*"/>
+                            <ComboBoxItem Content="(none)"/>
                             <CollectionContainer x:Name="cont4AutoProfCol" />
                         </CompositeCollection>
                     </ComboBox.ItemsSource>
