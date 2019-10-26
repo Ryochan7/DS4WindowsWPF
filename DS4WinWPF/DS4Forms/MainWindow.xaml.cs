@@ -230,7 +230,8 @@ namespace DS4WinWPF.DS4Forms
 
         private void AutoProfControl_AutoDebugChanged(object sender, EventArgs e)
         {
-            autoProfileDebugLogLevel = autoProfControl.AutoDebug == true ? 1 : 0;
+            autoprofileChecker.AutoProfileDebugLogLevel =
+                autoProfileDebugLogLevel = autoProfControl.AutoDebug == true ? 1 : 0;
         }
 
         private void PowerEventArrive(object sender, EventArrivedEventArgs e)
