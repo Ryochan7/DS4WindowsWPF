@@ -15,14 +15,14 @@ namespace DS4WinWPF
         private object _colLockobj = new object();
         private ObservableCollection<AutoProfileEntity> autoProfileColl;
         public ObservableCollection<AutoProfileEntity> AutoProfileColl { get => autoProfileColl; }
-        public Dictionary<string, AutoProfileEntity> AutoProfileDict { get => autoProfileDict; }
+        //public Dictionary<string, AutoProfileEntity> AutoProfileDict { get => autoProfileDict; }
 
-        private Dictionary<string, AutoProfileEntity> autoProfileDict;
+        //private Dictionary<string, AutoProfileEntity> autoProfileDict;
 
         public AutoProfileHolder()
         {
             autoProfileColl = new ObservableCollection<AutoProfileEntity>();
-            autoProfileDict = new Dictionary<string, AutoProfileEntity>();
+            //autoProfileDict = new Dictionary<string, AutoProfileEntity>();
             Load();
 
             BindingOperations.EnableCollectionSynchronization(autoProfileColl, _colLockobj);
@@ -62,7 +62,7 @@ namespace DS4WinWPF
                     }
 
                     autoProfileColl.Add(autoprof);
-                    autoProfileDict.Add(path, autoprof);
+                    //autoProfileDict.Add(path, autoprof);
                 }
             }
             catch (Exception) { }
@@ -112,7 +112,7 @@ namespace DS4WinWPF
 
         public void Remove(AutoProfileEntity item)
         {
-            autoProfileDict.Remove(item.Path);
+            //autoProfileDict.Remove(item.Path);
             autoProfileColl.Remove(item);
         }
     }

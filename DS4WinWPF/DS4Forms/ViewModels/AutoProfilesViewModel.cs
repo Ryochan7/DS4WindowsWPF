@@ -81,21 +81,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             AutoProfileSystemChange?.Invoke(this, true);
         }
 
-        public void GetApps(string path)
-        {
-            foreach(string file in Directory.GetFiles(path, "*.exe", SearchOption.AllDirectories))
-            {
-                ProgramItem item = new ProgramItem(file);
-                if (autoProfileHolder.AutoProfileDict.TryGetValue(file, out AutoProfileEntity autoEntity))
-                {
-                    item.MatchedAutoProfile = autoEntity;
-                }
-
-                programColl.Add(item);
-                existingapps.Add(file);
-            }
-        }
-
         public async void AddProgramsFromStartMenu()
         {
             AutoProfileSystemChange?.Invoke(this, false);
@@ -165,10 +150,11 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 if (!skip)
                 {
                     ProgramItem item = new ProgramItem(target);
-                    if (autoProfileHolder.AutoProfileDict.TryGetValue(target, out AutoProfileEntity autoEntity))
+                    /*if (autoProfileHolder.AutoProfileDict.TryGetValue(target, out AutoProfileEntity autoEntity))
                     {
                         item.MatchedAutoProfile = autoEntity;
                     }
+                    */
 
                     programColl.Add(item);
                     existingapps.Add(target);
@@ -189,19 +175,19 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 
                 int tempindex = item.SelectedIndexCon1;
                 tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
 
                 tempindex = item.SelectedIndexCon2;
                 tempEntry.ProfileNames[1] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
 
                 tempindex = item.SelectedIndexCon3;
                 tempEntry.ProfileNames[2] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
 
                 tempindex = item.SelectedIndexCon4;
                 tempEntry.ProfileNames[3] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
 
                 item.MatchedAutoProfile = tempEntry;
                 autoProfileHolder.AutoProfileColl.Add(item.MatchedAutoProfile);
@@ -215,19 +201,19 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 AutoProfileEntity tempEntry = item.MatchedAutoProfile;
                 int tempindex = item.SelectedIndexCon1;
                 tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
 
                 tempindex = item.SelectedIndexCon2;
                 tempEntry.ProfileNames[1] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
 
                 tempindex = item.SelectedIndexCon3;
                 tempEntry.ProfileNames[2] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
 
                 tempindex = item.SelectedIndexCon4;
                 tempEntry.ProfileNames[3] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    string.Empty;
+                    "(none)";
             }
         }
 
