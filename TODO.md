@@ -1,7 +1,7 @@
 # TODO
 
-* Implement auto profile execution
 * Evaluate explicit garbage collection calls
+* ~~Implement auto profile execution~~
 * ~~Add HidGuardian helper program~~
 * ~~Find way to hide TabControl tab headers again~~
 * ~~Work on Special Actions list and controls~~
