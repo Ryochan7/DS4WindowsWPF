@@ -23,6 +23,7 @@ using NonFormTimer = System.Timers.Timer;
 using System.Runtime.InteropServices;
 using DS4WinWPF.DS4Forms.ViewModels;
 using DS4Windows;
+using HttpProgress;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -132,6 +133,78 @@ namespace DS4WinWPF.DS4Forms
 
                 UpdateTheUpdater();
             });
+
+            Task.Delay(100).ContinueWith((t) =>
+            {
+                int checkwhen = Global.CheckWhen;
+                if (checkwhen > 0 && DateTime.Now >= Global.LastChecked + TimeSpan.FromHours(checkwhen))
+                {
+                    DownloadUpstreamVersionInfo();
+                    Check_Version();
+
+                    Global.LastChecked = DateTime.Now;
+                }
+            });
+        }
+
+        private void DownloadUpstreamVersionInfo()
+        {
+            // Sorry other devs, gonna have to find your own server
+            Uri url = new Uri("https://raw.githubusercontent.com/Ryochan7/DS4Windows/jay/DS4Windows/newest.txt");
+            string filename = Global.appdatapath + "\\version.txt";
+            using (var downloadStream = new FileStream(filename, FileMode.Create))
+            {
+                Task<System.Net.Http.HttpResponseMessage> temp = App.requestClient.GetAsync(url.ToString(), downloadStream);
+                temp.Wait();
+            }
+        }
+
+        private void Check_Version(bool showstatus = false)
+        {
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Global.exelocation);
+            string version = fvi.FileVersion;
+            string newversion = File.ReadAllText(Global.appdatapath + "\\version.txt").Trim();
+            if (!string.IsNullOrWhiteSpace(newversion) && version.CompareTo(newversion) != 0)
+            {
+                MessageBoxResult result = MessageBoxResult.No;
+                Dispatcher.Invoke(() =>
+                {
+                    result = MessageBox.Show(Properties.Resources.DownloadVersion.Replace("*number*", newversion),
+Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question);
+                });
+
+                if (result == MessageBoxResult.Yes)
+                {
+                    bool launch = false;
+                    using (Process p = new Process())
+                    {
+                        p.StartInfo.FileName = System.IO.Path.Combine(Global.exepath, "DS4Updater.exe");
+                        p.StartInfo.Arguments = "-autolaunch";
+                        if (Global.AdminNeeded())
+                            p.StartInfo.Verb = "runas";
+
+                        try { launch = p.Start(); }
+                        catch (InvalidOperationException) { }
+                    }
+
+                    if (launch)
+                    {
+                        Close();
+                    }
+                }
+                else
+                {
+                    File.Delete(Global.appdatapath + "\\version.txt");
+                }
+            }
+            else
+            {
+                File.Delete(Global.appdatapath + "\\version.txt");
+                if (showstatus)
+                {
+                    Dispatcher.Invoke(() => MessageBox.Show(Properties.Resources.UpToDate, "DS4Windows Updater"));
+                }
+            }
         }
 
         private void TrayIconVM_RequestMinimize(object sender, EventArgs e)
@@ -943,7 +1016,11 @@ namespace DS4WinWPF.DS4Forms
 
         private void CheckUpdatesBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            Task.Run(() =>
+            {
+                DownloadUpstreamVersionInfo();
+                Check_Version(true);
+            });
         }
 
         private void UseWhiteDS4IconCk_Click(object sender, RoutedEventArgs e)
