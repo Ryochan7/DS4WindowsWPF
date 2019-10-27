@@ -252,11 +252,13 @@
                         <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
                         <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
                     </StackPanel>
-                    <StackPanel Orientation="Horizontal">
+                    <!--<StackPanel Orientation="Horizontal">
                         <Label Content="Use language pack" />
                         <ComboBox x:Name="langPackCombo" MinWidth="100" IsEnabled="False">
                         </ComboBox>
                     </StackPanel>
+                    -->
+                    <local:LanguagePackControl />
                     <CheckBox x:Name="customSteamCk" Content="Use custom Steam Folder" IsChecked="{Binding UseCustomSteamFolder}" Click="CustomSteamCk_Click"  />
                     <TextBox x:Name="customSteamTxt" Text="{Binding CustomSteamFolder, UpdateSourceTrigger=LostFocus}" IsEnabled="False" />
                     <GroupBox Header="Utils" BorderThickness="2">

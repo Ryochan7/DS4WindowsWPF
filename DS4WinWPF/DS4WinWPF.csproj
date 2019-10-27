@@ -177,6 +177,9 @@
     <Compile Include="DS4Forms\DupBox.xaml.cs">
       <DependentUpon>DupBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\LanguagePackControl.xaml.cs">
+      <DependentUpon>LanguagePackControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Forms\ProfileEditor.xaml.cs">
       <DependentUpon>ProfileEditor.xaml</DependentUpon>
     </Compile>
@@ -195,6 +198,7 @@
     <Compile Include="DS4Forms\ViewModels\AutoProfilesViewModel.cs" />
     <Compile Include="DS4Forms\ViewModels\BindingWindowViewModel.cs" />
     <Compile Include="DS4Forms\ViewModels\ControllerListViewModel.cs" />
+    <Compile Include="DS4Forms\ViewModels\LanguagePackViewModel.cs" />
     <Compile Include="DS4Forms\ViewModels\MappingListViewModel.cs" />
     <Compile Include="DS4Forms\ViewModels\ProfileSettingsViewModel.cs" />
     <Compile Include="DS4Forms\ViewModels\RecordBoxViewModel.cs" />
@@ -253,6 +257,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DS4Forms\DupBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DS4Forms\LanguagePackControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
