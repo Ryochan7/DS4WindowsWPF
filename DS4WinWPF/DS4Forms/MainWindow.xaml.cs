@@ -662,21 +662,7 @@ namespace DS4WinWPF.DS4Forms
                 CompositeDeviceModel item = conLvViewModel.ControllerDict[idx];
                 if (item.SelectedIndex > -1)
                 {
-                    string prof = Global.ProfilePath[idx] = item.ProfileListCol[item.SelectedIndex].Name;
-                    if (item.LinkedProfile)
-                    {
-                        Global.changeLinkedProfile(item.Device.getMacAddress(), Global.ProfilePath[idx]);
-                        Global.SaveLinkedProfiles();
-                    }
-                    else
-                    {
-                        Global.OlderProfilePath[idx] = Global.ProfilePath[idx];
-                    }
-
-                    //Global.Save();
-                    Global.LoadProfile(idx, true, App.rootHub);
-                    DS4Windows.AppLogger.LogToGui(Properties.Resources.UsingProfile.
-                        Replace("*number*", (idx + 1).ToString()).Replace("*Profile name*", prof), false);
+                    item.ChangeSelectedProfile();
                     trayIconVM.PopulateContextMenu();
                 }
             }

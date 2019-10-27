@@ -258,10 +258,53 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             if (this.selectedEntity != null)
             {
                 selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
-                selectedEntity.ProfileSaved += SelectedEntity_ProfileSaved;
+                HookEvents(true);
             }
 
             useCustomColor = Global.UseCustomLed[devIndex];
+        }
+
+        public void ChangeSelectedProfile()
+        {
+            if (this.selectedEntity != null)
+            {
+                HookEvents(false);
+            }
+
+            string prof = Global.ProfilePath[devIndex] = ProfileListCol[selectedIndex].Name;
+            if (LinkedProfile)
+            {
+                Global.changeLinkedProfile(device.getMacAddress(), Global.ProfilePath[devIndex]);
+                Global.SaveLinkedProfiles();
+            }
+            else
+            {
+                Global.OlderProfilePath[devIndex] = Global.ProfilePath[devIndex];
+            }
+
+            //Global.Save();
+            Global.LoadProfile(devIndex, true, App.rootHub);
+            DS4Windows.AppLogger.LogToGui(Properties.Resources.UsingProfile.
+                Replace("*number*", (devIndex + 1).ToString()).Replace("*Profile name*", prof), false);
+
+            this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == selectedProfile);
+            if (this.selectedEntity != null)
+            {
+                selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
+                HookEvents(true);
+            }
+        }
+
+        private void HookEvents(bool state)
+        {
+            if (state)
+            {
+                selectedEntity.ProfileSaved += SelectedEntity_ProfileSaved;
+            }
+            else
+            {
+                selectedEntity.ProfileSaved -= SelectedEntity_ProfileSaved;
+            }
         }
 
         private void SelectedEntity_ProfileSaved(object sender, EventArgs e)

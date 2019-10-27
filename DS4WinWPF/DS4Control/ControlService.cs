@@ -759,7 +759,7 @@ namespace DS4Windows
                                 else if (contType == OutContType.DS4)
                                 {
                                     LogDebug("Plugging in DS4 Controller #" + (Index + 1));
-                                    Global.activeOutDevType[Index] = OutContType.X360;
+                                    Global.activeOutDevType[Index] = OutContType.DS4;
                                     DS4OutDevice tempDS4 = new DS4OutDevice(vigemTestClient);
                                     outputDevices[Index] = tempDS4;
                                     int devIndex = Index;

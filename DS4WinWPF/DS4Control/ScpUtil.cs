@@ -256,9 +256,9 @@ namespace DS4Windows
             DS4Windows.OutContType.X360, DS4Windows.OutContType.X360,
             DS4Windows.OutContType.X360 };
         // Used to hold the currently active controller output type in use for a slot
-        public static OutContType[] activeOutDevType = new OutContType[5] { DS4Windows.OutContType.X360, DS4Windows.OutContType.X360,
-            DS4Windows.OutContType.X360, DS4Windows.OutContType.X360,
-            DS4Windows.OutContType.X360 };
+        public static OutContType[] activeOutDevType = new OutContType[5] { DS4Windows.OutContType.None, DS4Windows.OutContType.None,
+            DS4Windows.OutContType.None, DS4Windows.OutContType.None,
+            DS4Windows.OutContType.None };
         public static bool vigemInstalled = IsViGEmBusInstalled();
         public static string vigembusVersion = ViGEmBusVersion();
 
@@ -3901,8 +3901,8 @@ namespace DS4Windows
                             control.outputDevices[device].Disconnect();
                             control.outputDevices[device] = null;
                             Global.useDInputOnly[device] = true;
-                            Global.activeOutDevType[device] = OutContType.None;
                             AppLogger.LogToGui(tempType + " Controller #" + (device + 1) + " unplugged", false);
+                            Global.activeOutDevType[device] = OutContType.None;
                         }
 
                         tempDev.setRumble(0, 0);
