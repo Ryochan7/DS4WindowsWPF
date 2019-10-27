@@ -235,8 +235,8 @@
                     <CheckBox Content="Close Minimizes" IsChecked="{Binding CloseMinimizes}" />
                     <CheckBox Content="Quick Charge" IsChecked="{Binding QuickCharge}" />
                     <CheckBox x:Name="useWhiteDS4IconCk" Content="White DS4Windows Icon" IsChecked="{Binding WhiteDS4Icon}" Click="UseWhiteDS4IconCk_Click" />
-                    <CheckBox Content="Check for DS4Windows Updates at Startup" IsChecked="{Binding CheckForUpdates}" />
-                    <StackPanel x:Name="checkEveryOptionsStack"  Orientation="Horizontal" IsEnabled="{Binding CheckForUpdates}">
+                    <CheckBox Content="Check for DS4Windows Updates at Startup" IsChecked="{Binding CheckForUpdates}" IsEnabled="False" />
+                    <StackPanel x:Name="checkEveryOptionsStack"  Orientation="Horizontal" IsEnabled="False"><!--IsEnabled="{Binding CheckForUpdates}">-->
                         <Label Content="Check every " />
                         <!--<TextBox Text="0" VerticalAlignment="Center" />-->
                         <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding CheckEvery}" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
