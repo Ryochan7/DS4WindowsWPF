@@ -111,6 +111,7 @@ namespace DS4WinWPF.DS4Forms
             Thread timerThread = new Thread(() =>
             {
                 hotkeysTimer = new NonFormTimer();
+                hotkeysTimer.Interval = 20;
                 hotkeysTimer.AutoReset = false;
 
                 autoProfilesTimer = new NonFormTimer();
