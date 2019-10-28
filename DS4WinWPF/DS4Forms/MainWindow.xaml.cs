@@ -361,6 +361,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
                 while (processes.Length > 0)
                 {
                     Thread.Sleep(500);
+                    processes = Process.GetProcessesByName("DS4Updater");
                 }
 
                 File.Delete(Global.exepath + "\\DS4Updater.exe");
