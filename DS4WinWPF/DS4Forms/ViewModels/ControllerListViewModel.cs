@@ -287,7 +287,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             DS4Windows.AppLogger.LogToGui(Properties.Resources.UsingProfile.
                 Replace("*number*", (devIndex + 1).ToString()).Replace("*Profile name*", prof), false);
 
-            this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == selectedProfile);
+            selectedProfile = prof;
+            this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == prof);
             if (this.selectedEntity != null)
             {
                 selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
