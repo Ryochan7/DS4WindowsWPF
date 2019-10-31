@@ -1213,7 +1213,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
             editor = null;
             mainTabCon.SelectedIndex = 0;
-            //Task.Run(() => GC.Collect(2, GCCollectionMode.Forced, true));
+            //Task.Run(() => GC.Collect(0, GCCollectionMode.Forced, false));
         }
 
         private void NewProfListBtn_Click(object sender, RoutedEventArgs e)
