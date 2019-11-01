@@ -1,6 +1,6 @@
 # TODO
 
-* Evaluate explicit garbage collection calls
+* ~~Evaluate explicit garbage collection calls~~
 * ~~Implement auto profile execution~~
 * ~~Add HidGuardian helper program~~
 * ~~Find way to hide TabControl tab headers again~~
