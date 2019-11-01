@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Ookii.Dialogs.Wpf;
 using DS4WinWPF.DS4Forms.ViewModels;
 
 namespace DS4WinWPF.DS4Forms
@@ -171,10 +172,18 @@ namespace DS4WinWPF.DS4Forms
         private void BrowseProgsMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.IsEnabled = false;
-            browseProgsMenuItem.Visibility = Visibility.Collapsed;
-            programListLV.ItemsSource = null;
-            autoProfVM.AddProgramsFromDir(steamgamesdir);
-            autoProfVM.SearchFinished += AppsSearchFinished;
+            VistaFolderBrowserDialog dialog = new VistaFolderBrowserDialog();
+            if (dialog.ShowDialog() == true)
+            {
+                //browseProgsMenuItem.Visibility = Visibility.Collapsed;
+                programListLV.ItemsSource = null;
+                autoProfVM.AddProgramsFromDir(dialog.SelectedPath);
+                autoProfVM.SearchFinished += AppsSearchFinished;
+            }
+            else
+            {
+                this.IsEnabled = true;
+            }
         }
 
         private void StartMenuItem_Click(object sender, RoutedEventArgs e)
