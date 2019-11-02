@@ -135,7 +135,7 @@ namespace DS4WinWPF.DS4Forms
                 UpdateTheUpdater();
             });
 
-            Task.Delay(100).ContinueWith((t) =>
+            /*Task.Delay(100).ContinueWith((t) =>
             {
                 int checkwhen = Global.CheckWhen;
                 if (checkwhen > 0 && DateTime.Now >= Global.LastChecked + TimeSpan.FromHours(checkwhen))
@@ -146,6 +146,7 @@ namespace DS4WinWPF.DS4Forms
                     Global.LastChecked = DateTime.Now;
                 }
             });
+            */
         }
 
         private void DownloadUpstreamVersionInfo()

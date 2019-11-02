@@ -272,7 +272,7 @@
                             <Button x:Name="driverSetupBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="DriverSetupBtn_Click">
                                 <TextBlock Text="Controller/Driver Setup" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
-                            <Button x:Name="checkUpdatesBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="CheckUpdatesBtn_Click">
+                            <Button x:Name="checkUpdatesBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}"><!--="CheckUpdatesBtn_Click">-->
                                 <TextBlock Text="Check for Update Now" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
                         </StackPanel>
