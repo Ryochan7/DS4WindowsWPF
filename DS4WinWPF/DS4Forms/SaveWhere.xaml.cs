@@ -30,7 +30,7 @@ namespace DS4WinWPF.DS4Forms
             if (!multisavespots)
             {
                 multipleSavesDockP.Visibility = Visibility.Collapsed;
-                pickWhereLb.Content += Properties.Resources.OtherFileLocation;
+                pickWhereTxt.Text += Properties.Resources.OtherFileLocation;
             }
 
             if (DS4Windows.Global.AdminNeeded())

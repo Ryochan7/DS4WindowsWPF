@@ -11,7 +11,8 @@
             <Label Content="Multiple save locations detected" />
             <CheckBox x:Name="dontDeleteCk" Content="Don't Delete the other settings yet" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" />
         </DockPanel>
-        <Label x:Name="pickWhereLb" Content="Pick where you want profiles and settings to be saved" HorizontalAlignment="Center" Margin="4,10,4,0" />
+        <TextBlock x:Name="pickWhereTxt" Text="Pick where you want profiles and settings to be saved"
+                   TextWrapping="Wrap" HorizontalAlignment="Center" Margin="4,10,4,0" />
         <DockPanel Margin="4,10,4,0">
             <StackPanel Width="200">
                 <Button x:Name="progFolderBtn" Content="Program Folder" Click="ProgFolderBtn_Click" />
