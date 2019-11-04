@@ -180,6 +180,9 @@
     <Compile Include="DS4Forms\ColorPickerWindow.xaml.cs">
       <DependentUpon>ColorPickerWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DS4Forms\ControllerReadingsControl.xaml.cs">
+      <DependentUpon>ControllerReadingsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DS4Forms\DupBox.xaml.cs">
       <DependentUpon>DupBox.xaml</DependentUpon>
     </Compile>
@@ -259,6 +262,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="DS4Forms\ColorPickerWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="DS4Forms\ControllerReadingsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

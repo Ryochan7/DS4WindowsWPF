@@ -21,7 +21,7 @@
 
             </Button>
         </StackPanel>
-        <TabControl Width="500" DockPanel.Dock="Left">
+        <TabControl x:Name="sidebarTabControl" Width="500" DockPanel.Dock="Left" SelectionChanged="SidebarTabControl_SelectionChanged">
             <TabItem Header="Controls">
                 <DockPanel Width="500" LastChildFill="False">
                     <DockPanel.Background>
@@ -279,6 +279,9 @@
                         </ListView>
                     </DockPanel>
                 </DockPanel>
+            </TabItem>
+            <TabItem x:Name="contReadingsTab" Header="Controller Readings">
+                <local:ControllerReadingsControl x:Name="conReadingsUserCon" />
             </TabItem>
         </TabControl>
 

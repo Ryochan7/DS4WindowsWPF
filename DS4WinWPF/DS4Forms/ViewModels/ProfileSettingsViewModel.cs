@@ -596,14 +596,28 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public double LSDeadZone
         {
             get => Global.LSModInfo[device].deadZone / 127d;
-            set => Global.LSModInfo[device].deadZone = (int)(value * 127d);
+            set
+            {
+                double temp = Global.LSModInfo[device].deadZone / 127d;
+                if (temp == value) return;
+                Global.LSModInfo[device].deadZone = (int)(value * 127d);
+                LSDeadZoneChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler LSDeadZoneChanged;
 
         public double RSDeadZone
         {
             get => Global.RSModInfo[device].deadZone / 127d;
-            set => Global.RSModInfo[device].deadZone = (int)(value * 127d);
+            set
+            {
+                double temp = Global.RSModInfo[device].deadZone / 127d;
+                if (temp == value) return;
+                Global.RSModInfo[device].deadZone = (int)(value * 127d);
+                RSDeadZoneChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler RSDeadZoneChanged;
 
         public double LSMaxZone
         {
@@ -736,14 +750,28 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public double L2DeadZone
         {
             get => Global.L2ModInfo[device].deadZone / 255.0;
-            set => Global.L2ModInfo[device].deadZone = (byte)(value * 255.0);
+            set
+            {
+                double temp = Global.L2ModInfo[device].deadZone / 255.0;
+                if (temp == value) return;
+                Global.L2ModInfo[device].deadZone = (byte)(value * 255.0);
+                L2DeadZoneChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler L2DeadZoneChanged;
 
         public double R2DeadZone
         {
             get => Global.R2ModInfo[device].deadZone / 255.0;
-            set => Global.R2ModInfo[device].deadZone = (byte)(value * 255.0);
+            set
+            {
+                double temp = Global.R2ModInfo[device].deadZone / 255.0;
+                if (temp == value) return;
+                Global.R2ModInfo[device].deadZone = (byte)(value * 255.0);
+                R2DeadZoneChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler R2DeadZoneChanged;
 
         public double L2MaxZone
         {
@@ -828,14 +856,28 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public double SXDeadZone
         {
             get => Global.SXDeadzone[device];
-            set => Global.SXDeadzone[device] = value;
+            set
+            {
+                double temp = Global.SXDeadzone[device];
+                if (temp == value) return;
+                Global.SXDeadzone[device] = value;
+                SXDeadZoneChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler SXDeadZoneChanged;
 
         public double SZDeadZone
         {
             get => Global.SZDeadzone[device];
-            set => Global.SZDeadzone[device] = value;
+            set
+            {
+                double temp = Global.SZDeadzone[device];
+                if (temp == value) return;
+                Global.SZDeadzone[device] = value;
+                SZDeadZoneChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
+        public event EventHandler SZDeadZoneChanged;
 
         public double SXMaxZone
         {

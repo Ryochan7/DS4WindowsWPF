@@ -50,6 +50,7 @@ namespace DS4WinWPF.DS4Forms
         private StackPanel activeTouchPanel;
         private StackPanel activeGyroModePanel;
         private bool keepsize;
+        private bool controllerReadingsTabActive = false;
         public bool Keepsize { get => keepsize; }
 
         private NonFormTimer inputTimer;
@@ -121,6 +122,42 @@ namespace DS4WinWPF.DS4Forms
             outConTypeCombo.SelectionChanged += OutConTypeCombo_SelectionChanged;
             mappingListBox.SelectionChanged += MappingListBox_SelectionChanged;
             Closed += ProfileEditor_Closed;
+            profileSettingsVM.LSDeadZoneChanged += UpdateReadingsLsDeadZone;
+            profileSettingsVM.RSDeadZoneChanged += UpdateReadingsRsDeadZone;
+            profileSettingsVM.L2DeadZoneChanged += UpdateReadingsL2DeadZone;
+            profileSettingsVM.R2DeadZoneChanged += UpdateReadingsR2DeadZone;
+            profileSettingsVM.SXDeadZoneChanged += UpdateReadingsSXDeadZone;
+            profileSettingsVM.SZDeadZoneChanged += UpdateReadingsSZDeadZone;
+        }
+
+        private void UpdateReadingsSZDeadZone(object sender, EventArgs e)
+        {
+            conReadingsUserCon.SixAxisZDead = profileSettingsVM.SZDeadZone;
+        }
+
+        private void UpdateReadingsSXDeadZone(object sender, EventArgs e)
+        {
+            conReadingsUserCon.SixAxisXDead = profileSettingsVM.SXDeadZone;
+        }
+
+        private void UpdateReadingsR2DeadZone(object sender, EventArgs e)
+        {
+            conReadingsUserCon.R2Dead = profileSettingsVM.R2DeadZone;
+        }
+
+        private void UpdateReadingsL2DeadZone(object sender, EventArgs e)
+        {
+            conReadingsUserCon.L2Dead = profileSettingsVM.L2DeadZone;
+        }
+
+        private void UpdateReadingsRsDeadZone(object sender, EventArgs e)
+        {
+            conReadingsUserCon.RsDead = profileSettingsVM.RSDeadZone;
+        }
+
+        private void UpdateReadingsLsDeadZone(object sender, EventArgs e)
+        {
+            conReadingsUserCon.LsDead = profileSettingsVM.LSDeadZone;
         }
 
         private void AssignTiltAssociation()
@@ -462,6 +499,8 @@ namespace DS4WinWPF.DS4Forms
             if (device < 4)
             {
                 useControllerUD.Value = device + 1;
+                conReadingsUserCon.UseDevice(device);
+                conReadingsUserCon.EnableControl(false);
             }
 
             specialActionsVM.LoadActions(currentProfile == null);
@@ -475,6 +514,13 @@ namespace DS4WinWPF.DS4Forms
             mappingListBox.DataContext = mappingListVM;
             specialActionsTab.DataContext = specialActionsVM;
             lightbarRect.DataContext = profileSettingsVM;
+
+            conReadingsUserCon.LsDead = profileSettingsVM.LSDeadZone;
+            conReadingsUserCon.RsDead = profileSettingsVM.RSDeadZone;
+            conReadingsUserCon.L2Dead = profileSettingsVM.L2DeadZone;
+            conReadingsUserCon.R2Dead = profileSettingsVM.R2DeadZone;
+            conReadingsUserCon.SixAxisXDead = profileSettingsVM.SXDeadZone;
+            conReadingsUserCon.SixAxisZDead = profileSettingsVM.SZDeadZone;
 
             if (profileSettingsVM.UseControllerReadout)
             {
@@ -1104,7 +1150,9 @@ namespace DS4WinWPF.DS4Forms
         }
         private void ProfileEditor_Closed(object sender, EventArgs e)
         {
+            profileSettingsVM.UseControllerReadout = false;
             inputTimer.Stop();
+            conReadingsUserCon.EnableControl(false);
         }
 
         private void UseControllerReadoutCk_Click(object sender, RoutedEventArgs e)
@@ -1134,6 +1182,20 @@ namespace DS4WinWPF.DS4Forms
             if (mappingListVM.SelectedIndex >= 0)
             {
                 ShowControlBindingWindow();
+            }
+        }
+
+        private void SidebarTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sidebarTabControl.SelectedItem == contReadingsTab)
+            {
+                controllerReadingsTabActive = true;
+                conReadingsUserCon.EnableControl(true);
+            }
+            else if (controllerReadingsTabActive)
+            {
+                controllerReadingsTabActive = false;
+                conReadingsUserCon.EnableControl(false);
             }
         }
     }
