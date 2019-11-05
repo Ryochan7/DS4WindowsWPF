@@ -6,9 +6,6 @@
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
-             lex:LocalizeDictionary.DesignCulture=""
-             lex:ResxLocalizationProvider.DefaultAssembly="DS4WinWPF"
-             lex:ResxLocalizationProvider.DefaultDictionary="Resources"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1027">
     <DockPanel>
