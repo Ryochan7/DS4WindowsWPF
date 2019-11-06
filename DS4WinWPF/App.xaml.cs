@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.IO.MemoryMappedFiles;
 using System.Linq;
@@ -13,6 +14,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
+using WPFLocalizeExtension.Engine;
 
 namespace DS4WinWPF
 {
@@ -56,7 +58,12 @@ namespace DS4WinWPF
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             // Test localization
-            //System.Globalization.CultureInfo ci = new System.Globalization.CultureInfo("ja");
+            //CultureInfo ci = new CultureInfo("ja");
+            //LocalizeDictionary.Instance.SetCurrentThreadCulture = true;
+            //LocalizeDictionary.Instance.Culture = ci;
+            // fixes the culture in threads
+            //CultureInfo.DefaultThreadCurrentCulture = ci;
+            //CultureInfo.DefaultThreadCurrentUICulture = ci;
             //DS4WinWPF.Properties.Resources.Culture = ci;
             //Thread.CurrentThread.CurrentCulture = ci;
             //Thread.CurrentThread.CurrentUICulture = ci;
