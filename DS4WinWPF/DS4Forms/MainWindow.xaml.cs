@@ -1247,5 +1247,14 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
             WindowState = WindowState.Normal;
         }
+
+        private void ProfilesListBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (profilesListBox.SelectedIndex >= 0)
+            {
+                ProfileEntity entity = profileListHolder.ProfileListCol[profilesListBox.SelectedIndex];
+                ShowProfileEditor(4, entity);
+            }
+        }
     }
 }
