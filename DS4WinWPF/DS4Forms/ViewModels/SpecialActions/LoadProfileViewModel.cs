@@ -46,7 +46,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels.SpecialActions
         {
             autoUntrigger = action.automaticUntrigger;
             string profilename = action.details;
-            ProfileEntity item = profileList.ProfileListCol.Single(x => x.Name == profilename);
+            ProfileEntity item = profileList.ProfileListCol.SingleOrDefault(x => x.Name == profilename);
             if (item != null)
             {
                 profileIndex = profileList.ProfileListCol.IndexOf(item) + 1;

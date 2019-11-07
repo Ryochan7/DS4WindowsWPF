@@ -63,7 +63,7 @@ namespace DS4WinWPF
 
         public void RemoveProfile(string profile)
         {
-            var selectedEntity = profileListCol.Single(x => x.Name == profile);
+            var selectedEntity = profileListCol.SingleOrDefault(x => x.Name == profile);
             if (selectedEntity != null)
             {
                 int selectedIndex = profileListCol.IndexOf(selectedEntity);

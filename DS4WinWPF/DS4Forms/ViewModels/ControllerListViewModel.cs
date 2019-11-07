@@ -254,7 +254,11 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             this.devIndex = devIndex;
             this.selectedProfile = profile;
             profileListHolder = collection;
-            this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == selectedProfile);
+            if (!string.IsNullOrEmpty(selectedProfile))
+            {
+                this.selectedEntity = profileListHolder.ProfileListCol.SingleOrDefault(x => x.Name == selectedProfile);
+            }
+
             if (this.selectedEntity != null)
             {
                 selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
@@ -288,7 +292,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 Replace("*number*", (devIndex + 1).ToString()).Replace("*Profile name*", prof), false);
 
             selectedProfile = prof;
-            this.selectedEntity = profileListHolder.ProfileListCol.Single(x => x.Name == prof);
+            this.selectedEntity = profileListHolder.ProfileListCol.SingleOrDefault(x => x.Name == prof);
             if (this.selectedEntity != null)
             {
                 selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
@@ -380,7 +384,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 
         public void ChangeSelectedProfile(string loadprofile)
         {
-            ProfileEntity temp = profileListHolder.ProfileListCol.Single(x => x.Name == loadprofile);
+            ProfileEntity temp = profileListHolder.ProfileListCol.SingleOrDefault(x => x.Name == loadprofile);
             if (temp != null)
             {
                 SelectedIndex = profileListHolder.ProfileListCol.IndexOf(temp);
