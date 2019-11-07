@@ -50,7 +50,7 @@ namespace DS4WinWPF
                     if (tempEntity.IsMatch(topProcessName, topWindowTitle))
                     {
                         if (autoProfileDebugLogLevel > 0)
-                            AppLogger.LogToGui($"DEBUG: Auto-Profile. Rule#{i + 1}  Path={tempEntity.path}  Title={tempEntity.title}", false);
+                            DS4Windows.AppLogger.LogToGui($"DEBUG: Auto-Profile. Rule#{i + 1}  Path={tempEntity.path}  Title={tempEntity.title}", false);
 
                         // Matching autoprofile rule found
                         turnOffDS4WinApp = tempEntity.Turnoff;
@@ -71,7 +71,7 @@ namespace DS4WinWPF
                                 (!Global.useTempProfile[j] && tempname != Global.ProfilePath[j]))
                             {
                                 if (autoProfileDebugLogLevel > 0)
-                                    AppLogger.LogToGui($"DEBUG: Auto-Profile. LoadProfile Controller {j + 1}={tempname}", false);
+                                    DS4Windows.AppLogger.LogToGui($"DEBUG: Auto-Profile. LoadProfile Controller {j + 1}={tempname}", false);
 
                                 Global.LoadTempProfile(j, tempname, true, Program.rootHub); // j is controller index, i is filename
                                                                                               //if (LaunchProgram[j] != string.Empty) Process.Start(LaunchProgram[j]);
@@ -79,7 +79,7 @@ namespace DS4WinWPF
                             else
                             {
                                 if (autoProfileDebugLogLevel > 0)
-                                    AppLogger.LogToGui($"DEBUG: Auto-Profile. LoadProfile Controller {j + 1}={tempname} (already loaded)", false);
+                                    DS4Windows.AppLogger.LogToGui($"DEBUG: Auto-Profile. LoadProfile Controller {j + 1}={tempname} (already loaded)", false);
                             }
                         }
                     }
@@ -100,7 +100,7 @@ namespace DS4WinWPF
                         if (Global.useTempProfile[j])
                         {
                             if (autoProfileDebugLogLevel > 0)
-                                AppLogger.LogToGui($"DEBUG: Auto-Profile. RestoreProfile Controller {j + 1}={Global.ProfilePath[j]} (default)", false);
+                                DS4Windows.AppLogger.LogToGui($"DEBUG: Auto-Profile. RestoreProfile Controller {j + 1}={Global.ProfilePath[j]} (default)", false);
 
                             Global.LoadProfile(j, false, Program.rootHub);
                         }
@@ -172,7 +172,7 @@ namespace DS4WinWPF
             if (hProcess != IntPtr.Zero) CloseHandle(hProcess);
 
             if (autoProfileDebugLogLevel > 0)
-                AppLogger.LogToGui($"DEBUG: Auto-Profile. PID={lpdwProcessId}  Path={topProcessName} | WND={hWnd}  Title={topWndTitleName}", false);
+                DS4Windows.AppLogger.LogToGui($"DEBUG: Auto-Profile. PID={lpdwProcessId}  Path={topProcessName} | WND={hWnd}  Title={topWndTitleName}", false);
 
             return true;
         }
