@@ -17,6 +17,9 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         private int device;
         public int Device { get => device; }
 
+        private int funcDevNum;
+        public int FuncDevNum { get => funcDevNum; }
+
         public System.Windows.Media.Color MainColor
         {
             get
@@ -1364,6 +1367,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public ProfileSettingsViewModel(int device)
         {
             this.device = device;
+            funcDevNum = device < 4 ? device : 0;
             tempControllerIndex = ControllerTypeIndex;
             Global.outDevTypeTemp[device] = OutContType.X360;
             tempBtPollRate = Global.BTPollRate[device];

@@ -502,6 +502,10 @@ namespace DS4WinWPF.DS4Forms
                 conReadingsUserCon.UseDevice(device);
                 conReadingsUserCon.EnableControl(false);
             }
+            else
+            {
+                useControllerUD.Value = 1;
+            }
 
             specialActionsVM.LoadActions(currentProfile == null);
             mappingListVM.UpdateMappings();
@@ -530,9 +534,9 @@ namespace DS4WinWPF.DS4Forms
 
         private void CancelBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (deviceNum < 4)
+            if (profileSettingsVM.FuncDevNum < 4)
             {
-                App.rootHub.setRumble(0, 0, deviceNum);
+                App.rootHub.setRumble(0, 0, profileSettingsVM.FuncDevNum);
             }
             DS4Windows.Global.outDevTypeTemp[deviceNum] = DS4Windows.OutContType.X360;
             DS4Windows.Global.LoadProfile(deviceNum, false, App.rootHub);
@@ -662,9 +666,9 @@ namespace DS4WinWPF.DS4Forms
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (deviceNum < 4)
+            if (profileSettingsVM.FuncDevNum < 4)
             {
-                App.rootHub.setRumble(0, 0, deviceNum);
+                App.rootHub.setRumble(0, 0, profileSettingsVM.FuncDevNum);
             }
 
             string temp = profileNameTxt.Text;
@@ -717,9 +721,9 @@ namespace DS4WinWPF.DS4Forms
 
         public void Close()
         {
-            if (deviceNum < 4)
+            if (profileSettingsVM.FuncDevNum < 4)
             {
-                App.rootHub.setRumble(0, 0, deviceNum);
+                App.rootHub.setRumble(0, 0, profileSettingsVM.FuncDevNum);
             }
 
             Closed?.Invoke(this, EventArgs.Empty);
@@ -779,9 +783,10 @@ namespace DS4WinWPF.DS4Forms
 
         private void HeavyRumbleTestBtn_Click(object sender, RoutedEventArgs e)
         {
+            int deviceNum = profileSettingsVM.FuncDevNum;
             if (deviceNum < 4)
             {
-                DS4Windows.DS4Device d = App.rootHub.DS4Controllers[deviceNum];
+                DS4Device d = App.rootHub.DS4Controllers[deviceNum];
                 if (d != null)
                 {
                     bool rumbleActive = profileSettingsVM.HeavyRumbleActive;
@@ -804,9 +809,10 @@ namespace DS4WinWPF.DS4Forms
 
         private void LightRumbleTestBtn_Click(object sender, RoutedEventArgs e)
         {
+            int deviceNum = profileSettingsVM.FuncDevNum;
             if (deviceNum < 4)
             {
-                DS4Windows.DS4Device d = App.rootHub.DS4Controllers[deviceNum];
+                DS4Device d = App.rootHub.DS4Controllers[deviceNum];
                 if (d != null)
                 {
                     bool rumbleActive = profileSettingsVM.LightRumbleActive;
@@ -907,7 +913,7 @@ namespace DS4WinWPF.DS4Forms
         {
             if (profileSettingsVM.SASteeringWheelEmulationAxisIndex > 0)
             {
-                DS4Windows.DS4Device d = App.rootHub.DS4Controllers[deviceNum];
+                DS4Windows.DS4Device d = App.rootHub.DS4Controllers[profileSettingsVM.FuncDevNum];
                 if (d != null)
                 {
                     System.Drawing.Point origWheelCenterPoint = new System.Drawing.Point(d.wheelCenterPoint.X, d.wheelCenterPoint.Y);
@@ -1092,7 +1098,7 @@ namespace DS4WinWPF.DS4Forms
             Dispatcher.Invoke(() =>
             {
                 activeWin = Application.Current.MainWindow.IsActive;
-                tempDeviceNum = profileSettingsVM.Device;
+                tempDeviceNum = profileSettingsVM.FuncDevNum;
             });
 
             if (activeWin && profileSettingsVM.UseControllerReadout)
