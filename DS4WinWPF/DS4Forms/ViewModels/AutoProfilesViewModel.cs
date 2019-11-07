@@ -173,6 +173,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 };
                 */
 
+                tempEntry.Turnoff = item.Turnoff;
                 int tempindex = item.SelectedIndexCon1;
                 tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
                     "(none)";
