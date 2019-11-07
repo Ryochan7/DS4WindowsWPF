@@ -318,7 +318,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         private ImageSource exeicon;
         private bool turnoff;
 
-        public string Path { get => path; }
+        public string Path { get => path; set => path = value; }
         public string Title { get => title;
             set
             {

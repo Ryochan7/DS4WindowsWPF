@@ -280,7 +280,10 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
         private void AutoprofileChecker_RequestServiceChange(AutoProfileChecker sender, bool state)
         {
-            ChangeService();
+            Dispatcher.BeginInvoke((Action)(() =>
+            {
+                ChangeService();
+            }));
         }
 
         private void AutoProfVM_AutoProfileSystemChange(AutoProfilesViewModel sender, bool state)
