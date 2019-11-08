@@ -500,12 +500,14 @@ namespace DS4WinWPF.DS4Forms
             {
                 useControllerUD.Value = device + 1;
                 conReadingsUserCon.UseDevice(device);
-                conReadingsUserCon.EnableControl(false);
             }
             else
             {
                 useControllerUD.Value = 1;
+                conReadingsUserCon.UseDevice(1);
             }
+
+            conReadingsUserCon.EnableControl(false);
 
             specialActionsVM.LoadActions(currentProfile == null);
             mappingListVM.UpdateMappings();
