@@ -123,4 +123,7 @@
   <data name="Controllers" xml:space="preserve">
     <value>Controllers</value>
   </data>
+  <data name="Full" xml:space="preserve">
+    <value>Full</value>
+  </data>
 </root>

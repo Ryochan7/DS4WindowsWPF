@@ -77,5 +77,14 @@ namespace DS4WinWPF.Translations {
                 return ResourceManager.GetString("Controllers", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full.
+        /// </summary>
+        public static string Full {
+            get {
+                return ResourceManager.GetString("Full", resourceCulture);
+            }
+        }
     }
 }

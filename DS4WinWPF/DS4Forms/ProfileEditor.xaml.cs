@@ -741,12 +741,12 @@ namespace DS4WinWPF.DS4Forms
             bool state = profileSettingsVM.ColorBatteryPercent;
             if (state)
             {
-                colorGB.Header = "Full";
+                colorGB.Header = Translations.Strings.Full;
                 emptyColorGB.Visibility = Visibility.Visible;
             }
             else
             {
-                colorGB.Header = "Color";
+                colorGB.Header = Translations.Strings.Color;
                 emptyColorGB.Visibility = Visibility.Hidden;
             }
         }
