@@ -298,6 +298,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 selectedIndex = profileListHolder.ProfileListCol.IndexOf(this.selectedEntity);
                 HookEvents(true);
             }
+
+            LightColorChanged?.Invoke(this, EventArgs.Empty);
         }
 
         private void HookEvents(bool state)
@@ -315,6 +317,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         private void SelectedEntity_ProfileSaved(object sender, EventArgs e)
         {
             Global.LoadProfile(devIndex, false, App.rootHub);
+            LightColorChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void RequestUpdatedTooltipID()
