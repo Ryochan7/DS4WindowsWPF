@@ -504,7 +504,7 @@ namespace DS4WinWPF.DS4Forms
             else
             {
                 useControllerUD.Value = 1;
-                conReadingsUserCon.UseDevice(1);
+                conReadingsUserCon.UseDevice(0);
             }
 
             conReadingsUserCon.EnableControl(false);
