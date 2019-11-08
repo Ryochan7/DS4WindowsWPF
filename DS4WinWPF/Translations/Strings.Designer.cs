@@ -61,6 +61,15 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string Cancel {
+            get {
+                return ResourceManager.GetString("Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color.
         /// </summary>
         public static string Color {
@@ -84,6 +93,33 @@ namespace DS4WinWPF.Translations {
         public static string Full {
             get {
                 return ResourceManager.GetString("Full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile.
+        /// </summary>
+        public static string Profile {
+            get {
+                return ResourceManager.GetString("Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Record.
+        /// </summary>
+        public static string RecordText {
+            get {
+                return ResourceManager.GetString("RecordText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string SaveProfile {
+            get {
+                return ResourceManager.GetString("SaveProfile", resourceCulture);
             }
         }
     }

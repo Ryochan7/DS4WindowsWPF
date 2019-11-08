@@ -117,13 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Cancel" xml:space="preserve">
+    <value>キャンセル</value>
+  </data>
   <data name="Color" xml:space="preserve">
     <value>いろ</value>
   </data>
   <data name="Controllers" xml:space="preserve">
-    <value>コントローラス</value>
+    <value>コントローラー</value>
   </data>
   <data name="Full" xml:space="preserve">
     <value>まンぷく</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>プロフライル</value>
+  </data>
+  <data name="RecordText" xml:space="preserve">
+    <value>レコード</value>
+  </data>
+  <data name="SaveProfile" xml:space="preserve">
+    <value>プロファイルを保存</value>
   </data>
 </root>

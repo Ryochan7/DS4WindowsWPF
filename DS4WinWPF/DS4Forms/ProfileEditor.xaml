@@ -15,8 +15,8 @@
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,0,0,14">
             <Label Content="Profile Name:" />
             <TextBox x:Name="profileNameTxt" Text="" Width="160" VerticalContentAlignment="Center" />
-            <Button x:Name="saveBtn" Content="Save" Margin="10,0,0,0" Click="SaveBtn_Click" />
-            <Button x:Name="cancelBtn" Content="Cancel" Margin="10,0,0,0" Click="CancelBtn_Click" />
+            <Button x:Name="saveBtn" Content="{lex:Loc SaveProfile}" Margin="10,0,0,0" Click="SaveBtn_Click" />
+            <Button x:Name="cancelBtn" Content="{lex:Loc Cancel}" Margin="10,0,0,0" Click="CancelBtn_Click" />
             <Button x:Name="keepSizeBtn" Margin="10,0,0,0" Click="KeepSizeBtn_Click">
                 <StackPanel Orientation="Horizontal" Margin="0">
                     <Image x:Name="sizeImage" Source="/DS4WinWPF;component/Resources/size.png" Width="20" Height="20"/>
