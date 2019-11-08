@@ -252,6 +252,11 @@
     <Compile Include="ProfileEntity.cs" />
     <Compile Include="ProfileList.cs" />
     <Compile Include="DS4Forms\ViewModels\SettingsViewModel.cs" />
+    <Compile Include="Translations\Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="StartupMethods.cs" />
     <Compile Include="StatusLogMsg.cs" />
     <Compile Include="Tester.cs" />
@@ -342,6 +347,10 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Translations\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Include="app.manifest" />
     <None Include="packages.config" />

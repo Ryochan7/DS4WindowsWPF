@@ -9,7 +9,7 @@
         xmlns:lex="http://wpflocalizeextension.codeplex.com"
         lex:LocalizeDictionary.DesignCulture=""
         lex:ResxLocalizationProvider.DefaultAssembly="DS4WinWPF"
-        lex:ResxLocalizationProvider.DefaultDictionary="Resources"
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"
         xml:lang="en-US"
         mc:Ignorable="d"
         Title="DS4Windows" Height="450" Width="800" Closing="MainDS4Window_Closing" StateChanged="MainDS4Window_StateChanged" SizeChanged="MainDS4Window_SizeChanged" LocationChanged="MainDS4Window_LocationChanged">
@@ -36,7 +36,7 @@
             </DockPanel>
         </StackPanel>
         <TabControl x:Name="mainTabCon" DockPanel.Dock="Top" SelectionChanged="MainTabCon_SelectionChanged">
-            <TabItem Header="Controllers">
+            <TabItem Header="{lex:Loc Controllers}">
                 <Grid>
                     <Label x:Name="noContLb" Visibility="Hidden" Content="No Controllers Connected (Max 4)" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
                     <ListView x:Name="controllerLV" ItemsSource="{Binding ControllerCol}" SelectionMode="Single" SelectedIndex="{Binding CurrentIndex, Mode=OneWayToSource}" Margin="0">
