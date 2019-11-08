@@ -7,6 +7,8 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:lex="http://wpflocalizeextension.codeplex.com"
              lex:LocalizeDictionary.DesignCulture=""
+             lex:ResxLocalizationProvider.DefaultAssembly="DS4WinWPF"
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="1027">
     <DockPanel>
@@ -291,7 +293,7 @@
             <TabItem Header="Lightbar">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <GroupBox x:Name="colorGB" Header="Color" Padding="4">
+                        <GroupBox x:Name="colorGB" Header="{lex:Loc Color}" Padding="4">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="R" />
