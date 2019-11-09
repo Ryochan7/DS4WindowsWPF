@@ -258,15 +258,15 @@
                 <DockPanel x:Name="specialActionDockPanel">
                     <DockPanel x:Name="baseSpeActPanel" DockPanel.Dock="Top">
                         <UniformGrid Rows="1" Columns="3" DockPanel.Dock="Top">
-                            <Button x:Name="newActionBtn" Content="New Action" Margin="0,0,5,0" Click="NewActionBtn_Click" />
-                            <Button x:Name="editActionBtn" Content="Edit Action" IsEnabled="{Binding ItemSelected}" Margin="5,0" Click="EditActionBtn_Click" />
-                            <Button x:Name="removeActionBtn" Content="Remove Action" IsEnabled="{Binding ItemSelected}" Margin="5,0,0,0" Click="RemoveActionBtn_Click" />
+                            <Button x:Name="newActionBtn" Content="{lex:Loc NewAction}" Margin="0,0,5,0" Click="NewActionBtn_Click" />
+                            <Button x:Name="editActionBtn" Content="{lex:Loc EditAction}" IsEnabled="{Binding ItemSelected}" Margin="5,0" Click="EditActionBtn_Click" />
+                            <Button x:Name="removeActionBtn" Content="{lex:Loc RemoveAction}" IsEnabled="{Binding ItemSelected}" Margin="5,0,0,0" Click="RemoveActionBtn_Click" />
                         </UniformGrid>
 
                         <ListView x:Name="specialActionsLV" ItemsSource="{Binding ActionCol}" SelectedIndex="{Binding SpecialActionIndex}" DockPanel.Dock="Bottom" Margin="0,10,0,0">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Name" Width="150">
+                                    <GridViewColumn Header="{lex:Loc Name}" Width="150">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
@@ -276,8 +276,8 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Trigger" DisplayMemberBinding="{Binding Controls}" Width="100" />
-                                    <GridViewColumn Header="Action" DisplayMemberBinding="{Binding TypeName}" Width="200" />
+                                    <GridViewColumn Header="{lex:Loc Trigger}" DisplayMemberBinding="{Binding Controls}" Width="100" />
+                                    <GridViewColumn Header="{lex:Loc Action}" DisplayMemberBinding="{Binding TypeName}" Width="200" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -876,7 +876,7 @@
                     <CheckBox Content="Enable Touchpad Toggle" IsChecked="{Binding EnableTouchpadToggle}" Margin="0,6,0,0" />
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
                         <CheckBox x:Name="launchProgCk" Content="Launch program with profile" IsChecked="{Binding LaunchProgramExists}" IsEnabled="{Binding LaunchProgramExists}" />
-                        <Button x:Name="launchProgBrowseBtn" Content="{Binding LaunchProgramName,FallbackValue=Browse}" Click="LaunchProgBrowseBtn_Click" Width="80" Height="30" Margin="20,0,0,0" />
+                        <Button x:Name="launchProgBrowseBtn" Content="{Binding LaunchProgramName,FallbackValue={lex:Loc Browse}}" Click="LaunchProgBrowseBtn_Click" Width="80" Height="30" Margin="20,0,0,0" />
                         <Button x:Name="launchProgIconBtn" Width="20" Height="20" Margin="20,0,0,0" Focusable="False" >
                             <Button.Background>
                                 <ImageBrush ImageSource="{Binding LaunchProgramIcon}" />

@@ -2,7 +2,11 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture=""
+             lex:ResxLocalizationProvider.DefaultAssembly="DS4WinWPF"
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="500">
@@ -24,7 +28,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
-                <Label Content="Left Stick" HorizontalAlignment="Center" Padding="0"/>
+                <Label Content="{lex:Loc LeftStick}" HorizontalAlignment="Center" Padding="0"/>
                 <Label Content="" HorizontalAlignment="Center" Padding="0"/>
                 <Canvas Width="150" Height="150" ClipToBounds="True">
                     <Rectangle Stroke="Black" Width="150" Height="150">
@@ -38,7 +42,7 @@
                 </Canvas>
             </StackPanel>
             <StackPanel Grid.Column="1">
-                <Label Content="Right Stick" HorizontalAlignment="Center" Padding="0"/>
+                <Label Content="{lex:Loc RightStick}" HorizontalAlignment="Center" Padding="0"/>
                 <Label Content="" HorizontalAlignment="Center" Padding="0"/>
                 <Canvas Width="150" Height="150" ClipToBounds="True">
                     <Rectangle Stroke="Black" Width="150" Height="150">
@@ -101,13 +105,13 @@
             <Border BorderBrush="Black" Grid.Column="1" BorderThickness="1">
                 <StackPanel Orientation="Horizontal" Margin="10,4,10,0" HorizontalAlignment="Center">
                     <StackPanel Margin="0,0,10,0">
-                        <Label Content="Gyro" HorizontalAlignment="Center" Padding="0"/>
+                        <Label Content="{lex:Loc Gyro}" HorizontalAlignment="Center" Padding="0"/>
                         <Slider x:Name="gyroYawSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,8,0,0"/>
                         <Slider x:Name="gyroPitchSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,4,0,0"/>
                         <Slider x:Name="gyroRollSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,4,0,0"/>
                     </StackPanel>
                     <StackPanel>
-                        <Label Content="Accel" HorizontalAlignment="Center" Padding="0"/>
+                        <Label Content="{lex:Loc Accel}" HorizontalAlignment="Center" Padding="0"/>
                         <Slider x:Name="accelXSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,8,0,0"/>
                         <Slider x:Name="accelYSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,4,0,0"/>
                         <Slider x:Name="accelZSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,4,0,0"/>

@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accel" xml:space="preserve">
+    <value>加速度</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>アクシヨン</value>
+  </data>
   <data name="AutoProfiles" xml:space="preserve">
     <value>自動プロファイル</value>
   </data>
   <data name="Battery" xml:space="preserve">
     <value>バッテリー</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>参照</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
@@ -135,14 +144,29 @@
   <data name="Edit" xml:space="preserve">
     <value>編集</value>
   </data>
+  <data name="EditAction" xml:space="preserve">
+    <value>アクシヨンを編集</value>
+  </data>
   <data name="Full" xml:space="preserve">
     <value>まンぷく</value>
+  </data>
+  <data name="Gyro" xml:space="preserve">
+    <value>ジャイロ</value>
+  </data>
+  <data name="LeftStick" xml:space="preserve">
+    <value>左ステイック</value>
   </data>
   <data name="Log" xml:space="preserve">
     <value>ログ</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>名前</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>新規</value>
+  </data>
+  <data name="NewAction" xml:space="preserve">
+    <value>新規アクシヨン</value>
   </data>
   <data name="NewProfile" xml:space="preserve">
     <value>新規プロフライル</value>
@@ -152,6 +176,12 @@
   </data>
   <data name="RecordText" xml:space="preserve">
     <value>レコード</value>
+  </data>
+  <data name="RemoveAction" xml:space="preserve">
+    <value>アクシヨンを除き去</value>
+  </data>
+  <data name="RightStick" xml:space="preserve">
+    <value>右ステイック</value>
   </data>
   <data name="Rumble" xml:space="preserve">
     <value>振動</value>
@@ -182,5 +212,8 @@
   </data>
   <data name="TouchTap" xml:space="preserve">
     <value>タップ</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>トリガー</value>
   </data>
 </root>

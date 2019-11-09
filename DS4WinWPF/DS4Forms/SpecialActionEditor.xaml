@@ -311,7 +311,7 @@
                                     <xctk:IntegerUpDown Value="{Binding Delay}" Width="60" Minimum="0" Maximum="60" />
                                     <Label Content="secs" />
                                 </StackPanel>
-                                <Button x:Name="launchProgBrowseBtn" Content="Browse..." Click="LaunchProgBrowseBtn_Click" />
+                                <Button x:Name="launchProgBrowseBtn" Content="{lex:Loc Browse}" Click="LaunchProgBrowseBtn_Click" />
                                 <StackPanel Orientation="Horizontal">
                                     <Label Content="{Binding Filepath}" Width="200" />
                                     <Image Source="{Binding ProgramIcon}" Width="32" Height="32" Margin="10,0,0,0" />

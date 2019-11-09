@@ -61,6 +61,24 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accel.
+        /// </summary>
+        public static string Accel {
+            get {
+                return ResourceManager.GetString("Accel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Action.
+        /// </summary>
+        public static string Action {
+            get {
+                return ResourceManager.GetString("Action", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Profiles.
         /// </summary>
         public static string AutoProfiles {
@@ -75,6 +93,15 @@ namespace DS4WinWPF.Translations {
         public static string Battery {
             get {
                 return ResourceManager.GetString("Battery", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse.
+        /// </summary>
+        public static string Browse {
+            get {
+                return ResourceManager.GetString("Browse", resourceCulture);
             }
         }
         
@@ -115,11 +142,38 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Action.
+        /// </summary>
+        public static string EditAction {
+            get {
+                return ResourceManager.GetString("EditAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Full.
         /// </summary>
         public static string Full {
             get {
                 return ResourceManager.GetString("Full", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Gyro.
+        /// </summary>
+        public static string Gyro {
+            get {
+                return ResourceManager.GetString("Gyro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Left Stick.
+        /// </summary>
+        public static string LeftStick {
+            get {
+                return ResourceManager.GetString("LeftStick", resourceCulture);
             }
         }
         
@@ -133,11 +187,29 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string Name {
+            get {
+                return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New.
         /// </summary>
         public static string New {
             get {
                 return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Action.
+        /// </summary>
+        public static string NewAction {
+            get {
+                return ResourceManager.GetString("NewAction", resourceCulture);
             }
         }
         
@@ -165,6 +237,24 @@ namespace DS4WinWPF.Translations {
         public static string RecordText {
             get {
                 return ResourceManager.GetString("RecordText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove Action.
+        /// </summary>
+        public static string RemoveAction {
+            get {
+                return ResourceManager.GetString("RemoveAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right Stick.
+        /// </summary>
+        public static string RightStick {
+            get {
+                return ResourceManager.GetString("RightStick", resourceCulture);
             }
         }
         
@@ -256,6 +346,15 @@ namespace DS4WinWPF.Translations {
         public static string TouchTap {
             get {
                 return ResourceManager.GetString("TouchTap", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trigger.
+        /// </summary>
+        public static string Trigger {
+            get {
+                return ResourceManager.GetString("Trigger", resourceCulture);
             }
         }
     }

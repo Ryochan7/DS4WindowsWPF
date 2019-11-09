@@ -117,11 +117,20 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Accel" xml:space="preserve">
+    <value>Accel</value>
+  </data>
+  <data name="Action" xml:space="preserve">
+    <value>Action</value>
+  </data>
   <data name="AutoProfiles" xml:space="preserve">
     <value>Auto Profiles</value>
   </data>
   <data name="Battery" xml:space="preserve">
     <value>Battery</value>
+  </data>
+  <data name="Browse" xml:space="preserve">
+    <value>Browse</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -135,14 +144,29 @@
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="EditAction" xml:space="preserve">
+    <value>Edit Action</value>
+  </data>
   <data name="Full" xml:space="preserve">
     <value>Full</value>
+  </data>
+  <data name="Gyro" xml:space="preserve">
+    <value>Gyro</value>
+  </data>
+  <data name="LeftStick" xml:space="preserve">
+    <value>Left Stick</value>
   </data>
   <data name="Log" xml:space="preserve">
     <value>Log</value>
   </data>
+  <data name="Name" xml:space="preserve">
+    <value>Name</value>
+  </data>
   <data name="New" xml:space="preserve">
     <value>New</value>
+  </data>
+  <data name="NewAction" xml:space="preserve">
+    <value>New Action</value>
   </data>
   <data name="NewProfile" xml:space="preserve">
     <value>New Profile</value>
@@ -152,6 +176,12 @@
   </data>
   <data name="RecordText" xml:space="preserve">
     <value>Record</value>
+  </data>
+  <data name="RemoveAction" xml:space="preserve">
+    <value>Remove Action</value>
+  </data>
+  <data name="RightStick" xml:space="preserve">
+    <value>Right Stick</value>
   </data>
   <data name="Rumble" xml:space="preserve">
     <value>Rumble</value>
@@ -183,5 +213,8 @@
   </data>
   <data name="TouchTap" xml:space="preserve">
     <value>Tap</value>
+  </data>
+  <data name="Trigger" xml:space="preserve">
+    <value>Trigger</value>
   </data>
 </root>
