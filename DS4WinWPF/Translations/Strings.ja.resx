@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AutoProfiles" xml:space="preserve">
+    <value>自動プロファイル</value>
+  </data>
+  <data name="Battery" xml:space="preserve">
+    <value>バッテリー</value>
+  </data>
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
@@ -126,8 +132,20 @@
   <data name="Controllers" xml:space="preserve">
     <value>コントローラー</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>編集</value>
+  </data>
   <data name="Full" xml:space="preserve">
     <value>まンぷく</value>
+  </data>
+  <data name="Log" xml:space="preserve">
+    <value>ログ</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>新規</value>
+  </data>
+  <data name="NewProfile" xml:space="preserve">
+    <value>新規プロフライル</value>
   </data>
   <data name="Profile" xml:space="preserve">
     <value>プロフライル</value>
@@ -137,5 +155,11 @@
   </data>
   <data name="SaveProfile" xml:space="preserve">
     <value>プロファイルを保存</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>設定</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>状態</value>
   </data>
 </root>

@@ -49,7 +49,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn Header="Status"  x:Name="statusColumn" Width="40">
+                                <GridViewColumn Header="{lex:Loc Status}"  x:Name="statusColumn" Width="40">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=statusColumn, Path=Width}">
@@ -67,7 +67,7 @@
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn x:Name="batteryColumn" Header="Battery" Width="60">
+                                <GridViewColumn x:Name="batteryColumn" Header="{lex:Loc Battery}" Width="60">
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=batteryColumn, Path=Width}">
@@ -100,10 +100,10 @@
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
                                             <StackPanel Width="{Binding ElementName=editColumn, Path=Width}">
-                                                <xctk:SplitButton x:Name="ProfEditSBtn" Content="Edit" Height="20" Width="60"
+                                                <xctk:SplitButton x:Name="ProfEditSBtn" Content="{lex:Loc Edit}" Height="20" Width="60"
                                                                   Tag="{Binding DevIndex, Mode=OneTime}" Click="ProfEditSBtn_Click">
                                                     <xctk:SplitButton.DropDownContent>
-                                                        <Button x:Name="newProfBtn" Content="New Profile" Width="120" Tag="{Binding DevIndex, Mode=OneTime}" Click="NewProfBtn_Click"  />
+                                                        <Button x:Name="newProfBtn" Content="{lex:Loc NewProfile}" Width="120" Tag="{Binding DevIndex, Mode=OneTime}" Click="NewProfBtn_Click"  />
                                                     </xctk:SplitButton.DropDownContent>
                                                 </xctk:SplitButton>
                                             </StackPanel>
@@ -134,14 +134,14 @@
                 </Grid>
             </TabItem>
 
-            <TabItem x:Name="profilesTab" Header="Profiles">
+            <TabItem x:Name="profilesTab" Header="{lex:Loc Profile}">
                 <DockPanel x:Name="profDockPanel">
                     <ToolBar x:Name="profOptsToolbar" Height="30" DockPanel.Dock="Top" Background="{x:Null}">
                         <Button x:Name="newProfListBtn" Click="NewProfListBtn_Click">
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/newprofile.png" />
-                                    <TextBlock Text="New" />
+                                    <TextBlock Text="{lex:Loc New}" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -149,7 +149,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/edit.png" />
-                                    <TextBlock Text="Edit" />
+                                    <TextBlock Text="{lex:Loc Edit}" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -199,12 +199,12 @@
                     </ListBox>
                 </DockPanel>
             </TabItem>
-            <TabItem Header="Auto Profiles">
+            <TabItem Header="{lex:Loc AutoProfiles}">
                 <local:AutoProfiles x:Name="autoProfControl">
 
                 </local:AutoProfiles>
             </TabItem>
-            <TabItem x:Name="settingsTab" Header="Settings">
+            <TabItem x:Name="settingsTab" Header="{lex:Loc Settings}">
                 <WrapPanel Orientation="Vertical" Margin="8">
                     <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox" IsChecked="{Binding HideDS4Controller}" Click="HideDS4ContCk_Click" >
                     </CheckBox>
@@ -283,7 +283,7 @@
                     </GroupBox>
                 </WrapPanel>
             </TabItem>
-            <TabItem Header="Log">
+            <TabItem Header="{lex:Loc Log}">
                 <DockPanel>
                     <DockPanel Height="20" DockPanel.Dock="Bottom" Margin="4,8">
                         <Button x:Name="exportLogBtn" Content="Export" HorizontalAlignment="Left" Padding="20,1" Click="ExportLogBtn_Click" />
