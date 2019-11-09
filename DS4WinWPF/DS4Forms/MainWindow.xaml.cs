@@ -68,7 +68,8 @@ namespace DS4WinWPF.DS4Forms
             profileListHolder.Refresh();
             profilesListBox.ItemsSource = profileListHolder.ProfileListCol;
 
-            StartStopBtn.Content = root.rootHubtest.Running ? "Stop" : "Start";
+            StartStopBtn.Content = root.rootHubtest.Running ? Translations.Strings.StopText :
+                Translations.Strings.StartText;
 
             conLvViewModel = new ControllerListViewModel(App.rootHub, profileListHolder);
             controllerLV.DataContext = conLvViewModel;
@@ -595,11 +596,11 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             {
                 if (service.running)
                 {
-                    StartStopBtn.Content = "Stop";
+                    StartStopBtn.Content = Translations.Strings.StopText;
                 }
                 else
                 {
-                    StartStopBtn.Content = "Start";
+                    StartStopBtn.Content = Translations.Strings.StartText;
                 }
 
                 StartStopBtn.IsEnabled = true;

@@ -30,7 +30,7 @@
                     <Button x:Name="aboutBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8" Click="AboutBtn_Click">
                         <TextBlock Text="Hotkeys/About" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" x:Uid="hotkeysText" />
                     </Button>
-                    <Button x:Name="StartStopBtn" Content="Start" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" />
+                    <Button x:Name="StartStopBtn" Content="{lex:Loc StartText}" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" />
                 </StackPanel>
                 <Label x:Name="lastMsgLb" Content="{Binding Message}" ToolTip="{Binding Message}" Foreground="{Binding Color}" Margin="4,0,2,0" />
             </DockPanel>

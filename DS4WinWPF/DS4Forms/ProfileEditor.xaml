@@ -135,19 +135,19 @@
                                     <StackPanel x:Name="useMousePanel" Margin="0,10,0,0">
                                         <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Slide" IsChecked="{Binding TouchSenExists}" />
+                                                <CheckBox Content="{lex:Loc TouchSlide}" IsChecked="{Binding TouchSenExists}" />
                                                 <xctk:IntegerUpDown d:IsHidden="True" MinWidth="40" Maximum="500" Value="{Binding TouchSens}" IsEnabled="{Binding TouchSenExists}"  />
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Scroll" IsChecked="{Binding TouchScrollExists}" />
+                                                <CheckBox Content="{lex:Loc TouchScroll}" IsChecked="{Binding TouchScrollExists}" />
                                                 <xctk:IntegerUpDown Value="{Binding TouchScroll}" d:IsHidden="True" MinWidth="40" IsEnabled="{Binding TouchScrollExists}"  />
                                             </StackPanel>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Tap" IsChecked="{Binding TouchTapExists}" />
+                                                <CheckBox Content="{lex:Loc TouchTap}" IsChecked="{Binding TouchTapExists}" />
                                                 <xctk:IntegerUpDown Value="{Binding TouchTap}" d:IsHidden="True" MinWidth="40" IsEnabled="{Binding TouchTapExists}"  />
                                             </StackPanel>
 
@@ -844,7 +844,7 @@
 
             <TabItem Header="Other">
                 <StackPanel>
-                    <GroupBox Header="Rumble" Height="50">
+                    <GroupBox Header="{lex:Loc Rumble}" Height="50">
                         <UniformGrid Rows="1" Columns="3">
                             <UniformGrid Columns="2">
                                 <xctk:IntegerUpDown x:Name="RumbleBoostIUD" d:IsHidden="True" MinWidth="60" Value="{Binding RumbleBoost}" Minimum="0" Maximum="200" Increment="10" />

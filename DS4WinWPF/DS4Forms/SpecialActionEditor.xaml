@@ -5,6 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:lex="http://wpflocalizeextension.codeplex.com"
+             lex:LocalizeDictionary.DesignCulture=""
+             lex:ResxLocalizationProvider.DefaultAssembly="DS4WinWPF"
+             lex:ResxLocalizationProvider.DefaultDictionary="Strings"
              xmlns:entity="clr-namespace:DS4WinWPF"
              mc:Ignorable="d" 
              d:DesignHeight="350" d:DesignWidth="450">
@@ -424,8 +428,8 @@
                     </TabControl>
 
                     <UniformGrid Rows="1">
-                        <Button x:Name="saveBtn" Content="Save" Margin="0,0,5,0" Click="SaveBtn_Click" />
-                        <Button x:Name="cancelBtn" Content="Cancel" Margin="5,0,0,0" Click="CancelBtn_Click" />
+                        <Button x:Name="saveBtn" Content="{lex:Loc Save}" Margin="0,0,5,0" Click="SaveBtn_Click" />
+                        <Button x:Name="cancelBtn" Content="{lex:Loc Cancel}" Margin="5,0,0,0" Click="CancelBtn_Click" />
                     </UniformGrid>
                 </StackPanel>
             </DockPanel>

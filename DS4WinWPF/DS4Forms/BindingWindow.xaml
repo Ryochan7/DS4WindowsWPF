@@ -3,8 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:lex="http://wpflocalizeextension.codeplex.com"
+        lex:LocalizeDictionary.DesignCulture=""
+        lex:ResxLocalizationProvider.DefaultAssembly="DS4WinWPF"
+        lex:ResxLocalizationProvider.DefaultDictionary="Strings"
+        xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
         mc:Ignorable="d"
         Title="Select action" Height="500" Width="1200" Closing="Window_Closing">
     <DockPanel x:Name="fullPanel" Margin="4">
@@ -12,7 +16,7 @@
             <GroupBox Header="Extra" x:Name="extrasGB">
                 <StackPanel Orientation="Vertical">
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Rumble" />
+                        <Label Content="{lex:Loc Rumble}" />
                         <Button x:Name="testRumbleBtn" Width="100" Content="Test" Click="TestRumbleBtn_Click" />
                     </StackPanel>
 

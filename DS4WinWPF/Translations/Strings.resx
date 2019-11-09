@@ -153,13 +153,35 @@
   <data name="RecordText" xml:space="preserve">
     <value>Record</value>
   </data>
+  <data name="Rumble" xml:space="preserve">
+    <value>Rumble</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
   <data name="SaveProfile" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="StartText" xml:space="preserve">
+    <value>Start</value>
+  </data>
   <data name="Status" xml:space="preserve">
     <value>Status</value>
+  </data>
+  <data name="StopText" xml:space="preserve">
+    <value>Stop</value>
+  </data>
+  <data name="TouchScroll" xml:space="preserve">
+    <value>Scroll
+</value>
+  </data>
+  <data name="TouchSlide" xml:space="preserve">
+    <value>Slide</value>
+  </data>
+  <data name="TouchTap" xml:space="preserve">
+    <value>Tap</value>
   </data>
 </root>
