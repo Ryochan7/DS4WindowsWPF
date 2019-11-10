@@ -123,6 +123,9 @@
   <data name="Action" xml:space="preserve">
     <value>アクシヨン</value>
   </data>
+  <data name="Add Programs" xml:space="preserve">
+    <value>プログラムを追加</value>
+  </data>
   <data name="All" xml:space="preserve">
     <value>すべて</value>
   </data>
@@ -153,6 +156,18 @@
   <data name="Color" xml:space="preserve">
     <value>いろ</value>
   </data>
+  <data name="Controller1Text" xml:space="preserve">
+    <value>コントローラー1</value>
+  </data>
+  <data name="Controller2Text" xml:space="preserve">
+    <value>コントローラー2</value>
+  </data>
+  <data name="Controller3Text" xml:space="preserve">
+    <value>コントローラー3</value>
+  </data>
+  <data name="Controller4Text" xml:space="preserve">
+    <value>コントローラー4</value>
+  </data>
   <data name="Controllers" xml:space="preserve">
     <value>コントローラー</value>
   </data>
@@ -173,6 +188,9 @@
   </data>
   <data name="Gyro" xml:space="preserve">
     <value>ジャイロ</value>
+  </data>
+  <data name="HideUnchecked" xml:space="preserve">
+    <value>未選択を隠す</value>
   </data>
   <data name="LeftStick" xml:space="preserve">
     <value>左ステイック</value>
@@ -195,6 +213,9 @@
   <data name="None" xml:space="preserve">
     <value>なし</value>
   </data>
+  <data name="Path" xml:space="preserve">
+    <value>パス</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>プロフアイル</value>
   </data>
@@ -206,6 +227,9 @@
   </data>
   <data name="RecordText" xml:space="preserve">
     <value>レコード</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>削除</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>アクシヨンを除き去</value>

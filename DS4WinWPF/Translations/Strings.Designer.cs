@@ -79,6 +79,15 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Programs.
+        /// </summary>
+        public static string AddPrograms {
+            get {
+                return ResourceManager.GetString("AddPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string All {
@@ -170,6 +179,42 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Controller 1.
+        /// </summary>
+        public static string Controller1Text {
+            get {
+                return ResourceManager.GetString("Controller1Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller 2.
+        /// </summary>
+        public static string Controller2Text {
+            get {
+                return ResourceManager.GetString("Controller2Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller 3.
+        /// </summary>
+        public static string Controller3Text {
+            get {
+                return ResourceManager.GetString("Controller3Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller 4.
+        /// </summary>
+        public static string Controller4Text {
+            get {
+                return ResourceManager.GetString("Controller4Text", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Controllers.
         /// </summary>
         public static string Controllers {
@@ -229,6 +274,15 @@ namespace DS4WinWPF.Translations {
         public static string Gyro {
             get {
                 return ResourceManager.GetString("Gyro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide Unchecked.
+        /// </summary>
+        public static string HideUnchecked {
+            get {
+                return ResourceManager.GetString("HideUnchecked", resourceCulture);
             }
         }
         
@@ -296,6 +350,15 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Path.
+        /// </summary>
+        public static string Path {
+            get {
+                return ResourceManager.GetString("Path", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
         public static string Profile {
@@ -328,6 +391,15 @@ namespace DS4WinWPF.Translations {
         public static string RecordText {
             get {
                 return ResourceManager.GetString("RecordText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove.
+        /// </summary>
+        public static string Remove {
+            get {
+                return ResourceManager.GetString("Remove", resourceCulture);
             }
         }
         

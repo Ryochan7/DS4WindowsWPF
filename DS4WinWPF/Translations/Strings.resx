@@ -123,6 +123,9 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="AddPrograms" xml:space="preserve">
+    <value>Add Programs</value>
+  </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
   </data>
@@ -154,6 +157,18 @@
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
+  <data name="Controller1Text" xml:space="preserve">
+    <value>Controller 1</value>
+  </data>
+  <data name="Controller2Text" xml:space="preserve">
+    <value>Controller 2</value>
+  </data>
+  <data name="Controller3Text" xml:space="preserve">
+    <value>Controller 3</value>
+  </data>
+  <data name="Controller4Text" xml:space="preserve">
+    <value>Controller 4</value>
+  </data>
   <data name="Controllers" xml:space="preserve">
     <value>Controllers</value>
   </data>
@@ -174,6 +189,9 @@
   </data>
   <data name="Gyro" xml:space="preserve">
     <value>Gyro</value>
+  </data>
+  <data name="HideUnchecked" xml:space="preserve">
+    <value>Hide Unchecked</value>
   </data>
   <data name="LeftStick" xml:space="preserve">
     <value>Left Stick</value>
@@ -196,6 +214,9 @@
   <data name="None" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="Path" xml:space="preserve">
+    <value>Path</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>Profile</value>
   </data>
@@ -207,6 +228,9 @@
   </data>
   <data name="RecordText" xml:space="preserve">
     <value>Record</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
   </data>
   <data name="RemoveAction" xml:space="preserve">
     <value>Remove Action</value>
