@@ -229,10 +229,13 @@
                     </StackPanel>
                     <CheckBox Content="Disconnect from BT when Stopping" IsChecked="{Binding DisconnectBTStop}" />
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Flash Lightbar at High Latency" />
-                        <!--<TextBox Text="20" VerticalContentAlignment="Center" />-->
-                        <xctk:IntegerUpDown d:IsHidden="True" Value="20" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
-                        <Label Content="ms" />
+                        <CheckBox Content="Flash Lightbar at High Latency" VerticalAlignment="Center"
+                                  IsChecked="{Binding FlashHighLatency}" />
+                        <StackPanel Orientation="Horizontal" IsEnabled="{Binding FlashHighLatency,FallbackValue='False'}">
+                            <!--<TextBox Text="20" VerticalContentAlignment="Center" />-->
+                            <xctk:IntegerUpDown d:IsHidden="True" Value="20" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
+                            <Label Content="ms" />
+                        </StackPanel>
                     </StackPanel>
                     <CheckBox Content="{lex:Loc StartMinimized}" IsChecked="{Binding StartMinimize}" />
                     <CheckBox Content="Minimize to Taskbar" IsChecked="{Binding MinimizeToTaskbar}" />
