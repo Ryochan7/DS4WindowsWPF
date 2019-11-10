@@ -395,6 +395,15 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Notifications.
+        /// </summary>
+        public static string ShowNotifications {
+            get {
+                return ResourceManager.GetString("ShowNotifications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start Minimized.
         /// </summary>
         public static string StartMinimized {

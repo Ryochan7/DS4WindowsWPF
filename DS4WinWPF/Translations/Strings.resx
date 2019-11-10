@@ -229,6 +229,9 @@
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
+  <data name="ShowNotifications" xml:space="preserve">
+    <value>Show Notifications</value>
+  </data>
   <data name="StartMinimized" xml:space="preserve">
     <value>Start Minimized</value>
   </data>

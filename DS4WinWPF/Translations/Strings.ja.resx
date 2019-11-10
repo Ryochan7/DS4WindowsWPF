@@ -228,6 +228,9 @@
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
   </data>
+  <data name="ShowNotifications" xml:space="preserve">
+    <value>通知を表示</value>
+  </data>
   <data name="StartMinimized" xml:space="preserve">
     <value>最小化の状態で起動</value>
   </data>

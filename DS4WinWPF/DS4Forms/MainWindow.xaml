@@ -220,7 +220,7 @@
                         </StackPanel>
                     </GroupBox>
                     <StackPanel Orientation="Horizontal">
-                        <Label Content="Show Notifications" />
+                        <Label Content="{lex:Loc ShowNotifications}" />
                         <ComboBox MinWidth="100" SelectedIndex="{Binding ShowNotificationsIndex}">
                             <ComboBoxItem Content="{lex:Loc None}" />
                             <ComboBoxItem Content="{lex:Loc WarningsOnly}" />
