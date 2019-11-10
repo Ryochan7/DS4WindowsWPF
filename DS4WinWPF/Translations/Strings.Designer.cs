@@ -79,11 +79,38 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Directory.
+        /// </summary>
+        public static string AddDirectory {
+            get {
+                return ResourceManager.GetString("AddDirectory", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Programs.
         /// </summary>
         public static string AddPrograms {
             get {
                 return ResourceManager.GetString("AddPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Start Menu Programs.
+        /// </summary>
+        public static string AddStartMenuPrograms {
+            get {
+                return ResourceManager.GetString("AddStartMenuPrograms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Steam Games.
+        /// </summary>
+        public static string AddSteamGames {
+            get {
+                return ResourceManager.GetString("AddSteamGames", resourceCulture);
             }
         }
         
@@ -120,6 +147,15 @@ namespace DS4WinWPF.Translations {
         public static string Browse {
             get {
                 return ResourceManager.GetString("Browse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse for Other Programs.
+        /// </summary>
+        public static string BrowseOtherPrograms {
+            get {
+                return ResourceManager.GetString("BrowseOtherPrograms", resourceCulture);
             }
         }
         
@@ -233,11 +269,29 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string Delete {
+            get {
+                return ResourceManager.GetString("Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Controller/Driver Setup.
         /// </summary>
         public static string DriverSetup {
             get {
                 return ResourceManager.GetString("DriverSetup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Duplicate.
+        /// </summary>
+        public static string Duplicate {
+            get {
+                return ResourceManager.GetString("Duplicate", resourceCulture);
             }
         }
         
@@ -256,6 +310,15 @@ namespace DS4WinWPF.Translations {
         public static string EditAction {
             get {
                 return ResourceManager.GetString("EditAction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Export.
+        /// </summary>
+        public static string Export {
+            get {
+                return ResourceManager.GetString("Export", resourceCulture);
             }
         }
         
@@ -283,6 +346,15 @@ namespace DS4WinWPF.Translations {
         public static string HideUnchecked {
             get {
                 return ResourceManager.GetString("HideUnchecked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        public static string Import {
+            get {
+                return ResourceManager.GetString("Import", resourceCulture);
             }
         }
         

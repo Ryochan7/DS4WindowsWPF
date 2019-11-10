@@ -123,8 +123,17 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="AddDirectory" xml:space="preserve">
+    <value>Add Directory</value>
+  </data>
   <data name="AddPrograms" xml:space="preserve">
     <value>Add Programs</value>
+  </data>
+  <data name="AddStartMenuPrograms" xml:space="preserve">
+    <value>Add Start Menu Programs</value>
+  </data>
+  <data name="AddSteamGames" xml:space="preserve">
+    <value>Add Steam Games</value>
   </data>
   <data name="All" xml:space="preserve">
     <value>All</value>
@@ -137,6 +146,9 @@
   </data>
   <data name="Browse" xml:space="preserve">
     <value>Browse</value>
+  </data>
+  <data name="BrowseOtherPrograms" xml:space="preserve">
+    <value>Browse for Other Programs</value>
   </data>
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
@@ -175,14 +187,23 @@
   <data name="ControlPanel" xml:space="preserve">
     <value>Control Panel</value>
   </data>
+  <data name="Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
   <data name="DriverSetup" xml:space="preserve">
     <value>Controller/Driver Setup</value>
+  </data>
+  <data name="Duplicate" xml:space="preserve">
+    <value>Duplicate</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
   </data>
   <data name="EditAction" xml:space="preserve">
     <value>Edit Action</value>
+  </data>
+  <data name="Export" xml:space="preserve">
+    <value>Export</value>
   </data>
   <data name="Full" xml:space="preserve">
     <value>Full</value>
@@ -192,6 +213,9 @@
   </data>
   <data name="HideUnchecked" xml:space="preserve">
     <value>Hide Unchecked</value>
+  </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
   </data>
   <data name="LeftStick" xml:space="preserve">
     <value>Left Stick</value>

@@ -119,9 +119,10 @@
                 <Button x:Name="addProgramsBtn" Content="{lex:Loc AddPrograms}" Click="AddProgramsBtn_Click">
                     <Button.ContextMenu>
                         <ContextMenu>
-                            <MenuItem x:Name="steamMenuItem" Header="Steam" Click="SteamMenuItem_Click" />
-                            <MenuItem x:Name="startMenuItem" Header="Start Menu" Click="StartMenuItem_Click" />
-                            <MenuItem x:Name="browseProgsMenuItem" Header="Browse" Click="BrowseProgsMenuItem_Click" />
+                            <MenuItem x:Name="steamMenuItem" Header="{lex:Loc AddSteamGames}" Click="SteamMenuItem_Click" />
+                            <MenuItem x:Name="startMenuItem" Header="{lex:Loc AddStartMenuPrograms}" Click="StartMenuItem_Click" />
+                            <MenuItem x:Name="browseProgsMenuItem" Header="{lex:Loc AddDirectory}" Click="BrowseProgsMenuItem_Click" />
+                            <!--<MenuItem x:Name="browseAddProgMenuItem" Header="{lex:Loc BrowseOtherPrograms}" />-->
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>

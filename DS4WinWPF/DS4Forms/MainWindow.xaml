@@ -157,7 +157,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/delete.png" />
-                                    <TextBlock Text="Delete" />
+                                    <TextBlock Text="{lex:Loc Delete}" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -165,7 +165,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/copy.png" />
-                                    <TextBlock Text="Duplicate" />
+                                    <TextBlock Text="{lex:Loc Duplicate}" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -173,7 +173,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/import.png" />
-                                    <TextBlock Text="Import" />
+                                    <TextBlock Text="{lex:Loc Import}" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
@@ -181,7 +181,7 @@
                             <Button.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <Image Source="/DS4WinWPF;component/Resources/export.png" />
-                                    <TextBlock Text="Export" />
+                                    <TextBlock Text="{lex:Loc Export}" />
                                 </StackPanel>
                             </Button.Content>
                         </Button>
