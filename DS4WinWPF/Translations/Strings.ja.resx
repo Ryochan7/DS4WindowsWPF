@@ -123,6 +123,9 @@
   <data name="Action" xml:space="preserve">
     <value>アクシヨン</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>すべて</value>
+  </data>
   <data name="AutoProfiles" xml:space="preserve">
     <value>自動プロファイル</value>
   </data>
@@ -135,11 +138,29 @@
   <data name="Cancel" xml:space="preserve">
     <value>キャンセル</value>
   </data>
+  <data name="CheckUpdateNow" xml:space="preserve">
+    <value>今すぐアップデートを確認</value>
+  </data>
+  <data name="CheckUpdateStartup" xml:space="preserve">
+    <value>起動時にアップデートを確認</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="CloseMinimizes" xml:space="preserve">
+    <value>閉じるﾎﾞﾀﾝで最小化</value>
+  </data>
   <data name="Color" xml:space="preserve">
     <value>いろ</value>
   </data>
   <data name="Controllers" xml:space="preserve">
     <value>コントローラー</value>
+  </data>
+  <data name="ControlPanel" xml:space="preserve">
+    <value>コントロールパネル</value>
+  </data>
+  <data name="DriverSetup" xml:space="preserve">
+    <value>ドライブのセットアップ</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>編集</value>
@@ -169,10 +190,19 @@
     <value>新規アクシヨン</value>
   </data>
   <data name="NewProfile" xml:space="preserve">
-    <value>新規プロフライル</value>
+    <value>新規プロフアイル</value>
+  </data>
+  <data name="None" xml:space="preserve">
+    <value>なし</value>
   </data>
   <data name="Profile" xml:space="preserve">
-    <value>プロフライル</value>
+    <value>プロフアイル</value>
+  </data>
+  <data name="ProfileFolder" xml:space="preserve">
+    <value>プロフアイルフオルダ</value>
+  </data>
+  <data name="QuickCharge" xml:space="preserve">
+    <value>急速充電</value>
   </data>
   <data name="RecordText" xml:space="preserve">
     <value>レコード</value>
@@ -186,6 +216,9 @@
   <data name="Rumble" xml:space="preserve">
     <value>振動</value>
   </data>
+  <data name="RunAtStartup" xml:space="preserve">
+    <value>システム起動時ﾆ開始</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>保存</value>
   </data>
@@ -194,6 +227,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>設定</value>
+  </data>
+  <data name="StartMinimized" xml:space="preserve">
+    <value>最小化の状態で起動</value>
   </data>
   <data name="StartText" xml:space="preserve">
     <value>はじめ</value>
@@ -215,5 +251,8 @@
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>トリガー</value>
+  </data>
+  <data name="WarningsOnly" xml:space="preserve">
+    <value>警告のみ</value>
   </data>
 </root>

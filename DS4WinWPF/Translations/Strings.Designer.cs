@@ -79,6 +79,15 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All.
+        /// </summary>
+        public static string All {
+            get {
+                return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Auto Profiles.
         /// </summary>
         public static string AutoProfiles {
@@ -115,6 +124,43 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check For Update Now.
+        /// </summary>
+        public static string CheckUpdateNow {
+            get {
+                return ResourceManager.GetString("CheckUpdateNow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check for DS4Windows Updates at Startup.
+        /// </summary>
+        public static string CheckUpdateStartup {
+            get {
+                return ResourceManager.GetString("CheckUpdateStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clear
+        ///.
+        /// </summary>
+        public static string Clear {
+            get {
+                return ResourceManager.GetString("Clear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close Minimizes.
+        /// </summary>
+        public static string CloseMinimizes {
+            get {
+                return ResourceManager.GetString("CloseMinimizes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Color.
         /// </summary>
         public static string Color {
@@ -129,6 +175,24 @@ namespace DS4WinWPF.Translations {
         public static string Controllers {
             get {
                 return ResourceManager.GetString("Controllers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Control Panel.
+        /// </summary>
+        public static string ControlPanel {
+            get {
+                return ResourceManager.GetString("ControlPanel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Controller/Driver Setup.
+        /// </summary>
+        public static string DriverSetup {
+            get {
+                return ResourceManager.GetString("DriverSetup", resourceCulture);
             }
         }
         
@@ -223,11 +287,38 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to None.
+        /// </summary>
+        public static string None {
+            get {
+                return ResourceManager.GetString("None", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
         public static string Profile {
             get {
                 return ResourceManager.GetString("Profile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Folder.
+        /// </summary>
+        public static string ProfileFolder {
+            get {
+                return ResourceManager.GetString("ProfileFolder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Charge.
+        /// </summary>
+        public static string QuickCharge {
+            get {
+                return ResourceManager.GetString("QuickCharge", resourceCulture);
             }
         }
         
@@ -268,6 +359,15 @@ namespace DS4WinWPF.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Run At Startup.
+        /// </summary>
+        public static string RunAtStartup {
+            get {
+                return ResourceManager.GetString("RunAtStartup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string Save {
@@ -291,6 +391,15 @@ namespace DS4WinWPF.Translations {
         public static string Settings {
             get {
                 return ResourceManager.GetString("Settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Minimized.
+        /// </summary>
+        public static string StartMinimized {
+            get {
+                return ResourceManager.GetString("StartMinimized", resourceCulture);
             }
         }
         
@@ -355,6 +464,15 @@ namespace DS4WinWPF.Translations {
         public static string Trigger {
             get {
                 return ResourceManager.GetString("Trigger", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warnings only.
+        /// </summary>
+        public static string WarningsOnly {
+            get {
+                return ResourceManager.GetString("WarningsOnly", resourceCulture);
             }
         }
     }

@@ -123,6 +123,9 @@
   <data name="Action" xml:space="preserve">
     <value>Action</value>
   </data>
+  <data name="All" xml:space="preserve">
+    <value>All</value>
+  </data>
   <data name="AutoProfiles" xml:space="preserve">
     <value>Auto Profiles</value>
   </data>
@@ -135,11 +138,30 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
+  <data name="CheckUpdateNow" xml:space="preserve">
+    <value>Check For Update Now</value>
+  </data>
+  <data name="CheckUpdateStartup" xml:space="preserve">
+    <value>Check for DS4Windows Updates at Startup</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear
+</value>
+  </data>
+  <data name="CloseMinimizes" xml:space="preserve">
+    <value>Close Minimizes</value>
+  </data>
   <data name="Color" xml:space="preserve">
     <value>Color</value>
   </data>
   <data name="Controllers" xml:space="preserve">
     <value>Controllers</value>
+  </data>
+  <data name="ControlPanel" xml:space="preserve">
+    <value>Control Panel</value>
+  </data>
+  <data name="DriverSetup" xml:space="preserve">
+    <value>Controller/Driver Setup</value>
   </data>
   <data name="Edit" xml:space="preserve">
     <value>Edit</value>
@@ -171,8 +193,17 @@
   <data name="NewProfile" xml:space="preserve">
     <value>New Profile</value>
   </data>
+  <data name="None" xml:space="preserve">
+    <value>None</value>
+  </data>
   <data name="Profile" xml:space="preserve">
     <value>Profile</value>
+  </data>
+  <data name="ProfileFolder" xml:space="preserve">
+    <value>Profile Folder</value>
+  </data>
+  <data name="QuickCharge" xml:space="preserve">
+    <value>Quick Charge</value>
   </data>
   <data name="RecordText" xml:space="preserve">
     <value>Record</value>
@@ -186,6 +217,9 @@
   <data name="Rumble" xml:space="preserve">
     <value>Rumble</value>
   </data>
+  <data name="RunAtStartup" xml:space="preserve">
+    <value>Run At Startup</value>
+  </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
   </data>
@@ -194,6 +228,9 @@
   </data>
   <data name="Settings" xml:space="preserve">
     <value>Settings</value>
+  </data>
+  <data name="StartMinimized" xml:space="preserve">
+    <value>Start Minimized</value>
   </data>
   <data name="StartText" xml:space="preserve">
     <value>Start</value>
@@ -216,5 +253,8 @@
   </data>
   <data name="Trigger" xml:space="preserve">
     <value>Trigger</value>
+  </data>
+  <data name="WarningsOnly" xml:space="preserve">
+    <value>Warnings only</value>
   </data>
 </root>
