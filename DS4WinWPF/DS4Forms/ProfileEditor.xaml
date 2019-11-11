@@ -152,13 +152,15 @@
                                             </StackPanel>
 
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Double Tap" IsChecked="{Binding TouchDoubleTap}" />
+                                                <CheckBox Content="Double Tap" IsChecked="{Binding TouchDoubleTap}"
+                                                          ToolTip="{lex:Loc Resources:TapAndHold}" />
                                             </StackPanel>
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal">
                                             <StackPanel Orientation="Horizontal" Height="20">
-                                                <CheckBox Content="Jitter Compensation" IsChecked="{Binding TouchJitter}" />
+                                                <CheckBox Content="Jitter Compensation" IsChecked="{Binding TouchJitter}"
+                                                          ToolTip="{lex:Loc Resources:Jitter}" />
                                             </StackPanel>
 
                                             <StackPanel Orientation="Vertical" MinWidth="80" Margin="10,0,0,0">
@@ -207,7 +209,8 @@
                                             </StackPanel>
                                         </StackPanel>
 
-                                        <CheckBox Content="Start with Slide/Scroll Off" IsChecked="{Binding StartTouchpadOff}" />
+                                        <CheckBox Content="Start with Slide/Scroll Off" IsChecked="{Binding StartTouchpadOff}"
+                                                  ToolTip="{lex:Loc Resources:TouchpadOffTip}" />
                                         <StackPanel Orientation="Horizontal">
                                             <CheckBox Content="Trackball" IsChecked="{Binding TouchTrackball}" />
                                             <Label Content="Friction:" Padding="0" Margin="20,0,0,0"/>
@@ -337,7 +340,8 @@
                         </ComboBox>
                         <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding FlashAt}" MinWidth="50" />
                         <Label Content="%" />
-                        <Button x:Name="flashColorBtn" Width="20" Height="20" Background="{Binding FlashColor,FallbackValue=Blue}" Click="FlashColorBtn_Click" />
+                        <Button x:Name="flashColorBtn" Width="20" Height="20" Background="{Binding FlashColor,FallbackValue=Blue}"
+                                ToolTip="{lex:Loc Resources:FlashAtTip}" Click="FlashColorBtn_Click" />
                     </StackPanel>
 
                     <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
@@ -352,10 +356,11 @@
                     </StackPanel>
 
                     <CheckBox x:Name="colorByBatteryPerCk" Content="Color by Battery %" IsChecked="{Binding ColorBatteryPercent}"
-                              Click="ColorByBatteryPerCk_Click" Margin="0,10,0,0" />
+                              ToolTip="{lex:Loc Resources:LightByBatteryTip}" Click="ColorByBatteryPerCk_Click" Margin="0,10,0,0" />
 
                     <StackPanel Orientation="Horizontal" Height="60" Margin="0,10,0,0">
-                        <Button x:Name="rainbowBtn" Height="20" Width="20" Click="RainbowBtn_Click">
+                        <Button x:Name="rainbowBtn" Height="20" Width="20"
+                                ToolTip="{lex:Loc Resources:AlwaysRainbow}" Click="RainbowBtn_Click">
                             <Button.Content>
                                 <Image Source="/DS4WinWPF;component/Resources/rainbow.png" />
                             </Button.Content>
@@ -707,7 +712,8 @@
                             </Button>
                         </StackPanel>
 
-                        <CheckBox Content="Turn Behavior - Turns Gyro" IsChecked="{Binding GyroMouseTurns}" />
+                        <CheckBox Content="Turn Behavior - Turns Gyro" IsChecked="{Binding GyroMouseTurns}"
+                                  ToolTip="{lex:Loc Resources:GyroTriggerBehavior}" />
                         <StackPanel Orientation="Horizontal">
                             <Label Content="Gyro Sensitivity:" />
                             <xctk:IntegerUpDown d:IsHidden="True" MinWidth="50" Value="{Binding GyroSensitivity}" Minimum="0" Maximum="500" />
@@ -791,7 +797,8 @@
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox Content="Turn Behavior - Turns Gyro" IsChecked="{Binding GyroMouseStickTurns}" />
+                            <CheckBox Content="Turn Behavior - Turns Gyro" IsChecked="{Binding GyroMouseStickTurns}"
+                                      ToolTip="{lex:Loc Resources:GyroTriggerBehavior}" />
                             <CheckBox Content="Toggle" IsChecked="{Binding GyroMouseStickToggle}" />
                         </StackPanel>
 
@@ -858,9 +865,9 @@
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Use Controller" />
                         <xctk:IntegerUpDown x:Name="useControllerUD" d:IsHidden="True" Width="40" Value="0"
-                                            Minimum="0" Maximum="4" IsEnabled="False" />
+                                            Minimum="0" Maximum="4" IsEnabled="False" ToolTip="{lex:Loc Resources:UseControllerForMapping}" />
                         <CheckBox x:Name="useControllerReadoutCk" FlowDirection="RightToLeft" Content="for readout" VerticalAlignment="Center"
-                                  IsChecked="{Binding UseControllerReadout}" Click="UseControllerReadoutCk_Click">
+                                  IsChecked="{Binding UseControllerReadout}" ToolTip="{lex:Loc Resources:UseControllerForMapping}" Click="UseControllerReadoutCk_Click">
                             <CheckBox.Resources>
                                 <Style TargetType="{x:Type Path}">
                                     <Setter Property="FlowDirection" Value="LeftToRight"/>
@@ -883,8 +890,10 @@
                             </Button.Background>
                         </Button>
                     </StackPanel>
-                    <CheckBox Content="Use DInput only" IsChecked="{Binding DInputOnly}" Margin="0,6,0,0" />
-                    <CheckBox Content="Flush HID" IsChecked="{Binding FlushHid}" Margin="0,6,0,0" />
+                    <CheckBox Content="Use DInput only" IsChecked="{Binding DInputOnly}"
+                              ToolTip="{lex:Loc Resources:DinputOnly}" Margin="0,6,0,0" />
+                    <CheckBox Content="Flush HID" IsChecked="{Binding FlushHid}"
+                              ToolTip="{lex:Loc Resources:FlushHIDTip}" Margin="0,6,0,0" />
                     <StackPanel Orientation="Horizontal" Height="30" Margin="0,6,0,0">
                         <CheckBox Content="Idle Disconnect" VerticalAlignment="Center" IsChecked="{Binding IdleDisconnectExists}" />
                         <xctk:IntegerUpDown x:Name="idleDisconnectUD" d:IsHidden="True" Value="{Binding IdleDisconnect,FallbackValue=5}"
@@ -892,9 +901,9 @@
                         <Label Content="mins" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                        <Label Content="BT Poll Rate" ToolTip="{lex:Loc BtPollRate}" />
+                        <Label Content="BT Poll Rate" ToolTip="{lex:Loc Resources:BtPollRate}" />
                         <ComboBox x:Name="btPollRateCombo" SelectedIndex="{Binding TempBTPollRateIndex,FallbackValue=4}" MinWidth="140"
-                                  ToolTip="{lex:Loc BtPollRate}">
+                                  ToolTip="{lex:Loc Resources:BtPollRate}">
                             <ComboBoxItem Content="Max (1 ms)" />
                             <ComboBoxItem Content="1000 Hz (1 ms)" />
                             <ComboBoxItem Content="500 Hz (2 ms)" />
@@ -915,8 +924,9 @@
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
-                        <Label Content="Controller" />
-                        <ComboBox x:Name="outConTypeCombo" SelectedIndex="{Binding TempControllerIndex,FallbackValue=0}" MinWidth="140">
+                        <Label Content="Controller" ToolTip="{lex:Loc Resources:OutContNotice}" />
+                        <ComboBox x:Name="outConTypeCombo" SelectedIndex="{Binding TempControllerIndex,FallbackValue=0}" MinWidth="140"
+                                  ToolTip="{lex:Loc Resources:OutContNotice}">
                             <ComboBoxItem Content="Xbox 360"/>
                             <ComboBoxItem Content="DualShock 4"/>
                         </ComboBox>
