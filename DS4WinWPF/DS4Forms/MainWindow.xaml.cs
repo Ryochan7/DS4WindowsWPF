@@ -686,7 +686,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
                 if (tempDev.ConnectionType == ConnectionType.BT)
                 {
                     tempDev.StopUpdate();
-                    tempDev.DisconnectBT();
+                    tempDev.DisconnectBT(true);
                 }
                 else if (tempDev.ConnectionType == ConnectionType.SONYWA)
                 {
