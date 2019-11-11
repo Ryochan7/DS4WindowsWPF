@@ -141,6 +141,7 @@ namespace DS4WinWPF
                 DS4Windows.Global.CreateStdActions();
             }
 
+            SetUICulture(DS4Windows.Global.UseLang);
             DS4Forms.MainWindow window = new DS4Forms.MainWindow(parser);
             MainWindow = window;
             window.Show();
@@ -334,6 +335,24 @@ namespace DS4WinWPF
             }
 
             return null;
+        }
+
+        private void SetUICulture(string culture)
+        {
+            try
+            {
+                //CultureInfo ci = new CultureInfo("ja");
+                CultureInfo ci = CultureInfo.GetCultureInfo(culture);
+                LocalizeDictionary.Instance.SetCurrentThreadCulture = true;
+                LocalizeDictionary.Instance.Culture = ci;
+                // fixes the culture in threads
+                CultureInfo.DefaultThreadCurrentCulture = ci;
+                CultureInfo.DefaultThreadCurrentUICulture = ci;
+                //DS4WinWPF.Properties.Resources.Culture = ci;
+                Thread.CurrentThread.CurrentCulture = ci;
+                Thread.CurrentThread.CurrentUICulture = ci;
+            }
+            catch (CultureNotFoundException) { /* Skip setting culture that we cannot set */ }
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

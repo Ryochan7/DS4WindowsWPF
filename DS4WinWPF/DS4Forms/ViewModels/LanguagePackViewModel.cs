@@ -46,6 +46,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public void ScanForLangPacks()
         {
             string tempculture = Thread.CurrentThread.CurrentUICulture.Name;
+            //string tempculture = new CultureInfo(Global.UseLang).Name;
             Task.Run(() =>
             {
                 CreateLanguageAssembliesBindingSource();
