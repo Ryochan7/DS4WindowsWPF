@@ -35,20 +35,6 @@
                         <Canvas.Background>
                             <ImageBrush ImageSource="/DS4WinWPF;component/Resources/DS4 Config.png" Stretch="Uniform"/>
                         </Canvas.Background>
-                        <Canvas.Resources>
-                            <Style TargetType="{x:Type Button}" x:Key="NoBGHoverBtn">
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="{x:Type Button}">
-                                            <Border Name="border" BorderThickness="0" Background="{TemplateBinding Background}">
-                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                            </Border>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </Canvas.Resources>
 
                         <Image x:Name="picBoxHover" IsEnabled="False" Source="/DS4WinWPF;component/Resources/DS4-Config_RS.png" Height="48" Width="48" Canvas.Left="447" Canvas.Top="5" />
                         <Image x:Name="picBoxHover2" IsEnabled="False" Source="/DS4WinWPF;component/Resources/DS4-Config_RS.png" Height="48" Width="48" Canvas.Left="0" Canvas.Top="0" Stretch="Fill" />

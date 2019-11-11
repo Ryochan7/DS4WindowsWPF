@@ -27,7 +27,8 @@
         <StackPanel DockPanel.Dock="Bottom" Height="30" VerticalAlignment="Bottom">
             <DockPanel Height="30">
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
-                    <Button x:Name="aboutBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8" Click="AboutBtn_Click">
+                    <Button x:Name="aboutBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Foreground="#FF3881D8"
+                            Style="{StaticResource NoBGHoverBtn}" Click="AboutBtn_Click">
                         <TextBlock Text="Hotkeys/About" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" x:Uid="hotkeysText" />
                     </Button>
                     <Button x:Name="StartStopBtn" Content="{lex:Loc StartText}" Margin="10,0,4,0" Click="StartStopBtn_Click" Width="60" Height="20" />
@@ -275,16 +276,20 @@
                     <TextBox x:Name="customSteamTxt" Text="{Binding CustomSteamFolder, UpdateSourceTrigger=LostFocus}" IsEnabled="False" />
                     <GroupBox Header="Utils" BorderThickness="2">
                         <StackPanel>
-                            <Button x:Name="profFolderBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="ProfFolderBtn_Click">
+                            <Button x:Name="profFolderBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
+                                    Style="{StaticResource NoBGHoverBtn}" Click="ProfFolderBtn_Click">
                                 <TextBlock Text="{lex:Loc ProfileFolder}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
-                            <Button x:Name="controlPanelBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="ControlPanelBtn_Click" >
+                            <Button x:Name="controlPanelBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
+                                    Style="{StaticResource NoBGHoverBtn}" Click="ControlPanelBtn_Click" >
                                 <TextBlock Text="{lex:Loc ControlPanel}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
-                            <Button x:Name="driverSetupBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}" Click="DriverSetupBtn_Click">
+                            <Button x:Name="driverSetupBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
+                                   Style="{StaticResource NoBGHoverBtn}"  Click="DriverSetupBtn_Click">
                                 <TextBlock Text="{lex:Loc DriverSetup}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
-                            <Button x:Name="checkUpdatesBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}"><!--="CheckUpdatesBtn_Click">-->
+                            <Button x:Name="checkUpdatesBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}"
+                                    Style="{StaticResource NoBGHoverBtn}"><!--="CheckUpdatesBtn_Click">-->
                                 <TextBlock Text="{lex:Loc CheckUpdateNow}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
                             </Button>
                         </StackPanel>

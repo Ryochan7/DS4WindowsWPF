@@ -4,6 +4,17 @@
              xmlns:local="clr-namespace:DS4WinWPF"
              Startup="Application_Startup" Exit="Application_Exit" ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
-         
+        <Style TargetType="{x:Type Button}" x:Key="NoBGHoverBtn">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border Name="border" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Application.Resources>
 </Application>
