@@ -673,7 +673,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
         private void RunAtStartCk_Click(object sender, RoutedEventArgs e)
         {
-            runAsGroupBox.Visibility = runAtStartCk.IsChecked == true ? Visibility.Visible :
+            settingsWrapVM.ShowRunStartPanel = runAtStartCk.IsChecked == true ? Visibility.Visible :
                 Visibility.Collapsed;
         }
 

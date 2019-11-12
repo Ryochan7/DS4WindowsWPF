@@ -64,10 +64,21 @@ namespace DS4WinWPF
 
         public static void DeleteStartProgEntry()
         {
-            if (File.Exists(lnkpath))
+            if (File.Exists(lnkpath) && !new FileInfo(lnkpath).IsReadOnly)
             {
                 File.Delete(lnkpath);
             }
+        }
+
+        public static bool CanWriteStartEntry()
+        {
+            bool result = false;
+            if (!new FileInfo(lnkpath).IsReadOnly)
+            {
+                result = true;
+            }
+
+            return result;
         }
 
         public static void WriteTaskEntry()
@@ -95,13 +106,10 @@ namespace DS4WinWPF
             }
         }
 
-        public static void CheckStartupExeLocation()
+        public static bool CheckStartupExeLocation()
         {
             string lnkprogpath = ResolveShortcut(lnkpath);
-            if (lnkprogpath != Process.GetCurrentProcess().MainModule.FileName)
-            {
-                WriteStartProgEntry();
-            }
+            return lnkprogpath != Process.GetCurrentProcess().MainModule.FileName;
         }
 
         public static void LaunchOldTask()

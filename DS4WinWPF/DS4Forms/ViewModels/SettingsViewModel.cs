@@ -59,6 +59,19 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public ImageSource uacSource;
         public ImageSource UACSource { get => uacSource; }
 
+        private Visibility showRunStartPanel = Visibility.Collapsed;
+        public Visibility ShowRunStartPanel {
+            get => showRunStartPanel;
+            set
+            {
+                if (showRunStartPanel == value) return;
+                showRunStartPanel = value;
+                ShowRunStartPanelChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+
+        public event EventHandler ShowRunStartPanelChanged;
+
         public int ShowNotificationsIndex { get => DS4Windows.Global.Notifications; set => DS4Windows.Global.Notifications = value; }
         public bool DisconnectBTStop { get => DS4Windows.Global.DCBTatStop; set => DS4Windows.Global.DCBTatStop = value; }
         public bool FlashHighLatency { get => DS4Windows.Global.FlashWhenLate; set => DS4Windows.Global.FlashWhenLate = value; }
@@ -189,7 +202,25 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             }
             else if (runAtStartup && runStartProg)
             {
-                StartupMethods.CheckStartupExeLocation();
+                bool locChange = StartupMethods.CheckStartupExeLocation();
+                if (locChange)
+                {
+                    if (StartupMethods.CanWriteStartEntry())
+                    {
+                        StartupMethods.DeleteStartProgEntry();
+                        StartupMethods.WriteStartProgEntry();
+                    }
+                    else
+                    {
+                        runAtStartup = false;
+                        showRunStartPanel = Visibility.Collapsed;
+                    }
+                }
+            }
+
+            if (runAtStartup)
+            {
+                showRunStartPanel = Visibility.Visible;
             }
 
             RunAtStartupChanged += SettingsViewModel_RunAtStartupChanged;
