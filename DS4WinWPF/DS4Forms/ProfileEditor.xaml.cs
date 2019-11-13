@@ -244,39 +244,64 @@ namespace DS4WinWPF.DS4Forms
 
         private void PopulateHoverLocations()
         {
-            hoverLocations[crossConBtn] = new HoverImageInfo() { point = new Point(368, 134), size = new Size(30, 30) };
-            hoverLocations[circleConBtn] = new HoverImageInfo() { point = new Point(400, 108), size = new Size(30, 30) };
-            hoverLocations[squareConBtn] = new HoverImageInfo() { point = new Point(337, 108), size = new Size(30, 30) };
-            hoverLocations[triangleConBtn] = new HoverImageInfo() { point = new Point(368, 80), size = new Size(30, 30) };
-            hoverLocations[l1ConBtn] = new HoverImageInfo() { point = new Point(89, 22), size = new Size(60, 22) };
-            hoverLocations[r1ConBtn] = new HoverImageInfo() { point = new Point(354, 25), size = new Size(60, 22) };
-            hoverLocations[l2ConBtn] = new HoverImageInfo() { point = new Point(94, 0), size = new Size(52, 22) };
-            hoverLocations[r2ConBtn] = new HoverImageInfo() { point = new Point(355, 0), size = new Size(52, 22) };
-            hoverLocations[shareConBtn] = new HoverImageInfo() { point = new Point(156, 68), size = new Size(18, 26) };
-            hoverLocations[optionsConBtn] = new HoverImageInfo() { point = new Point(328, 68), size = new Size(18, 26) };
-            hoverLocations[guideConBtn] = new HoverImageInfo() { point = new Point(238, 158), size = new Size(22, 22) };
+            hoverLocations[crossConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(crossConBtn), Canvas.GetTop(crossConBtn)),
+                size = new Size(crossConBtn.Width, crossConBtn.Height) };
+            hoverLocations[circleConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(circleConBtn), Canvas.GetTop(circleConBtn)),
+                size = new Size(circleConBtn.Width, circleConBtn.Height) };
+            hoverLocations[squareConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(squareConBtn), Canvas.GetTop(squareConBtn)),
+                size = new Size(squareConBtn.Width, squareConBtn.Height) };
+            hoverLocations[triangleConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(triangleConBtn), Canvas.GetTop(triangleConBtn)),
+                size = new Size(triangleConBtn.Width, triangleConBtn.Height) };
+            hoverLocations[l1ConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(l1ConBtn), Canvas.GetTop(l1ConBtn)),
+                size = new Size(l1ConBtn.Width, l1ConBtn.Height) };
+            hoverLocations[r1ConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(r1ConBtn), Canvas.GetTop(r1ConBtn)),
+                size = new Size(r1ConBtn.Width, r1ConBtn.Height) };
+            hoverLocations[l2ConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(l2ConBtn), Canvas.GetTop(l2ConBtn)),
+                size = new Size(l2ConBtn.Width, l2ConBtn.Height) };
+            hoverLocations[r2ConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(r2ConBtn), Canvas.GetTop(r2ConBtn)),
+                size = new Size(r2ConBtn.Width, r2ConBtn.Height) };
+            hoverLocations[shareConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(shareConBtn), Canvas.GetTop(shareConBtn)),
+                size = new Size(shareConBtn.Width, shareConBtn.Height) };
+            hoverLocations[optionsConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(optionsConBtn), Canvas.GetTop(optionsConBtn)),
+                size = new Size(optionsConBtn.Width, optionsConBtn.Height) };
+            hoverLocations[guideConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(guideConBtn), Canvas.GetTop(guideConBtn)),
+                size = new Size(guideConBtn.Width, guideConBtn.Height) };
 
-            hoverLocations[leftTouchConBtn] = new HoverImageInfo() { point = new Point(166, 48), size = new Size(154, 108) };
-            hoverLocations[multiTouchConBtn] = new HoverImageInfo() { point = new Point(166, 48), size = new Size(172, 108) };
-            hoverLocations[rightTouchConBtn] = new HoverImageInfo() { point = new Point(178, 48), size = new Size(162, 108) };
-            hoverLocations[topTouchConBtn] = new HoverImageInfo() { point = new Point(170, 6), size = new Size(180, 126) };
+            hoverLocations[leftTouchConBtn] = new HoverImageInfo() { point = new Point(144, 44), size = new Size(140, 98) };
+            hoverLocations[multiTouchConBtn] = new HoverImageInfo() { point = new Point(143, 42), size = new Size(158, 100) };
+            hoverLocations[rightTouchConBtn] = new HoverImageInfo() { point = new Point(156, 47), size = new Size(146, 94) };
+            hoverLocations[topTouchConBtn] = new HoverImageInfo() { point = new Point(155, 6), size = new Size(153, 114) };
 
-            hoverLocations[l3ConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
-            hoverLocations[lsuConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
-            hoverLocations[lsrConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
-            hoverLocations[lsdConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
-            hoverLocations[lslConBtn] = new HoverImageInfo() { point = new Point(159, 159), size = new Size(48, 48) };
+            hoverLocations[l3ConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(l3ConBtn), Canvas.GetTop(l3ConBtn)),
+                size = new Size(l3ConBtn.Width, l3ConBtn.Height) };
+            hoverLocations[lsuConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(l3ConBtn), Canvas.GetTop(l3ConBtn)),
+                size = new Size(l3ConBtn.Width, l3ConBtn.Height) };
+            hoverLocations[lsrConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(l3ConBtn), Canvas.GetTop(l3ConBtn)),
+                size = new Size(l3ConBtn.Width, l3ConBtn.Height) };
+            hoverLocations[lsdConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(l3ConBtn), Canvas.GetTop(l3ConBtn)),
+                size = new Size(l3ConBtn.Width, l3ConBtn.Height) };
+            hoverLocations[lslConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(l3ConBtn), Canvas.GetTop(l3ConBtn)),
+                size = new Size(l3ConBtn.Width, l3ConBtn.Height) };
 
-            hoverLocations[r3ConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
-            hoverLocations[rsuConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
-            hoverLocations[rsrConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
-            hoverLocations[rsdConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
-            hoverLocations[rslConBtn] = new HoverImageInfo() { point = new Point(295, 158), size = new Size(48, 48) };
+            hoverLocations[r3ConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(r3ConBtn), Canvas.GetTop(r3ConBtn)),
+                size = new Size(r3ConBtn.Width, r3ConBtn.Height) };
+            hoverLocations[rsuConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(r3ConBtn), Canvas.GetTop(r3ConBtn)),
+                size = new Size(r3ConBtn.Width, r3ConBtn.Height) };
+            hoverLocations[rsrConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(r3ConBtn), Canvas.GetTop(r3ConBtn)),
+                size = new Size(r3ConBtn.Width, r3ConBtn.Height) };
+            hoverLocations[rsdConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(r3ConBtn), Canvas.GetTop(r3ConBtn)),
+                size = new Size(r3ConBtn.Width, r3ConBtn.Height) };
+            hoverLocations[rslConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(r3ConBtn), Canvas.GetTop(r3ConBtn)),
+                size = new Size(r3ConBtn.Width, r3ConBtn.Height) };
 
-            hoverLocations[upConBtn] = new HoverImageInfo() { point = new Point(104, 82), size = new Size(26, 38) };
-            hoverLocations[rightConBtn] = new HoverImageInfo() { point = new Point(124, 110), size = new Size(38, 26) };
-            hoverLocations[downConBtn] = new HoverImageInfo() { point = new Point(104, 124), size = new Size(26, 38) };
-            hoverLocations[leftConBtn] = new HoverImageInfo() { point = new Point(72, 110), size = new Size(38, 26) };
+            hoverLocations[upConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(upConBtn), Canvas.GetTop(upConBtn)),
+                size = new Size(upConBtn.Width, upConBtn.Height) };
+            hoverLocations[rightConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(rightConBtn), Canvas.GetTop(rightConBtn)),
+                size = new Size(rightConBtn.Width, rightConBtn.Height) };
+            hoverLocations[downConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(downConBtn), Canvas.GetTop(downConBtn)),
+                size = new Size(downConBtn.Width, downConBtn.Height) };
+            hoverLocations[leftConBtn] = new HoverImageInfo() { point = new Point(Canvas.GetLeft(leftConBtn), Canvas.GetTop(leftConBtn)),
+                size = new Size(leftConBtn.Width, leftConBtn.Height) };
         }
 
         private void RemoveHoverBtnText()
@@ -574,7 +599,7 @@ namespace DS4WinWPF.DS4Forms
                 Canvas.SetTop(picBoxHover, tempInfo.point.Y);
                 picBoxHover.Width = tempInfo.size.Width;
                 picBoxHover.Height = tempInfo.size.Height;
-                //picBoxHover.Stretch = Stretch.Fill;
+                picBoxHover.Stretch = Stretch.Fill;
                 picBoxHover.Visibility = Visibility.Visible;
             }
 

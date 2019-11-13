@@ -1234,7 +1234,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             preserveSize = false;
             oldSize.Width = Width;
             oldSize.Height = Height;
-            this.Width = 1100;
+            this.Width = 1000;
             this.Height = 650;
             editor = new ProfileEditor(device);
             editor.Closed += ProfileEditor_Closed;

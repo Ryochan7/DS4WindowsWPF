@@ -9,7 +9,7 @@
              lex:ResxLocalizationProvider.DefaultDictionary="Strings"
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="500">
+             d:DesignHeight="450" d:DesignWidth="440">
     <DockPanel LastChildFill="False">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Label x:Name="inputDelayLb" Content="Input Delay: N/A">
@@ -21,50 +21,55 @@
                 </Label.Foreground>
             </Label>
         </StackPanel>
-        <Grid DockPanel.Dock="Top" Width="490" Margin="0,8,0,0">
+        <Grid DockPanel.Dock="Top" Width="440" Margin="0,8,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0">
                 <Label Content="{lex:Loc LeftStick}" HorizontalAlignment="Center" Padding="0"/>
                 <Label Content="" HorizontalAlignment="Center" Padding="0"/>
-                <Canvas Width="150" Height="150" ClipToBounds="True">
-                    <Rectangle Stroke="Black" Width="150" Height="150">
+                <Canvas x:Name="lsCanvas" Width="130" Height="130" ClipToBounds="True">
+                    <Rectangle Stroke="Black" Width="130" Height="130">
                     </Rectangle>
-                    <Ellipse x:Name="lsDeadEllipse" Width="150" Height="150" Fill="#FFCF1F1F">
+                    <Ellipse x:Name="lsDeadEllipse" Width="{Binding Path=Width, ElementName=lsCanvas}"
+                             Height="{Binding Path=Height, ElementName=lsCanvas}" Fill="#FFCF1F1F">
                     </Ellipse>
-                    <Rectangle x:Name="lsMapValRec" Width="6" Height="6" Canvas.Left="72" Canvas.Top="72" Fill="#FFABABAB">
+                    <Rectangle x:Name="lsMapValRec" Width="6" Height="6" Canvas.Left="62" Canvas.Top="62" Fill="#FFABABAB">
                     </Rectangle>
-                    <Rectangle x:Name="lsValRec" Width="6" Height="6" Canvas.Left="72" Canvas.Top="72" Fill="Black">
+                    <Rectangle x:Name="lsValRec" Width="6" Height="6" Canvas.Left="62" Canvas.Top="62" Fill="Black">
                     </Rectangle>
                 </Canvas>
             </StackPanel>
             <StackPanel Grid.Column="1">
                 <Label Content="{lex:Loc RightStick}" HorizontalAlignment="Center" Padding="0"/>
                 <Label Content="" HorizontalAlignment="Center" Padding="0"/>
-                <Canvas Width="150" Height="150" ClipToBounds="True">
-                    <Rectangle Stroke="Black" Width="150" Height="150">
+                <Canvas x:Name="rsCanvas" Width="130" Height="130" ClipToBounds="True">
+                    <Rectangle Stroke="Black" Width="{Binding Path=Width, ElementName=rsCanvas}"
+                               Height="{Binding Path=Height, ElementName=rsCanvas}">
                     </Rectangle>
-                    <Ellipse x:Name="rsDeadEllipse" Width="150" Height="150" Fill="#FFCF1F1F">
+                    <Ellipse x:Name="rsDeadEllipse" Width="{Binding Path=Width, ElementName=rsCanvas}"
+                             Height="{Binding Path=Height, ElementName=rsCanvas}" Fill="#FFCF1F1F">
                     </Ellipse>
-                    <Rectangle x:Name="rsMapValRec" Width="6" Height="6" Canvas.Left="72" Canvas.Top="72" Fill="#FFABABAB">
+                    <Rectangle x:Name="rsMapValRec" Width="6" Height="6" Canvas.Left="62" Canvas.Top="62" Fill="#FFABABAB">
                     </Rectangle>
-                    <Rectangle x:Name="rsValRec" Width="6" Height="6" Canvas.Left="72" Canvas.Top="72" Fill="Black">
+                    <Rectangle x:Name="rsValRec" Width="6" Height="6" Canvas.Left="62" Canvas.Top="62" Fill="Black">
                     </Rectangle>
                 </Canvas>
             </StackPanel>
             <StackPanel Grid.Column="2">
                 <TextBlock Text="SixAxis: X Axis is flipped so it is easier to read" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"/>
-                <Canvas Width="150" Height="150" ClipToBounds="True">
-                    <Rectangle Stroke="Black" Width="150" Height="150">
+                <Canvas x:Name="sixaxisCanvas" Width="130" Height="130" ClipToBounds="True">
+                    <Rectangle Stroke="Black" Width="{Binding Path=Width, ElementName=sixaxisCanvas}"
+                               Height="{Binding Path=Height, ElementName=sixaxisCanvas}">
                     </Rectangle>
-                    <Ellipse x:Name="sixAxisDeadEllipse" Width="150" Height="150" Fill="#FFCF1F1F">
+                    <Ellipse x:Name="sixAxisDeadEllipse" Width="{Binding Path=Width, ElementName=sixaxisCanvas}"
+                             Height="{Binding Path=Height, ElementName=sixaxisCanvas}" Fill="#FFCF1F1F">
                     </Ellipse>
-                    <Rectangle x:Name="sixAxisMapValRec" Width="6" Height="6" Canvas.Left="72" Canvas.Top="72" Fill="#FFABABAB">
+                    <Rectangle x:Name="sixAxisMapValRec" Width="6" Height="6" Canvas.Left="62" Canvas.Top="62" Fill="#FFABABAB">
                     </Rectangle>
-                    <Rectangle x:Name="sixAxisValRec" Width="6" Height="6" Canvas.Left="72" Canvas.Top="72" Fill="Black">
+                    <Rectangle x:Name="sixAxisValRec" Width="6" Height="6" Canvas.Left="62" Canvas.Top="62" Fill="Black">
                     </Rectangle>
                 </Canvas>
             </StackPanel>
