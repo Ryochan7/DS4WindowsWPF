@@ -232,7 +232,7 @@
                     </GroupBox>
                     <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
                         <Label Content="{lex:Loc ShowNotifications}" />
-                        <ComboBox MinWidth="100" SelectedIndex="{Binding ShowNotificationsIndex}">
+                        <ComboBox MinWidth="100" SelectedIndex="{Binding ShowNotificationsIndex}" Margin="8,0,0,0">
                             <ComboBoxItem Content="{lex:Loc None}" />
                             <ComboBoxItem Content="{lex:Loc WarningsOnly}" />
                             <ComboBoxItem Content="{lex:Loc All}" />
@@ -243,7 +243,8 @@
                     <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
                         <CheckBox Content="Flash Lightbar at High Latency" VerticalAlignment="Center"
                                   IsChecked="{Binding FlashHighLatency}" />
-                        <StackPanel Orientation="Horizontal" IsEnabled="{Binding FlashHighLatency,FallbackValue='False'}">
+                        <StackPanel Orientation="Horizontal" Margin="8,0,0,0"
+                                    IsEnabled="{Binding FlashHighLatency,FallbackValue='False'}">
                             <!--<TextBox Text="20" VerticalContentAlignment="Center" />-->
                             <xctk:IntegerUpDown d:IsHidden="True" Value="20" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
                             <Label Content="ms" />
@@ -278,7 +279,7 @@
                         <CheckBox x:Name="useUdpServerCk" Content="UDP Server" IsChecked="{Binding UseUDPServer}" Click="UseUdpServerCk_Click" />
                         <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}"
                                  Margin="8,0,0,0" />
-                        <Label Content="Port" Padding="0" Margin="30,0,0,0" />
+                        <Label Content="Port" Padding="0" Margin="20,0,0,0" />
                         <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
                         <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Margin="8,0,0,0"
                                             Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
