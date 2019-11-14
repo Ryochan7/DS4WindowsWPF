@@ -117,6 +117,18 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             AutoProfileSystemChange?.Invoke(this, true);
         }
 
+        public async void AddProgramExeLocation(string location)
+        {
+            AutoProfileSystemChange?.Invoke(this, false);
+            await Task.Run(() =>
+            {
+                AddAppExeLocation(location);
+            });
+
+            SearchFinished?.Invoke(this, EventArgs.Empty);
+            AutoProfileSystemChange?.Invoke(this, true);
+        }
+
         private void AddFromStartMenu(string path)
         {
             List<string> lnkpaths = new List<string>();
@@ -136,6 +148,13 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             List<string> exepaths = new List<string>();
             exepaths.AddRange(Directory.GetFiles(path, "*.exe", SearchOption.AllDirectories));
+            ScanApps(exepaths);
+        }
+
+        private void AddAppExeLocation(string path)
+        {
+            List<string> exepaths = new List<string>();
+            exepaths.Add(path);
             ScanApps(exepaths);
         }
 

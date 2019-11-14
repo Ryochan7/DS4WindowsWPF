@@ -883,7 +883,7 @@ namespace DS4WinWPF.DS4Forms
             dialog.Multiselect = false;
             dialog.AddExtension = true;
             dialog.DefaultExt = ".exe";
-            dialog.Filter = "Exe (*.exe)|*.exe";
+            dialog.Filter = "Program (*.exe)|*.exe";
             dialog.Title = "Select Program";
 
             dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);

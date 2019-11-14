@@ -130,7 +130,7 @@
                             <MenuItem x:Name="steamMenuItem" Header="{lex:Loc AddSteamGames}" Click="SteamMenuItem_Click" />
                             <MenuItem x:Name="startMenuItem" Header="{lex:Loc AddStartMenuPrograms}" Click="StartMenuItem_Click" />
                             <MenuItem x:Name="browseProgsMenuItem" Header="{lex:Loc AddDirectory}" Click="BrowseProgsMenuItem_Click" />
-                            <!--<MenuItem x:Name="browseAddProgMenuItem" Header="{lex:Loc BrowseOtherPrograms}" />-->
+                            <MenuItem x:Name="browseAddProgMenuItem" Header="{lex:Loc BrowseOtherPrograms}" Click="BrowseAddProgMenuItem_Click" />
                         </ContextMenu>
                     </Button.ContextMenu>
                 </Button>

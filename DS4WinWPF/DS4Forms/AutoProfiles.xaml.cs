@@ -15,6 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Ookii.Dialogs.Wpf;
 using DS4WinWPF.DS4Forms.ViewModels;
+using Microsoft.Win32;
 
 namespace DS4WinWPF.DS4Forms
 {
@@ -165,8 +166,8 @@ namespace DS4WinWPF.DS4Forms
             this.IsEnabled = false;
             steamMenuItem.Visibility = Visibility.Collapsed;
             programListLV.ItemsSource = null;
-            autoProfVM.AddProgramsFromSteam(steamgamesdir);
             autoProfVM.SearchFinished += AppsSearchFinished;
+            autoProfVM.AddProgramsFromSteam(steamgamesdir);
         }
 
         private void BrowseProgsMenuItem_Click(object sender, RoutedEventArgs e)
@@ -177,8 +178,8 @@ namespace DS4WinWPF.DS4Forms
             {
                 //browseProgsMenuItem.Visibility = Visibility.Collapsed;
                 programListLV.ItemsSource = null;
-                autoProfVM.AddProgramsFromDir(dialog.SelectedPath);
                 autoProfVM.SearchFinished += AppsSearchFinished;
+                autoProfVM.AddProgramsFromDir(dialog.SelectedPath);
             }
             else
             {
@@ -191,8 +192,8 @@ namespace DS4WinWPF.DS4Forms
             this.IsEnabled = false;
             startMenuItem.Visibility = Visibility.Collapsed;
             programListLV.ItemsSource = null;
-            autoProfVM.AddProgramsFromStartMenu();
             autoProfVM.SearchFinished += AppsSearchFinished;
+            autoProfVM.AddProgramsFromStartMenu();
         }
 
         private void AppsSearchFinished(object sender, EventArgs e)
@@ -249,6 +250,29 @@ namespace DS4WinWPF.DS4Forms
                 }
 
                 autoProfVM.AutoProfileHolder.Save(DS4Windows.Global.appdatapath + @"\Auto Profiles.xml");
+            }
+        }
+
+        private void BrowseAddProgMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.IsEnabled = false;
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.AddExtension = true;
+            dialog.DefaultExt = ".exe";
+            dialog.Filter = "Program (*.exe)|*.exe";
+            dialog.Title = "Select Program";
+
+            dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles);
+            if (dialog.ShowDialog() == true)
+            {
+                programListLV.ItemsSource = null;
+                autoProfVM.SearchFinished += AppsSearchFinished;
+                autoProfVM.AddProgramExeLocation(dialog.FileName);
+            }
+            else
+            {
+                this.IsEnabled = true;
             }
         }
     }
