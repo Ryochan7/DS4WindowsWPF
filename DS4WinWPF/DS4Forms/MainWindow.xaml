@@ -12,7 +12,7 @@
         xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
         xml:lang="en-US"
         mc:Ignorable="d"
-        Title="DS4Windows" Height="450" Width="800" Closing="MainDS4Window_Closing" StateChanged="MainDS4Window_StateChanged" SizeChanged="MainDS4Window_SizeChanged" LocationChanged="MainDS4Window_LocationChanged">
+        Title="DS4Windows" Height="500" Width="800" Closing="MainDS4Window_Closing" StateChanged="MainDS4Window_StateChanged" SizeChanged="MainDS4Window_SizeChanged" LocationChanged="MainDS4Window_LocationChanged">
     <DockPanel>
         <tb:TaskbarIcon x:Name="notifyIcon" IconSource="{Binding IconSource}" ToolTipText="{Binding TooltipText}" MenuActivation="RightClick" TrayRightMouseUp="NotifyIcon_TrayRightMouseUp" TrayMiddleMouseDown="NotifyIcon_TrayMiddleMouseDown" TrayMouseDoubleClick="NotifyIcon_TrayMouseDoubleClick">
             <!--<tb:TaskbarIcon.ContextMenu>
@@ -267,18 +267,21 @@
                                 IsEnabled="{Binding CheckForUpdates}">
                         <Label Content="Check every " />
                         <!--<TextBox Text="0" VerticalAlignment="Center" />-->
-                        <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding CheckEvery}" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
-                        <ComboBox SelectedIndex="{Binding CheckEveryUnit,FallbackValue=1}">
+                        <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding CheckEvery}" MinWidth="30" Margin="8,0,0,0"
+                                            ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
+                        <ComboBox SelectedIndex="{Binding CheckEveryUnit,FallbackValue=1}" Margin="8,0,0,0">
                             <ComboBoxItem Content="Hours" />
                             <ComboBoxItem Content="Days" />
                         </ComboBox>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Height="20" Margin="{StaticResource spaceMargin}">
                         <CheckBox x:Name="useUdpServerCk" Content="UDP Server" IsChecked="{Binding UseUDPServer}" Click="UseUdpServerCk_Click" />
-                        <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}" />
-                        <Label Content="Port" Padding="0" />
+                        <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}"
+                                 Margin="8,0,0,0" />
+                        <Label Content="Port" Padding="0" Margin="8,0,0,0" />
                         <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
-                        <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
+                        <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Margin="8,0,0,0"
+                                            Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
                     </StackPanel>
                     <!--<StackPanel Orientation="Horizontal">
                         <Label Content="Use language pack" />
