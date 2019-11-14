@@ -155,17 +155,18 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             List<string> exepaths = new List<string>();
             exepaths.Add(path);
-            ScanApps(exepaths);
+            ScanApps(exepaths, checkexisting: false, skipsetupapps: false);
         }
 
-        private void ScanApps(List<string> exepaths)
+        private void ScanApps(List<string> exepaths, bool checkexisting = true,
+            bool skipsetupapps = true)
         {
             foreach (string target in exepaths)
             {
                 bool skip = !File.Exists(target) || Path.GetExtension(target) != ".exe";
-                skip = skip || target.Contains("etup") || target.Contains("dotnet") || target.Contains("SETUP")
-                    || target.Contains("edist") || target.Contains("nstall") || String.IsNullOrEmpty(target);
-                skip = skip || existingapps.Contains(target);
+                skip = skip || (skipsetupapps && (target.Contains("etup") || target.Contains("dotnet") || target.Contains("SETUP")
+                    || target.Contains("edist") || target.Contains("nstall") || string.IsNullOrEmpty(target)));
+                skip = skip || (checkexisting && existingapps.Contains(target));
                 if (!skip)
                 {
                     ProgramItem item = new ProgramItem(target);
@@ -186,28 +187,22 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             if (item.MatchedAutoProfile == null)
             {
                 AutoProfileEntity tempEntry = new AutoProfileEntity(item.Path, item.Title);
-                /*{
-                    Path = item.Path,
-                    Title = item.Title,
-                };
-                */
-
                 tempEntry.Turnoff = item.Turnoff;
                 int tempindex = item.SelectedIndexCon1;
                 tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
 
                 tempindex = item.SelectedIndexCon2;
                 tempEntry.ProfileNames[1] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
 
                 tempindex = item.SelectedIndexCon3;
                 tempEntry.ProfileNames[2] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
 
                 tempindex = item.SelectedIndexCon4;
                 tempEntry.ProfileNames[3] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
 
                 item.MatchedAutoProfile = tempEntry;
                 autoProfileHolder.AutoProfileColl.Add(item.MatchedAutoProfile);
@@ -221,19 +216,19 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 AutoProfileEntity tempEntry = item.MatchedAutoProfile;
                 int tempindex = item.SelectedIndexCon1;
                 tempEntry.ProfileNames[0] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
 
                 tempindex = item.SelectedIndexCon2;
                 tempEntry.ProfileNames[1] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
 
                 tempindex = item.SelectedIndexCon3;
                 tempEntry.ProfileNames[2] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
 
                 tempindex = item.SelectedIndexCon4;
                 tempEntry.ProfileNames[3] = tempindex > 0 ? profileList.ProfileListCol[tempindex - 1].Name :
-                    "(none)";
+                    AutoProfileEntity.NONE_STRING;
             }
         }
 

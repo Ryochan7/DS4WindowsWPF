@@ -126,9 +126,10 @@ namespace DS4WinWPF
         private bool turnoff;
         private string[] profileNames = new string[4] { string.Empty, string.Empty,
             string.Empty, string.Empty };
+        public const string NONE_STRING = "(none)";
 
-        public string Path { get => path; set => path = value; }
-        public string Title { get => title; set => title = value; }
+        public string Path { get => path; set => SetSearchPath(value); }
+        public string Title { get => title; set => SetSearchTitle(value); }
         public bool Turnoff { get => turnoff; set => turnoff = value; }
         public string[] ProfileNames { get => profileNames; set => profileNames = value; }
 
@@ -136,33 +137,8 @@ namespace DS4WinWPF
         {
             // Initialize autoprofile search keywords(xxx_tolower).To improve performance the search keyword is pre - calculated in xxx_tolower variables,
             // so autoprofile timer thread doesn't have to create substrings/replace/tolower string instances every second over and over again.
-            if (!string.IsNullOrEmpty(pathStr))
-            {
-                path = pathStr;
-                path_lowercase = path.ToLower().Replace('/', '\\');
-
-                if (path.Length >= 2)
-                {
-                    if (path[0] == '^') path_lowercase = path_lowercase.Substring(1);
-                    else if (path[path.Length - 1] == '$') path_lowercase = path_lowercase.Substring(0, path_lowercase.Length - 1);
-                    else if (path[0] == '*') path_lowercase = path_lowercase.Substring(1);
-                }
-            }
-            else path = path_lowercase = string.Empty;
-
-            if (!string.IsNullOrEmpty(titleStr))
-            {
-                title = titleStr;
-                title_lowercase = title.ToLower();
-
-                if (title.Length >= 2)
-                {
-                    if (title[0] == '^') title_lowercase = title_lowercase.Substring(1);
-                    else if (title[title.Length - 1] == '$') title_lowercase = title_lowercase.Substring(0, title_lowercase.Length - 1);
-                    else if (title[0] == '*') title_lowercase = title_lowercase.Substring(1);
-                }
-            }
-            else title = title_lowercase = string.Empty;
+            SetSearchPath(pathStr);
+            SetSearchTitle(titleStr);
         }
 
         public bool IsMatch(string searchPath, string searchTitle)
@@ -190,6 +166,40 @@ namespace DS4WinWPF
 
             // If both path and title defined in autoprofile entry then do AND condition (ie. both path and title should match)
             return bPathMatched && bTitleMwatched;
+        }
+
+        private void SetSearchPath(string pathStr)
+        {
+            if (!string.IsNullOrEmpty(pathStr))
+            {
+                path = pathStr;
+                path_lowercase = path.ToLower().Replace('/', '\\');
+
+                if (path.Length >= 2)
+                {
+                    if (path[0] == '^') path_lowercase = path_lowercase.Substring(1);
+                    else if (path[path.Length - 1] == '$') path_lowercase = path_lowercase.Substring(0, path_lowercase.Length - 1);
+                    else if (path[0] == '*') path_lowercase = path_lowercase.Substring(1);
+                }
+            }
+            else path = path_lowercase = string.Empty;
+        }
+
+        private void SetSearchTitle(string titleStr)
+        {
+            if (!string.IsNullOrEmpty(titleStr))
+            {
+                title = titleStr;
+                title_lowercase = title.ToLower();
+
+                if (title.Length >= 2)
+                {
+                    if (title[0] == '^') title_lowercase = title_lowercase.Substring(1);
+                    else if (title[title.Length - 1] == '$') title_lowercase = title_lowercase.Substring(0, title_lowercase.Length - 1);
+                    else if (title[0] == '*') title_lowercase = title_lowercase.Substring(1);
+                }
+            }
+            else title = title_lowercase = string.Empty;
         }
     }
 }
