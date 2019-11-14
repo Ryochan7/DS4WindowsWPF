@@ -278,7 +278,7 @@
                         <CheckBox x:Name="useUdpServerCk" Content="UDP Server" IsChecked="{Binding UseUDPServer}" Click="UseUdpServerCk_Click" />
                         <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}"
                                  Margin="8,0,0,0" />
-                        <Label Content="Port" Padding="0" Margin="8,0,0,0" />
+                        <Label Content="Port" Padding="0" Margin="30,0,0,0" />
                         <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
                         <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Margin="8,0,0,0"
                                             Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
@@ -297,7 +297,8 @@
                                  IsEnabled="False" />
                     </StackPanel>
 
-                    <GroupBox Header="Utils" BorderThickness="2" Margin="{StaticResource spaceMargin}" Padding="8">
+                    <GroupBox Width="200" Header="Utils" BorderThickness="2" Margin="{StaticResource spaceMargin}"
+                              Padding="8" HorizontalAlignment="Left">
                         <StackPanel>
                             <Button x:Name="profFolderBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
                                     Style="{StaticResource NoBGHoverBtn}" Click="ProfFolderBtn_Click">
