@@ -456,11 +456,14 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 turnoff = autoProfileEntity.Turnoff;
             }
 
-            using (Icon ico = Icon.ExtractAssociatedIcon(path))
+            if (File.Exists(path))
             {
-                exeicon = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty,
-                    BitmapSizeOptions.FromEmptyOptions());
-                exeicon.Freeze();
+                using (Icon ico = Icon.ExtractAssociatedIcon(path))
+                {
+                    exeicon = Imaging.CreateBitmapSourceFromHIcon(ico.Handle, Int32Rect.Empty,
+                        BitmapSizeOptions.FromEmptyOptions());
+                    exeicon.Freeze();
+                }
             }
 
             MatchedAutoProfileChanged += ProgramItem_MatchedAutoProfileChanged;
