@@ -206,120 +206,124 @@
                 </local:AutoProfiles>
             </TabItem>
             <TabItem x:Name="settingsTab" Header="{lex:Loc Settings}">
-                <WrapPanel Orientation="Vertical" Margin="8,16,8,8">
-                    <WrapPanel.Resources>
-                        <Thickness x:Key="spaceMargin" Left="4" Right="0" Bottom="8" Top="0" />
-                    </WrapPanel.Resources>
-                    <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox"
+                <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                    <WrapPanel Orientation="Vertical" Margin="8,16,8,8">
+                        <WrapPanel.Resources>
+                            <Thickness x:Key="spaceMargin" Left="4" Right="0" Bottom="8" Top="0" />
+                        </WrapPanel.Resources>
+                        <CheckBox x:Name="hideDS4ContCk" Content="Hide DS4 Controller" x:Uid="hideDS4Checkbox"
                               Margin="{StaticResource spaceMargin}" IsChecked="{Binding HideDS4Controller}" Click="HideDS4ContCk_Click" >
-                    </CheckBox>
-                    <CheckBox x:Name="swipeTouchCk" Content="Swipe Touchpad To Switch Profiles" Margin="{StaticResource spaceMargin}"
+                        </CheckBox>
+                        <CheckBox x:Name="swipeTouchCk" Content="Swipe Touchpad To Switch Profiles" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding SwipeTouchSwitchProfile}"
                               ToolTip="{lex:Loc Resources:TwoFingerSwipe}" Click="SwipeTouchCk_Click" />
-                    <CheckBox x:Name="runAtStartCk" Content="{lex:Loc RunAtStartup}" Margin="{StaticResource spaceMargin}"
+                        <CheckBox x:Name="runAtStartCk" Content="{lex:Loc RunAtStartup}" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding RunAtStartup}"
                               ToolTip="{lex:Loc Resources:RunAtStartup}" Click="RunAtStartCk_Click" />
-                    <GroupBox x:Name="runAsGroupBox" Header="Run As" BorderThickness="2" Visibility="{Binding ShowRunStartPanel}"
+                        <GroupBox x:Name="runAsGroupBox" Header="Run As" BorderThickness="2" Visibility="{Binding ShowRunStartPanel}"
                               Margin="{StaticResource spaceMargin}">
-                        <StackPanel Orientation="Horizontal">
-                            <StackPanel>
-                                <RadioButton Content="Program" GroupName="RunAsOpt" Margin="{StaticResource spaceMargin}" IsChecked="{Binding RunStartProg}" />
-                                <RadioButton Content="Task" GroupName="RunAsOpt" Margin="{StaticResource spaceMargin}" IsChecked="{Binding RunStartTask}" />
-                            </StackPanel>
-                            <Image x:Name="uacImg" Source="{Binding UACSource}" Width="30" Height="30"
+                            <StackPanel Orientation="Horizontal">
+                                <StackPanel>
+                                    <RadioButton Content="Program" GroupName="RunAsOpt" Margin="{StaticResource spaceMargin}" IsChecked="{Binding RunStartProg}" />
+                                    <RadioButton Content="Task" GroupName="RunAsOpt" Margin="{StaticResource spaceMargin}" IsChecked="{Binding RunStartTask}" />
+                                </StackPanel>
+                                <Image x:Name="uacImg" Source="{Binding UACSource}" Width="30" Height="30"
                                    ToolTip="{lex:Loc Resources:UACTask}" Margin="20,0,0,0" />
+                            </StackPanel>
+                        </GroupBox>
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
+                            <Label Content="{lex:Loc ShowNotifications}" />
+                            <ComboBox MinWidth="100" SelectedIndex="{Binding ShowNotificationsIndex}" Margin="8,0,0,0">
+                                <ComboBoxItem Content="{lex:Loc None}" />
+                                <ComboBoxItem Content="{lex:Loc WarningsOnly}" />
+                                <ComboBoxItem Content="{lex:Loc All}" />
+                            </ComboBox>
                         </StackPanel>
-                    </GroupBox>
-                    <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
-                        <Label Content="{lex:Loc ShowNotifications}" />
-                        <ComboBox MinWidth="100" SelectedIndex="{Binding ShowNotificationsIndex}" Margin="8,0,0,0">
-                            <ComboBoxItem Content="{lex:Loc None}" />
-                            <ComboBoxItem Content="{lex:Loc WarningsOnly}" />
-                            <ComboBoxItem Content="{lex:Loc All}" />
-                        </ComboBox>
-                    </StackPanel>
-                    <CheckBox Content="Disconnect from BT when Stopping" Margin="{StaticResource spaceMargin}"
+                        <CheckBox Content="Disconnect from BT when Stopping" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding DisconnectBTStop}" />
-                    <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
-                        <CheckBox Content="Flash Lightbar at High Latency" VerticalAlignment="Center"
+                        <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
+                            <CheckBox Content="Flash Lightbar at High Latency" VerticalAlignment="Center"
                                   IsChecked="{Binding FlashHighLatency}" />
-                        <StackPanel Orientation="Horizontal" Margin="8,0,0,0"
+                            <StackPanel Orientation="Horizontal" Margin="8,0,0,0"
                                     IsEnabled="{Binding FlashHighLatency,FallbackValue='False'}">
-                            <!--<TextBox Text="20" VerticalContentAlignment="Center" />-->
-                            <xctk:IntegerUpDown d:IsHidden="True" Value="20" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
-                            <Label Content="ms" />
+                                <!--<TextBox Text="20" VerticalContentAlignment="Center" />-->
+                                <xctk:IntegerUpDown d:IsHidden="True" Value="20" MinWidth="30" ButtonSpinnerLocation="Right" Increment="1" Maximum="100" Minimum="10" />
+                                <Label Content="ms" />
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                    <CheckBox Content="{lex:Loc StartMinimized}" Margin="{StaticResource spaceMargin}"
+                        <CheckBox Content="{lex:Loc StartMinimized}" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding StartMinimize}" />
-                    <CheckBox Content="Minimize to Taskbar" Margin="{StaticResource spaceMargin}"
+                        <CheckBox Content="Minimize to Taskbar" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding MinimizeToTaskbar}" />
-                    <CheckBox Content="{lex:Loc CloseMinimizes}" Margin="{StaticResource spaceMargin}"
+                        <CheckBox Content="{lex:Loc CloseMinimizes}" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding CloseMinimizes}"
                               ToolTip="{lex:Loc Resources:CloseMinimize}" />
-                    <CheckBox Content="{lex:Loc QuickCharge}" Margin="{StaticResource spaceMargin}"
+                        <CheckBox Content="{lex:Loc QuickCharge}" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding QuickCharge}"
                               ToolTip="{lex:Loc Resources:QuickCharge}" />
-                    <CheckBox x:Name="useWhiteDS4IconCk" Content="White DS4Windows Icon" Margin="{StaticResource spaceMargin}"
+                        <CheckBox x:Name="useWhiteDS4IconCk" Content="White DS4Windows Icon" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding WhiteDS4Icon}" Click="UseWhiteDS4IconCk_Click" />
-                    <CheckBox Content="{lex:Loc CheckUpdateStartup}" Margin="{StaticResource spaceMargin}"
+                        <CheckBox Content="{lex:Loc CheckUpdateStartup}" Margin="{StaticResource spaceMargin}"
                               IsChecked="{Binding CheckForUpdates}" />
-                    <StackPanel x:Name="checkEveryOptionsStack" Orientation="Horizontal" Margin="{StaticResource spaceMargin}"
+                        <StackPanel x:Name="checkEveryOptionsStack" Orientation="Horizontal" Margin="{StaticResource spaceMargin}"
                                 IsEnabled="{Binding CheckForUpdates}">
-                        <Label Content="Check every " />
-                        <!--<TextBox Text="0" VerticalAlignment="Center" />-->
-                        <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding CheckEvery}" MinWidth="30" Margin="8,0,0,0"
+                            <Label Content="Check every " />
+                            <!--<TextBox Text="0" VerticalAlignment="Center" />-->
+                            <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding CheckEvery}" MinWidth="30" Margin="8,0,0,0"
                                             ButtonSpinnerLocation="Right" Increment="1" Maximum="30" Minimum="0" />
-                        <ComboBox SelectedIndex="{Binding CheckEveryUnit,FallbackValue=1}" Margin="8,0,0,0">
-                            <ComboBoxItem Content="Hours" />
-                            <ComboBoxItem Content="Days" />
-                        </ComboBox>
-                    </StackPanel>
-                    <StackPanel Orientation="Horizontal" Height="20" Margin="{StaticResource spaceMargin}">
-                        <CheckBox x:Name="useUdpServerCk" Content="UDP Server" IsChecked="{Binding UseUDPServer}" Click="UseUdpServerCk_Click" />
-                        <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}"
+                            <ComboBox SelectedIndex="{Binding CheckEveryUnit,FallbackValue=1}" Margin="8,0,0,0">
+                                <ComboBoxItem Content="Hours" />
+                                <ComboBoxItem Content="Days" />
+                            </ComboBox>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Height="20" Margin="{StaticResource spaceMargin}">
+                            <CheckBox x:Name="useUdpServerCk" Content="UDP Server" IsChecked="{Binding UseUDPServer}" Click="UseUdpServerCk_Click" />
+                            <TextBox x:Name="udpServerTxt" IsEnabled="False" Text="{Binding UdpIpAddress, UpdateSourceTrigger=LostFocus,FallbackValue='127.0.0.1'}"
                                  Margin="8,0,0,0" />
-                        <Label Content="Port" Padding="0" Margin="20,0,0,0" />
-                        <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
-                        <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Margin="8,0,0,0"
+                            <Label Content="Port" Padding="0" Margin="20,0,0,0" />
+                            <!--<TextBox x:Name="updPortNum" IsEnabled="False" Text="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" />-->
+                            <xctk:IntegerUpDown d:IsHidden="True" x:Name="updPortNum" IsEnabled="False" MinWidth="20" Margin="8,0,0,0"
                                             Value="{Binding UdpPort, UpdateSourceTrigger=LostFocus,FallbackValue='26760'}" ButtonSpinnerLocation="Right" Increment="1" Maximum="65535" Minimum="0" />
-                    </StackPanel>
-                    <!--<StackPanel Orientation="Horizontal">
+                        </StackPanel>
+                        <!--<StackPanel Orientation="Horizontal">
                         <Label Content="Use language pack" />
                         <ComboBox x:Name="langPackCombo" MinWidth="100" IsEnabled="False">
                         </ComboBox>
                     </StackPanel>
                     -->
-                    <local:LanguagePackControl Margin="{StaticResource spaceMargin}" />
-                    <StackPanel Margin="{StaticResource spaceMargin}">
-                        <CheckBox x:Name="customSteamCk" Content="Use custom Steam Folder" Margin="{StaticResource spaceMargin}"
+                        <local:LanguagePackControl Margin="{StaticResource spaceMargin}" />
+                        <StackPanel Margin="{StaticResource spaceMargin}">
+                            <CheckBox x:Name="customSteamCk" Content="Use custom Steam Folder" Margin="{StaticResource spaceMargin}"
                                   IsChecked="{Binding UseCustomSteamFolder}" Click="CustomSteamCk_Click"  />
-                        <TextBox x:Name="customSteamTxt" Text="{Binding CustomSteamFolder, UpdateSourceTrigger=LostFocus}"
+                            <TextBox x:Name="customSteamTxt" Text="{Binding CustomSteamFolder, UpdateSourceTrigger=LostFocus}"
                                  IsEnabled="False" />
-                    </StackPanel>
-
-                    <GroupBox Width="200" Header="Utils" BorderThickness="2" Margin="{StaticResource spaceMargin}"
-                              Padding="8" HorizontalAlignment="Left">
-                        <StackPanel>
-                            <Button x:Name="profFolderBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
-                                    Style="{StaticResource NoBGHoverBtn}" Click="ProfFolderBtn_Click">
-                                <TextBlock Text="{lex:Loc ProfileFolder}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
-                            </Button>
-                            <Button x:Name="controlPanelBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
-                                    Style="{StaticResource NoBGHoverBtn}" Click="ControlPanelBtn_Click" >
-                                <TextBlock Text="{lex:Loc ControlPanel}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
-                            </Button>
-                            <Button x:Name="driverSetupBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
-                                   Style="{StaticResource NoBGHoverBtn}"  Click="DriverSetupBtn_Click">
-                                <TextBlock Text="{lex:Loc DriverSetup}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
-                            </Button>
-                            <Button x:Name="checkUpdatesBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}"
-                                    Style="{StaticResource NoBGHoverBtn}"><!--="CheckUpdatesBtn_Click">-->
-                                <TextBlock Text="{lex:Loc CheckUpdateNow}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
-                            </Button>
                         </StackPanel>
-                    </GroupBox>
-                </WrapPanel>
+
+                        <GroupBox Width="200" Header="Utils" BorderThickness="2" Margin="{StaticResource spaceMargin}"
+                              Padding="8" HorizontalAlignment="Left">
+                            <StackPanel>
+                                <Button x:Name="profFolderBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
+                                    Style="{StaticResource NoBGHoverBtn}" Click="ProfFolderBtn_Click">
+                                    <TextBlock Text="{lex:Loc ProfileFolder}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
+                                </Button>
+                                <Button x:Name="controlPanelBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
+                                    Style="{StaticResource NoBGHoverBtn}" Click="ControlPanelBtn_Click" >
+                                    <TextBlock Text="{lex:Loc ControlPanel}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
+                                </Button>
+                                <Button x:Name="driverSetupBtn" BorderThickness="0" Margin="0,0,0,4" Background="{x:Null}" BorderBrush="{x:Null}"
+                                   Style="{StaticResource NoBGHoverBtn}"  Click="DriverSetupBtn_Click">
+                                    <TextBlock Text="{lex:Loc DriverSetup}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
+                                </Button>
+                                <Button x:Name="checkUpdatesBtn" BorderThickness="0" Background="{x:Null}" BorderBrush="{x:Null}"
+                                    Style="{StaticResource NoBGHoverBtn}">
+                                    <!--="CheckUpdatesBtn_Click">-->
+                                    <TextBlock Text="{lex:Loc CheckUpdateNow}" TextDecorations="Underline" Foreground="#FF3881D8" Cursor="Hand" />
+                                </Button>
+                            </StackPanel>
+                        </GroupBox>
+                    </WrapPanel>
+                </ScrollViewer>
+                
             </TabItem>
             <TabItem Header="{lex:Loc Log}">
                 <DockPanel>
