@@ -251,6 +251,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
             DS4Windows.AppLogger.TrayIconLog += ShowNotification;
             DS4Windows.AppLogger.GuiLog += UpdateLastStatusMessage;
+            logvm.LogItems.CollectionChanged += LogItems_CollectionChanged;
             App.rootHub.Debug += UpdateLastStatusMessage;
             trayIconVM.RequestShutdown += TrayIconVM_RequestShutdown;
             trayIconVM.ProfileSelected += TrayIconVM_ProfileSelected;
@@ -267,6 +268,19 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             managementEvWatcher = new ManagementEventWatcher(scope, q);
             managementEvWatcher.EventArrived += PowerEventArrive;
             managementEvWatcher.Start();
+        }
+
+        private void LogItems_CollectionChanged(object sender,
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == System.Collections.Specialized.NotifyCollectionChangedAction.Add)
+            {
+                Dispatcher.BeginInvoke((Action)(() =>
+                {
+                    int count = logListView.Items.Count;
+                    logListView.ScrollIntoView(logvm.LogItems[count > 0 ? count-1 : 0]);
+                }));
+            }
         }
 
         private void ControlServiceStarted(object sender, EventArgs e)
