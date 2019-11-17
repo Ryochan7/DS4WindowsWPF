@@ -87,7 +87,8 @@ namespace DS4WinWPF.DS4Forms
                 mouseCanvas.Visibility = Visibility.Collapsed;
                 bottomPanel.Visibility = Visibility.Collapsed;
                 extrasSidePanel.Visibility = Visibility.Collapsed;
-                otherKeysMouseGrid.Columns = 2;
+                mouseGridColumn.Width = new GridLength(0);
+                //otherKeysMouseGrid.Columns = 2;
                 Width = 950;
                 Height = 300;
             }
