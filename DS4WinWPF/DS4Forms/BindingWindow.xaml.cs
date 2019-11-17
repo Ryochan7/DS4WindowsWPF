@@ -372,6 +372,12 @@ namespace DS4WinWPF.DS4Forms
             associatedBindings.Add(mouseRBBtn,
                 new BindAssociation() { outputType = BindAssociation.OutType.Button, control = DS4Windows.X360Controls.RightMouse });
             mouseRBBtn.Click += OutputButtonBtn_Click;
+            associatedBindings.Add(mouse4Btn,
+                new BindAssociation() { outputType = BindAssociation.OutType.Button, control = DS4Windows.X360Controls.FourthMouse });
+            mouse4Btn.Click += OutputButtonBtn_Click;
+            associatedBindings.Add(mouse5Btn,
+                new BindAssociation() { outputType = BindAssociation.OutType.Button, control = DS4Windows.X360Controls.FifthMouse });
+            mouse5Btn.Click += OutputButtonBtn_Click;
             associatedBindings.Add(mouseWheelUBtn,
                 new BindAssociation() { outputType = BindAssociation.OutType.Button, control = DS4Windows.X360Controls.WUP });
             mouseWheelUBtn.Click += OutputButtonBtn_Click;
