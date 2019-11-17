@@ -332,7 +332,7 @@ namespace DS4WinWPF.DS4Forms
         {
             if (recordBoxVM.EditMacroIndex >= 0)
             {
-                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.MacroStepIndex)
+                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
                         as ListBoxItem;
                 lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
                 recordBoxVM.EditMacroIndex = -1;
@@ -343,7 +343,7 @@ namespace DS4WinWPF.DS4Forms
         {
             if (recordBoxVM.EditMacroIndex >= 0)
             {
-                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.MacroStepIndex)
+                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
                         as ListBoxItem;
                 lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
                 recordBoxVM.EditMacroIndex = -1;
@@ -485,7 +485,7 @@ namespace DS4WinWPF.DS4Forms
         {
             if (recordBoxVM.EditMacroIndex >= 0)
             {
-                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.MacroStepIndex)
+                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
                         as ListBoxItem;
                 lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
                 recordBoxVM.EditMacroIndex = -1;
