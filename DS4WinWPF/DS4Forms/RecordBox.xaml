@@ -78,13 +78,14 @@
                 </StackPanel>
             </StackPanel>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Left">
+        <DockPanel x:Name="leftSideDockPanel" DockPanel.Dock="Left">
             <DockPanel DockPanel.Dock="Top">
                 <Label Content="Macro Order" />
                 <Label Content="Use Keyboard/Mouse + Controller 1 to record" DockPanel.Dock="Right" HorizontalAlignment="Right" />
             </DockPanel>
             <ListBox x:Name="macroListBox" ItemsSource="{Binding MacroSteps}" SelectedIndex="{Binding MacroStepIndex}"
-                     ItemTemplate="{StaticResource DisplayTemplate}" MouseDoubleClick="MacroListBox_MouseDoubleClick" LostFocus="MacroListBox_LostFocus">
+                     ItemTemplate="{StaticResource DisplayTemplate}" MouseDoubleClick="MacroListBox_MouseDoubleClick"
+                     LostFocus="MacroListBox_LostFocus">
             </ListBox>
         </DockPanel>
     </DockPanel>

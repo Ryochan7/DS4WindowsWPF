@@ -81,7 +81,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void MacroListBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!recordBoxVM.Recording)
+            if (!recordBoxVM.Recording && recordBoxVM.EditMacroIndex == -1)
             {
                 recordBtn.Content = "Record";
                 RevertListItemTemplate();
