@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using NonFormTimer = System.Timers.Timer;
 using Microsoft.Win32;
+using Xceed.Wpf.Toolkit;
 using DS4WinWPF.DS4Forms.ViewModels;
 
 namespace DS4WinWPF.DS4Forms
@@ -76,16 +77,19 @@ namespace DS4WinWPF.DS4Forms
                 {
                     recordBtn.Content = "Record";
                 }
+
+                if (recordBoxVM.EditMacroIndex > -1)
+                {
+                    UpdateWaitRevertTemplate();
+                }
             }
         }
 
         private void MacroListBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!recordBoxVM.Recording && recordBoxVM.EditMacroIndex == -1)
+            if (!recordBoxVM.Recording)
             {
                 recordBtn.Content = "Record";
-                RevertListItemTemplate();
-                recordBoxVM.EditMacroIndex = -1;
             }
         }
 
@@ -339,15 +343,21 @@ namespace DS4WinWPF.DS4Forms
             }
         }
 
-        private void EditTextBox_LostFocus(object sender, RoutedEventArgs e)
+        private void UpdateWaitRevertTemplate()
         {
-            if (recordBoxVM.EditMacroIndex >= 0)
-            {
-                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
+            ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
                         as ListBoxItem;
-                lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
-                recordBoxVM.EditMacroIndex = -1;
+            ContentPresenter contentPresenter = UtilMethods.FindVisualChild<ContentPresenter>(lbitem);
+            DataTemplate oldDataTemplate = contentPresenter.ContentTemplate;
+            IntegerUpDown integerUpDown = oldDataTemplate.FindName("waitIUD", contentPresenter) as IntegerUpDown;
+            if (integerUpDown != null)
+            {
+                BindingExpression bindExp = integerUpDown.GetBindingExpression(IntegerUpDown.ValueProperty);
+                bindExp.UpdateSource();
             }
+
+            lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
+            recordBoxVM.EditMacroIndex = -1;
         }
 
         private void CycleProgPresetMenuItem_Click(object sender, RoutedEventArgs e)
@@ -380,10 +390,14 @@ namespace DS4WinWPF.DS4Forms
         {
             if (e.Key == Key.Enter)
             {
-                FocusNavigationDirection focusDirection = FocusNavigationDirection.Next;
-                TraversalRequest request = new TraversalRequest(focusDirection);
-                UIElement elementWithFocus = Keyboard.FocusedElement as UIElement;
-                elementWithFocus?.MoveFocus(request);
+                IntegerUpDown integerUpDown = sender as IntegerUpDown;
+                BindingExpression bindExp = integerUpDown.GetBindingExpression(IntegerUpDown.ValueProperty);
+                bindExp.UpdateSource();
+
+                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
+                        as ListBoxItem;
+                lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
+                recordBoxVM.EditMacroIndex = -1;
             }
         }
 

@@ -19,7 +19,8 @@
             </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="EditTemplate">
-            <TextBox Text="{Binding DisplayValue,UpdateSourceTrigger=LostFocus}" KeyDown="TextBox_KeyDown" LostFocus="EditTextBox_LostFocus"/>
+            <xctk:IntegerUpDown x:Name="waitIUD" Value="{Binding DisplayValue,UpdateSourceTrigger=Explicit}"
+                                KeyDown="TextBox_KeyDown" />
         </DataTemplate>
         <DataTemplate x:Key="EditRumbleTemplate">
             <StackPanel x:Name="rumbleEditPabel" Orientation="Horizontal" LostFocus="RumbleEditPabel_LostFocus">
