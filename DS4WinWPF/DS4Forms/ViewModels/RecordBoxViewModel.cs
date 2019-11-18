@@ -59,7 +59,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public Dictionary<int, bool> KeysdownMap { get => keysdownMap; }
         public bool UseScanCode { get => useScanCode; set => useScanCode = value; }
 
-        private int editMacroIndex;
+        private int editMacroIndex = -1;
         private Dictionary<int, bool> keysdownMap = new Dictionary<int, bool>();
 
         private bool useScanCode;

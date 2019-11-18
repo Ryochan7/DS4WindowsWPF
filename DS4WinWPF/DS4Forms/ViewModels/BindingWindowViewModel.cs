@@ -51,7 +51,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             PopulateCurrentBinds();
         }
 
-        private void PopulateCurrentBinds()
+        public void PopulateCurrentBinds()
         {
             DS4ControlSettings setting = settings;
             bool sc = setting.keyType.HasFlag(DS4KeyType.ScanCode);
