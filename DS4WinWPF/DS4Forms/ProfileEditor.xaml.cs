@@ -1068,6 +1068,7 @@ namespace DS4WinWPF.DS4Forms
                 {
                     DS4Windows.SpecialAction action = DS4Windows.Global.GetAction(actionName);
                     SpecialActionItem newitem = specialActionsVM.CreateActionItem(action);
+                    newitem.Active = item.Active;
                     specialActionsVM.ActionCol.RemoveAt(currentIndex);
                     specialActionsVM.ActionCol.Insert(currentIndex, newitem);
                     specialActionDockPanel.Children.Remove(actEditor);
