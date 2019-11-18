@@ -192,7 +192,10 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
                     if (launch)
                     {
-                        Close();
+                        Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            Close();
+                        }));
                     }
                 }
                 else
