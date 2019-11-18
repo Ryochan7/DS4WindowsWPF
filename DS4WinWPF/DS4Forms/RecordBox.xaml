@@ -23,9 +23,9 @@
                                 KeyDown="WaitIUD_KeyDown" />
         </DataTemplate>
         <DataTemplate x:Key="EditRumbleTemplate">
-            <StackPanel x:Name="rumbleEditPabel" Orientation="Horizontal" LostFocus="RumbleEditPabel_LostFocus">
-                <xctk:IntegerUpDown x:Name="heavyRumbleUD" Value="{Binding RumbleHeavy,UpdateSourceTrigger=LostFocus}" Minimum="0" Maximum="255" />
-                <xctk:IntegerUpDown x:Name="lightRumbleUD" Value="{Binding RumbleLight,UpdateSourceTrigger=LostFocus}" Minimum="0" Maximum="255" />
+            <StackPanel x:Name="rumbleEditPabel" Orientation="Horizontal">
+                <xctk:IntegerUpDown x:Name="heavyRumbleUD" Value="{Binding RumbleHeavy,UpdateSourceTrigger=Explicit}" Minimum="0" Maximum="255" />
+                <xctk:IntegerUpDown x:Name="lightRumbleUD" Value="{Binding RumbleLight,UpdateSourceTrigger=Explicit}" Minimum="0" Maximum="255" />
             </StackPanel>
         </DataTemplate>
     </UserControl.Resources>

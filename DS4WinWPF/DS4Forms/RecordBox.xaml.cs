@@ -80,7 +80,7 @@ namespace DS4WinWPF.DS4Forms
 
                 if (recordBoxVM.EditMacroIndex > -1)
                 {
-                    UpdateWaitRevertTemplate();
+                    UpdateDataRevertTemplate();
                 }
             }
         }
@@ -343,17 +343,35 @@ namespace DS4WinWPF.DS4Forms
             }
         }
 
-        private void UpdateWaitRevertTemplate()
+        private void UpdateDataRevertTemplate()
         {
             ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
                         as ListBoxItem;
             ContentPresenter contentPresenter = UtilMethods.FindVisualChild<ContentPresenter>(lbitem);
             DataTemplate oldDataTemplate = contentPresenter.ContentTemplate;
-            IntegerUpDown integerUpDown = oldDataTemplate.FindName("waitIUD", contentPresenter) as IntegerUpDown;
-            if (integerUpDown != null)
+
+            MacroStepItem item = recordBoxVM.MacroSteps[recordBoxVM.EditMacroIndex];
+            if (item.Step.ActType == DS4Windows.MacroStep.StepType.Wait)
             {
-                BindingExpression bindExp = integerUpDown.GetBindingExpression(IntegerUpDown.ValueProperty);
-                bindExp.UpdateSource();
+                IntegerUpDown integerUpDown = oldDataTemplate.FindName("waitIUD", contentPresenter) as IntegerUpDown;
+                if (integerUpDown != null)
+                {
+                    BindingExpression bindExp = integerUpDown.GetBindingExpression(IntegerUpDown.ValueProperty);
+                    bindExp.UpdateSource();
+                }
+            }
+            else if (item.Step.OutputType == DS4Windows.MacroStep.StepOutput.Rumble)
+            {
+                IntegerUpDown heavyRumble = oldDataTemplate.FindName("heavyRumbleUD", contentPresenter) as IntegerUpDown;
+                IntegerUpDown lightRumble = oldDataTemplate.FindName("lightRumbleUD", contentPresenter) as IntegerUpDown;
+                if (heavyRumble != null && lightRumble != null)
+                {
+                    BindingExpression bindExp = heavyRumble.GetBindingExpression(IntegerUpDown.ValueProperty);
+                    bindExp.UpdateSource();
+
+                    bindExp = lightRumble.GetBindingExpression(IntegerUpDown.ValueProperty);
+                    bindExp.UpdateSource();
+                }
             }
 
             lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
@@ -492,17 +510,6 @@ namespace DS4WinWPF.DS4Forms
                             DS4Windows.MacroStep.StepType.ActUp, DS4Windows.MacroStep.StepOutput.Button);
                 recordBoxVM.AddMacroStep(step);
                 recordBoxVM.KeysdownMap.Remove(value);
-            }
-        }
-
-        private void RumbleEditPabel_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (recordBoxVM.EditMacroIndex >= 0)
-            {
-                ListBoxItem lbitem = macroListBox.ItemContainerGenerator.ContainerFromIndex(recordBoxVM.EditMacroIndex)
-                        as ListBoxItem;
-                lbitem.ContentTemplate = this.FindResource("DisplayTemplate") as DataTemplate;
-                recordBoxVM.EditMacroIndex = -1;
             }
         }
     }
