@@ -386,7 +386,7 @@ namespace DS4WinWPF.DS4Forms
             macroListBox.ItemsSource = recordBoxVM.MacroSteps;
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void WaitIUD_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
