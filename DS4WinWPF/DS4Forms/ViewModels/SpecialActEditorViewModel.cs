@@ -110,8 +110,9 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 valid = false;
                 actionNameErrors.Add("No name provided");
             }
-            else
+            else if (!editMode)
             {
+                // Only perform existing name check when creating a new action
                 foreach (SpecialAction sA in Global.GetActions())
                 {
                     if (sA.name == actionName)
