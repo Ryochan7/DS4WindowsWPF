@@ -9,7 +9,7 @@
              lex:ResxLocalizationProvider.DefaultDictionary="Strings"
              xmlns:local="clr-namespace:DS4WinWPF.DS4Forms"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="440">
+             d:DesignHeight="450" d:DesignWidth="430">
     <DockPanel LastChildFill="False">
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top">
             <Label x:Name="inputDelayLb" Content="Input Delay: N/A">
@@ -21,7 +21,7 @@
                 </Label.Foreground>
             </Label>
         </StackPanel>
-        <Grid DockPanel.Dock="Top" Width="440" Margin="0,8,0,0">
+        <Grid DockPanel.Dock="Top" Width="430" Margin="0,8,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -108,7 +108,7 @@
                 </StackPanel>
             </StackPanel>
             <Border BorderBrush="Black" Grid.Column="1" BorderThickness="1">
-                <StackPanel Orientation="Horizontal" Margin="10,4,10,0" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
                     <StackPanel Margin="0,0,10,0">
                         <Label Content="{lex:Loc Gyro}" HorizontalAlignment="Center" Padding="0"/>
                         <Slider x:Name="gyroYawSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,8,0,0"/>
