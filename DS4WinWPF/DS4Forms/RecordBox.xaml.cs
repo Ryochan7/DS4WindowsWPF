@@ -95,6 +95,11 @@ namespace DS4WinWPF.DS4Forms
 
         private void SaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            if (recordBoxVM.EditMacroIndex > -1)
+            {
+                UpdateDataRevertTemplate();
+            }
+
             saved = true;
             recordBoxVM.ExportMacro();
             Save?.Invoke(this, EventArgs.Empty);
@@ -112,14 +117,19 @@ namespace DS4WinWPF.DS4Forms
             {
                 DS4Windows.Program.rootHub.recordingMacro = true;
                 recordBtn.Content = "Stop";
+                if (recordBoxVM.MacroStepIndex == -1)
+                {
+                    recordBoxVM.MacroSteps.Clear();
+                }
+                else
+                {
+                    recordBoxVM.AppendIndex = recordBoxVM.MacroStepIndex;
+                }
+
                 mouseButtonsPanel.Visibility = Visibility.Visible;
                 if (recordBoxVM.RecordDelays)
                 {
                     extraConPanel.Visibility = Visibility.Visible;
-                }
-                if (macroListBox.IsKeyboardFocused)
-                {
-                    recordBoxVM.AppendIndex = recordBoxVM.MacroStepIndex;
                 }
 
                 ds4.Start();
@@ -162,6 +172,7 @@ namespace DS4WinWPF.DS4Forms
             recordBoxVM.ToggleRumble = false;
             changeLightBtn.Content = "Change Lightbar Color";
             addRumbleBtn.Content = "Add Rumble";
+            recordBoxVM.MacroStepIndex = -1;
         }
 
         private void Enable_Controls(bool on)

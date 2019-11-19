@@ -50,7 +50,17 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         public ObservableCollection<MacroStepItem> MacroSteps { get => macroSteps; }
         
         private int macroStepIndex;
-        public int MacroStepIndex { get => macroStepIndex; set => macroStepIndex = value; }
+        public int MacroStepIndex
+        {
+            get => macroStepIndex;
+            set
+            {
+                if (macroStepIndex == value) return;
+                macroStepIndex = value;
+                MacroStepIndexChanged?.Invoke(this, EventArgs.Empty);
+            }
+        }
+        public event EventHandler MacroStepIndexChanged;
         public Stopwatch Sw { get => sw; }
         public bool Toggle4thMouse { get => toggle4thMouse; set => toggle4thMouse = value; }
         public bool Toggle5thMouse { get => toggle5thMouse; set => toggle5thMouse = value; }
