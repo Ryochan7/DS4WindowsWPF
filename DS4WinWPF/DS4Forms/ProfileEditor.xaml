@@ -365,6 +365,12 @@
                 </StackPanel>
             </TabItem>
             <TabItem Header="Axis Config">
+                <TabItem.Resources>
+                    <Thickness x:Key="spaceMargin" Left="10" Bottom="6" />
+                    <Style x:Key="gridRowHeight" TargetType="{x:Type RowDefinition}">
+                        <Setter Property="Height" Value="30" />
+                    </Style>
+                </TabItem.Resources>
                 <ScrollViewer CanContentScroll="True">
                     <StackPanel>
                         <GroupBox Header="LS &amp; RS">
@@ -376,38 +382,47 @@
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
                                     <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"/>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}" />
                                 </Grid.RowDefinitions>
 
-                                <TextBlock Text="LS" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="RS" Grid.Column="2" HorizontalAlignment="Center" FontWeight="Bold"/>
+                                <TextBlock Text="LS" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8"/>
+                                <TextBlock Text="RS" Grid.Column="2" HorizontalAlignment="Center" FontWeight="Bold" Margin="0,0,0,8"/>
 
                                 <Label Content="Dead Zone:" Grid.Row="1" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Max Zone:" Grid.Row="2" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSMaxZone}" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSMaxZone}" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSMaxZone}" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSMaxZone}" FormatString="F2" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Anti-dead Zone:" Grid.Row="3" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSAntiDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSAntiDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding LSAntiDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" Value="{Binding RSAntiDeadZone}" FormatString="F2" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Sensitivity:" Grid.Row="4" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding LSSens}" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding RSSens}" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding LSSens}" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding RSSens}" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Output Curve:" Grid.Row="5" Grid.Column="0" />
-                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="{Binding LSOutputCurveIndex}">
+                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="{Binding LSOutputCurveIndex}"
+                                          Margin="{StaticResource spaceMargin}">
                                     <ComboBoxItem Content="Linear" />
                                     <ComboBoxItem Content="Enhanced Precision" />
                                     <ComboBoxItem Content="Quadratic" />
@@ -416,7 +431,8 @@
                                     <ComboBoxItem Content="Easeout Cubic" />
                                     <ComboBoxItem Content="Custom" />
                                 </ComboBox>
-                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="{Binding RSOutputCurveIndex}">
+                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="{Binding RSOutputCurveIndex}"
+                                          Margin="{StaticResource spaceMargin}">
                                     <ComboBoxItem Content="Linear" />
                                     <ComboBoxItem Content="Enhanced Precision" />
                                     <ComboBoxItem Content="Quadratic" />
@@ -427,29 +443,36 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding LSCustomCurveSelected}">
-                                    <Button x:Name="lsCustomEditorBtn" Content="..." Tag="LS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding LSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="lsCustomEditorBtn" Content="..." Tag="LS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                            Margin="{StaticResource spaceMargin}" />
+                                    <TextBox MinWidth="100" Text="{Binding LSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
+                                             Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2" IsEnabled="{Binding RSCustomCurveSelected}">
-                                    <Button x:Name="rsCustomEditorBtn" Content="..." Tag="RS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding RSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="rsCustomEditorBtn" Content="..." Tag="RS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                            Margin="{StaticResource spaceMargin}" />
+                                    <TextBox MinWidth="100" Text="{Binding RSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
+                                             Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
 
                                 <Label Content="Square Stick:" Grid.Row="7" Grid.Column="0" />
                                 <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="1" HorizontalAlignment="Right">
-                                    <CheckBox IsChecked="{Binding LSSquareStick}" />
+                                    <CheckBox IsChecked="{Binding LSSquareStick}" Margin="{StaticResource spaceMargin}" />
                                     <xctk:DoubleUpDown d:IsHidden="True" FormatString="F1" Value="{Binding LSSquareRoundness,FallbackValue=5}"
-                                                       MinWidth="100" Minimum="1.0" Maximum="5.0" Increment="1.0" IsEnabled="{Binding LSSquareStick}" />
+                                                       MinWidth="100" Minimum="1.0" Maximum="5.0" Increment="1.0" IsEnabled="{Binding LSSquareStick}"
+                                                       Margin="{StaticResource spaceMargin}" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="7" Grid.Column="2" HorizontalAlignment="Right">
-                                    <CheckBox IsChecked="{Binding RSSquareStick}" />
+                                    <CheckBox IsChecked="{Binding RSSquareStick}" Margin="{StaticResource spaceMargin}" />
                                     <xctk:DoubleUpDown d:IsHidden="True" FormatString="F1" Value="{Binding RSSquareRoundness,FallbackValue=5}"
-                                                       MinWidth="100" Minimum="1.0" Maximum="5.0" Increment="1.0" IsEnabled="{Binding RSSquareStick}" />
+                                                       MinWidth="100" Minimum="1.0" Maximum="5.0" Increment="1.0" IsEnabled="{Binding RSSquareStick}"
+                                                       Margin="{StaticResource spaceMargin}" />
                                 </StackPanel>
 
                                 <Label Content="Curve (Input):" Grid.Row="8" Grid.Column="0" />
                                 <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="1" HorizontalAlignment="Right">
-                                    <xctk:DoubleUpDown d:IsHidden="True" MinWidth="100" Value="{Binding LSCurve}" Minimum="0" Maximum="100" />
+                                    <xctk:DoubleUpDown d:IsHidden="True" MinWidth="100" Value="{Binding LSCurve}" Minimum="0" Maximum="100"
+                                                       Margin="{StaticResource spaceMargin}" />
                                     <Label Content="%" />
                                 </StackPanel>
                                 <StackPanel Orientation="Horizontal" Grid.Row="8" Grid.Column="2" HorizontalAlignment="Right">
@@ -459,9 +482,11 @@
 
                                 <Label Content="Rotation:" Grid.Row="9" Grid.Column="0" />
                                 <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding LSRotation}"
-                                                    Grid.Row="9" Grid.Column="1" Minimum="-180" Maximum="180" />
+                                                    Grid.Row="9" Grid.Column="1" Minimum="-180" Maximum="180"
+                                                    Margin="{StaticResource spaceMargin}" />
                                 <xctk:IntegerUpDown d:IsHidden="True" Value="{Binding RSRotation}"
-                                                    Grid.Row="9" Grid.Column="2" Minimum="-180" Maximum="180" />
+                                                    Grid.Row="9" Grid.Column="2" Minimum="-180" Maximum="180"
+                                                    Margin="{StaticResource spaceMargin}" />
                             </Grid>
                         </GroupBox>
 
@@ -469,12 +494,12 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
@@ -483,27 +508,36 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="L2" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="R2" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="L2" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                                <TextBlock Text="R2" Grid.Column="2" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8" />
 
                                 <Label Content="Dead Zone:" Grid.Row="1" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2DeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2DeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2DeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2DeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Max Zone:" Grid.Row="2" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2MaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2MaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2MaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2MaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Anti-dead Zone:" Grid.Row="3" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2AntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2AntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2AntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2AntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Sensitivity:" Grid.Row="4" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2Sens}" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2Sens}" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding L2Sens}" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding R2Sens}" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Output Curve:" Grid.Row="5" Grid.Column="0" />
-                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="{Binding L2OutputCurveIndex}">
+                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="{Binding L2OutputCurveIndex}"
+                                          Margin="{StaticResource spaceMargin}">
                                     <ComboBoxItem Content="Linear" />
                                     <ComboBoxItem Content="Enhanced Precision" />
                                     <ComboBoxItem Content="Quadratic" />
@@ -512,7 +546,8 @@
                                     <ComboBoxItem Content="Easeout Cubic" />
                                     <ComboBoxItem Content="Custom" />
                                 </ComboBox>
-                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="{Binding R2OutputCurveIndex}">
+                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="{Binding R2OutputCurveIndex}"
+                                          Margin="{StaticResource spaceMargin}">
                                     <ComboBoxItem Content="Linear" />
                                     <ComboBoxItem Content="Enhanced Precision" />
                                     <ComboBoxItem Content="Quadratic" />
@@ -523,12 +558,16 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding L2CustomCurveSelected}">
-                                    <Button x:Name="l2CustomEditorBtn" Content="..." Tag="L2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding L2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="l2CustomEditorBtn" Content="..." Tag="L2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                            Margin="{StaticResource spaceMargin}" />
+                                    <TextBox MinWidth="100" Text="{Binding L2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
+                                             Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2"  IsEnabled="{Binding R2CustomCurveSelected}">
-                                    <Button x:Name="r2CustomEditorBtn" Content="..." Tag="R2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding R2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="r2CustomEditorBtn" Content="..." Tag="R2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                            Margin="{StaticResource spaceMargin}" />
+                                    <TextBox MinWidth="100" Text="{Binding R2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
+                                             Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                             </Grid>
                         </GroupBox>
@@ -537,12 +576,12 @@
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
+                                    <RowDefinition Style="{StaticResource gridRowHeight}"></RowDefinition>
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
@@ -551,27 +590,36 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
 
-                                <TextBlock Text="X" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center"/>
-                                <TextBlock Text="Z" Grid.Column="2"  FontWeight="Bold" HorizontalAlignment="Center"/>
+                                <TextBlock Text="X" Grid.Column="1" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8" />
+                                <TextBlock Text="Z" Grid.Column="2"  FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,8" />
 
                                 <Label Content="Dead Zone:" Grid.Row="1" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXDeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZDeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXDeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZDeadZone}" MinWidth="50" Grid.Row="1" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Max Zone:" Grid.Row="2" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXMaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZMaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXMaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZMaxZone}" MinWidth="50" Grid.Row="2" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Anti-dead Zone:" Grid.Row="3" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXAntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZAntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXAntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZAntiDeadZone}" MinWidth="50" Grid.Row="3" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Sensitivity:" Grid.Row="4" Grid.Column="0" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXSens}" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1" />
-                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZSens}" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SXSens}" MinWidth="50" Grid.Row="4" Grid.Column="1" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
+                                <xctk:DoubleUpDown d:IsHidden="True" FormatString="F2" Value="{Binding SZSens}" MinWidth="50" Grid.Row="4" Grid.Column="2" Maximum="1.0" Minimum="0.0" Increment="0.1"
+                                                   Margin="{StaticResource spaceMargin}" />
 
                                 <Label Content="Output Curve:" Grid.Row="5" Grid.Column="0" />
-                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="{Binding SXOutputCurveIndex}">
+                                <ComboBox Grid.Row="5" Grid.Column="1" SelectedIndex="{Binding SXOutputCurveIndex}"
+                                          Margin="{StaticResource spaceMargin}">
                                     <ComboBoxItem Content="Linear" />
                                     <ComboBoxItem Content="Enhanced Precision" />
                                     <ComboBoxItem Content="Quadratic" />
@@ -580,7 +628,8 @@
                                     <ComboBoxItem Content="Easeout Cubic" />
                                     <ComboBoxItem Content="Custom" />
                                 </ComboBox>
-                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="{Binding SZOutputCurveIndex}">
+                                <ComboBox Grid.Row="5" Grid.Column="2" SelectedIndex="{Binding SZOutputCurveIndex}"
+                                          Margin="{StaticResource spaceMargin}">
                                     <ComboBoxItem Content="Linear" />
                                     <ComboBoxItem Content="Enhanced Precision" />
                                     <ComboBoxItem Content="Quadratic" />
@@ -591,12 +640,16 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding SXCustomCurveSelected}">
-                                    <Button x:Name="sxCustomEditorBtn" Content="..." Tag="SX" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding SXCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="sxCustomEditorBtn" Content="..." Tag="SX" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                            Margin="{StaticResource spaceMargin}" />
+                                    <TextBox MinWidth="100" Text="{Binding SXCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
+                                             Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2" IsEnabled="{Binding SZCustomCurveSelected}">
-                                    <Button x:Name="szCustomEditorBtn" Content="..." Tag="SZ" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click" />
-                                    <TextBox MinWidth="100" Text="{Binding SZCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left" />
+                                    <Button x:Name="szCustomEditorBtn" Content="..." Tag="SZ" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                           Margin="{StaticResource spaceMargin}" />
+                                    <TextBox MinWidth="100" Text="{Binding SZCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
+                                             Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                             </Grid>
                         </GroupBox>
