@@ -12,7 +12,7 @@
             <CheckBox x:Name="dontDeleteCk" Content="Don't Delete the other settings yet" DockPanel.Dock="Right" HorizontalAlignment="Right" VerticalAlignment="Center" />
         </DockPanel>
         <TextBlock x:Name="pickWhereTxt" Text="Pick where you want profiles and settings to be saved"
-                   TextWrapping="Wrap" HorizontalAlignment="Center" Margin="4,10,4,0" />
+                   TextWrapping="Wrap" HorizontalAlignment="Center" Margin="4,10,4,0" TextAlignment="Center" />
         <DockPanel Margin="4,10,4,0">
             <StackPanel Width="200">
                 <Button x:Name="progFolderBtn" Content="Program Folder" Click="ProgFolderBtn_Click" />
