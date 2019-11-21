@@ -68,7 +68,7 @@ namespace DS4WinWPF.DS4Forms
             profileListHolder.Refresh();
             profilesListBox.ItemsSource = profileListHolder.ProfileListCol;
 
-            StartStopBtn.Content = root.rootHubtest.Running ? Translations.Strings.StopText :
+            StartStopBtn.Content = App.rootHub.running ? Translations.Strings.StopText :
                 Translations.Strings.StartText;
 
             conLvViewModel = new ControllerListViewModel(App.rootHub, profileListHolder);

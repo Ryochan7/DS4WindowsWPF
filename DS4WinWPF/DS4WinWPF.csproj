@@ -268,7 +268,6 @@
     </Compile>
     <Compile Include="StartupMethods.cs" />
     <Compile Include="StatusLogMsg.cs" />
-    <Compile Include="Tester.cs" />
     <Compile Include="VJoyFeeder\vJoyFeeder.cs" />
     <Page Include="DS4Forms\About.xaml">
       <SubType>Designer</SubType>
@@ -306,7 +305,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="AppLogger.cs" />
     <Compile Include="LogItem.cs" />
     <Compile Include="DS4Forms\ViewModels\LogViewModel.cs" />
     <Compile Include="DS4Forms\MainWindow.xaml.cs">

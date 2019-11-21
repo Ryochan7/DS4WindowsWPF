@@ -43,7 +43,6 @@ namespace DS4WinWPF
         }
 
         private Thread controlThread;
-        public Tester rootHubtest;
         public static DS4Windows.ControlService rootHub;
         public static HttpClient requestClient;
         private bool skipSave;
@@ -260,7 +259,6 @@ namespace DS4WinWPF
         private void CreateControlService()
         {
             controlThread = new Thread(() => {
-                rootHubtest = new Tester();
                 rootHub = new DS4Windows.ControlService();
                 DS4Windows.Program.rootHub = rootHub;
                 requestClient = new HttpClient();
@@ -384,7 +382,6 @@ namespace DS4WinWPF
                 Task.Run(() =>
                 {
                     rootHub.Stop();
-                    //rootHubtest.Stop();
                 }).Wait();
 
                 if (!skipSave)
