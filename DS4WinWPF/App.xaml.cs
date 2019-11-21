@@ -120,11 +120,12 @@ namespace DS4WinWPF
             }
 
             DS4Windows.Global.Load();
+            CreateConfDirSkeleton();
             /*var configuration = LogManager.Configuration;
             var wrapTarget = configuration.FindTargetByName<WrapperTargetBase>("logfile") as WrapperTargetBase;
             var fileTarget = wrapTarget.WrappedTarget as NLog.Targets.FileTarget;
-            fileTarget.FileName = $@"{DS4Windows.Global.appdatapath}\ds4windows_log.txt";
-            fileTarget.ArchiveFileName = $@"{DS4Windows.Global.appdatapath}\ds4windows_log_{{#}}.txt";
+            fileTarget.FileName = $@"{DS4Windows.Global.appdatapath}\Logs\ds4windows_log.txt";
+            fileTarget.ArchiveFileName = $@"{DS4Windows.Global.appdatapath}\Logs\ds4windows_log_{{#}}.txt";
             LogManager.Configuration = configuration;
             LogManager.ReconfigExistingLoggers();
             DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -134,11 +135,11 @@ namespace DS4WinWPF
             //DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
             if (firstRun)
             {
-                Directory.CreateDirectory(DS4Windows.Global.appdatapath);
+                //Directory.CreateDirectory(DS4Windows.Global.appdatapath);
                 AttemptSave();
 
-                Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Profiles\");
-                Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Macros\");
+                //Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Profiles\");
+                //Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Macros\");
                 DS4Windows.Global.SaveProfile(0, "Default");
                 DS4Windows.Global.ProfilePath[0] = DS4Windows.Global.OlderProfilePath[0] = "Default";
                 /*DS4Windows.Global.ProfilePath[1] = DS4Windows.Global.OlderProfilePath[1] = "Default";
@@ -164,10 +165,18 @@ namespace DS4WinWPF
         {
             //Console.WriteLine("App Crashed");
             //Console.WriteLine(e.Exception.StackTrace);
-            //logger.Info("jghg");
+            //logger.Info("App Crashed");
             //logger.Error(e.Exception.StackTrace);
             //LogManager.Flush();
             //LogManager.Shutdown();
+        }
+
+        private void CreateConfDirSkeleton()
+        {
+            Directory.CreateDirectory(DS4Windows.Global.appdatapath);
+            Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Profiles\");
+            Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Logs\");
+            //Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Macros\");
         }
 
         private void AttemptSave()
