@@ -124,8 +124,8 @@ namespace DS4WinWPF
             /*var configuration = LogManager.Configuration;
             var wrapTarget = configuration.FindTargetByName<WrapperTargetBase>("logfile") as WrapperTargetBase;
             var fileTarget = wrapTarget.WrappedTarget as NLog.Targets.FileTarget;
-            fileTarget.FileName = $@"{DS4Windows.Global.appdatapath}\file.txt";
-            fileTarget.ArchiveFileName = $@"{DS4Windows.Global.appdatapath}\file_{{#}}.txt";
+            fileTarget.FileName = $@"{DS4Windows.Global.appdatapath}\ds4windows_log.txt";
+            fileTarget.ArchiveFileName = $@"{DS4Windows.Global.appdatapath}\ds4windows_log_{{#}}.txt";
             LogManager.Configuration = configuration;
             LogManager.ReconfigExistingLoggers();
             DispatcherUnhandledException += App_DispatcherUnhandledException;
