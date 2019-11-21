@@ -79,12 +79,6 @@ namespace DS4WinWPF.DS4Forms
             notifyIcon.Icon = Global.UseWhiteIcon ? Properties.Resources.DS4W___White :
                 Properties.Resources.DS4W;
 
-            /*autoProfControl.cont1AutoProf.ItemsSource = profileListHolder.ProfileListCol;
-            autoProfControl.cont2AutoProf.ItemsSource = profileListHolder.ProfileListCol;
-            autoProfControl.cont3AutoProf.ItemsSource = profileListHolder.ProfileListCol;
-            autoProfControl.cont4AutoProf.ItemsSource = profileListHolder.ProfileListCol;
-            */
-
             if (Global.StartMinimized || parser.Mini)
             {
                 WindowState = WindowState.Minimized;
@@ -252,8 +246,8 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             App.rootHub.PreServiceStop += PrepareForServiceStop;
             //root.rootHubtest.RunningChanged += ControlServiceChanged;
             conLvViewModel.ControllerCol.CollectionChanged += ControllerCol_CollectionChanged;
-            DS4Windows.AppLogger.TrayIconLog += ShowNotification;
-            DS4Windows.AppLogger.GuiLog += UpdateLastStatusMessage;
+            AppLogger.TrayIconLog += ShowNotification;
+            AppLogger.GuiLog += UpdateLastStatusMessage;
             logvm.LogItems.CollectionChanged += LogItems_CollectionChanged;
             App.rootHub.Debug += UpdateLastStatusMessage;
             trayIconVM.RequestShutdown += TrayIconVM_RequestShutdown;
