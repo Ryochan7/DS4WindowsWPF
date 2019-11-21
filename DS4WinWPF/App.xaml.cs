@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NLog;
+using NLog.Targets.Wrappers;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -119,6 +121,16 @@ namespace DS4WinWPF
             }
 
             DS4Windows.Global.Load();
+            /*var configuration = LogManager.Configuration;
+            var wrapTarget = configuration.FindTargetByName<WrapperTargetBase>("logfile") as WrapperTargetBase;
+            var fileTarget = wrapTarget.WrappedTarget as NLog.Targets.FileTarget;
+            fileTarget.FileName = $@"{DS4Windows.Global.appdatapath}\file.txt";
+            fileTarget.ArchiveFileName = $@"{DS4Windows.Global.appdatapath}\file_{{#}}.txt";
+            LogManager.Configuration = configuration;
+            LogManager.ReconfigExistingLoggers();
+            DispatcherUnhandledException += App_DispatcherUnhandledException;
+            */
+
             //DS4Windows.Global.ProfilePath[0] = "mixed";
             //DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
             if (firstRun)
@@ -147,6 +159,16 @@ namespace DS4WinWPF
             window.Show();
             HwndSource source = PresentationSource.FromVisual(window) as HwndSource;
             CreateIPCClassNameMMF(source.Handle);
+        }
+
+        private void App_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            //Console.WriteLine("App Crashed");
+            //Console.WriteLine(e.Exception.StackTrace);
+            //logger.Info("jghg");
+            //logger.Error(e.Exception.StackTrace);
+            //LogManager.Flush();
+            //LogManager.Shutdown();
         }
 
         private void AttemptSave()
