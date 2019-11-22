@@ -22,6 +22,7 @@ namespace DS4WinWPF
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
+    [System.Security.SuppressUnmanagedCodeSecurity]
     public partial class App : Application
     {
         [DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
