@@ -110,7 +110,12 @@ namespace DS4WinWPF
             }
 
             DS4Windows.Global.Load();
-            CreateConfDirSkeleton();
+            if (!CreateConfDirSkeleton())
+            {
+                MessageBox.Show($"Cannot create config folder structure in {DS4Windows.Global.appdatapath}. Exiting",
+                    "DS4Windows", MessageBoxButton.OK, MessageBoxImage.Error);
+                Current.Shutdown(1);
+            }
 
             logHolder = new LoggerHolder(rootHub);
             DispatcherUnhandledException += App_DispatcherUnhandledException;
@@ -161,12 +166,23 @@ namespace DS4WinWPF
             LogManager.Shutdown();
         }
 
-        private void CreateConfDirSkeleton()
+        private bool CreateConfDirSkeleton()
         {
-            Directory.CreateDirectory(DS4Windows.Global.appdatapath);
-            Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Profiles\");
-            Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Logs\");
-            //Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Macros\");
+            bool result = true;
+            try
+            {
+                Directory.CreateDirectory(DS4Windows.Global.appdatapath);
+                Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Profiles\");
+                Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Logs\");
+                //Directory.CreateDirectory(DS4Windows.Global.appdatapath + @"\Macros\");
+            }
+            catch (UnauthorizedAccessException)
+            {
+                result = false;
+            }
+
+
+            return result;
         }
 
         private void AttemptSave()
