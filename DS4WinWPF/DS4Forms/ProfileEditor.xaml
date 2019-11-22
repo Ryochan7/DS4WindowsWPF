@@ -443,13 +443,13 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding LSCustomCurveSelected}">
-                                    <Button x:Name="lsCustomEditorBtn" Content="..." Tag="LS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                    <Button x:Name="lsCustomEditorBtn" Content="..." Tag="LS" Width="20" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
                                             Margin="{StaticResource spaceMargin}" />
                                     <TextBox Text="{Binding LSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
                                              Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2" IsEnabled="{Binding RSCustomCurveSelected}">
-                                    <Button x:Name="rsCustomEditorBtn" Content="..." Tag="RS" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                    <Button x:Name="rsCustomEditorBtn" Content="..." Tag="RS" Width="20" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
                                             Margin="{StaticResource spaceMargin}" />
                                     <TextBox Text="{Binding RSCustomCurve,UpdateSourceTrigger=LostFocus,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
                                              Margin="{StaticResource spaceMargin}" />
@@ -558,13 +558,13 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding L2CustomCurveSelected}">
-                                    <Button x:Name="l2CustomEditorBtn" Content="..." Tag="L2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                    <Button x:Name="l2CustomEditorBtn" Content="..." Tag="L2" Width="20" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
                                             Margin="{StaticResource spaceMargin}" />
                                     <TextBox Text="{Binding L2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
                                              Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2"  IsEnabled="{Binding R2CustomCurveSelected}">
-                                    <Button x:Name="r2CustomEditorBtn" Content="..." Tag="R2" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                    <Button x:Name="r2CustomEditorBtn" Content="..." Tag="R2" Width="20" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
                                             Margin="{StaticResource spaceMargin}" />
                                     <TextBox Text="{Binding R2CustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
                                              Margin="{StaticResource spaceMargin}" />
@@ -640,13 +640,13 @@
                                 </ComboBox>
 
                                 <DockPanel Grid.Row="6" Grid.Column="1" IsEnabled="{Binding SXCustomCurveSelected}">
-                                    <Button x:Name="sxCustomEditorBtn" Content="..." Tag="SX" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                    <Button x:Name="sxCustomEditorBtn" Content="..." Tag="SX" Width="20" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
                                             Margin="{StaticResource spaceMargin}" />
                                     <TextBox Text="{Binding SXCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
                                              Margin="{StaticResource spaceMargin}" />
                                 </DockPanel>
                                 <DockPanel Grid.Row="6" Grid.Column="2" IsEnabled="{Binding SZCustomCurveSelected}">
-                                    <Button x:Name="szCustomEditorBtn" Content="..." Tag="SZ" Width="50" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
+                                    <Button x:Name="szCustomEditorBtn" Content="..." Tag="SZ" Width="20" DockPanel.Dock="Right" Click="CustomEditorBtn_Click"
                                            Margin="{StaticResource spaceMargin}" />
                                     <TextBox Text="{Binding SZCustomCurve,FallbackValue='0.00, 0.00, 1.00, 1.00'}" DockPanel.Dock="Left"
                                              Margin="{StaticResource spaceMargin}" />
