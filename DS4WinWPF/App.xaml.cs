@@ -1,6 +1,4 @@
-﻿using NLog;
-using NLog.Targets.Wrappers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -17,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interop;
 using WPFLocalizeExtension.Engine;
+using NLog;
 
 namespace DS4WinWPF
 {
@@ -52,23 +51,13 @@ namespace DS4WinWPF
         private const string SingleAppComEventName = "{a52b5b20-d9ee-4f32-8518-307fa14aa0c6}";
         private EventWaitHandle threadComEvent = null;
         private Timer collectTimer;
+        private static LoggerHolder logHolder;
 
         private MemoryMappedFile ipcClassNameMMF = null; // MemoryMappedFile for inter-process communication used to hold className of DS4Form window
         private MemoryMappedViewAccessor ipcClassNameMMA = null;
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            // Test localization
-            //CultureInfo ci = new CultureInfo("ja");
-            //LocalizeDictionary.Instance.SetCurrentThreadCulture = true;
-            //LocalizeDictionary.Instance.Culture = ci;
-            // fixes the culture in threads
-            //CultureInfo.DefaultThreadCurrentCulture = ci;
-            //CultureInfo.DefaultThreadCurrentUICulture = ci;
-            //DS4WinWPF.Properties.Resources.Culture = ci;
-            //Thread.CurrentThread.CurrentCulture = ci;
-            //Thread.CurrentThread.CurrentUICulture = ci;
-
             ArgumentParser parser = new ArgumentParser();
             parser.Parse(e.Args);
             CheckOptions(parser);
@@ -121,20 +110,18 @@ namespace DS4WinWPF
 
             DS4Windows.Global.Load();
             CreateConfDirSkeleton();
-            /*var configuration = LogManager.Configuration;
-            var wrapTarget = configuration.FindTargetByName<WrapperTargetBase>("logfile") as WrapperTargetBase;
-            var fileTarget = wrapTarget.WrappedTarget as NLog.Targets.FileTarget;
-            fileTarget.FileName = $@"{DS4Windows.Global.appdatapath}\Logs\ds4windows_log.txt";
-            fileTarget.ArchiveFileName = $@"{DS4Windows.Global.appdatapath}\Logs\ds4windows_log_{{#}}.txt";
-            LogManager.Configuration = configuration;
-            LogManager.ReconfigExistingLoggers();
+
+            logHolder = new LoggerHolder(rootHub);
             DispatcherUnhandledException += App_DispatcherUnhandledException;
-            */
+            Logger logger = logHolder.Logger;
+            logger.Info("DS4Windows 2.0");
+            logger.Info("Logger created");
 
             //DS4Windows.Global.ProfilePath[0] = "mixed";
             //DS4Windows.Global.LoadProfile(0, false, rootHub, false, false);
             if (firstRun)
             {
+                logger.Info("No config found. Creating default config");
                 //Directory.CreateDirectory(DS4Windows.Global.appdatapath);
                 AttemptSave();
 
@@ -146,6 +133,7 @@ namespace DS4WinWPF
                 DS4Windows.Global.ProfilePath[2] = DS4Windows.Global.OlderProfilePath[2] = "Default";
                 DS4Windows.Global.ProfilePath[3] = DS4Windows.Global.OlderProfilePath[3] = "Default";
                 */
+                logger.Info("Default config created");
             }
 
             if (!DS4Windows.Global.LoadActions())
@@ -165,10 +153,11 @@ namespace DS4WinWPF
         {
             //Console.WriteLine("App Crashed");
             //Console.WriteLine(e.Exception.StackTrace);
-            //logger.Info("App Crashed");
-            //logger.Error(e.Exception.StackTrace);
-            //LogManager.Flush();
-            //LogManager.Shutdown();
+            Logger logger = logHolder.Logger;
+            logger.Info("App Crashed");
+            logger.Error(e.Exception.StackTrace);
+            LogManager.Flush();
+            LogManager.Shutdown();
         }
 
         private void CreateConfDirSkeleton()

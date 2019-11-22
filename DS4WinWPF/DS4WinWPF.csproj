@@ -256,6 +256,7 @@
     <Compile Include="HidLibrary\HidDeviceCapabilities.cs" />
     <Compile Include="HidLibrary\HidDevices.cs" />
     <Compile Include="HidLibrary\NativeMethods.cs" />
+    <Compile Include="LoggerHolder.cs" />
     <Compile Include="LogWriter.cs" />
     <Compile Include="DS4Control\MacroParser.cs" />
     <Compile Include="ProfileEntity.cs" />
