@@ -4805,6 +4805,9 @@ namespace DS4Windows
 
             OutContType oldContType = Global.activeOutDevType[device];
 
+            // Make sure to reset currently set profile values before parsing
+            ResetProfile(device);
+
             // Only change xinput devices under certain conditions. Avoid
             // performing this upon program startup before loading devices.
             if (xinputChange)
@@ -4812,9 +4815,6 @@ namespace DS4Windows
                 CheckOldDevicestatus(device, control, oldContType,
                     out xinputPlug, out xinputStatus);
             }
-
-            // Make sure to reset currently set profile values before parsing
-            ResetProfile(device);
 
             foreach (DS4ControlSettings dcs in ds4settings[device])
                 dcs.Reset();

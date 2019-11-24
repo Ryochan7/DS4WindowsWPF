@@ -519,7 +519,7 @@ namespace DS4WinWPF.DS4Forms
             else
             {
                 currentProfile = null;
-                Global.LoadBlankDevProfile(device, false, App.rootHub);
+                Global.LoadBlankDevProfile(device, false, App.rootHub, false);
             }
 
             if (device < 4)
