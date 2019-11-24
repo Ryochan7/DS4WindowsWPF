@@ -1768,6 +1768,15 @@ namespace DS4Windows
             tempprofileDistance[device] = name.ToLower().Contains("distance");
         }
 
+        public static void LoadBlankDevProfile(int device, bool launchprogram, ControlService control,
+            bool xinputChange = true, bool postLoad = true)
+        {
+            m_Config.LoadBlankProfile(device, launchprogram, control, "", xinputChange, postLoad);
+            tempprofilename[device] = string.Empty;
+            useTempProfile[device] = false;
+            tempprofileDistance[device] = false;
+        }
+
         public static bool Save()
         {
             return m_Config.Save();
@@ -3560,31 +3569,8 @@ namespace DS4Windows
                 // performing this upon program startup before loading devices.
                 if (xinputChange)
                 {
-                    if (device < 4)
-                    {
-                        DS4Device tempDevice = control.DS4Controllers[device];
-                        bool exists = tempBool = (tempDevice != null);
-                        bool synced = tempBool = exists ? tempDevice.isSynced() : false;
-                        bool isAlive = tempBool = exists ? tempDevice.IsAlive() : false;
-                        if (dinputOnly[device] != oldUseDInputOnly)
-                        {
-                            if (dinputOnly[device] == true)
-                            {
-                                xinputPlug = false;
-                                xinputStatus = true;
-                            }
-                            else if (synced && isAlive)
-                            {
-                                xinputPlug = true;
-                                xinputStatus = true;
-                            }
-                        }
-                        else if (oldContType != outputDevType[device])
-                        {
-                            xinputPlug = true;
-                            xinputStatus = true;
-                        }
-                    }
+                    CheckOldDevicestatus(device, control, oldContType,
+                        out xinputPlug, out xinputStatus);
                 }
 
                 try
@@ -3844,72 +3830,7 @@ namespace DS4Windows
             // options to device instance
             if (postLoad && device < 4)
             {
-                DS4Device tempDev = control.DS4Controllers[device];
-                if (tempDev != null && tempDev.isSynced())
-                {
-                    tempDev.queueEvent(() =>
-                    {
-                        tempDev.setIdleTimeout(idleDisconnectTimeout[device]);
-                        tempDev.setBTPollRate(btPollRate[device]);
-                        if (xinputStatus && xinputPlug)
-                        {
-                            OutputDevice tempOutDev = control.outputDevices[device];
-                            if (tempOutDev != null)
-                            {
-                                string tempType = tempOutDev.GetDeviceType();
-                                AppLogger.LogToGui("Unplug " + tempType + " Controller #" + (device + 1), false);
-                                tempOutDev.Disconnect();
-                                tempOutDev = null;
-                                control.outputDevices[device] = null;
-                                Global.activeOutDevType[device] = OutContType.None;
-                            }
-
-                            OutContType tempContType = outputDevType[device];
-                            if (tempContType == OutContType.X360)
-                            {
-                                Global.activeOutDevType[device] = OutContType.X360;
-                                Xbox360OutDevice tempXbox = new Xbox360OutDevice(control.vigemTestClient);
-                                control.outputDevices[device] = tempXbox;
-                                tempXbox.cont.FeedbackReceived += (eventsender, args) =>
-                                {
-                                    control.SetDevRumble(tempDev, args.LargeMotor, args.SmallMotor, device);
-                                };
-
-                                tempXbox.Connect();
-                                AppLogger.LogToGui("X360 Controller #" + (device + 1) + " connected", false);
-                            }
-                            else if (tempContType == OutContType.DS4)
-                            {
-                                Global.activeOutDevType[device] = OutContType.DS4;
-                                DS4OutDevice tempDS4 = new DS4OutDevice(control.vigemTestClient);
-                                control.outputDevices[device] = tempDS4;
-                                tempDS4.cont.FeedbackReceived += (eventsender, args) =>
-                                {
-                                    control.SetDevRumble(tempDev, args.LargeMotor, args.SmallMotor, device);
-                                };
-
-                                tempDS4.Connect();
-                                AppLogger.LogToGui("DS4 Controller #" + (device + 1) + " connected", false);
-                            }
-
-                            Global.useDInputOnly[device] = false;
-                            
-                        }
-                        else if (xinputStatus && !xinputPlug)
-                        {
-                            string tempType = control.outputDevices[device].GetDeviceType();
-                            control.outputDevices[device].Disconnect();
-                            control.outputDevices[device] = null;
-                            Global.useDInputOnly[device] = true;
-                            AppLogger.LogToGui(tempType + " Controller #" + (device + 1) + " unplugged", false);
-                            Global.activeOutDevType[device] = OutContType.None;
-                        }
-
-                        tempDev.setRumble(0, 0);
-                    });
-
-                    Program.rootHub.touchPad[device]?.ResetTrackAccel(trackballFriction[device]);
-                }
+                PostLoadSnippet(device, control, xinputStatus, xinputPlug);
             }
 
             return Loaded;
@@ -4874,6 +4795,144 @@ namespace DS4Windows
             trackballFriction[device] = 10.0;
             outputDevType[device] = OutContType.X360;
             ds4Mapping = false;
+        }
+
+        public void LoadBlankProfile(int device, bool launchprogram, ControlService control,
+            string propath = "", bool xinputChange = true, bool postLoad = true)
+        {
+            bool xinputPlug = false;
+            bool xinputStatus = false;
+
+            OutContType oldContType = Global.activeOutDevType[device];
+
+            // Only change xinput devices under certain conditions. Avoid
+            // performing this upon program startup before loading devices.
+            if (xinputChange)
+            {
+                CheckOldDevicestatus(device, control, oldContType,
+                    out xinputPlug, out xinputStatus);
+            }
+
+            // Make sure to reset currently set profile values before parsing
+            ResetProfile(device);
+
+            foreach (DS4ControlSettings dcs in ds4settings[device])
+                dcs.Reset();
+
+            profileActions[device].Clear();
+            containsCustomAction[device] = false;
+            containsCustomExtras[device] = false;
+
+            // If a device exists, make sure to transfer relevant profile device
+            // options to device instance
+            if (postLoad && device < 4)
+            {
+                PostLoadSnippet(device, control, xinputStatus, xinputPlug);
+            }
+        }
+
+        private void CheckOldDevicestatus(int device, ControlService control,
+            OutContType oldContType, out bool xinputPlug, out bool xinputStatus)
+        {
+            xinputPlug = false;
+            xinputStatus = false;
+
+            if (device < 4)
+            {
+                bool oldUseDInputOnly = Global.useDInputOnly[device];
+                DS4Device tempDevice = control.DS4Controllers[device];
+                bool exists = tempBool = (tempDevice != null);
+                bool synced = tempBool = exists ? tempDevice.isSynced() : false;
+                bool isAlive = tempBool = exists ? tempDevice.IsAlive() : false;
+                if (dinputOnly[device] != oldUseDInputOnly)
+                {
+                    if (dinputOnly[device] == true)
+                    {
+                        xinputPlug = false;
+                        xinputStatus = true;
+                    }
+                    else if (synced && isAlive)
+                    {
+                        xinputPlug = true;
+                        xinputStatus = true;
+                    }
+                }
+                else if (oldContType != outputDevType[device])
+                {
+                    xinputPlug = true;
+                    xinputStatus = true;
+                }
+            }
+        }
+
+        private void PostLoadSnippet(int device, ControlService control, bool xinputStatus, bool xinputPlug)
+        {
+            DS4Device tempDev = control.DS4Controllers[device];
+            if (tempDev != null && tempDev.isSynced())
+            {
+                tempDev.queueEvent(() =>
+                {
+                    tempDev.setIdleTimeout(idleDisconnectTimeout[device]);
+                    tempDev.setBTPollRate(btPollRate[device]);
+                    if (xinputStatus && xinputPlug)
+                    {
+                        OutputDevice tempOutDev = control.outputDevices[device];
+                        if (tempOutDev != null)
+                        {
+                            string tempType = tempOutDev.GetDeviceType();
+                            AppLogger.LogToGui("Unplug " + tempType + " Controller #" + (device + 1), false);
+                            tempOutDev.Disconnect();
+                            tempOutDev = null;
+                            control.outputDevices[device] = null;
+                            Global.activeOutDevType[device] = OutContType.None;
+                        }
+
+                        OutContType tempContType = outputDevType[device];
+                        if (tempContType == OutContType.X360)
+                        {
+                            Global.activeOutDevType[device] = OutContType.X360;
+                            Xbox360OutDevice tempXbox = new Xbox360OutDevice(control.vigemTestClient);
+                            control.outputDevices[device] = tempXbox;
+                            tempXbox.cont.FeedbackReceived += (eventsender, args) =>
+                            {
+                                control.SetDevRumble(tempDev, args.LargeMotor, args.SmallMotor, device);
+                            };
+
+                            tempXbox.Connect();
+                            AppLogger.LogToGui("X360 Controller #" + (device + 1) + " connected", false);
+                        }
+                        else if (tempContType == OutContType.DS4)
+                        {
+                            Global.activeOutDevType[device] = OutContType.DS4;
+                            DS4OutDevice tempDS4 = new DS4OutDevice(control.vigemTestClient);
+                            control.outputDevices[device] = tempDS4;
+                            tempDS4.cont.FeedbackReceived += (eventsender, args) =>
+                            {
+                                control.SetDevRumble(tempDev, args.LargeMotor, args.SmallMotor, device);
+                            };
+
+                            tempDS4.Connect();
+                            AppLogger.LogToGui("DS4 Controller #" + (device + 1) + " connected", false);
+                        }
+
+                        Global.useDInputOnly[device] = false;
+
+                    }
+                    else if (xinputStatus && !xinputPlug)
+                    {
+                        string tempType = control.outputDevices[device].GetDeviceType();
+                        control.outputDevices[device].Disconnect();
+                        control.outputDevices[device] = null;
+                        Global.useDInputOnly[device] = true;
+                        AppLogger.LogToGui(tempType + " Controller #" + (device + 1) + " unplugged", false);
+                        Global.activeOutDevType[device] = OutContType.None;
+                    }
+
+                    tempDev.setRumble(0, 0);
+                });
+
+                Program.rootHub.touchPad[device]?.ResetTrackAccel(trackballFriction[device]);
+            }
         }
     }
 
