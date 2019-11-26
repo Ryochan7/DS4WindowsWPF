@@ -724,14 +724,22 @@ namespace DS4WinWPF.DS4Forms
                 }
                 else
                 {
-                    DS4Windows.Global.SaveProfile(deviceNum, temp);
-                    DS4Windows.Global.calculateProfileActionCount(deviceNum);
-                    DS4Windows.Global.calculateProfileActionDicts(deviceNum);
-                    DS4Windows.Global.cacheProfileCustomsFlags(deviceNum);
-                    CreatedProfile?.Invoke(this, temp);
+                    string tempprof = Global.appdatapath + @"\Profiles\" + temp + ".xml";
+                    if (!File.Exists(tempprof))
+                    {
+                        Global.SaveProfile(deviceNum, temp);
+                        Global.calculateProfileActionCount(deviceNum);
+                        Global.calculateProfileActionDicts(deviceNum);
+                        Global.cacheProfileCustomsFlags(deviceNum);
+                        CreatedProfile?.Invoke(this, temp);
+                        Closed?.Invoke(this, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        MessageBox.Show(Properties.Resources.ValidName, Properties.Resources.NotValid,
+                            MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    }
                 }
-
-                Closed?.Invoke(this, EventArgs.Empty);
             }
             else
             {

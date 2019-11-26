@@ -1248,9 +1248,15 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             this.Width = 1000;
             this.Height = 650;
             editor = new ProfileEditor(device);
+            editor.CreatedProfile += Editor_CreatedProfile;
             editor.Closed += ProfileEditor_Closed;
             profDockPanel.Children.Add(editor);
             editor.Reload(device, entity);
+        }
+
+        private void Editor_CreatedProfile(ProfileEditor sender, string profile)
+        {
+            profileListHolder.AddProfileSort(profile);
         }
 
         private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
