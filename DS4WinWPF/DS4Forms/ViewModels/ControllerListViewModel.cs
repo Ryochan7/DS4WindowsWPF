@@ -150,7 +150,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 {
                     color = Global.MainColor[devIndex];
                 }
-                return $"#{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
+                return $"#FF{color.red.ToString("X2")}{color.green.ToString("X2")}{color.blue.ToString("X2")}";
             }
         }
 
