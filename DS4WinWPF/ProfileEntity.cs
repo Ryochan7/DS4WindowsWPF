@@ -23,6 +23,7 @@ namespace DS4WinWPF
 
         public event EventHandler NameChanged;
         public event EventHandler ProfileSaved;
+        public event EventHandler ProfileDeleted;
 
         public void DeleteFile()
         {
@@ -32,6 +33,7 @@ namespace DS4WinWPF
                 if (File.Exists(filepath))
                 {
                     File.Delete(filepath);
+                    ProfileDeleted?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

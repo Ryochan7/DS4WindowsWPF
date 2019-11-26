@@ -307,10 +307,22 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             if (state)
             {
                 selectedEntity.ProfileSaved += SelectedEntity_ProfileSaved;
+                selectedEntity.ProfileDeleted += SelectedEntity_ProfileDeleted;
             }
             else
             {
                 selectedEntity.ProfileSaved -= SelectedEntity_ProfileSaved;
+                selectedEntity.ProfileDeleted -= SelectedEntity_ProfileDeleted;
+            }
+        }
+
+        private void SelectedEntity_ProfileDeleted(object sender, EventArgs e)
+        {
+            HookEvents(false);
+            ProfileEntity entity = profileListHolder.ProfileListCol.FirstOrDefault();
+            if (entity != null)
+            {
+                SelectedIndex = profileListHolder.ProfileListCol.IndexOf(entity);
             }
         }
 

@@ -1136,12 +1136,13 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             if (profilesListBox.SelectedIndex >= 0)
             {
                 int idx = profilesListBox.SelectedIndex;
-                string filename = profileListHolder.ProfileListCol[idx].Name;
+                ProfileEntity entity = profileListHolder.ProfileListCol[idx];
+                string filename = entity.Name;
                 if (MessageBox.Show(Properties.Resources.ProfileCannotRestore.Replace("*Profile name*", "\"" + filename + "\""),
                     Properties.Resources.DeleteProfile,
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
                 {
-                    File.Delete(Global.appdatapath + @"\Profiles\" + filename + ".xml");
+                    entity.DeleteFile();
                     profileListHolder.ProfileListCol.RemoveAt(idx);
                 }
             }
