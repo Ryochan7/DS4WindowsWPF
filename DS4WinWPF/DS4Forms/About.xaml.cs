@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Reflection;
 using System.Windows;
 
 namespace DS4WinWPF.DS4Forms
@@ -13,8 +12,7 @@ namespace DS4WinWPF.DS4Forms
         {
             InitializeComponent();
 
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
-            string version = fvi.FileVersion;
+            string version = DS4Windows.Global.exeversion;
             headerLb.Content += version + ")";
         }
 

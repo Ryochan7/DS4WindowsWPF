@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
 using System.Windows.Controls;
 using DS4Windows;
 
@@ -12,7 +11,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         private string tooltipText = "DS4Windows";
         private string iconSource = "/DS4WinWPF;component/Resources/DS4W.ico";
         public const string ballonTitle = "DS4Windows";
-        public static string trayTitle = $"DS4Windows v{FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location).FileVersion}";
+        public static string trayTitle = $"DS4Windows v{Global.exeversion}";
         private ContextMenu contextMenu;
 
         public string TooltipText { get => tooltipText;

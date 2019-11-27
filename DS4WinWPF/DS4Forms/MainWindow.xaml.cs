@@ -158,8 +158,7 @@ namespace DS4WinWPF.DS4Forms
 
         private void Check_Version(bool showstatus = false)
         {
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Global.exelocation);
-            string version = fvi.FileVersion;
+            string version = Global.exeversion;
             string newversion = File.ReadAllText(Global.appdatapath + "\\version.txt").Trim();
             if (!string.IsNullOrWhiteSpace(newversion) && version.CompareTo(newversion) != 0)
             {
