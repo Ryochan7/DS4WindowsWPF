@@ -242,8 +242,7 @@ namespace DS4Windows
         public static string exelocation = Assembly.GetExecutingAssembly().Location;
         public static string exepath = Directory.GetParent(exelocation).FullName;
         public static FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(exelocation);
-        public static string exeversion =
-           $"{fileVersion.ProductMajorPart}.{fileVersion.ProductMinorPart}.{fileVersion.ProductBuildPart}";
+        public static string exeversion = fileVersion.ProductVersion;
         public static string appdatapath;
         public static bool firstRun = false;
         public static bool multisavespots = false;
