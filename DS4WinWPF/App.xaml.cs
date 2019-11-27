@@ -120,9 +120,9 @@ namespace DS4WinWPF
             logHolder = new LoggerHolder(rootHub);
             DispatcherUnhandledException += App_DispatcherUnhandledException;
             Logger logger = logHolder.Logger;
-            //string version = DS4Windows.Global.exeversion;
-            //logger.Info($"DS4Windows version {version}");
-            logger.Info("DS4Windows version 2.0");
+            string version = DS4Windows.Global.exeversion;
+            logger.Info($"DS4Windows version {version}");
+            //logger.Info("DS4Windows version 2.0");
             logger.Info("Logger created");
 
             //DS4Windows.Global.ProfilePath[0] = "mixed";
