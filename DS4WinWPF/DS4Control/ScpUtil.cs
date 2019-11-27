@@ -239,8 +239,8 @@ namespace DS4Windows
     {
         protected static BackingStore m_Config = new BackingStore();
         protected static Int32 m_IdleTimeout = 600000;
-        public static string exepath = Directory.GetParent(Assembly.GetExecutingAssembly().Location).FullName;
         public static string exelocation = Assembly.GetExecutingAssembly().Location;
+        public static string exepath = Directory.GetParent(exelocation).FullName;
         public static FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(exelocation);
         public static string exeversion =
            $"{fileVersion.ProductMajorPart}.{fileVersion.ProductMinorPart}.{fileVersion.ProductBuildPart}";
