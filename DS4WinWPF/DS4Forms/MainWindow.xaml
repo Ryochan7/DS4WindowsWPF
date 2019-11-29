@@ -225,7 +225,8 @@
                             <StackPanel Orientation="Horizontal">
                                 <StackPanel>
                                     <RadioButton Content="Program" GroupName="RunAsOpt" Margin="{StaticResource spaceMargin}" IsChecked="{Binding RunStartProg}" />
-                                    <RadioButton Content="Task" GroupName="RunAsOpt" Margin="{StaticResource spaceMargin}" IsChecked="{Binding RunStartTask}" />
+                                    <RadioButton Content="Task" GroupName="RunAsOpt" Margin="{StaticResource spaceMargin}"
+                                                 IsChecked="{Binding RunStartTask}" IsEnabled="{Binding CanWriteTask}" />
                                 </StackPanel>
                                 <Image x:Name="uacImg" Source="{Binding UACSource}" Width="30" Height="30"
                                    ToolTip="{lex:Loc Resources:UACTask}" Margin="20,0,0,0" />

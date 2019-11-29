@@ -240,7 +240,7 @@ namespace DS4Windows
         protected static BackingStore m_Config = new BackingStore();
         protected static Int32 m_IdleTimeout = 600000;
         public static string exelocation = Assembly.GetExecutingAssembly().Location;
-        public static string exepath = Directory.GetParent(exelocation).FullName;
+        public static string exedirpath = Directory.GetParent(exelocation).FullName;
         public static FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(exelocation);
         public static string exeversion = fileVersion.ProductVersion;
         public static string appdatapath;
@@ -493,8 +493,8 @@ namespace DS4Windows
         {
             try
             {
-                File.WriteAllText(exepath + "\\test.txt", "test");
-                File.Delete(exepath + "\\test.txt");
+                File.WriteAllText(exedirpath + "\\test.txt", "test");
+                File.Delete(exedirpath + "\\test.txt");
                 return false;
             }
             catch (UnauthorizedAccessException)
@@ -641,17 +641,17 @@ namespace DS4Windows
 
         public static void FindConfigLocation()
         {
-            if (File.Exists(exepath + "\\Auto Profiles.xml")
+            if (File.Exists(exedirpath + "\\Auto Profiles.xml")
                 && File.Exists(appDataPpath + "\\Auto Profiles.xml"))
             {
                 Global.firstRun = true;
                 Global.multisavespots = true;
             }
-            else if (File.Exists(exepath + "\\Auto Profiles.xml"))
-                SaveWhere(exepath);
+            else if (File.Exists(exedirpath + "\\Auto Profiles.xml"))
+                SaveWhere(exedirpath);
             else if (File.Exists(appDataPpath + "\\Auto Profiles.xml"))
                 SaveWhere(appDataPpath);
-            else if (!File.Exists(exepath + "\\Auto Profiles.xml")
+            else if (!File.Exists(exedirpath + "\\Auto Profiles.xml")
                 && !File.Exists(appDataPpath + "\\Auto Profiles.xml"))
             {
                 Global.firstRun = true;

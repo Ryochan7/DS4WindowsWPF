@@ -39,9 +39,9 @@ namespace DS4WinWPF.DS4Forms
 
         private void VigemInstallBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (File.Exists(DS4Windows.Global.exepath + $"\\{InstFileName}"))
+            if (File.Exists(DS4Windows.Global.exedirpath + $"\\{InstFileName}"))
             {
-                File.Delete(DS4Windows.Global.exepath + $"\\{InstFileName}");
+                File.Delete(DS4Windows.Global.exedirpath + $"\\{InstFileName}");
             }
 
             ViGEmDownloadLaunch();
@@ -66,16 +66,16 @@ namespace DS4WinWPF.DS4Forms
                 //Console.WriteLine(x.PercentComplete.ToString("P"));
             });
 
-            string filename = DS4Windows.Global.exepath + $"\\{InstFileName}";
+            string filename = DS4Windows.Global.exedirpath + $"\\{InstFileName}";
             using (var downloadStream = new FileStream(filename, FileMode.CreateNew))
             {
                 HttpResponseMessage response = await App.requestClient.GetAsync(InstallerDL, downloadStream, progress);
             }
 
-            if (File.Exists(DS4Windows.Global.exepath + $"\\{InstFileName}"))
+            if (File.Exists(DS4Windows.Global.exedirpath + $"\\{InstFileName}"))
             {
                 //vigemInstallBtn.Content = Properties.Resources.OpeningInstaller;
-                monitorProc = Process.Start(DS4Windows.Global.exepath + $"\\{InstFileName}");
+                monitorProc = Process.Start(DS4Windows.Global.exedirpath + $"\\{InstFileName}");
                 vigemInstallBtn.Content = Properties.Resources.Installing;
             }
 
@@ -99,7 +99,7 @@ namespace DS4WinWPF.DS4Forms
                     Dispatcher.BeginInvoke((Action)(() => { vigemInstallBtn.Content = Properties.Resources.InstallFailed; }), null);
                 }
 
-                File.Delete(DS4Windows.Global.exepath + $"\\{InstFileName}");
+                File.Delete(DS4Windows.Global.exedirpath + $"\\{InstFileName}");
                 ((NonFormTimer)sender).Stop();
                 finished = true;
             }

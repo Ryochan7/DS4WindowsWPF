@@ -174,7 +174,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
                     bool launch = false;
                     using (Process p = new Process())
                     {
-                        p.StartInfo.FileName = System.IO.Path.Combine(Global.exepath, "DS4Updater.exe");
+                        p.StartInfo.FileName = System.IO.Path.Combine(Global.exedirpath, "DS4Updater.exe");
                         p.StartInfo.Arguments = "-autolaunch";
                         if (Global.AdminNeeded())
                             p.StartInfo.Verb = "runas";
@@ -370,7 +370,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
         private void UpdateTheUpdater()
         {
-            if (File.Exists(Global.exepath + "\\Update Files\\DS4Updater.exe"))
+            if (File.Exists(Global.exedirpath + "\\Update Files\\DS4Updater.exe"))
             {
                 Process[] processes = Process.GetProcessesByName("DS4Updater");
                 while (processes.Length > 0)
@@ -379,10 +379,10 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
                     processes = Process.GetProcessesByName("DS4Updater");
                 }
 
-                File.Delete(Global.exepath + "\\DS4Updater.exe");
-                File.Move(Global.exepath + "\\Update Files\\DS4Updater.exe",
-                    Global.exepath + "\\DS4Updater.exe");
-                Directory.Delete(Global.exepath + "\\Update Files");
+                File.Delete(Global.exedirpath + "\\DS4Updater.exe");
+                File.Move(Global.exedirpath + "\\Update Files\\DS4Updater.exe",
+                    Global.exedirpath + "\\DS4Updater.exe");
+                Directory.Delete(Global.exedirpath + "\\Update Files");
             }
         }
 
@@ -1067,10 +1067,10 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             dialog.DefaultExt = ".xml";
             dialog.Filter = "DS4Windows Profile (*.xml)|*.xml";
             dialog.Title = "Select Profile to Import File";
-            if (Global.appdatapath != Global.exepath)
+            if (Global.appdatapath != Global.exedirpath)
                 dialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\DS4Windows" + @"\Profiles\";
             else
-                dialog.InitialDirectory = Global.exepath + @"\Profiles\";
+                dialog.InitialDirectory = Global.exedirpath + @"\Profiles\";
 
             if (dialog.ShowDialog() == true)
             {

@@ -184,10 +184,10 @@ namespace DS4Windows
             if (Global.IsHidGuardianInstalled())
             {
                 ProcessStartInfo startInfo =
-                    new ProcessStartInfo(Global.exepath + "\\HidGuardHelper.exe");
+                    new ProcessStartInfo(Global.exedirpath + "\\HidGuardHelper.exe");
                 startInfo.Verb = "runas";
                 startInfo.Arguments = Process.GetCurrentProcess().Id.ToString();
-                startInfo.WorkingDirectory = Global.exepath;
+                startInfo.WorkingDirectory = Global.exedirpath;
                 try
                 { Process tempProc = Process.Start(startInfo); tempProc.Dispose(); }
                 catch { }

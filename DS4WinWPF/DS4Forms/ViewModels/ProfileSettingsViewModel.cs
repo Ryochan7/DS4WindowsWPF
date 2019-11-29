@@ -1731,14 +1731,14 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 
                 // Launch custom bezier editor webapp using a default browser executable command or via a default shell command. The default shell exeution doesn't support query parameters.
                 if (!String.IsNullOrEmpty(defaultBrowserCmd))
-                    System.Diagnostics.Process.Start(defaultBrowserCmd, $"\"file:///{Global.exepath}\\BezierCurveEditor\\index.html?curve={customDefinition.Replace(" ", "")}\"");
+                    System.Diagnostics.Process.Start(defaultBrowserCmd, $"\"file:///{Global.exedirpath}\\BezierCurveEditor\\index.html?curve={customDefinition.Replace(" ", "")}\"");
                 else
-                    System.Diagnostics.Process.Start($"{Global.exepath}\\BezierCurveEditor\\index.html");
+                    System.Diagnostics.Process.Start($"{Global.exedirpath}\\BezierCurveEditor\\index.html");
 
             }
             catch (Exception ex)
             {
-                AppLogger.LogToGui($"ERROR. Failed to open {Global.exepath}\\BezierCurveEditor\\index.html web app. Check that the web file exits or launch it outside of DS4Windows application. {ex.Message}", true);
+                AppLogger.LogToGui($"ERROR. Failed to open {Global.exedirpath}\\BezierCurveEditor\\index.html web app. Check that the web file exits or launch it outside of DS4Windows application. {ex.Message}", true);
             }
         }
 

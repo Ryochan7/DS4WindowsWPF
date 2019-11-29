@@ -56,6 +56,9 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         }
         public event EventHandler RunStartTaskChanged;
 
+        private bool canWriteTask;
+        public bool CanWriteTask { get => canWriteTask; }
+
         public ImageSource uacSource;
         public ImageSource UACSource { get => uacSource; }
 
@@ -195,12 +198,22 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             runAtStartup = StartupMethods.RunAtStartup();
             runStartProg = StartupMethods.HasStartProgEntry();
             runStartTask = StartupMethods.HasTaskEntry();
+            canWriteTask = DS4Windows.Global.IsAdministrator();
 
             if (!runAtStartup)
             {
                 runStartProg = true;
             }
-            else if (runAtStartup && runStartProg)
+            else if (runStartProg && runStartTask)
+            {
+                runStartProg = false;
+                if (StartupMethods.CanWriteStartEntry())
+                {
+                    StartupMethods.DeleteStartProgEntry();
+                }
+            }
+
+            if (runAtStartup && runStartProg)
             {
                 bool locChange = StartupMethods.CheckStartupExeLocation();
                 if (locChange)
@@ -215,6 +228,14 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                         runAtStartup = false;
                         showRunStartPanel = Visibility.Collapsed;
                     }
+                }
+            }
+            else if (runAtStartup && runStartTask)
+            {
+                if (canWriteTask)
+                {
+                    StartupMethods.DeleteOldTaskEntry();
+                    StartupMethods.WriteTaskEntry();
                 }
             }
 
@@ -283,7 +304,6 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             if (lnkExists)
             {
                 runAtStartup = true;
-
             }
             else
             {

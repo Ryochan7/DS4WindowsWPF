@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text;
 using Microsoft.Win32.TaskScheduler;
@@ -14,6 +12,7 @@ namespace DS4WinWPF
     public static class StartupMethods
     {
         public static string lnkpath = Environment.GetFolderPath(Environment.SpecialFolder.Startup) + "\\DS4Windows.lnk";
+        private static string taskBatPath = Path.Combine(DS4Windows.Global.exedirpath, "task.bat");
 
         public static bool HasStartProgEntry()
         {
@@ -42,8 +41,8 @@ namespace DS4WinWPF
                 var lnk = shell.CreateShortcut(lnkpath);
                 try
                 {
-                    string app = Assembly.GetExecutingAssembly().Location;
-                    lnk.TargetPath = Assembly.GetExecutingAssembly().Location;
+                    string app = DS4Windows.Global.exelocation;
+                    lnk.TargetPath = DS4Windows.Global.exelocation;
                     lnk.Arguments = "-m";
 
                     //lnk.TargetPath = Assembly.GetExecutingAssembly().Location;
@@ -70,6 +69,27 @@ namespace DS4WinWPF
             }
         }
 
+        public static void DeleteOldTaskEntry()
+        {
+            TaskService ts = new TaskService();
+            Task tasker = ts.FindTask("RunDS4Windows");
+            if (tasker != null)
+            {
+                foreach(Microsoft.Win32.TaskScheduler.Action act in tasker.Definition.Actions)
+                {
+                    if (act.ActionType == TaskActionType.Execute)
+                    {
+                        ExecAction temp = act as ExecAction;
+                        if (temp.Path != taskBatPath)
+                        {
+                            ts.RootFolder.DeleteTask("RunDS4Windows");
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+
         public static bool CanWriteStartEntry()
         {
             bool result = false;
@@ -87,7 +107,7 @@ namespace DS4WinWPF
             TaskService ts = new TaskService();
             TaskDefinition td = ts.NewTask();
             td.Triggers.Add(new LogonTrigger());
-            string dir = new FileInfo(Process.GetCurrentProcess().MainModule.FileName).DirectoryName;
+            string dir = DS4Windows.Global.exedirpath;
             td.Actions.Add(new ExecAction($@"{dir}\task.bat",
                 "",
                 dir));
@@ -109,7 +129,7 @@ namespace DS4WinWPF
         public static bool CheckStartupExeLocation()
         {
             string lnkprogpath = ResolveShortcut(lnkpath);
-            return lnkprogpath != Process.GetCurrentProcess().MainModule.FileName;
+            return lnkprogpath != DS4Windows.Global.exelocation;
         }
 
         public static void LaunchOldTask()
