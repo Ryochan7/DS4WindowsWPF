@@ -463,6 +463,7 @@ namespace DS4WinWPF.DS4Forms
             window.ShowDialog();
             pressKeyVM.ReadSettings(settings);
             pressKeyVM.UpdateDescribeText();
+            pressKeyVM.UpdateToggleControls();
         }
     }
 }

@@ -318,7 +318,7 @@
                                 <Button x:Name="launchProgBrowseBtn" Content="{lex:Loc Browse}" Margin="{StaticResource spaceMargin}"
                                         Click="LaunchProgBrowseBtn_Click" />
                                 <StackPanel Orientation="Horizontal" Margin="{StaticResource spaceMargin}">
-                                    <Label Content="{Binding Filepath}" Width="200" />
+                                    <Label Content="{Binding ProgramName}" Width="150" HorizontalContentAlignment="Center" />
                                     <Image Source="{Binding ProgramIcon}" Width="32" Height="32" Margin="10,0,0,0" />
                                 </StackPanel>
                                 <StackPanel Margin="{StaticResource spaceMargin}">
@@ -360,9 +360,10 @@
                                         Margin="{StaticResource spaceMargin}" Click="PressKeySelectBtn_Click" />
                                 <Button x:Name="pressKeyToggleTriggerBtn" Content="Set Unload Trigger"
                                         Tag="{Binding UnloadError,ValidatesOnNotifyDataErrors=True}"
+                                        Visibility="{Binding ShowToggleControls}"
                                         Margin="{StaticResource spaceMargin}" Click="PressKeyToggleTriggerBtn_Click" />
 
-                                <StackPanel Margin="{StaticResource spaceMargin}">
+                                <StackPanel Margin="{StaticResource spaceMargin}" Visibility="{Binding ShowToggleControls}">
                                     <Label Content="Untoggle key by" />
                                     <ComboBox x:Name="pressReleaseKeyCombo" SelectedIndex="{Binding PressReleaseIndex}">
                                         <ComboBoxItem Content="pressing unload trigger" />

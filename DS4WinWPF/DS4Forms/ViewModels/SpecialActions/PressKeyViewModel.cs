@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using DS4Windows;
 using DS4WinWPF.DS4Forms.ViewModels.Util;
@@ -16,6 +17,17 @@ namespace DS4WinWPF.DS4Forms.ViewModels.SpecialActions
         private int value;
         private int pressReleaseIndex = 0;
         private bool normalTrigger = true;
+        public bool IsToggle => (keyType & DS4KeyType.Toggle) != 0;
+        public event EventHandler IsToggleChanged;
+
+        public Visibility ShowToggleControls
+        {
+            get
+            {
+                return ((keyType & DS4KeyType.Toggle) != 0) ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+        public event EventHandler ShowToggleControlsChanged;
 
         public string DescribeText
         {
@@ -56,15 +68,22 @@ namespace DS4WinWPF.DS4Forms.ViewModels.SpecialActions
             }
 
             UpdateDescribeText();
+            UpdateToggleControls();
         }
 
         public void UpdateDescribeText()
         {
             describeText = KeyInterop.KeyFromVirtualKey(value).ToString() +
-                (keyType.HasFlag(DS4KeyType.ScanCode) ? "(SC)" : "") +
-                (keyType.HasFlag(DS4KeyType.Toggle) ? "(Toggle)" : "");
+                (keyType.HasFlag(DS4KeyType.ScanCode) ? " (SC)" : "") +
+                (keyType.HasFlag(DS4KeyType.Toggle) ? " (Toggle)" : "");
 
             DescribeTextChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        public void UpdateToggleControls()
+        {
+            IsToggleChanged?.Invoke(this, EventArgs.Empty);
+            ShowToggleControlsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public DS4ControlSettings PrepareSettings()

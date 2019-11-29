@@ -55,6 +55,21 @@ namespace DS4WinWPF.DS4Forms.ViewModels.SpecialActions
         }
         public event EventHandler ProgramIconChanged;
 
+        public string ProgramName
+        {
+            get
+            {
+                string temp = "";
+                if (!string.IsNullOrEmpty(filepath))
+                {
+                    temp = Path.GetFileNameWithoutExtension(filepath);
+                }
+
+                return temp;
+            }
+        }
+        public event EventHandler ProgramNameChanged;
+
         public LaunchProgramViewModel()
         {
             FilepathChanged += LaunchProgramViewModel_FilepathChanged;
@@ -63,6 +78,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels.SpecialActions
         private void LaunchProgramViewModel_FilepathChanged(object sender, EventArgs e)
         {
             ProgramIconChanged?.Invoke(this, EventArgs.Empty);
+            ProgramNameChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void LoadAction(SpecialAction action)
