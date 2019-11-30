@@ -39,7 +39,7 @@ namespace DS4WinWPF.DS4Forms
         private TrayIconViewModel trayIconVM;
         private SettingsViewModel settingsWrapVM;
         private IntPtr regHandle = new IntPtr();
-        private bool showInTaskbar = false;
+        private bool showAppInTaskbar = false;
         private ManagementEventWatcher managementEvWatcher;
         private bool wasrunning = false;
         private AutoProfileHolder autoProfileHolder;
@@ -478,7 +478,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
         private void TrayIconVM_RequestOpen(object sender, EventArgs e)
         {
-            if (!showInTaskbar)
+            if (!showAppInTaskbar)
             {
                 Show();
             }
@@ -1152,18 +1152,23 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             e.Handled = true;
         }
 
-        private void MainDS4Window_StateChanged(object sender, EventArgs e)
+        private void MainDS4Window_StateChanged(object _sender, EventArgs _e)
+        {
+            CheckMinStatus();
+        }
+
+        public void CheckMinStatus()
         {
             bool minToTask = Global.MinToTaskbar;
             if (WindowState == WindowState.Minimized && !minToTask)
             {
                 Hide();
-                showInTaskbar = false;
+                showAppInTaskbar = false;
             }
             else if (WindowState == WindowState.Normal && !minToTask)
             {
                 Show();
-                showInTaskbar = true;
+                showAppInTaskbar = true;
             }
         }
 
@@ -1261,7 +1266,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
         private void NotifyIcon_TrayMouseDoubleClick(object sender, RoutedEventArgs e)
         {
-            if (!showInTaskbar)
+            if (!showAppInTaskbar)
             {
                 Show();
             }

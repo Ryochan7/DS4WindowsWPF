@@ -162,6 +162,7 @@ namespace DS4WinWPF
             DS4Forms.MainWindow window = new DS4Forms.MainWindow(parser);
             MainWindow = window;
             window.Show();
+            window.CheckMinStatus();
             HwndSource source = PresentationSource.FromVisual(window) as HwndSource;
             CreateIPCClassNameMMF(source.Handle);
         }
