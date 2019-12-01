@@ -788,6 +788,16 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
                 e.Cancel = true;
                 return;
             }
+
+            if (conLvViewModel.ControllerCol.Count > 0)
+            {
+                if (MessageBox.Show(Properties.Resources.CloseConfirm, Properties.Resources.Confirm,
+                        MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                {
+                    e.Cancel = true;
+                    return;
+                }
+            }
         }
 
         private void MainDS4Window_Closed(object sender, EventArgs e)
