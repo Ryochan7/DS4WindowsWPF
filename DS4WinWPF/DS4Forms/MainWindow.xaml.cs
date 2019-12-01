@@ -788,7 +788,10 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
                 e.Cancel = true;
                 return;
             }
+        }
 
+        private void MainDS4Window_Closed(object sender, EventArgs e)
+        {
             hotkeysTimer.Stop();
             autoProfilesTimer.Stop();
             //autoProfileHolder.Save();
