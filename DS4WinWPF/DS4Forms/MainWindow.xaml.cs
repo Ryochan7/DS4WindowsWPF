@@ -50,6 +50,7 @@ namespace DS4WinWPF.DS4Forms
         private ProfileEditor editor;
         private bool preserveSize = true;
         private Size oldSize;
+        private bool contextclose;
 
         public ProfileList ProfileListHolder { get => profileListHolder; }
 
@@ -488,6 +489,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
         private void TrayIconVM_RequestShutdown(object sender, EventArgs e)
         {
+            contextclose = true;
             this.Close();
         }
 
@@ -780,6 +782,10 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             {
                 editor.Close();
                 e.Cancel = true;
+                return;
+            }
+            else if (contextclose)
+            {
                 return;
             }
             else if (Global.CloseMini)
