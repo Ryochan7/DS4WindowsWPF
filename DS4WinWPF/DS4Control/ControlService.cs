@@ -408,14 +408,20 @@ namespace DS4Windows
                 tempDS4.Connect();
                 LogDebug("DS4 Controller #" + (index + 1) + " connected");
             }
+
+            useDInputOnly[index] = false;
         }
 
         public void UnplugOutDev(int index, DS4Device device)
         {
-            /*OutputDevice dev = outputDevices[index];
+            //OutContType contType = Global.OutContType[index];
+            string tempType = outputDevices[index].GetDeviceType();
+            OutputDevice dev = outputDevices[index];
             outputDevices[index] = null;
-            outputslotMan.DeferredRemoval(dev);
-            */
+            //outputslotMan.DeferredRemoval(dev);
+            dev.Disconnect();
+            LogDebug(tempType + " Controller # " + (index + 1) + " unplugged");
+            useDInputOnly[index] = true;
         }
 
         public bool Start(bool showlog = true)
@@ -495,7 +501,7 @@ namespace DS4Windows
 
                         if (!getDInputOnly(i) && device.isSynced())
                         {
-                            useDInputOnly[i] = false;
+                            //useDInputOnly[i] = false;
                             PluginOutDev(i, device);
                             
                         }
@@ -767,7 +773,7 @@ namespace DS4Windows
                             
                             if (!getDInputOnly(Index) && device.isSynced())
                             {
-                                useDInputOnly[Index] = false;
+                                //useDInputOnly[Index] = false;
                                 PluginOutDev(Index, device);
                             }
                             else
@@ -1133,13 +1139,13 @@ namespace DS4Windows
                 {
                     if (!useDInputOnly[ind])
                     {
-                        string tempType = outputDevices[ind].GetDeviceType();
-                        outputDevices[ind].Disconnect();
-                        outputDevices[ind] = null;
+                        //string tempType = outputDevices[ind].GetDeviceType();
+                        //outputDevices[ind].Disconnect();
+                        //outputDevices[ind] = null;
                         useDInputOnly[ind] = true;
-                        LogDebug(tempType + " Controller #" + (ind + 1) + " unplugged");
+                        //LogDebug(tempType + " Controller #" + (ind + 1) + " unplugged");
                         Global.activeOutDevType[ind] = OutContType.None;
-                        //UnplugOutDev(ind, device);
+                        UnplugOutDev(ind, device);
                     }
                 }
                 else
@@ -1213,12 +1219,13 @@ namespace DS4Windows
                     CurrentState[ind].Battery = PreviousState[ind].Battery = 0; // Reset for the next connection's initial status change.
                     if (!useDInputOnly[ind])
                     {
-                        string tempType = outputDevices[ind].GetDeviceType();
-                        outputDevices[ind].Disconnect();
-                        outputDevices[ind] = null;
+                        //string tempType = outputDevices[ind].GetDeviceType();
+                        UnplugOutDev(ind, device);
+                        //outputDevices[ind].Disconnect();
+                        //outputDevices[ind] = null;
                         //x360controls[ind].Disconnect();
                         //x360controls[ind] = null;
-                        LogDebug(tempType + " Controller # " + (ind + 1) + " unplugged");
+                        //LogDebug(tempType + " Controller # " + (ind + 1) + " unplugged");
                     }
 
                     // Use Task to reset device synth state and commit it

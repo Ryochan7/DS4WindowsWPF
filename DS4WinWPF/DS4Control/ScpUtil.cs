@@ -4882,14 +4882,14 @@ namespace DS4Windows
                         OutputDevice tempOutDev = control.outputDevices[device];
                         if (tempOutDev != null)
                         {
-                            string tempType = tempOutDev.GetDeviceType();
+                            //string tempType = tempOutDev.GetDeviceType();
                             //AppLogger.LogToGui("Unplug " + tempType + " Controller #" + (device + 1), false);
                             //tempOutDev.Disconnect();
                             //AppLogger.LogToGui("Unplugging " + tempType + " Controller for input #" + (device + 1), false);
                             tempOutDev = null;
                             //control.outputDevices[device] = null;
                             Global.activeOutDevType[device] = OutContType.None;
-                            //control.UnplugOutDev(device, tempDev);
+                            control.UnplugOutDev(device, tempDev);
                         }
 
                         OutContType tempContType = outputDevType[device];
@@ -4922,16 +4922,16 @@ namespace DS4Windows
                         }
                         */
 
-                        Global.useDInputOnly[device] = false;
+                        //Global.useDInputOnly[device] = false;
 
                     }
                     else if (xinputStatus && !xinputPlug)
                     {
-                        string tempType = control.outputDevices[device].GetDeviceType();
+                        //string tempType = control.outputDevices[device].GetDeviceType();
                         //control.outputDevices[device].Disconnect();
                         //control.outputDevices[device] = null;
-                        Global.useDInputOnly[device] = true;
-                        AppLogger.LogToGui(tempType + " Controller #" + (device + 1) + " unplugged", false);
+                        //Global.useDInputOnly[device] = true;
+                        //AppLogger.LogToGui(tempType + " Controller #" + (device + 1) + " unplugged", false);
                         Global.activeOutDevType[device] = OutContType.None;
                         control.UnplugOutDev(device, tempDev);
                     }
