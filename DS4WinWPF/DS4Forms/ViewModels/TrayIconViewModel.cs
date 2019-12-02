@@ -87,16 +87,13 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             foreach (ControllerHolder holder in controllerList)
             {
                 DS4Device currentDev = holder.Device;
-                currentDev.BatteryChanged -= UpdateForBattery;
-                currentDev.ChargingChanged -= UpdateForBattery;
-                currentDev.Removal -= CurrentDev_Removal;
+                RemoveDeviceEvents(currentDev);
             }
         }
 
         private void Service_HotplugController(ControlService sender, DS4Device device, int index)
         {
-            device.BatteryChanged += UpdateForBattery;
-            device.ChargingChanged += UpdateForBattery;
+            SetupDeviceEvents(device);
             controllerList.Add(new ControllerHolder(device, index));
         }
 
@@ -254,10 +251,22 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             foreach (ControllerHolder holder in controllerList)
             {
                 DS4Device currentDev = holder.Device;
-                currentDev.BatteryChanged += UpdateForBattery;
-                currentDev.ChargingChanged += UpdateForBattery;
-                currentDev.Removal += CurrentDev_Removal;
+                SetupDeviceEvents(currentDev);
             }
+        }
+
+        private void SetupDeviceEvents(DS4Device device)
+        {
+            device.BatteryChanged += UpdateForBattery;
+            device.ChargingChanged += UpdateForBattery;
+            device.Removal += CurrentDev_Removal;
+        }
+
+        private void RemoveDeviceEvents(DS4Device device)
+        {
+            device.BatteryChanged -= UpdateForBattery;
+            device.ChargingChanged -= UpdateForBattery;
+            device.Removal -= CurrentDev_Removal;
         }
 
         private void CurrentDev_Removal(object sender, EventArgs e)
@@ -279,6 +288,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             if (item != null)
             {
                 controllerList.RemoveAt(idx);
+                RemoveDeviceEvents(currentDev);
+                PopulateToolText();
             }
         }
 
