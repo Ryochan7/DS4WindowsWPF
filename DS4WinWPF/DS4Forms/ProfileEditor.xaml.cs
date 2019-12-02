@@ -721,6 +721,7 @@ namespace DS4WinWPF.DS4Forms
                 {
                     currentProfile.SaveProfile(deviceNum);
                     currentProfile.FireSaved();
+                    Closed?.Invoke(this, EventArgs.Empty);
                 }
                 else
                 {
