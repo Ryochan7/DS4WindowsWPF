@@ -4883,15 +4883,18 @@ namespace DS4Windows
                         if (tempOutDev != null)
                         {
                             string tempType = tempOutDev.GetDeviceType();
-                            AppLogger.LogToGui("Unplug " + tempType + " Controller #" + (device + 1), false);
-                            tempOutDev.Disconnect();
+                            //AppLogger.LogToGui("Unplug " + tempType + " Controller #" + (device + 1), false);
+                            //tempOutDev.Disconnect();
+                            //AppLogger.LogToGui("Unplugging " + tempType + " Controller for input #" + (device + 1), false);
                             tempOutDev = null;
-                            control.outputDevices[device] = null;
+                            //control.outputDevices[device] = null;
                             Global.activeOutDevType[device] = OutContType.None;
+                            //control.UnplugOutDev(device, tempDev);
                         }
 
                         OutContType tempContType = outputDevType[device];
-                        if (tempContType == OutContType.X360)
+                        control.PluginOutDev(device, tempDev);
+                        /*if (tempContType == OutContType.X360)
                         {
                             Global.activeOutDevType[device] = OutContType.X360;
                             Xbox360OutDevice tempXbox = new Xbox360OutDevice(control.vigemTestClient);
@@ -4917,6 +4920,7 @@ namespace DS4Windows
                             tempDS4.Connect();
                             AppLogger.LogToGui("DS4 Controller #" + (device + 1) + " connected", false);
                         }
+                        */
 
                         Global.useDInputOnly[device] = false;
 
@@ -4924,11 +4928,12 @@ namespace DS4Windows
                     else if (xinputStatus && !xinputPlug)
                     {
                         string tempType = control.outputDevices[device].GetDeviceType();
-                        control.outputDevices[device].Disconnect();
-                        control.outputDevices[device] = null;
+                        //control.outputDevices[device].Disconnect();
+                        //control.outputDevices[device] = null;
                         Global.useDInputOnly[device] = true;
                         AppLogger.LogToGui(tempType + " Controller #" + (device + 1) + " unplugged", false);
                         Global.activeOutDevType[device] = OutContType.None;
+                        control.UnplugOutDev(device, tempDev);
                     }
 
                     tempDev.setRumble(0, 0);
