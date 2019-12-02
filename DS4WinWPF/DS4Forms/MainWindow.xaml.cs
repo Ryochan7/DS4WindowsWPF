@@ -797,8 +797,9 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
 
             if (conLvViewModel.ControllerCol.Count > 0)
             {
-                if (MessageBox.Show(Properties.Resources.CloseConfirm, Properties.Resources.Confirm,
-                        MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.No)
+                MessageBoxResult result = MessageBox.Show(Properties.Resources.CloseConfirm, Properties.Resources.Confirm,
+                        MessageBoxButton.YesNo, MessageBoxImage.Question);
+                if (result == MessageBoxResult.No)
                 {
                     e.Cancel = true;
                     return;
