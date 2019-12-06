@@ -598,12 +598,12 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 
         public double LSDeadZone
         {
-            get => Math.Round(Global.LSModInfo[device].deadZone / 127d, 2);
+            get => Global.LSModInfo[device].deadZone / 127d;
             set
             {
                 double temp = Global.LSModInfo[device].deadZone / 127d;
                 if (temp == value) return;
-                Global.LSModInfo[device].deadZone = (int)Math.Round(value * 127d);
+                Global.LSModInfo[device].deadZone = (int)(value * 127d);
                 LSDeadZoneChanged?.Invoke(this, EventArgs.Empty);
             }
         }
@@ -611,12 +611,12 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 
         public double RSDeadZone
         {
-            get => Math.Round(Global.RSModInfo[device].deadZone / 127d, 2);
+            get => Global.RSModInfo[device].deadZone / 127d;
             set
             {
                 double temp = Global.RSModInfo[device].deadZone / 127d;
                 if (temp == value) return;
-                Global.RSModInfo[device].deadZone = (int)Math.Round(value * 127d);
+                Global.RSModInfo[device].deadZone = (int)(value * 127d);
                 RSDeadZoneChanged?.Invoke(this, EventArgs.Empty);
             }
         }
