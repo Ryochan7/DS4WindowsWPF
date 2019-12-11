@@ -188,6 +188,7 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
                     {
                         Dispatcher.BeginInvoke((Action)(() =>
                         {
+                            contextclose = true;
                             Close();
                         }));
                     }
