@@ -192,8 +192,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             get
             {
-                string source = device.ConnectionType == ConnectionType.USB ? "/DS4WinWPF;component/Resources/USB.png"
-                    : "/DS4WinWPF;component/Resources/BT.png";
+                string source = device.ConnectionType == ConnectionType.USB ? "/DS4Windows;component/Resources/USB.png"
+                    : "/DS4Windows;component/Resources/BT.png";
                 return source;
             }
         }
@@ -202,8 +202,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         {
             get
             {
-                string source = device.IsExclusive ? "/DS4WinWPF;component/Resources/checked.png" :
-                    "/DS4WinWPF;component/Resources/cancel.png";
+                string source = device.IsExclusive ? "/DS4Windows;component/Resources/checked.png" :
+                    "/DS4Windows;component/Resources/cancel.png";
                 return source;
             }
         }

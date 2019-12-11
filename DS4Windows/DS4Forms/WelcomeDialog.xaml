@@ -43,7 +43,7 @@
                 connect to "Wireless Controller". If asked, enter pair code 0000.
                 Once paired, you're ready. Have fun!
             </TextBlock>
-            <Image Source="/DS4WinWPF;component/Resources/Pairmode.png" Height="80" DockPanel.Dock="Top" />
+            <Image Source="/DS4Windows;component/Resources/Pairmode.png" Height="80" DockPanel.Dock="Top" />
         </DockPanel>
     </DockPanel>
 </Window>

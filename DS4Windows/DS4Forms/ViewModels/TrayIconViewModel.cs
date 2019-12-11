@@ -9,7 +9,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
     public class TrayIconViewModel
     {
         private string tooltipText = "DS4Windows";
-        private string iconSource = "/DS4WinWPF;component/Resources/DS4W.ico";
+        private string iconSource = "/DS4Windows;component/Resources/DS4W.ico";
         public const string ballonTitle = "DS4Windows";
         public static string trayTitle = $"DS4Windows v{Global.exeversion}";
         private ContextMenu contextMenu;

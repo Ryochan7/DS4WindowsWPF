@@ -20,8 +20,8 @@ namespace DS4WinWPF.DS4Forms.ViewModels
         private const string probingPath = "Lang";
 
         // Filter language assembly file names in order to ont include irrelevant assemblies to the combo box.
-        //private const string languageAssemblyName = "DS4Windows.resources.dll";
-        private const string languageAssemblyName = "DS4WinWPF.resources.dll";
+        private const string languageAssemblyName = "DS4Windows.resources.dll";
+        //private const string languageAssemblyName = "DS4WinWPF.resources.dll";
 
         private int selectedIndex;
 

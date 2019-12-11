@@ -724,7 +724,7 @@ namespace DS4WinWPF.DS4Forms
         {
             ImageSourceConverter sourceConverter = new ImageSourceConverter();
             ImageSource temp = sourceConverter.
-                ConvertFromString("pack://application:,,,/DS4WinWPF;component/Resources/DS4 Config.png") as ImageSource;
+                ConvertFromString("pack://application:,,,/DS4Windows;component/Resources/DS4 Config.png") as ImageSource;
             conImageBrush.ImageSource = temp;
 
             Canvas.SetLeft(aBtn, 459); Canvas.SetTop(aBtn, 144);
