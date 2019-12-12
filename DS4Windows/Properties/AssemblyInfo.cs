@@ -7,12 +7,12 @@ using System.Windows;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("DS4WinWPF")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("DS4Windows")]
+[assembly: AssemblyDescription("Sony DualShock 4 to Microsoft Xinput controller mapper")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("DS4WinWPF")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyProduct("DS4Windows")]
+[assembly: AssemblyCopyright("Copyright © Scarlet.Crush Productions 2012, 2013; InhexSTER, HecticSeptic, electrobrains 2013, 2014; Jays2Kings 2013, 2014, 2015, 2016; Ryochan7 2017, 2018, 2019, 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -51,7 +51,7 @@ using System.Windows;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.9.0")]
-[assembly: AssemblyFileVersion("1.9.0")]
+[assembly: AssemblyVersion("1.9.1")]
+[assembly: AssemblyFileVersion("1.9.1")]
 [assembly: NeutralResourcesLanguage("")]
-
+[assembly: Guid("a52b5b20-d9ee-4f32-8518-307fa14aa0c6")]
