@@ -447,4 +447,19 @@
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>rem Copy compiled l18n assemblies to alt folder
+GOTO END
+if not exist $(TargetDir)Lang mkdir $(TargetDir)Lang
+set langs=ja
+
+for %25%25l in (%25langs%25) do (
+  xcopy $(TargetDir)%25%25l $(TargetDir)Lang\%25%25l\ /s /y
+)
+
+echo @(VersionNumber)&gt; $(ProjectDir)\newest.txt
+
+:END
+</PostBuildEvent>
+  </PropertyGroup>
 </Project>
