@@ -38,7 +38,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
                 _logListLocker.EnterReadLock();
             }
 
-            accessMethod();
+            accessMethod?.Invoke();
 
             if (writeAccess)
             {
