@@ -172,8 +172,8 @@ namespace DS4WinWPF
             //Console.WriteLine("App Crashed");
             //Console.WriteLine(e.Exception.StackTrace);
             Logger logger = logHolder.Logger;
-            logger.Info($"App Crashed with message {e.Exception.Message}");
-            logger.Error(e.Exception.StackTrace);
+            logger.Error($"App Crashed with message {e.Exception.Message}");
+            logger.Error(e.Exception.ToString());
             LogManager.Flush();
             LogManager.Shutdown();
         }
