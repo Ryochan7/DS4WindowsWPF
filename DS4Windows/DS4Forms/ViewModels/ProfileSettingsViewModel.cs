@@ -427,7 +427,7 @@ namespace DS4WinWPF.DS4Forms.ViewModels
             get => Global.IdleDisconnectTimeout[device] != 0;
             set
             {
-                Global.IdleDisconnectTimeout[device] = value ? 5 : 0;
+                Global.IdleDisconnectTimeout[device] = value ? 5 * 60 : 0;
                 IdleDisconnectChanged?.Invoke(this, EventArgs.Empty);
                 IdleDisconnectExistsChanged?.Invoke(this, EventArgs.Empty);
             }
@@ -436,12 +436,12 @@ namespace DS4WinWPF.DS4Forms.ViewModels
 
         public int IdleDisconnect
         {
-            get => Global.IdleDisconnectTimeout[device];
+            get => Global.IdleDisconnectTimeout[device] / 60;
             set
             {
-                int temp = Global.IdleDisconnectTimeout[device];
+                int temp = Global.IdleDisconnectTimeout[device] / 60;
                 if (temp == value) return;
-                Global.IdleDisconnectTimeout[device] = value;
+                Global.IdleDisconnectTimeout[device] = value * 60;
                 IdleDisconnectChanged?.Invoke(this, EventArgs.Empty);
                 IdleDisconnectExistsChanged?.Invoke(this, EventArgs.Empty);
             }
