@@ -76,8 +76,8 @@
         </Grid>
         <Grid DockPanel.Dock="Top" Margin="8,40,8,8">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.25*"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="100" Grid.Column="0" RenderTransformOrigin="0,0" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
@@ -111,15 +111,33 @@
                 <StackPanel Orientation="Horizontal" Margin="10" HorizontalAlignment="Center">
                     <StackPanel Margin="0,0,10,0">
                         <Label Content="{lex:Loc Gyro}" HorizontalAlignment="Center" Padding="0"/>
-                        <Slider x:Name="gyroYawSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,8,0,0"/>
-                        <Slider x:Name="gyroPitchSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,4,0,0"/>
-                        <Slider x:Name="gyroRollSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,4,0,0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Yaw" Width="40" />
+                            <Slider x:Name="gyroYawSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Pitch" Width="40" />
+                            <Slider x:Name="gyroPitchSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Roll" Width="40" />
+                            <Slider x:Name="gyroRollSlider" Width="80" Minimum="-9000" Maximum="9000" Value="0" Focusable="False" Margin="0,4,0,0"/>
+                        </StackPanel>
                     </StackPanel>
                     <StackPanel>
                         <Label Content="{lex:Loc Accel}" HorizontalAlignment="Center" Padding="0"/>
-                        <Slider x:Name="accelXSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,8,0,0"/>
-                        <Slider x:Name="accelYSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,4,0,0"/>
-                        <Slider x:Name="accelZSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,4,0,0"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="X" Width="20" />
+                            <Slider x:Name="accelXSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Y" Width="20" />
+                            <Slider x:Name="accelYSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,4,0,0"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Z" Width="20" />
+                            <Slider x:Name="accelZSlider" Width="80" Minimum="-128" Maximum="128" Value="0" Focusable="False" Margin="0,4,0,0"/>
+                        </StackPanel>
                     </StackPanel>
                 </StackPanel>
             </Border>
