@@ -77,7 +77,7 @@
         <Grid DockPanel.Dock="Top" Margin="8,40,8,8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1.5*"/>
+                <ColumnDefinition Width="1.75*"/>
             </Grid.ColumnDefinitions>
             <StackPanel Orientation="Horizontal" Height="100" Grid.Column="0" RenderTransformOrigin="0,0" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" Margin="0,0,20,0">
