@@ -263,9 +263,22 @@ Properties.Resources.DS4Update, MessageBoxButton.YesNo, MessageBoxImage.Question
             WqlEventQuery q = new WqlEventQuery();
             ManagementScope scope = new ManagementScope("root\\CIMV2");
             q.EventClassName = "Win32_PowerManagementEvent";
-            managementEvWatcher = new ManagementEventWatcher(scope, q);
-            managementEvWatcher.EventArrived += PowerEventArrive;
-            managementEvWatcher.Start();
+            try
+            {
+                scope.Connect();
+            }
+            catch (COMException) { }
+
+            if (scope.IsConnected)
+            {
+                managementEvWatcher = new ManagementEventWatcher(scope, q);
+                managementEvWatcher.EventArrived += PowerEventArrive;
+                managementEvWatcher.Start();
+            }
+            else
+            {
+                AppLogger.LogToGui("Could not connect to Windows Management Instrumentation service. Suspend support not enabled.", true);
+            }
         }
 
         private void LogItems_CollectionChanged(object sender,
